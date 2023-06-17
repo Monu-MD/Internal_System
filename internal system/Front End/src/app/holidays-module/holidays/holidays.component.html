@@ -1,0 +1,42 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="container">
+    <h1 class="title">Add Holiday/Working Day</h1>
+    <div class="content">
+        <form [formGroup]="addForm" (ngSubmit)="onSubmit(addForm.value)">
+  
+            <div class="user-details">
+            <div class="input-box">
+                <label for="action" class="details">Action</label>
+                <select id="action" class="form-control" formControlName="action">
+                    <option value="">--Select--</option>
+                    <option value="holiday">Holiday</option>
+                    <option value="working-day">Working Day</option>
+                </select>
+            </div>
+        </div>
+
+           <div class="user-details">
+            <div class="input-box">
+                <label  class="details">Date of Birth</label>
+                <input type="date" name="dateOfBirth" formControlName="dateOfBirth">
+            </div>
+        </div>
+
+            <div class="user-details">
+            <div class="input-box">
+                <label for="description">Description</label>
+                <textarea id="description" class="form-control" formControlName="description"
+                    [disabled]="true"></textarea>
+            </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="button" [disabled]="addForm.invalid">Submit</button>
+                <button type="reset" class="button">Clear</button>
+            </div>
+        </form>
+    </div>
+</div>
+<app-footer></app-footer>

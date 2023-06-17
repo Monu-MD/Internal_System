@@ -1,0 +1,266 @@
+<div class="top-bar" [ngSwitch]="data">
+  <nav class="menu">
+
+      <!-- Appraisal Module -->
+      <div class="top-content" *ngSwitchCase="'apr'">
+          <ul>
+              <li><a routerLink="/addappraisal">Add Apraisal</a></li>
+              <li><a  routerLink="/appraisalcomponent">Appraisal</a></li>
+              <li><a  routerLink="/doappraisal">Do Appraisal</a></li>
+              <li><a  routerLink="/rejapr">Rejected Appraisal</a></li>
+              <li><a  routerLink="/viewapldata">View Appraisal data</a></li>
+              <li><a routerLink="/viewaprl">View Appraisal</a></li>
+
+          </ul>
+      </div>
+  </nav>
+
+<!-- Invoice module -->
+<nav class="menu"> 
+    <div class="top-content" *ngSwitchCase="'inv'">
+        <ul>
+            <li><a href="" routerLink="/chooseinvoice">invoice-details</a></li>
+            <li><a href="" routerLink="/generateinrreport">INR Report</a></li>  
+            <li><a href="" routerLink="/generateusdreport">USD Report</a></li> 
+            <li><a href="" routerLink="/invoicefp">Invoice FP</a></li> 
+            <li><a href="" routerLink="/invoicepay">Invoice Pay</a></li> 
+            <li><a href="" routerLink="/invoiceraise">Invoice Raise</a></li> 
+            <li><a href="" routerLink="/invoicegenarate">Invoice Regenerate </a></li> 
+            <li><a href="" routerLink="/invoiceduelist">Invoice due List</a></li>
+            <li><a href="" routerLink="/invoiceduetoday">Invoice due Today</a></li> 
+            <li><a href="" routerLink="/reportinv">Report</a></li> 
+
+        </ul>
+    </div>
+</nav>
+<!-- project -->
+<nav class="menu"> 
+    <div class="top-content" *ngSwitchCase="'pjt'">
+        <ul>
+            <li><a href="" routerLink="/childproject">Child Project </a></li>
+            <li><a href="" routerLink="/CustomerModView">CustomerMod View</a></li> 
+            <li><a href="" routerLink="/CustomerModification">Customer Modification</a></li> 
+            <li><a href="" routerLink="/CustomerView">Customer View</a></li> 
+            <li><a href="" routerLink="/Customercreation">Customer creation</a></li>  
+            <li><a href="" routerLink="/ProjDealloc">Proj Dealloc</a></li> 
+            <li><a href="" routerLink="/ProjectAllocation">Project Allocation</a></li> 
+            <li><a href="" routerLink="/ProjectDetial">Project Detial</a></li> 
+            
+        </ul>
+    </div>
+</nav>
+
+  <!-- Report module -->
+<nav class="menu"> 
+    <div class="top-content" *ngSwitchCase="'rpt'">
+        <ul>
+             
+            <li><a href="" routerLink="/reportdetails">report-details</a></li> 
+            <li><a href="" routerLink="/reportcomleavebal">report-comp-leave-balance</a></li> 
+            <li><a href="" routerLink="/reportleavedetails">report-leave-details-value</a></li> 
+             
+        </ul>
+    </div>
+</nav>
+  
+<!-- reimbusment Module -->
+<nav class="menu"> 
+    <div class="top-content" *ngSwitchCase="'rmb'">
+        <ul>
+            <li><a href="" routerLink="/initiaterem">Initiate Reimbursement</a></li>
+            <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>   
+            <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>   
+        </ul>
+    </div>
+</nav>
+
+<!-- Employee module -->
+<nav class="menu"> 
+    <div class="top-content" *ngSwitchCase="'emp'">
+        <ul>
+            <li><a href="" routerLink="/bankdetails">Bank details</a></li>
+            <li><a href="" routerLink="/modifypersonal">Modify Personal details</a></li>  
+            <li><a href="" routerLink="/modifyprofessional">Modify Professional details</a></li> 
+            <li><a href="" routerLink="/searchmodify">Search Employee details</a></li> 
+             
+        </ul>
+    </div>
+</nav>
+
+
+
+<!-- Jadhav -->
+
+<!-- Request Module  -->
+<nav class="menu">
+    <div class="top-content" *ngSwitchCase="'req'">
+        <ul>
+            <li><a href="" routerLink="/applyLev">Apply Leave</a></li>
+            <li><a href="" routerLink="/approveLev">Approve Leave</a></li>
+            <li><a href="" routerLink="/levBal">Leave Balance </a></li>
+            <li><a href="" routerLink="/levSum">Leave Summary</a></li>
+            <li><a href="" routerLink="/markLev">Mark Leave</a></li>
+            <li><a href="" routerLink="/unmarkLev">Unmark Leave</a></li>
+            <li><a href="" routerLink="/viewHol">View Holidays</a></li>
+            <li><a href="" routerLink="/viewLev">View Leave</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- cms Module  -->
+<nav class="menu">
+    <div class="top-content" *ngSwitchCase="'cms'">
+        <ul>
+            <li><a href="" routerLink="/cmsUpload">CMS Upload</a></li>
+            <li><a href="" routerLink="/magzineUpld">Magzine Upload</a></li>
+            <li><a href="" routerLink="/policyupld">Policy Upload </a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Capture Module  -->
+  <nav class="menu">
+      <!-- Appraisal Module -->
+      <div class="top-content" *ngSwitchCase="'cpr'">
+          <ul>
+              <li><a href="" routerLink="/ItAssetDetails">Personal Details</a></li>
+              <li><a href="" routerLink="/ModifyItAssetDetails">Professional Details</a></li>
+              <li><a href="" routerLink="/ViewItAssetDetails">Register</a></li>
+              
+          </ul>
+      </div>
+  </nav>
+
+
+
+  <!-- commonCode Module -->
+<nav class="menu">
+    <div class="top-content" *ngSwitchCase="'cocd'">
+        <ul>
+            <li><a href="" routerLink="/cocd">Add CommonCode Details</a></li>
+            <li><a href="" routerLink="/modifycocd">Modify CommonCode Details</a></li>
+            <li><a href="" routerLink="/viewcocd">View CommonCode Details</a></li>   
+            <li><a href="" routerLink="/deletecocd">Delete CommonCode Details</a></li>   
+
+        </ul>
+    </div>
+</nav>
+
+<!-- Mark Module -->
+<nav class="menu">
+    <div class="top-content" *ngSwitchCase="'mrk'">
+        <ul>
+            <li><a href="" routerLink="/searchMrk">Search Project Details</a></li>
+            <li><a href="" routerLink="/mrk">Milestone Marking Details</a></li>
+            <li><a href="" routerLink="/recall">Recall Milestone Details</a></li>   
+        </ul>
+    </div>
+</nav>
+
+<!-- Holiday Module -->
+<nav class="menu">
+    <div class="top-content" *ngSwitchCase="'hol'">
+        <ul>
+            <li><a routerLink="/addHolidays">Add Holidays Details</a></li>
+            <li><a routerLink="/modifyLeave">Modify Leaves Details</a></li>
+            <li><a routerLink="/removeLeave">Remove Leaves Details</a></li>
+            <li><a routerLink="/ListLeave">View Leaves Details</a></li>
+            <li><a routerLink="/configLeave">Configure Details</a></li>
+            <li><a routerLink="/viewHolidays">List Of Holidays</a></li>  
+        </ul>
+    </div>
+</nav>
+
+
+<!-- Asset Module -->
+<nav class="menu">
+    <div class="top-content" *ngSwitchCase="'ast'">
+        <ul>
+            <li><a href="" routerLink="/ItAssetDetails">Add IT Details</a></li>
+            <li><a href="" routerLink="/ModifyItAssetDetails">Modify IT Details</a></li>
+            <li><a href="" routerLink="/ViewItAssetDetails">View ITDetails</a></li>
+            <li><a href="" routerLink="/">FAQ</a></li>
+        </ul>
+    </div>
+</nav>
+
+<nav class="menu">
+    <div class="top-content" *ngSwitchCase="'allast'">
+        <ul>
+            <li><a href="" routerLink="/ITAssetAllocation">Add IT Allocation Details</a></li>
+            <li><a href="" routerLink="/ModifyItAllocationDetails">Modify IT Allocation Details</a></li>
+            <li><a href="" routerLink="/ViewItAllocationDetails">View IT Allocation Details</a></li>
+            <li><a href="" routerLink="/">FAQ</a></li>
+        </ul>
+    </div>
+</nav>
+
+<nav class="menu">
+    <div class="top-content" *ngSwitchCase="'nonast'">
+        <ul>
+            <li><a href="" routerLink="/AddNonItAssetDetails">Add NON IT Details</a></li>
+            <li><a href="" routerLink="/ModifyNonItAssetDetails">Modify NON IT Details</a></li>
+            <li><a href="" routerLink="/ViewNonItAssetDetails">View NON IT Details</a></li>
+            <li><a href="" routerLink="/">FAQ</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<!-- Reset Module  -->
+<nav class="menu">
+    <!-- Appraisal Module -->
+    <div class="top-content" *ngSwitchCase="'res'">
+        <ul>
+        </ul>
+    </div>
+</nav>
+
+<!-- Birthaday Module  -->
+  <nav class="menu">
+      <div class="top-content" *ngSwitchCase="'brd'">
+          <ul>
+              <li><a href="" routerLink="/composeMessage">Compose Message</a></li>
+              <li><a href="" routerLink="/inbox">Inbox</a></li>
+              <li><a href="" routerLink="/sent">Sent Message</a></li>
+              
+          </ul>
+      </div>
+  </nav>
+
+
+<!-- Travel Module  -->
+  <nav class="menu">
+      <!-- Appraisal Module -->
+      <div class="top-content" *ngSwitchCase="'tvl'">
+          <ul>
+              <li><a href="" routerLink="/apprejected">App Rejected Req</a></li>
+              <li><a href="" routerLink="/approvereq">Approve Request</a></li>
+              <li><a href="" routerLink="/canceltvldet">Cancel Travel Details</a></li>
+              <li><a href="" routerLink="/canceltvlque">Cancel Travel Queue</a></li>
+              <li><a href="" routerLink="/travel">Travel</a></li>
+              <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
+              <li><a href="" routerLink="/viewtvl">View Travel</a></li>
+              
+          </ul>
+      </div>
+  </nav>
+
+
+<!-- AppRenovated Module  -->
+<nav class="menu">
+    <div class="top-content" *ngSwitchCase="'arn'">
+        <ul>
+            <li><a href="" routerLink="/appDataNot">Appraisal Data Not Found</a></li>
+            <li><a href="" routerLink="/cteApp">Create App Data</a></li>
+            <li><a href="" routerLink="/doApp">Do Appraisal </a></li>
+            <li><a href="" routerLink="/modapp">Modify Appraisal</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+
+  
+</div>
+

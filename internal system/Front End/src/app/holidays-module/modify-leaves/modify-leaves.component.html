@@ -1,0 +1,66 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<div class="container">
+  <h1 class="title">Modify Leaves</h1>
+  <div class="content">
+    <form [formGroup]="modifyLeaveForm" (ngSubmit)="onSubmit(modifyLeaveForm.value)">
+      <div class="user-details">
+        <div class="input-box">
+          <label for="leaveType" class="details">Leave Type</label>
+          <input id="leaveType" class="form-control" formControlName="leaveType">
+          <pre></pre>
+        </div>
+
+
+
+        <div class="input-box">
+          <label for="leaveId" class="details">Leave Id</label>
+          <input id="leaveId" class="form-control" formControlName="leaveId">
+          <pre></pre>
+
+        </div>
+
+
+
+        <div class="input-box">
+          <label for="configureYear" class="details">Configure for Year </label>
+          <input id="configureYear" class="form_control" fromControlName="configYear">
+        </div>
+
+
+        <div class="input-box">
+          <label for="numDays" class="details">Number of Days </label>
+          <input type="number" id="numDays" class="form-control" formControlName="numDays" placeholder="No of Days">
+        </div>
+
+
+
+        <div class="input-box">
+          <label for="carryForwardDays" class="details">Carry Forward Number of Days </label>
+          <input type="number" id="carryForwardDays" class="form-control" formControlName="carryForwardDays"
+            placeholder="No of Days">
+        </div>
+      </div>
+      <div>
+        <button class="button">Modify</button>
+        <button class="button" type="reset">Clear</button>
+      </div>
+    </form>
+    <br>
+    <br>
+
+    <h1 class="title">Confirm Submit</h1>
+    <div class="content">
+      <p>Do you want to proceed with updating the data ?</p>
+      <br>
+      <div>
+        <button class="button">Confirm Submit</button>
+        <button class="button">Cancel Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

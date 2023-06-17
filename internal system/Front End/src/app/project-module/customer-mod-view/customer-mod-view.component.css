@@ -1,0 +1,17 @@
+
+table{
+    margin: 10px;
+    font-family: 'Montserrat', sans-serif,
+
+}
+
+table td{
+   
+    padding: 5px 5px 5px 50px;
+}
+table th{
+    font-weight: lighter;
+}
+table label{
+    margin-top: 10px;
+}

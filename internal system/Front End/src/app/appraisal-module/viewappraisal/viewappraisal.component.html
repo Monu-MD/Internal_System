@@ -1,0 +1,114 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<div class="allighn">
+    <div class=" table-container">
+        <h1 class="tittle"> Appraisal submitted successfully for the month </h1>
+<hr>
+        <form class="#" [formGroup]="view_Appraisel" (ngSubmit)="viewAppraisel(view_Appraisel.value)">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Employee data</th>
+                        <th scope="col">Performance Category</th>
+                        <th scope="col">Appraisee Rating</th>
+                        <th scope="col">Appraisee Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Review Period & Date</th>
+                        <td></td>
+                        <td>Ability at the position</td>
+                        <td> </td>
+                        <td><textarea name="abilityRemarks"formControlName="abilityRemarks" ></textarea></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Employee Name</th>
+                        <td></td>
+                        <td>Attendance</td>
+                        <td></td>
+                        <td><textarea name="attendanceRemarks"  formControlName="attendanceRemarks" ></textarea></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Employee ID </th>
+                        <td></td>
+                        <td>Leadership Ability</td>
+                        <td></td>
+                        <td><textarea name="leadershipAbilityRemarks" fromControlName="leadershipAbilityRemarks"  ></textarea></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Position</th>
+                        <td></td>
+                        <td>Ability to meet deadlines</td>
+                        <td></td>
+                        <td><textarea name="deadlinesRemarks" formControlName="deadlinesRemarks" ></textarea></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Project</th>
+                        <td></td>
+                        <td>Technical Skill</td>
+                        <td></td>
+                        <td><textarea name="technicalSkillRemarks"  formControlName="technicalSkillRemarks" ></textarea></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Experience</th>
+                        <td></td>
+                        <td>Quality of Work</td>
+                        <td></td>
+                        <td><textarea name="qualityOfWorkRemarks" formControlName="qualityOfWorkRemarks" ></textarea></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Nurture Experience</th>
+                        <td></td>
+                        <td>Team Work Ability</td>
+                        <td></td>
+                        <td><textarea name="teamWorkAbilityRemarks" formControlName="teamWorkAbilityRemarks"  ></textarea></td>
+
+                    </tr>
+                </tbody>
+
+            </table>
+            
+        </form>
+        <div class="content"  style="margin-left: 20px;">
+            <div></div>
+            <form class="#" [formGroup]="view_Appraisel"  (ngSubmit)="viewAppraisel(view_Appraisel.value)">
+                <div class="user-details">
+
+                    <div class="input-box">
+                        <label class="Details">
+                            Employee Concerns/Comments </label>
+                        <div>
+                            <input style="width: 70%;" type="text" placeholder="Employee Comments" name="employeeComments" formControlName="employeeComments">
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Future Goals</label>
+                        <div>
+                            <input style="width: 70%;" type="text" placeholder="Future Goals" name="futureGoals" formControlName="futureGoals">
+                        </div>
+                    </div>
+                    
+                    
+                    <div>
+                        <button class="button">confirm</button>
+                        <button class="button" type="reset">Clear</button>
+                    </div>
+                    
+                </div>
+
+
+            </form>
+        </div>
+
+    </div>
+</div>
+<app-footer></app-footer>

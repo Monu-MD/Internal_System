@@ -1,0 +1,90 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="allighn">
+    <div class=" table-container">
+        <h1 class="tittle"> Bulk Download</h1>
+       
+        <form class="#" [formGroup]="rejected_Appraisel" (ngSubmit)="rejectedAppraisel(rejected_Appraisel.value)">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Module Name</th>
+                        <th scope="col">Module Description</th>
+                        <th scope="col">Download Description</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+              
+                <tbody>
+                    <tr> 
+                        <td>Employee Module</td>
+                        <td>Employee Professional Details</td>
+                        <td>Bulk Download</td>
+                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                    </tr>
+                    <tr> 
+                        <td>Employee Module</td>
+                        <td>Employee Personal Details</td>
+                        <td>Bulk Download</td>
+                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                    </tr>
+                    <tr> 
+                        <td>Project Module</td>
+                        <td>Project Allocation History</td>
+                        <td>Bulk Download</td>
+                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                    </tr>
+                    <tr> 
+                        <td>Leave Module</td>
+                        <td>Employee's Availed Earned Leave Details</td>
+                        <td>Bulk Download</td>
+                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                    </tr>
+                    <tr> 
+                        <td>Leave Module</td>
+                        <td>Employee's Availed Sick Leave Details</td>
+                        <td>Bulk Download</td>
+                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                    </tr>
+                    <tr> 
+                        <td>Leave Module</td>
+                        <td>Employee's Availed L.O.P Leave Details</td>
+                        <td>Bulk Download</td>
+                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                    </tr>
+                    <tr> 
+                        <td>Leave Module</td>
+                        <td>Employee's Earned Leave Balance</td>
+                        <td>Bulk Download</td>
+                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                    </tr>
+                    <tr> 
+                        <td>Leave Module</td>
+                        <td>Employee's Sick Leave Balance</td>
+                        <td>Bulk Download</td>
+                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                    </tr>
+                    <tr> 
+                        <td>Employee Module</td>
+                        <td>Reporting Manager List</td>
+                        <td>Bulk Download</td>
+                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                    </tr>
+                    <tr> 
+                        <td>Leave Module</td>
+                        <td>All leave Types with From Date and To Date Condition</td>
+                        <td>Bulk Download</td>
+                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                    </tr>
+                </tbody>
+
+            </table>
+            <div>
+                <button class="listbutton" routerLink="/reportdetails">Back</button>
+            </div>
+        </form>
+    </div>
+</div> 
+
+<app-footer></app-footer>

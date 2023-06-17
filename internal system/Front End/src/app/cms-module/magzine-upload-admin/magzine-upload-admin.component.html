@@ -1,0 +1,42 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<body>
+    <div class="allighn">
+        <div class="container">
+
+            <div class="title">Upload Documents </div>
+                <div class="content">
+                    <form class="#" [formGroup]="magzine_Upload_Admin"
+                        (ngSubmit)="magzineUploadAdmin(magzine_Upload_Admin.value)">
+
+
+                        <div class="user-details">
+                            <div class="input-box">
+                                <label class="details">Year</label>
+                                <input type="text" name="year" formControlName="year">
+                            </div>
+
+                            <div class="input-box">
+                                <label class="details">Quarter</label>
+                                <input type="text" name="quarter" formControlName="quarter">
+                            </div>
+                            <div class="fileUpload">
+                                <div class="details">
+
+                                    <label class="details">Upload Document </label>
+                                </div>
+                                <input type="file"  formControlName="uploadDoucumet" name="uploadDoucumet" accept=".pdf,.doc,.docx">
+                            </div>
+                        </div>
+                        <div>
+                            <button class="button" type="reset">Clear</button>
+                            <button class="button">Submit</button>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</body>
+<app-footer></app-footer>

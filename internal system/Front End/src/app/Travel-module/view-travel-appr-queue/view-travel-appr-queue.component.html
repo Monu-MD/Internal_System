@@ -1,0 +1,59 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<div class="container" class="tablecontainer" class="viewData">
+    <div class="table-content">
+        <h1 class="title">View Travel Approval Queue</h1>
+        <br><br>
+        <div>
+            
+                <label>Filter :</label>
+                <input type="text" class="serchdata"> <br><br>
+                <label style="height: 50px;">Request Status :</label>
+                <!-- <input type="text" class="serchdata">   -->
+
+                <select name="paymentType" formControlName="requeststatus" placeholder="select">
+                    <option value=""></option>
+                    <option value="neft">NEFT</option>
+                    <option value="rtgs">RTGS</option>
+                    <option value="cash">Cash</option>
+                    <option value="cheque">Cheque</option>
+                    <option value="DD">DD</option>
+                </select>
+            
+                <button class="button">Apply</button>
+            
+        </div>
+        <br> <br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>REQ ID</th>
+                    <th>PROJECT ID</th>
+                    <th>EMPLOYEE</th>
+                    <th>FROM</th>
+                    <th>TO</th>
+                    <th>STATUS</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tq of viewtravel|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                    <td>{{ tq.reqid }}</td>
+                    <td>{{ tq.projectid }}</td>
+                    <td>{{ tq.employee }}</td>
+                    <td>{{ tq.from }}</td>
+                    <td>{{ tq.to }}</td>
+                    <td>{{ tq.status }}</td>
+                    <td>{{ tq.action }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+
+    </div>
+</div>
+
+<app-footer></app-footer>

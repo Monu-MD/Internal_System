@@ -1,0 +1,45 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<div class="allighn">
+    <div class="container">
+
+        <h1 class="headding">View Appraisal Data</h1>
+        <div class="content">
+            
+            <form [formGroup]="View_Appraisal_Data" class="#" (ngSubmit)="viewAppraisalData(View_Appraisal_Data.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="details">Employee Name </label>
+
+                        <input type="text" placeholder="Employee Name" name="employeeName"
+                            formControlName="employeeName" />
+                    </div>
+                </div>
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="details">Appraisal Month </label>
+
+                        <input type="month" placeholder=" Month " name="appraisalMonth"
+                            formControlName="appraisalMonth" />
+                    </div>
+                </div>
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="details">Appraisal Year </label>
+
+                        <input type="year" placeholder="Year" name="appraisalYear" formControlName="appraisalYear" />
+                    </div>
+                </div>
+                <div>
+                    <button class="button">Search</button>
+                    <button class="button" type="reset">Clear</button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

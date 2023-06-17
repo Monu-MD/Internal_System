@@ -1,0 +1,31 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+    
+
+<div class="allighn">
+    <div class="container">
+
+        <h1 class="title"> De-Allocate Project work</h1>
+        <!-- <h1 class="headding">New User to Amber can register here.</h1> -->
+        <div class="content">
+            <div></div>
+            <form [formGroup]="ProjectId" class="#" (ngSubmit)="projectId(ProjectId.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details"> Project Id </label>
+                        <input type="text" placeholder="Enter Your project Id" name="projectid" formControlName="projectid" />
+                    </div>
+                </div>
+                <div>
+                    <button class="button" >Submit</button>
+                    <button class="button" type="reset">Clear</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

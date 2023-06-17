@@ -1,0 +1,31 @@
+
+
+   td,th{
+   
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+    
+  } 
+textarea{
+    width: 200px;
+    height: 100px;
+}
+.tableleft{
+    border-collapse: collapse;
+    width: 64%; 
+    margin-left: 80px;
+}
+.signature textarea{
+    margin-left: 285px;
+    margin-top: 17px;
+    margin-bottom: 23PX;
+    width: 216px;
+    height: 50px;
+    resize: none; 
+
+}
+
+ 
+
+  

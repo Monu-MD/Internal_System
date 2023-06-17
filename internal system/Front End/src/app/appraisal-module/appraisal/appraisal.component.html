@@ -1,0 +1,186 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<div class="allighn">
+    <div class=" table-container">
+        <h4 class="tittle"> Appraisal Submitted Successfully For The Month </h4> 
+<hr>
+        <form class="#" [formGroup]="Appraisel" (ngSubmit)="appraisel(Appraisel.value)">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Employee data</th>
+                        <th scope="col">Performance Category</th>
+                        <th scope="col">Appraisee Rating</th>
+                        <th scope="col">Appraisee Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Review Period & Date</th>
+                        <td></td>
+                        <td>Ability at the position</td>
+                        <td> 
+                            <select name="abilityRating" formControlName="abilityRating"
+                            style="width: 130px;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option >Rating</option>
+                                <option value="1">ONE</option>
+                                <option value="2">TWO</option>
+                                <option value="3">THREE</option>
+                                <option value="4">FOUR</option>
+                                <option value="5">FIVE</option>
+
+                              </select>
+                        </td>
+                        <td><textarea name="abilityRemarks"formControlName="abilityRemarks" ></textarea></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Employee Name</th>
+                        <td></td>
+                        <td>Attendance</td>
+                        <td> 
+                            <select name="attendanceRating" formControlName="attendanceRating"
+                             style="width: 130px;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option >Rating</option>
+                                <option value="1">ONE</option>
+                                <option value="2">TWO</option>
+                                <option value="3">THREE</option>
+                                <option value="4">FOUR</option>
+                                <option value="5">FIVE</option>
+
+                              </select>
+                        </td>
+                        <td><textarea name="attendanceRemarks"  formControlName="attendanceRemarks" ></textarea></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Employee ID </th>
+                        <td></td>
+                        <td>Leadership Ability</td>
+                        <td> 
+                            <select name="leadershipAbilityRating" formControlName="leadershipAbilityRating"
+                            style="width: 130px;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="1">ONE</option>
+                                <option value="2">TWO</option>
+                                <option value="3">THREE</option>
+                                <option value="4">FOUR</option>
+                                <option value="5">FIVE</option>
+
+                              </select>
+                        </td>
+                        <td><textarea name="leadershipAbilityRemarks" fromControlName="leadershipAbilityRemarks"  ></textarea></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Position</th>
+                        <td></td>
+                        <td>Ability to meet deadlines</td>
+                        <td> 
+                            <select name="deadlinesRating" formControlName="deadlinesRating"
+                            style="width: 130px;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="1">ONE</option>
+                                <option value="2">TWO</option>
+                                <option value="3">THREE</option>
+                                <option value="4">FOUR</option>
+                                <option value="5">FIVE</option>
+
+                              </select>
+                        </td>
+                        <td><textarea name="deadlinesRemarks" formControlName="deadlinesRemarks" ></textarea></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Project</th>
+                        <td></td>
+                        <td>Technical Skill</td>
+                        <td> 
+                            <select name="technicalSkillRating" formControlName="technicalSkillRating"
+                             style="width: 130px;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="1">ONE</option>
+                                <option value="2">TWO</option>
+                                <option value="3">THREE</option>
+                                <option value="4">FOUR</option>
+                                <option value="5">FIVE</option>
+
+                              </select>
+                        </td>
+                        <td><textarea name="technicalSkillRemarks"  formControlName="technicalSkillRemarks" ></textarea></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Experience</th>
+                        <td></td>
+                        <td>Quality of Work</td>
+                        <td> 
+                            <select name="qualityOfWorkRating" formControlName="qualityOfWorkRating"
+                            style="width: 130px;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="1">ONE</option>
+                                <option value="2">TWO</option>
+                                <option value="3">THREE</option>
+                                <option value="4">FOUR</option>
+                                <option value="5">FIVE</option>
+
+                              </select>
+                        </td>
+                        <td><textarea name="qualityOfWorkRemarks" formControlName="qualityOfWorkRemarks" ></textarea></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Nurture Experience</th>
+                        <td></td>
+                        <td>Team Work Ability</td>
+                        <td> 
+                            <select name="teamWorkAbilityRating" formControlName="teamWorkAbilityRating" 
+                             style="width: 130px;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="1">ONE</option>
+                                <option value="2">TWO</option>
+                                <option value="3">THREE</option>
+                                <option value="4">FOUR</option>
+                                <option value="5">FIVE</option>
+
+                              </select>
+                        </td>
+                        <td><textarea name="teamWorkAbilityRemarks" formControlName="teamWorkAbilityRemarks"  ></textarea></td>
+
+                    </tr>
+                </tbody>
+
+            </table>
+            
+        </form>
+        <div class="content"  style="margin-left: 20px;">
+            <div></div>
+            <form class="#" [formGroup]="Appraisel"  (ngSubmit)="appraisel(Appraisel.value)">
+                <div class="user-details">
+
+                    <div class="input-box">
+                        <label class="Details">
+                            Employee Concerns/Comments </label>
+                        <div>
+                            <input style="width: 70%;" type="text" placeholder="Employee Comments" name="employeeComments" formControlName="employeeComments">
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Future Goals</label>
+                        <div>
+                            <input style="width: 70%;" type="text" placeholder="Future Goals" name="futureGoals" formControlName="futureGoals">
+                        </div>
+                    </div>
+                    
+                    
+                    <div>
+                        <button class="button">Submit</button>
+                        <button class="button" type="reset">Clear</button>
+                    </div>
+                    
+                </div>
+
+
+            </form>
+        </div>
+
+    </div>
+</div>
+<app-footer></app-footer>

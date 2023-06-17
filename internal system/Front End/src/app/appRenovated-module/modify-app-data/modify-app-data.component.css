@@ -1,0 +1,24 @@
+.user-details .input-box textarea {
+    height: 45px;
+    width: 50%;
+    outline: #9b59b6;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #9b59b6;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+  
+}
+form .user-details .input-box {
+    margin-bottom: 15px;
+    width: calc(100% / 2 - 20px);
+    margin: 1px 1px 1px 24px;
+}
+
+
+
+ .h2 {
+    margin-left:  19px;
+    font-size: 2rem;
+}

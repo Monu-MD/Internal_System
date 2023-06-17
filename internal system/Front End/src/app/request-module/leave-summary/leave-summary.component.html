@@ -1,0 +1,48 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<form>
+    <div class="container" class="tablecontainer" class="viewData">
+        <div class="table-content">
+            <div class="contentleft">
+                <h1 class="titleViewPage">Leave Summary</h1>
+                <label class="contentleft">Search:</label>
+                <input type="text" name="employeeName" formControlName="employeeName" class="searchData"
+                    placeholder="EmployeeName">
+            </div><br>
+            <span>Show</span>
+            <select class="show-entries" (click)="onItemsPerPageChange()">
+                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+            </select>
+            <span>entries</span>
+
+            <hr>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Leave Type</th>
+                        <th>Allocated leave</th>
+                        <th>Earlier Transactions</th>   
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let leaveSummary of leaveSummary|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                        <td>{{ leaveSummary.leaveType }}</td>
+                        <td>{{leaveSummary.allocatedLeave}}</td>
+                        <td>{{ leaveSummary.earlierTransactions }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+
+            <!-- <div>
+                <pagination-controls> [(page)]="currentPage"
+                    [itemsPerPage]="itemsPerPage"
+                    [totalItems]="totalItems"
+                </pagination-controls>
+            </div> -->
+        </div>
+    </div>
+</form>
+<app-footer></app-footer>

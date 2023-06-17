@@ -1,0 +1,32 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar> 
+
+
+<!-- <h2>Inbox</h2>
+<ul>
+  <li *ngFor="let message of inbox; let i = index">
+    <strong>From:</strong> {{ message.sender }}
+    <br>
+    <strong>Message:</strong> {{ message.content }}
+    <br>
+    <button (click)="deleteMessage(i, 'inbox')">Delete</button>
+  </li>
+  <li *ngIf="inbox.length === 0">No messages in the inbox.</li>
+</ul> -->
+
+<div class="container">
+  <h2>Inbox</h2>
+  <ul>
+    <li *ngFor="let message of inbox; let i = index">
+      <strong>From: </strong> {{ message.sender }}
+      <br>
+      <strong>Message: </strong> {{ message.content }}
+      <br>
+      <button class="button" (click)="deleteMessage(i)">Delete</button>
+    </li>
+    <li *ngIf="inbox.length === 0">No messages in the inbox.</li>
+  </ul>
+</div>
+
+

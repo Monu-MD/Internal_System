@@ -1,0 +1,70 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="container">
+    <h1 class="title">Approve/Reject Leave</h1>
+    <div class="content">
+        <form [formGroup]="approveLeaveForm" (ngSubmit)="submit(approveLeaveForm.value)">
+            <div class="user-details">
+                <div class="input-box">
+                    <label class="details">EmployeeId</label>
+                    <input type="number" name="employeeId" formControlName="employeeId">
+                </div>
+
+
+
+
+                <div class="input-box">
+                    <label class="details">EmployeeName</label>
+                    <input type="text" name="employeeName" formControlName="employeeName">
+                </div>
+
+
+
+                <div class="input-box">
+                    <label for="leaveType" class="details">Leave Type </label>
+                    <select id="leaveType" class="form-control" formControlName="leaveType">
+                        <option value="">--Select--</option>
+                        <option value="annual">Annual</option>
+                        <option value="sick">Sick</option>
+                        <option value="maternity">Maternity</option>
+                    </select>
+                    <pre></pre>
+
+                </div>
+
+
+
+                <div class="input-box">
+                    <label class="details">Applied Number of Days</label>
+                    <input type="number" name="numDays" formControlName="appliedNoOfDays">
+                </div>
+
+
+
+                <div class="input-box">
+                    <label class="details">From Date</label>
+                    <input type="date" name="fromDate" formControlName="fromDate">
+                </div>
+
+
+                <div class="input-box">
+                    <label class="details">To Date</label>
+                    <input type="date" name="toDate" formControlName="toDate">
+                </div>
+
+
+                <div class="input-box">
+                    <label for="reason" class="details">Reason</label>
+                    <textarea id="reason" class="form-control" formControlName="reason"></textarea>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="button">Approve</button>
+                <button type="reset" class="button">Reject</button>
+            </div>
+        </form>
+    </div>
+</div>
+<app-sidebar></app-sidebar>

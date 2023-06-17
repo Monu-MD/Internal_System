@@ -1,0 +1,83 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="allighn">
+    <div class="container">
+
+        <h1 class="title">Approve/Reject</h1>
+        <div class="content">
+            <form class="#" [formGroup]="appRejectedreq" (ngSubmit)="appreject(appRejectedreq.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details"> Request Id </label>
+                        <input type="text" placeholder="Enter your Request Id" name="Requestid"
+                            formControlName="Requestid" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Employee Id </label>
+                        <input type="text" placeholder="Enter Employee Id" name="Employeeid"
+                            formControlName="Employeeid" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Employee Name </label>
+                        <input type="text" placeholder="Enter the Employee Name" name="Employeename"
+                            formControlName="Employeename" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Project Id </label>
+                        <input type="text" placeholder="Enter Project Id " name="Projectid"
+                            formControlName="Projectid" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">From Location</label>
+                        <input type="text" placeholder="Enter the Location" name="FromLocation"
+                            formControlName="FromLocation" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">To Location </label>
+                        <input type="text" placeholder="Enter the Location " name="ToLocation "
+                            formControlName="ToLocation" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">From Date </label>
+                        <input type="date" name="fromDate " formControlName="fromDate">
+                    </div>
+                    <div class="input-box">
+                        <label class="details">To Date </label>
+                        <input type="date" name="toDate" formControlName="toDate">
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details">Approver </label>
+                        <input type="text" placeholder="Enter the Approver name " name="Approvername"
+                            formControlName="Approvername" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Cost </label>
+                        <input type="text" placeholder="Enter the Cost  " name="cost" formControlName="cost" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Delivery Manager Remarks </label>
+                        <input type="text" placeholder="Remarks  " name="Managerremarks"
+                            formControlName="Managerremarks" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Employee Remarks </label>
+                        <input type="text" placeholder="Remarks  " name="Employeeremarks"
+                            formControlName="Employeeremarks" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Status </label>
+                        <input type="text" placeholder="Status " name="Status" formControlName="Status" />
+                    </div>                 
+                </div>
+
+                <div>
+                    <button class="button" >Approve</button>
+                    <button class="button" >Reject</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<app-headder></app-headder>

@@ -1,0 +1,56 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<form>
+    <div class="container" class="listcontainer">
+        <div class="table-content">
+            <div class="addbutton">
+
+                <h1 class="titleViewPage">Add Holiday/Working Day</h1>
+                <button class="listbutton">Add Holiday</button>
+            </div><br>
+            <hr>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Holiday Type</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Year</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let holidays of holidays|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                        <td>{{ holidays.type }}</td>
+                        <td>{{ holidays.date }}</td>
+                        <td>{{ holidays.description }}</td>
+                        <td>{{ holidays.year }}</td>
+                        <td><button class="button" class="listbutton"
+                                (click)="deleteHoliday(holidays.id)">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <pagination-controls> [(page)]="currentPage"
+                    [itemsPerPage]="itemsPerPage"
+                    [totalItems]="totalItems"
+                    previousText="Previous"
+                    nextText="Next"
+                    firstText="First"
+                    lastText="Last"
+                    class="pagination">
+                </pagination-controls> -->
+            <div>
+                <button (click)="goToFirstPage()" [disabled]="currentPage === 1" class="listbutton">First</button>
+                <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="listbutton">Previous</button>
+                <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                <button (click)="goToNextPage()" [disabled]="currentPage === totalPages"
+                    class="listbutton">Next</button>
+                <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
+                    class="listbutton">Last</button>
+            </div>
+        </div>
+    </div>
+</form>
+<app-footer></app-footer>

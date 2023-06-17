@@ -1,0 +1,395 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+    
+
+<div class="allighn">
+    <div class="container">
+
+        <h1 class="title">Select Parent Project Id</h1>
+        <!-- <h1 class="headding">New User to Amber can register here.</h1> -->
+        <div class="content">
+            <div></div>
+            <form [formGroup]="parentProjectId" class="#" (ngSubmit)="parent_ProjectId(parentProjectId.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details">Parent Project Id </label>
+                        <input type="text" placeholder="Enter your project Id" name="parentProjectid" formControlName="parentProjectid" />
+                    </div>
+                </div>
+                <div>
+                    <!-- <button class="button" >Fill Details</button> -->
+                    <button class="button" type="reset">Clear</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- CHILD PROJECT  -->
+<div class="allighn">
+    <div class="container" style="margin-top: -45px;">
+
+        <h1 class="title">Child Project Details Work</h1>
+        <!-- <h1 class="headding">New User to Amber can register here.</h1> -->
+        <div class="content">
+            <div></div>
+            <form [formGroup]="childProjectId" class="#" (ngSubmit)="child_ProjectId(childProjectId.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details"> Customer Id </label>
+                        <input type="text" placeholder="Enter Customer Id" name="customerId" formControlName="customerId" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Delivery Manager</label>
+                        <input type="text" placeholder="Enter Delivery Manager Name" name="deliveryManager"
+                            formControlName="deliveryManager" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Payment Type</label>
+                        <select name="paymentType" formControlName="paymentType" placeholder="Payment Type">
+                            <option value=""></option>
+                            <option value="neft">NEFT</option>
+                            <option value="rtgs">RTGS</option>
+                            <option value="cash">Cash</option>
+                            <option value="cheque">Cheque</option>
+                            <option value="DD">DD</option>
+
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Customer Class</label>
+                        <input type="text" placeholder="Enter Customer Class" name="customerClass"
+                            formControlName="customerClass" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Project Team Size</label>
+                        <select name="projectTeamSize" formControlName="projectTeamSize" placeholder="projectTeamSize">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Project Manager</label>
+                        <select name="projectManager" formControlName="projectManager" placeholder="projectTeamSize">
+                            <option value=""></option>
+                            <option value="">M D</option>
+                            <option value="">Mahesh</option>
+                            <option value="">Abhishek</option>
+                            <option value="">Yashewant P Jadhav</option>
+                            <option value="">Pojo</option>
+
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Project Type</label>
+                        <input type="text" placeholder="Enter Project Type" name="projectType"
+                            formControlName="projectType" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Project Currency</label>
+                        <select name="projectCurrency" formControlName="projectCurrency" placeholder="project Currency">
+                            <option value=""></option>
+                            <option value="">INR</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""> </option>
+                            <option value=""></option>
+
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Conversation Rate</label>
+                        <input type="text" placeholder="Enter Conversation Rate" name="conversationRate"
+                            formControlName="conversationRate" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Po number</label>
+                        <input type="number" placeholder="Enter Po Number" name="poNumber" formControlName="poNumber" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Start Date</label>
+                        <input type="date" name="startDate" formControlName="startDate">
+                    </div>
+                    <div class="input-box">
+                        <label class="details">End Date</label>
+                        <input type="date" name="endDate" formControlName="endDate">
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Remarks</label>
+                        <input type="text" placeholder="remarks" name="remarks" formControlName="remarks" />
+                    </div>
+
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- child project billing detais work  -->
+<div class="allighn">
+    <div class="container" style="margin-top: -45px;">
+
+        <h1 class="title">Child Project Billing Details Work</h1>
+        <!-- <h1 class="headding">New User to Amber can register here.</h1> -->
+        <div class="content">
+            <div></div>
+            <form [formGroup]="childProjectId" class="#" (ngSubmit)="child_ProjectId(childProjectId.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details">Address Line 1 </label>
+                        <input type="text" placeholder="Adress Line 1" name="addressLine1" formControlName="addressLine1" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Address Line 2 </label>
+                        <input type="text" placeholder="Adress Line 2" name="addressLine2" formControlName="addressLine2" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Country Name </label>
+                        <input type="text" placeholder="Country Name " name="countryName " formControlName="countryName" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">City Name </label>
+                        <input type="text" placeholder="City Name" name="cityName" formControlName="cityName" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Pin Code /Zip Code </label>
+                        <input type="text" placeholder="Pincode / Zip Code" name="pincode" formControlName="pincode" />
+                    </div>
+                </div>
+                
+
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- Child Project Perdiem Details work -->
+
+<div class="allighn">
+    <div class="container"style="margin-top: -45px;">
+
+        <h1 class="title">Child Project Perdiem Details work</h1>
+
+        <div class="content">
+            <div></div>
+            <form [formGroup]="childProjectId" class="#" (ngSubmit)="child_ProjectId(childProjectId.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details"> Project Location</label>
+                        <input type="text" placeholder="Project Location" name="projectLocation"
+                            formControlName="projectLocation" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Perdiem Amount Per day</label>
+                        <input type="text" placeholder="Perdiem Amount Per day" name="perdiemAmountPerday"
+                            formControlName="perdiemAmountPerday" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Perdiem Currency</label>
+                        <select name="projectCurrency" formControlName="perdiemCurrency2" placeholder="perdiemCurrency2">
+                            <option value=""></option>
+                            <option value="">INR</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""> </option>
+                            <option value=""></option>
+
+                        </select>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- child project budget details work  -->
+
+<div class="allighn">
+    <div class="container"style="margin-top: -45px;">
+
+        <h1 class="title">Child Project Budget Details work</h1>
+
+        <div class="content">
+            <div></div>
+            <form [formGroup]="childProjectId" class="#" (ngSubmit)="child_ProjectId(childProjectId.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details"> Project Budget</label>
+                        <input type="text" placeholder="Project Budget" name="projectBudget"
+                            formControlName="projectBudget" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Target Margin Percentage</label>
+                        <input type="text" placeholder="Target Margin Percentage" name="targetMarginPercentage"
+                            formControlName="targetMarginPercentage" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Total Budget</label>
+                        <input type="text" placeholder="Total Budget" name="totalBudget"
+                            formControlName="totalBudget" />
+                    </div>
+                    
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Components of Budget for Child Project work  -->
+
+<div class="allighn">
+    <div class="container"style="margin-top: -45px;">
+
+        <h1 class="title">Components of Budget for Child Project work</h1>
+
+        <div class="content">
+            <div></div>
+            <form [formGroup]="childProjectId" class="#" (ngSubmit)="child_ProjectId(childProjectId.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details"> Salary</label>
+                        <input type="text" placeholder="Salary" name="salary"
+                            formControlName="salary" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Salary Currency</label>
+                        <select name="salaryCurrancy" formControlName="salaryCurrancy" placeholder="salary Currancy">
+                            <option value=""></option>
+                            <option value="">INR</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""> </option>
+                            <option value=""></option>
+
+                        </select>
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details"> Rate</label>
+                        <input type="text" placeholder="Rate" name="salaryRate"
+                            formControlName="salaryRate" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Converted Ammount</label>
+                        <input type="text" placeholder="Converted Ammount" name="salaryConvertedAmmount"
+                            formControlName="salaryConvertedAmmount" />
+                    </div>
+                    
+
+                    <div class="input-box">
+                        <label class="Details"> Perdiem </label>
+                        <input type="text" placeholder="Perdiem" name="perdiem"
+                            formControlName="perdiem" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Perdiem Currency</label>
+                        <select name="projectCurrency" formControlName="perdiemCurrency" placeholder="perdiemCurrency">
+                            <option value=""></option>
+                            <option value="">INR</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""> </option>
+                            <option value=""></option>
+
+                        </select>
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details"> Rate</label>
+                        <input type="text" placeholder="Rate" name="perdiemRate"
+                            formControlName="perdiemRate" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Converted Ammount</label>
+                        <input type="text" placeholder="Converted Ammount" name="perdiemConvertedAmmount"
+                            formControlName="perdiemConvertedAmmount" />
+                    </div>
+
+
+                    <div class="input-box">
+                        <label class="Details"> Travel </label>
+                        <input type="text" placeholder="Travel" name="travel"
+                            formControlName="travel" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Travel Currency</label>
+                        <select name="Travel Currency" formControlName="travelCurrency" placeholder="travelCurrency">
+                            <option value=""></option>
+                            <option value="">INR</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""> </option>
+                            <option value=""></option>
+
+                        </select>
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details"> Rate</label>
+                        <input type="text" placeholder="Rate" name="travelRate"
+                            formControlName="travelRate" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Converted Ammount</label>
+                        <input type="text" placeholder="Converted Ammount" name="travelConvertedAmmount"
+                            formControlName="travelConvertedAmmount" />
+                    </div>
+
+
+
+                    <div class="input-box">
+                        <label class="Details"> Others </label>
+                        <input type="text" placeholder="Others" name="others"
+                            formControlName="others" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Others Currency</label>
+                        <select name="Others Currency" formControlName="othersCurrency" placeholder="OthersCurrency">
+                            <option value=""></option>
+                            <option value="">INR</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""> </option>
+                            <option value=""></option>
+
+                        </select>
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details"> Rate</label>
+                        <input type="text" placeholder="Rate" name="otherRate"
+                            formControlName="otherRate" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Converted Ammount</label>
+                        <input type="text" placeholder="Converted Ammount" name="otherConvertedAmmount"
+                            formControlName="otherConvertedAmmount" />
+                    </div>
+                    <div>
+                        <button class="button" >Submit</button>
+                        <button class="button" type="reset">Clear</button>
+                        <button class="button" *ngIf="modifybtn" >Modify</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

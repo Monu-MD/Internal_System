@@ -1,0 +1,140 @@
+
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="container"> 
+    <div class="content">
+        <form>
+<div >
+    <button  class="listbutton" (click)="close()"><span><i class="fa-solid fa-circle-xmark"></i></span>  Close Page</button>
+    <button  class="listbutton"(click)="printPage()"><span><i class="fa-solid fa-print"></i></span>  Print/Save</button>
+  </div>
+  
+  <br>
+  <article>
+    <table> 
+      <tr>
+        <th width="150px"><span>Invoice #</span></th>
+        <td></td>
+      </tr>
+    </table>
+  <br>
+  <div style="display: flex;">
+   <div>
+    <h4>Billed To ,</h4>
+    <address>
+      <textarea ></textarea>
+    </address>
+  </div>
+    <br>
+    <div class="tableleft">
+    <table > 
+      <tr>
+        <th width="120px" ><span>Date(yyyy-mm-dd)</span></th>
+        <td></td>
+      </tr>
+      <tr>
+        <th width="120px" ><span>Invoice as Per Purchase Order Number</span></th>
+        <td></td>
+      </tr>
+      <tr>
+        <th width="120px" ><span>GRN Number</span></th>
+        <td><span contenteditable="">------</span></td>
+      </tr>
+    </table>
+  </div>
+</div>
+  <br>
+    <table class="inventory">
+      <thead>
+        <tr>
+          <th width="40"><span>Sl No</span></th>
+          <th width="300"><span>Particulars</span></th>
+          <th width="100"><span>SAC</span></th>
+          <th width="150"><span>Amount</span></th>
+        </tr>
+      </thead>
+        
+      <tbody>
+        <tr>
+          <td><span>1</span></td>
+          <td><span>---</span></td>
+          <td><span>---</span></td>
+          <td><span>---</span></td>
+        </tr>
+        <tr>
+          <td><span>2</span></td>
+          <td><span>---</span></td>
+          <td><span>---</span></td>
+          <td><span>---</span></td>
+        </tr>
+        <tr>
+          <td><span>3</span></td>
+          <td><span>---</span></td>
+          <td><span>---</span></td>
+          <td><span>---</span></td>
+        </tr>
+      </tbody>
+          
+      </table>
+      <br>
+      <div>
+      <table > 
+        <tr>
+          <th width="150px" ><span>Total</span></th>
+          <td></td>
+        </tr>
+        <tr>
+          <th width="150px" ><span>Total in Words</span></th>
+          <td><span contenteditable="">-------</span></td>
+        </tr>
+        <tr>
+          <th width="150px" ><span>GSTIN NO</span></th>
+          <td><span contenteditable="">-------</span></td>
+        </tr>
+        <tr>
+          <th width="150px" ><span>PAN</span></th>
+          <td><span contenteditable="">-------</span></td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <br><br>
+      <h4><u>Our bank account details for wire transfer</u></h4><br>
+      <table > 
+        <tr>
+          <th width="150px" ><span>Name</span></th>
+          <td>Minorks Technologies</td>
+        </tr>
+        <tr>
+          <th width="150px" ><span>Bank Name</span></th>
+          <td>-------</td>
+        </tr>
+        <tr>
+          <th width="150px" ><span>Current A/c No</span></th>
+          <td>-------</td>
+        </tr>
+        <tr>
+          <th width="150px" ><span>IFSC Code</span></th>
+          <td>-------</td>
+        </tr>
+        <tr>
+          <th width="150px" ><span>SWIFT Code</span></th>
+          <td>-------</td>
+        </tr>
+      </table>
+    </div>
+  </article>
+    <div  class="signature">
+      <textarea  contenteditable="" >Arkesh D H 
+        Founder Director</textarea>
+  </div>
+       
+        </form>
+    </div>
+</div>
+<app-footer></app-footer>
+
+      
+      
+  

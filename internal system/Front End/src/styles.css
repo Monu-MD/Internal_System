@@ -1,0 +1,561 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  /* box-sizing: border-box; */
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+
+}
+
+.allighn {
+  justify-content: center;
+  margin-left: 270px;
+  height: 100%;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 10px;
+  margin: 0px;
+
+
+}
+
+.container {
+  max-width: 700px;
+  width: 100%;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  margin-top: 160px;
+  margin-bottom: 66px;
+ 
+}
+
+
+.container .title {
+  font-size: 25px;
+  font-weight: 500;
+  position: relative;
+}
+
+.container .title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+
+.content form .user-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+}
+
+form .user-details .input-box {
+  margin-bottom: 15px;
+  width: calc(100% / 2 - 20px);
+}
+
+form .input-box label.details {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.user-details .input-box input {
+  height: 45px;
+  width: 100%;
+  outline: #9b59b6;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #9b59b6;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.user-details .input-box input:focus,
+.user-details .input-box input:valid {
+  border-color: #9b59b6;
+}
+
+form .radioButton .radioButtontitle {
+  font-size: 17px;
+  font-weight: 500;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+form .radioButton label {
+  margin-left: 24px;
+  padding-right: 10px;
+  font-family: 'Poppins', sans-serif;
+  ;
+}
+
+.button {
+  color: white;
+  background-color: navy;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 3px 12px;
+  cursor: pointer;
+  border-radius: 39px;
+}
+
+.button:hover {
+  background-color: #9b59b6;
+
+}
+
+select {
+  height: 45px;
+  width: 100%;
+  outline: #9b59b6;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #9b59b6;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.checkbox {
+
+  margin-right: 73px;
+  margin-top: 37px;
+  font-size: 18px;
+
+}
+
+@media(max-width :767px) {
+  .container {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+}
+
+@media(max-width :574px) {
+  .container {
+    width: 100%;
+
+  }
+}
+
+/* Mahesh Css */
+/* holiday module start */
+
+.table-content {
+  background-color: #f5f5f5;
+  width: 97%;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-top: 150px;
+}
+
+.titleViewPage {
+  margin-right: 762px;
+  font-weight: normal;
+  font-size: 25px;
+
+}
+
+.contentleft {
+  display: flex;
+  align-items: center;
+  display: flex;
+  /* justify-content:right; */
+  border-color: #9b59b6;
+}
+
+.show-entries {
+  width: 66px;
+  height: 22px;
+}
+
+
+.searchData {
+  height: 35px;
+  width: 171px;
+  outline: #9b59b6;
+  font-size: 16px;
+  border-radius: 6px;
+  margin-top: 1px;
+  margin-right: 5px;
+  margin-left: 4px;
+  padding-left: 15px;
+  border: 1px solid #9b59b6;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+
+}
+
+.tablecontainer {
+
+  width: 1200px;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  /* border-radius: 10px; */
+
+
+
+
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: px solid #ddd;
+
+  border: #333;
+  border-color: rgba(234, 123, 217, 0.813);
+  /* border-radius: 10px; */
+  border: 10px;
+}
+
+th {
+  background-color: rgba(11, 7, 139, 0.911);
+  color: #f6f2f2;
+  font-size: 17px;
+  font-weight: normal;
+}
+
+.addbutton {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* holiday module end */
+
+
+
+/* asset module start */
+
+
+.card {
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.247);
+  padding: 20px;
+}
+
+.card-button {
+  /* color: #ffab40; */
+  color: navy;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  display: block;
+  color: black
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.532);
+}
+
+
+
+
+/* asset module end */
+
+.listbutton {
+  padding: 3px 16px;
+  font-size: 14px;
+  margin: 4px 2px;
+  background-color: navy;
+  color: white;
+  border-radius: 4px;
+}
+.listbutton a {
+  padding: 3px 16px;
+  font-size: 14px;
+  margin: 4px 2px;
+  background-color: navy;
+  color: white;
+  border-radius: 4px;
+}
+
+/* invoice module start */
+
+/* td,th{
+   
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+  
+}  */
+.reporttextarea {
+  width: 200px;
+  height: 100px;
+}
+
+.tableleft {
+  border-collapse: collapse;
+  width: 64%;
+  margin-left: 80px;
+
+
+
+  /* display: flex;
+  border-collapse: collapse;
+  width: 78%;
+  margin-left: 238px; */
+}
+
+.signature textarea {
+  margin-left: 410px;
+  margin-top: 40px;
+  margin-bottom: 23PX;
+  width: 216px;
+  height: 50px;
+  resize: none;
+
+}
+
+hr {
+  border: 1px solid black;
+}
+
+.tableleft2 {
+  display: flex;
+  border-collapse: collapse;
+  width: 75%;
+  margin-left: 250px;
+}
+
+    
+.user-details .input-box select{
+  height: 45px;
+  width: 100%;
+  outline: #9b59b6;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #9b59b6;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.user-details .input-box textarea{
+  height: 45px;
+  width: 100%;
+  outline: #9b59b6;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #9b59b6;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Jadhav */
+
+.contentleft {
+  display: flex;
+  align-items: center;
+  display: flex;
+  justify-content: right;
+  border-color: #9b59b6;
+}
+
+.show-entries {
+  width: 66px;
+  height: 22px;
+}
+
+
+.serchdata {
+  height: 35px;
+  width: 171px;
+  outline: #9b59b6;
+  font-size: 16px;
+  border-radius: 6px;
+  margin-top: 1px;
+  margin-right: 5px;
+  margin-left: 4px;
+  padding-left: 15px;
+  border: 1px solid #9b59b6;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+
+}
+
+.tablecontainer {
+
+  width: 1200px;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: px solid #ddd;
+  border: #333;
+  border-color: rgba(88, 14, 77, 0.813);
+}
+
+th {
+  background-color: rgba(11, 7, 139, 0.911);
+  color: #f6f2f2;
+}
+
+.centerText {
+  margin-left: 33rem;
+  margin-top: 3rem;
+}
+
+.tableselect {
+  height: 35px;
+  width: 55%;
+}
+
+
+
+/* Card CSS */
+
+.card {
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.247);
+  padding: 15px;
+  width: 600px;
+  height: 175px;
+  position: revert;
+}
+
+.card-button {
+  /* color: #ffab40; */
+  color: navy;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  display: block;
+  color: black
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.532);
+}
+
+/* Md Css */
+.table-container {
+  width: 90%;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  margin-top: 125px;
+
+}
+
+.table-container textarea {
+
+  height: 40px;
+  width: 139px;
+  border-radius: 10px;
+}
+
+table {
+  align-items: center;
+  justify-content: center;
+}
+
+table th {
+  width: auto;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+table td {
+  width: auto;
+  margin-right: 10px;
+  margin-left: 10px;
+
+}
+
+a {
+  color: #fff;
+}
+
+.pick-button {
+  color: rgb(248, 244, 244);
+  padding: 0px 0px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 18px 20px;
+  cursor: pointer;
+  border-radius: 7px;
+  background-color: rgb(8, 53, 122);
+}
+
+.back-button {
+  color: whitesmoke;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 11px;
+  cursor: pointer;
+  border-radius: 7px;
+  background-color: rgb(8, 53, 122);
+}
+

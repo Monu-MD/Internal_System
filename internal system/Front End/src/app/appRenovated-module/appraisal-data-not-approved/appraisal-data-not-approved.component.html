@@ -1,0 +1,85 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<form>
+    <div class="container" class="tablecontainer" class="viewData">
+        <div class="table-content">
+            <div class="contentleft">
+                <h1 class="titleViewPage">Your appraisal data for the month </h1>
+                <p>To be approved by : Arkesh</p>
+
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Professional KPI</th>
+                        <th>Weightage</th>
+                        <th>Rating</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pkpi of pkpi|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                        <td>{{ pkpi.ProfessionalKPI }}</td>
+                        <td>{{ pkpi.Weightage }}</td>
+                        <td>{{ pkpi.Rating }}</td>
+                        <td>{{ pkpi.Remarks }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="centerText">Overall Rating: 100</p>
+            <br>
+            <!-- </div> -->
+        </div>
+
+        <!-- <div class="tablecontainer"> -->
+        <div class="table-content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Behavioural KPI</th>
+                        <th>Weightage</th>
+                        <th>Rating</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pkpi of bkpi|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                        <td>{{ pkpi.BehaviouralKPI }}</td>
+                        <td>{{ pkpi.Weightage }}</td>
+                        <td>{{ pkpi.Rating }}</td>
+                        <td>{{ pkpi.Remarks }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="centerText">Overall Rating: 100</p>
+            <br>
+            <!-- </div> -->
+        </div>
+
+
+        <form class="#" [formGroup]="employee_comment" (ngSubmit)="comment(employee_comment.value)">
+
+
+            <div class="user-details">
+                <div class="input-box">
+                    <label for="description">Employee Concerns/Comments :</label>
+                    <textarea id="comment" class="form-control" formControlName="comment"></textarea>
+
+                </div>
+            </div>
+            <div class="user-details">
+                <div class="input-box">
+                    <label class="">Future Goals :</label> <br>
+                    <textarea id="comment" name="goals" formControlName="goals" required></textarea>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</form>
+
+<app-footer></app-footer>

@@ -1,0 +1,110 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<body>
+  <div class="allighn">
+    <div class="container">
+
+      <div class="title">Customer Detailspeople</div>
+      <div class="content">
+        <form class="#" [formGroup]="modfication_details" (ngSubmit)="modficationDetails(modfication_details.value)">
+
+
+          <div class="user-details">
+            <div class="input-box">
+              <label class="details">Coustomer Name</label>
+              <input type="text" [(ngModel)]="cachedData"  name="customerName" formControlName="customerName"   required>
+            </div>
+            <div class="input-box">
+              <label class="details">Coustomer Name</label>
+              <input type="text" [(ngModel)]="customerID" name="customerID" formControlName="customerID" value="{{customerID}}" required>
+            </div>
+            <div class="input-box">
+              <label class="details">Client Address Line 1 </label>
+              <input type="text" [(ngModel)]="clientAddressLine1" name="clientAddressLine1" formControlName="clientAddressLine1"
+                value="{{clientAddressLine1}}" required>
+            </div>
+            <div class="input-box">
+              <label class="details">Client Address Line 2 </label>
+              <input type="text" name="clientAddressLine2" [(ngModel)]="clientAddressLine2" formControlName="clientAddressLine2"
+                 required>
+            </div>
+            <div class="input-box">
+              <label class="details">Country Name </label>
+              <input type="text" name="countryName" formControlName="countryName" [(ngModel)]="countryName"  required>
+            </div>
+            <div class="input-box">
+              <label class="details">City Name </label>
+              <input type="text" name="cityName" formControlName="cityName" [(ngModel)]="cityName"  required>
+            </div>
+          </div>
+
+
+          <label for="" class="title"> Contact Details 1 call</label>
+          <div class="user-details">
+
+            <div class="input-box">
+              <label class="details">Client Name 1</label>
+              <input type="text" name="clientName1" [(ngModel)]="clientName1" formControlName="clientName1"  required>
+            </div>
+            <div class="input-box">
+              <label class="details">Client Emial Id 1 </label>
+              <input type="text" name="clientEmialId1" formControlName="clientEmialId1" [(ngModel)]="clientEmialId1" 
+                required>
+            </div>
+            <div class="input-box">
+              <label class="details">Clinet Contact Number 1</label>
+              <input type="text" name="clinetContactNumber1" formControlName="clinetContactNumber1" [(ngModel)]="clientEmialId1" required>
+            </div>
+          </div>
+
+
+
+          <label for="" class="title"> Contact Details 2 call</label>
+          <div class="user-details">
+            <div class="input-box">
+              <label class="details">Client Name 2</label>
+              <input type="text" name="clientName2" formControlName="clientName2" [(ngModel)]="clientName2"  required>
+            </div>
+            <div class="input-box">
+              <label class="details">Client Emial Id 2 </label>
+              <input type="text" name="clientEmialId2" formControlName="clientEmialId2" [(ngModel)]="clientEmialId2"
+                required>
+            </div>
+            <div class="input-box">
+              <label class="details">Clinet Contact Number 2</label>
+              <input type="text" name="clinetContactNumber2" formControlName="clinetContactNumber2"
+              [(ngModel)]="clinetContactNumber2" required>
+            </div>
+          </div>
+
+
+          <label for="" class="title">Bank Details business</label>
+          <div class="user-details">
+            <div class="input-box">
+              <label class="details">GST Number </label>
+              <input type="text" name="GSTNumber" formControlName="GSTNumber"  [(ngModel)]="GSTNumber" required>
+            </div>
+            <div class="input-box">
+              <label class="details">PAN Number</label>
+              <input type="text" name="PANNumber" formControlName="PANNumber" [(ngModel)]="PANNumber" required>
+            </div>
+            <div class="input-box">
+              <label class="details">Remarks</label>
+              <input type="text" name="remarks" formControlName="remarks" [(ngModel)]="remarks" required>
+            </div>
+          </div>
+          <div>
+            <button class="button">Add Details</button>
+            <button class="button" type="reset">Clear</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+<app-footer></app-footer>

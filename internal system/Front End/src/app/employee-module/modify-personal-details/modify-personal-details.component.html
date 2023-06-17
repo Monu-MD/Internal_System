@@ -1,0 +1,28 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+
+<div class="container" class="container">
+    <h1 class="title">Search To Modify Personal Details</h1>
+    <div class="content">
+        <form [formGroup]="modifyPersonalDetailsForm" (ngSubmit)="onSubmit(modifyPersonalDetailsForm.value)">
+            <div class="user-details">
+                <div class="input-box">
+                    <label for="employeeName" class="details">Employee Name</label>
+                    <input type="text" placeholder="Employee Name" name="employeeName" formControlName="employeeName" />
+                </div>
+            </div>
+            <div *ngIf="employeeName">
+                <p *ngIf="employeeName === 'No Records Found'">{{employeeName}}</p>
+                <p *ngIf="employeeName !== 'No Records Found'">Employee Name: {{employeeName}}</p>
+            </div>
+          
+            <div>
+                <button class="button">Search</button>
+                <button class="button" type="reset">Clear</button>
+            </div>
+        </form>
+    </div>
+</div>
+<app-footer></app-footer>

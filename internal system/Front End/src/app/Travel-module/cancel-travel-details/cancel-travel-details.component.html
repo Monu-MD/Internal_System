@@ -1,0 +1,84 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="allighn">
+    <div class="container">
+
+        <h1 class="title">My Request</h1>
+        <div class="content">
+            <form class="#" [formGroup]="appRejectedreq" (ngSubmit)="appreject(appRejectedreq.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details">Project Id </label>
+                        <input type="text" name="projectId"
+                            formControlName="projectId" />
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details"> Employee Name </label>
+                        <input type="text"  name="employeeName"
+                            formControlName="employeename" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Travel Date</label>
+                        <input type="text" name="travelDate" formControlName="travelDate" />
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details">Tentative Return Date</label>
+                        <input type="text" name="tentativeReturnDate" formControlName="tentativeReturnDate" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">From Location</label>
+                        <input type="text"  name="fromLocation" formControlName="fromLocation" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">To Location </label>
+                        <input type="text" name="toLocation" formControlName="toLocation" />
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details">PNR Number</label>
+                        <input type="number" name="pnrNumber" formControlName="pnrNumber" />
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details">Ticket Number</label>
+                        <input type="number" name="ticketNumber" formControlName="ticketNumber" />
+                    </div>
+                   
+                    <div class="input-box">
+                        <label class="Details">Approver Remarks </label>
+                        <input type="text"  name="approverRemarks" formControlName="approverRemarks" />
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details">Approver </label>
+                        <input type="text"  name="Approvername" formControlName="Approvername" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Booked Ticket Fare </label>
+                        <input type="text"  name="bookedTicketFare" formControlName="bookedTicketFare" />
+                    </div>
+
+                    
+                    <div class="input-box">
+                        <label class="Details">Remarks </label>
+                        <input type="text"  name="remarks" formControlName="remarks" />
+                    </div>
+                    
+                    <div class="input-box">
+                        <label class="Details"> Finance Remarks </label>
+                        <input type="text"  name="financeRemarks"
+                            formControlName="financeRemarks" />
+                    </div>
+                  </div>
+                <div>
+                    <button class="button">Submit For Cancellation</button>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

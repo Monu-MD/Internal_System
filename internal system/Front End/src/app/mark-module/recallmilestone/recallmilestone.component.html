@@ -1,0 +1,57 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<form>
+    <div class="container" class="tablecontainer" class="viewData">
+        <div class="table-content">
+            <div class="contentleft">
+                <h1 class="titleViewPage">Recall Milestone</h1>
+                <label class="contentleft">Search:</label>
+                <input type="text" name="employeeName" formControlName="employeeName" class="searchData"
+                    placeholder="EmployeeName">
+            </div><br>
+            <span>Show</span>
+            <select class="show-entries" (click)="onItemsPerPageChange()">
+                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+            </select>
+            <span>entries</span>
+
+            <hr>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Milestone Name</th>
+                        <th>Percentage</th>
+                        <th>Milestone Amount</th>
+                        <th>Confirm Amount</th>
+                        <th>Expected Date</th>
+                        <th>Mark as Recall</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let recallDetails of recallDetails|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                        <td>{{ recallDetails.milestoneName }}</td>
+                        <td>{{recallDetails.percentage}}</td>
+                        <td>{{ recallDetails.milestoneAmount }}</td>
+                        <td>{{ recallDetails.confirmAmount }}</td>
+                        <td>{{recallDetails.expectedDate}}</td>
+                        <td><button class="button" class="listbutton">Mark</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+
+            <div >
+                <button (click)="goToFirstPage()" [disabled]="currentPage === 1" class="listbutton">First</button>
+                <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="listbutton">Previous</button>
+                <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                <button (click)="goToNextPage()" [disabled]="currentPage === totalPages" class="listbutton" >Next</button>
+                <button (click)="goToLastPage()" [disabled]="currentPage === totalPages" class="listbutton" >Last</button>
+              </div>
+
+        </div>
+    </div>
+</form>
+
+<app-footer></app-footer>

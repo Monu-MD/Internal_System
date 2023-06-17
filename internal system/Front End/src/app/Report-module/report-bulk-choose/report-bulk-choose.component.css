@@ -1,0 +1,36 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+  
+  }
+  
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: px solid #ddd;
+    border: #333;
+    border-color: rgba(88, 14, 77, 0.813);
+  }
+  
+  th {
+    background-color: rgba(11, 7, 139, 0.911);
+    color: #f6f2f2;
+  }
+  a {
+    color: #fff;
+  }
+  
+  .pick-button {
+    color: rgb(248, 244, 244);
+    padding: 0px 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 18px 20px;
+    cursor: pointer;
+    border-radius: 1px;
+    height: 25px;
+    background-color: rgb(8, 53, 122);
+  }

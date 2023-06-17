@@ -1,0 +1,36 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<div class="container">
+    <h1 class="title">Add Common Code</h1>
+    <div class="content">
+        <form [formGroup]="commonCodeDetailsForm" (ngSubmit)="onSubmit(commonCodeDetailsForm.value)">
+          <div class=" user-details">
+            <div class="input-box">
+                <label class="details">Code Id</label>
+                <input type="number" name="id" formControlName="codeId">   
+            </div>
+          </div>
+    <div class="user-details">
+        <div class="input-box">
+            <label class="details">Common Code Id</label>
+            <input type="number" name="id" formControlName="commonCodeId">
+        </div>
+    </div>
+    <div class="user-details">
+        <div class="input-box">
+            <label for="description">Common Code Description</label>
+            <textarea id="description" class="form-control" formControlName="description"></textarea>
+        </div>
+    </div>
+
+    <div class="button-group">
+        <button type="submit" class="button">Add Code</button>
+        <button type="reset" class="button">Clear</button>
+    </div>
+
+    </form>
+</div>
+</div>
+<app-footer></app-footer>

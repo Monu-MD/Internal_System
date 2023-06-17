@@ -1,0 +1,40 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="container">
+    <div class="title"> Modify NON IT Asset Allocation</div>
+    <div class="content">
+        <form  [formGroup]="modifyNonItAssetDetailsForm" (ngSubmit)="submit(modifyNonItAssetDetailsForm.value)">
+            <div class="user-details">
+                <div class="input-box">
+                    <label class="details">Asset ID</label>
+                    <input type="number" name="id" formControlName="assetId" placeholder="Asset ID">
+                </div>
+            </div>
+            <div class="user-details">
+                <div class="input-box">
+                    <label class="details">Particulars</label>
+                    <input type="text" name="particulars" formControlName="particulars" placeholder="Particulars">
+                </div>
+            </div>
+            <div class="user-details">
+                <div class="input-box">
+                    <label class="details">Quantity in No.s</label>
+                    <input type="text" name="quantity" formControlName="quantity" placeholder="Quantity">
+                </div>
+            </div>
+            <div class="user-details">
+                <div class="input-box">
+                    <label class="details">Remarks</label>
+                    <input type="text" name="remarks" formControlName="remarks" placeholder="Remarks">
+                </div>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="button">Submit</button>
+                <button type="reset" class="button">Cancel</button>
+            </div>
+            <br>
+        </form>
+    </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,33 @@
+.table-container{
+    width: 90%;
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    margin-top: 120px;
+    
+}
+
+.table-container textarea{
+
+    height: 40px;
+    width: 139px;
+    border-radius: 10px;
+}
+table{
+    align-items: center;
+    justify-content: center;
+}
+
+table th {
+    width: auto;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+table  td{
+    width: auto;
+    margin-right: 10px;
+    margin-left: 10px;
+    
+}

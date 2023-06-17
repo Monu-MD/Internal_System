@@ -1,0 +1,61 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<body>
+    <div class="allighn">
+        <div class="container">
+
+            <div class="title">Upload Documents</div>
+            <div class="content">
+                <form class="#" [formGroup]="cms_Admin_Upload_Documents"
+                    (ngSubmit)="cmsAdminUploadDocuments(cms_Admin_Upload_Documents.value)">
+
+
+                    <div class="user-details">
+                        <div class="input-box">
+                            <label class="details">Document Category</label>
+                            <select name="documentCategeory" formControlName="documentCategeory">
+                                <option value=""></option>
+
+                            </select>
+                        </div>
+
+                        <div class="input-box">
+                            <label class="details">Document Description Company Name</label>
+                            <input type="text" name="documentDescriptionCompanyName"
+                                formControlName="documentDescriptionCompanyName">
+                        </div>
+                        <div class="input-box">
+                            <label class="details">Document Type</label>
+                            <select name="documenType" formControlName="documenType">
+                                <option value=""></option>
+                                <option value=""></option>
+
+                            </select>
+                        </div>
+                        <div class="input-box">
+                            <label class="details">Document Description </label>
+                            <input type="text" name="documentDescription" formControlName="documentDescription">
+                        </div>
+                        <div class="fileUpload">
+                            <div class="details">
+
+                                <label class="details">Upload Document </label>
+                            </div>
+                            <input type="file" accept="image/*">
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <button class="button" type="reset">Clear</button>
+                        <button class="button">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<app-footer></app-footer>

@@ -1,0 +1,30 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar> 
+
+
+
+<div class="container">
+
+    <h2>Compose</h2> <br>
+    <form (ngSubmit)="composeMessage()" #composeForm="ngForm">
+
+        <div class="input-box">
+            <label for="recipient">Recipient: </label>
+            <input class="details" type="text" id="recipient" name="recipient" [(ngModel)]="recipient" required>
+        </div>
+        <br>
+        <div class="input-box">
+            <label for="content">Message: </label>
+            <textarea id="content" name="content" [(ngModel)]="content" required></textarea>
+        </div>
+
+        <br><br>
+        <button class="button" type="submit" [disabled]="!composeForm.valid">Send</button>
+
+    </form>
+
+    <div id="successMessage" style="display: none;">Message sent successfully</div>
+
+</div>
+<app-footer></app-footer>

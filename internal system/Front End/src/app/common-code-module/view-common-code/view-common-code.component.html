@@ -1,0 +1,49 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<form>
+    <div class="container" class="tablecontainer" class="viewData">
+        <div class="table-content">
+            <div class="contentleft">
+                <h1 class="titleViewPage">View Common Code</h1>
+                <label class="contentleft">Search:</label>
+                <input type="text" name="employeeName" formControlName="employeeName" class="searchData"
+                    placeholder="EmployeeName">
+            </div><br>
+            <span>Show</span>
+            <select class="show-entries" (click)="onItemsPerPageChange()">
+                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+            </select>
+            <span>entries</span>
+
+            <hr>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code Id</th>
+                        <th>Common Code Id</th>
+                        <th>Common Code Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let viewCocd of viewCocd|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                        <td>{{ viewCocd.codeId }}</td>
+                        <td>{{viewCocd.commonCodeId}}</td>
+                        <td>{{ viewCocd.commonCodeDescription }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+
+            <!-- <div>
+                <pagination-controls> [(page)]="currentPage"
+                    [itemsPerPage]="itemsPerPage"
+                    [totalItems]="totalItems"
+                </pagination-controls>
+            </div> -->
+            <br>
+        </div>
+    </div>
+</form>
+<app-footer></app-footer>

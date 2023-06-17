@@ -1,0 +1,86 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="container">
+    <h1 class="title">Apply Leave</h1>
+    <div class="content">
+        <form [formGroup]="addLeaveForm" (ngSubmit)="submit(addLeaveForm.value)">
+            <div class="user-details">
+                <div class="input-box">
+                    <label for="sessionType" class="details">Session Type</label>
+                    <select id="sessionType" class="form-control" formControlName="sessionType">
+                        <option value="">--Select--</option>
+                        <option value="fullDay">Full Day</option>
+                        <option value="halfDay">Half Day</option>
+                    </select>
+                    <pre></pre>
+                </div>
+
+
+                <div class="input-box">
+                    <label for="leaveType" class="details">Leave Type </label>
+                    <select id="leaveType" class="form-control" formControlName="leaveType">
+                        <option value="">--Select--</option>
+                        <option value="annual">Annual</option>
+                        <option value="sick">Sick</option>
+                        <option value="maternity">Maternity</option>
+                    </select>
+                    <pre></pre>
+
+
+                </div>
+
+
+                <div class="input-box">
+                    <label class="details">From Date</label>
+                    <input type="date" name="fromDate" formControlName="fromDate">
+                </div>
+
+
+              
+                    <div class="input-box">
+                        <label  class="details"for="applyTo">Apply To</label>
+                        <select id="applyTo" class="form-control" formControlName="applyTo">
+                            <option value="">--Select--</option>
+                            <option value="approver">Approver</option>
+                        </select>
+                        <pre></pre>
+
+                    </div>
+              
+
+                <div class="input-box">
+                    <label class="details">Applied Number of Days</label>
+                    <input type="number" name="numDays" formControlName="appliedNoOfDays">
+                </div>
+
+
+                <div class="input-box">
+                    <label class="details"> Available Leaves for this Quarter</label>
+                    <input type="number" id="availableLeaves" class="form-control" formControlName="availableLeaves">
+                </div>
+
+
+
+                <div class="input-box">
+                    <label for="leavesBorrowed" class="details"> Leaves Borrowed from upcoming Quarter </label>
+                    <input type="number" id="leavesBorrowed" class="form-control" formControlName="leavesBorrowed">
+
+                </div>
+
+                <div class="input-box">
+                    <label for="description" class="details">Reason</label>
+                    <textarea id="description" class="form-control" formControlName="description"></textarea>
+                </div>
+
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="button">Apply</button>
+                <button type="reset" class="button">Clear</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<app-footer></app-footer>

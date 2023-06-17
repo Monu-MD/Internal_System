@@ -1,0 +1,117 @@
+
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="allighn">
+    <div class="container">
+
+        <h1 class="title">Select Parent Project Id</h1>
+        <div class="content">
+            <div></div>
+            <form [formGroup]="project_Detail" class="#" (ngSubmit)="projectDetail(project_Detail.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details"> Project Id </label>
+                        <input type="text" placeholder="Enter your project Id" name="Projectid" formControlName="Projectid" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Customer Id </label>
+                        <input type="text" placeholder="Enter Customer Id" name="customerId" formControlName="customerId" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Delivery Manager</label>
+                        <input type="text" placeholder="Enter Delivery Manager Name" name="deliveryManager"
+                            formControlName="deliveryManager" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Payment Type</label>
+                        <select name="paymentType" formControlName="paymentType" placeholder="Payment Type">
+                            <option value=""></option>
+                            <option value="neft">NEFT</option>
+                            <option value="rtgs">RTGS</option>
+                            <option value="cash">Cash</option>
+                            <option value="cheque">Cheque</option>
+                            <option value="DD">DD</option>
+
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Customer Class</label>
+                        <input type="text" placeholder="Enter Customer Class" name="customerClass"
+                            formControlName="customerClass" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Project Team Size</label>
+                        <select name="projectTeamSize" formControlName="projectTeamSize" placeholder="projectTeamSize">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Project Manager</label>
+                        <select name="projectManager" formControlName="projectManager" placeholder="projectTeamSize">
+                            <option value=""></option>
+                            <option value="">M D</option>
+                            <option value="">Mahesh</option>
+                            <option value="">Abhishek</option>
+                            <option value="">Yashewant P Jadhav</option>
+                            <option value="">Pojo</option>
+
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Project Type</label>
+                        <input type="text" placeholder="Enter Project Type" name="projectType"
+                            formControlName="projectType" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Project Currency</label>
+                        <select name="projectCurrency" formControlName="projectCurrency" placeholder="project Currency">
+                            <option value=""></option>
+                            <option value="">INR</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""> </option>
+                            <option value=""></option>
+
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Conversation Rate</label>
+                        <input type="text" placeholder="Enter Conversation Rate" name="conversationRate"
+                            formControlName="conversationRate" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Po number</label>
+                        <input type="number" placeholder="Enter Po Number" name="poNumber" formControlName="poNumber" />
+                    </div>
+                    <div class="input-box">
+                        <label class="details">Start Date</label>
+                        <input type="date" name="startDate" formControlName="startDate">
+                    </div>
+                    <div class="input-box">
+                        <label class="details">End Date</label>
+                        <input type="date" name="endDate" formControlName="endDate">
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Remarks</label>
+                        <input type="text" placeholder="remarks" name="remarks" formControlName="remarks" />
+                    </div>
+                    <div>
+                        <button class="button" >Submit</button>
+                        <button class="button" type="reset">Clear</button>
+                    </div>
+                    
+                </div>
+                
+
+            </form>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

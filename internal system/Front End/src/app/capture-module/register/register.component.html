@@ -1,0 +1,25 @@
+<div class="allighn">
+    <div class="container">
+
+        <h1 class="title">Register</h1>
+        <h1 class="headding">New User Can Register Here.</h1>
+        <div class="content">
+            <form [formGroup]="register" class="#" (ngSubmit)="login(register.value)" method="post">
+                <div class="user-details">
+                    <div class="input-box">
+                        <input type="text" placeholder="Employee Id" name="employeeId" formControlName="employeeId" />
+                    </div>
+                </div>
+                <div>
+                    <button class="button">Register</button>
+                    <button class="button" type="reset">Clear</button>
+                </div>
+                <div>
+                    <h1>{{output}}</h1>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

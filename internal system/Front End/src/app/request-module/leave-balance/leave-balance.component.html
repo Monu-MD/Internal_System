@@ -1,0 +1,45 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="container">
+    <h1 class="title"> Leave Balance </h1>
+    <div class="content">
+        <form [formGroup]="leaveBalanceForm" (ngSubmit)="submit(leaveBalanceForm.value)">
+            <div class="user-details">
+                <div class="input-box">
+                    <label class="details">EmployeeName</label>
+                    <input type="text" name="employeeName" formControlName="employeeName">
+                </div>
+
+
+
+                <div class="input-box">
+                    <label for="leaveType" class="details">Leave Type </label>
+                    <select id="leaveType" class="form-control" formControlName="leaveType">
+                        <option value="">--Select--</option>
+                        <option value="annual">Annual</option>
+                        <option value="sick">Sick</option>
+                        <option value="maternity">Maternity</option>
+                    </select>
+                    <pre></pre>
+                </div>
+
+
+
+                <div class="input-box">
+                    <label class="details">Total Available Leaves</label>
+                    <input type="number" name="availableLeaves" formControlName="availableLeaves">
+                </div>
+
+
+
+                <div class="input-box">
+                    <label class="details">Quaterly Leave Balance</label>
+                    <input type="number" name="quaterlyLeave" formControlName="quaterlyLeave">
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<app-footer></app-footer>
