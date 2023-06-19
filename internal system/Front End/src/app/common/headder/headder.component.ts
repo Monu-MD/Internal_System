@@ -10,10 +10,10 @@ import { LoginServiceService } from 'src/app/services/login-service.service';
 export class HeadderComponent {
   selectedFileName: string | undefined;
   username: any;
-  photoUrl:any;
-  constructor(private service: LoginServiceService,private http:HttpClient) {
+  photoUrl: any;
+  constructor(private service: LoginServiceService, private http: HttpClient) {
     this.username = this.service.data
-    this.photoUrl=this.service.phtotUrl;
+    this.photoUrl = this.service.phtotUrl;
   }
 
 
@@ -23,21 +23,21 @@ export class HeadderComponent {
     const file: File = event.target.files[0]
     console.log("onfile");
     this.uploadFile(file)
-    
+
 
   }
   uploadFile(file: any) {
     const formData = new FormData();
     formData.append('profile', file);
-    formData.append('username',this.service.data );
+    formData.append('username', this.service.data);
     // formData.append('object2', JSON.stringify({ key: 'value' }));
-  
-    
+
+
     this.service.profilePhoto(formData)
-    
+
     throw new Error('Method not implemented.');
   }
-  
+
 }
 
 

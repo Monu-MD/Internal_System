@@ -6,17 +6,18 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class LoginServiceService {
-  
-  data: any;
-  phtotUrl:any;
 
-  constructor(private http: HttpClient, private router: Router) { 
-  
+  data: any;
+  phtotUrl: any;
+  notification: any;
+  constructor(private http: HttpClient, private router: Router) {
+
   }
 
   login(data: any): void {
     this.http.post('http://localhost:4000/login', data).subscribe(
       (response: any) => {
+        alert(response.notification)
 
         console.log(response.message);
         console.log(response.notification);
@@ -24,10 +25,13 @@ export class LoginServiceService {
         console.log(response.path);
         console.log(response.mimeType);
         
-        
+
+
         this.data = response.Data.user_name;
-        this.phtotUrl=response.path;
+        this.phtotUrl = response.path;
+        this.notification = response.notification;
         if (response.message == 'redirect to dashboard') {
+
           this.router.navigate(['/dashboard'])
 
         }
@@ -43,10 +47,10 @@ export class LoginServiceService {
       }
     );
   }
-  profilePhoto(formData:any) {
-    
-    
-    
+  profilePhoto(formData: any) {
+
+
+
     this.http.post('http://localhost:4000/upload-profile', formData)
       .subscribe(
         response => {
@@ -62,7 +66,7 @@ export class LoginServiceService {
 
   getData() {
     console.log(this.data);
-    return this.data,this.phtotUrl;
+    return this.data, this.phtotUrl, this.notification;
   }
 
 
