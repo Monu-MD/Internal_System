@@ -95,7 +95,8 @@ import { ViewHolidaysComponent } from './request-module/view-holidays/view-holid
 import { ViewLeaveComponent } from './request-module/view-leave/view-leave.component';
 import { CommonCodeDetailsDeleteComponent } from './common-code-module/common-code-details-delete/common-code-details-delete.component';
 import { ReimbusmentReqDetailsComponent } from './reimbusment-mdule/reimbusment-req-details/reimbusment-req-details.component';
-
+import { EmpPersonalDetailsComponent } from './employee-module/emp-personal-details/emp-personal-details.component';
+import { EmpProfessionalDetailsComponent } from './employee-module/emp-professional-details/emp-professional-details.component';
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
@@ -132,6 +133,8 @@ const routes: Routes = [
 {path:'modifypersonal',component:ModifyPersonalDetailsComponent},
 {path:'modifyprofessional',component:ModifyProfessionalDetailsComponent},
 {path:'searchmodify',component:SearchEmployeeDetailsComponent},
+{path:'empProfessional',component:EmpProfessionalDetailsComponent},
+{path:'emppersonal',component:EmpPersonalDetailsComponent},
 
 //invoice
 { path: 'chooseinvoice', component:ChooseinvoiceDetailsComponent },
