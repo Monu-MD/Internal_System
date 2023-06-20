@@ -7,7 +7,7 @@ import { ChildProjectComponent } from './child-project/child-project.component';
 
 @NgModule({
   declarations: [
-    ChildProjectComponent
+
   ],
   imports: [
     CommonModule

@@ -22,12 +22,18 @@ app.listen(4000, () => {
 
 
 
-var capture=require('./captureModule/capture');
-var login=require('./loginModule/login');
+var capture = require('./captureModule/capture');
+var login = require('./loginModule/login');
 var cocd = require('./cocdModule/cocd');
 var mssg = require('./message/message');
+var childproject = require('./projectModule/childproject');
+var markModule = require('./MarkModule/markDetails');
+var employeeDetails = require('./EMployeeModule/employeeDetails');
 
-app.use('/capture',capture);
-app.use('/',login);
+app.use('/capture', capture);
+app.use('/', login);
 app.use('/cocd', cocd);
 app.use('/message', mssg);
+app.use('/projectModule/childproject', childproject);
+app.use('/MarkModule/markDetails', markModule);
+app.use('/employeeDetails', employeeDetails);

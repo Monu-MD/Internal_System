@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ForgetPasswordService } from 'src/app/services/forget-password.service';
 
 
 @Component({
@@ -8,7 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./forgotpassword.component.css']
 })
 export class ForgotpasswordComponent {
-
+constructor(private service:ForgetPasswordService){}
   employeeId: any;
   forgot = new FormGroup<any>({
 
@@ -17,9 +18,17 @@ export class ForgotpasswordComponent {
   })
   reset(item: any) {
     console.log(item);
+    if(item.employeeId!='' && item.otp=='' ){
+      console.log("employeeId",item.employeeId);
+      this.service.getOTP(item.employeeId)
+      
+    }
+    else if(item.otp!=''  ){
+      this.service.verifyOtp(item.otp, item.employeeId)
+    }
   }
-  get() {
-    return this.reset
-  }
+ 
+
+  
 
 }

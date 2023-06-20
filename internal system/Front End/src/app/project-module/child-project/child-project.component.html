@@ -15,7 +15,7 @@
                 <div class="user-details">
                     <div class="input-box">
                         <label class="Details">Parent Project Id </label>
-                        <input type="text" placeholder="Enter your project Id" name="parentProjectid" formControlName="parentProjectid" />
+                        <input type="text" placeholder="Enter your project Id" name="parentProjectid" #pid (blur)="fetchData(pid.value)" formControlName="parentProjectid" />
                     </div>
                 </div>
                 <div>
@@ -42,16 +42,16 @@
                 <div class="user-details">
                     <div class="input-box">
                         <label class="Details"> Customer Id </label>
-                        <input type="text" placeholder="Enter Customer Id" name="customerId" formControlName="customerId" />
+                        <input type="text" placeholder="Enter Customer Id" value="{{key}}" name="customerId" formControlName="customerId" />
                     </div>
                     <div class="input-box">
                         <label class="Details"> Delivery Manager</label>
-                        <input type="text" placeholder="Enter Delivery Manager Name" name="deliveryManager"
+                        <input type="text" placeholder="Enter Delivery Manager Name" value="{{key1}}" name="deliveryManager"
                             formControlName="deliveryManager" />
                     </div>
                     <div class="input-box">
                         <label class="details">Payment Type</label>
-                        <select name="paymentType" formControlName="paymentType" placeholder="Payment Type">
+                        <select name="paymentType" formControlName="paymentType" value="{{key2}}" placeholder="Payment Type">
                             <option value=""></option>
                             <option value="neft">NEFT</option>
                             <option value="rtgs">RTGS</option>
@@ -63,12 +63,12 @@
                     </div>
                     <div class="input-box">
                         <label class="Details"> Customer Class</label>
-                        <input type="text" placeholder="Enter Customer Class" name="customerClass"
+                        <input type="text" placeholder="Enter Customer Class" value="{{key3}}" name="customerClass"
                             formControlName="customerClass" />
                     </div>
                     <div class="input-box">
                         <label class="details">Project Team Size</label>
-                        <select name="projectTeamSize" formControlName="projectTeamSize" placeholder="projectTeamSize">
+                        <select name="projectTeamSize" formControlName="projectTeamSize" value="{{key4}}" placeholder="projectTeamSize">
                             <option value=""></option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -80,7 +80,7 @@
                     </div>
                     <div class="input-box">
                         <label class="details">Project Manager</label>
-                        <select name="projectManager" formControlName="projectManager" placeholder="projectTeamSize">
+                        <select name="projectManager" formControlName="projectManager" value="{{key5}}" placeholder="projectTeamSize">
                             <option value=""></option>
                             <option value="">M D</option>
                             <option value="">Mahesh</option>
@@ -92,13 +92,13 @@
                     </div>
                     <div class="input-box">
                         <label class="Details"> Project Type</label>
-                        <input type="text" placeholder="Enter Project Type" name="projectType"
+                        <input type="text" placeholder="Enter Project Type" value="{{key6}}" name="projectType"
                             formControlName="projectType" />
                     </div>
                     <div class="input-box">
                         <label class="details">Project Currency</label>
-                        <select name="projectCurrency" formControlName="projectCurrency" placeholder="project Currency">
-                            <option value=""></option>
+                        <select name="projectCurrency" formControlName="projectCurrency" value="{{key7}}" placeholder="project Currency">
+                            <option value=""> </option>
                             <option value="">INR</option>
                             <option value=""></option>
                             <option value=""></option>
@@ -109,7 +109,7 @@
                     </div>
                     <div class="input-box">
                         <label class="Details">Conversation Rate</label>
-                        <input type="text" placeholder="Enter Conversation Rate" name="conversationRate"
+                        <input type="text" placeholder="Enter Conversation Rate"  name="conversationRate"
                             formControlName="conversationRate" />
                     </div>
                     <div class="input-box">
@@ -149,23 +149,23 @@
                 <div class="user-details">
                     <div class="input-box">
                         <label class="Details">Address Line 1 </label>
-                        <input type="text" placeholder="Adress Line 1" name="addressLine1" formControlName="addressLine1" />
+                        <input type="text" placeholder="Adress Line 1" value="{{key8}}" name="addressLine1" formControlName="addressLine1" />
                     </div>
                     <div class="input-box">
                         <label class="Details">Address Line 2 </label>
-                        <input type="text" placeholder="Adress Line 2" name="addressLine2" formControlName="addressLine2" />
+                        <input type="text" placeholder="Adress Line 2" name="addressLine2" value="{{key2}}" formControlName="addressLine2" />
                     </div>
                     <div class="input-box">
                         <label class="Details">Country Name </label>
-                        <input type="text" placeholder="Country Name " name="countryName " formControlName="countryName" />
+                        <input type="text" placeholder="Country Name " name="countryName " value="{{key10}}" formControlName="countryName" />
                     </div>
                     <div class="input-box">
                         <label class="Details">City Name </label>
-                        <input type="text" placeholder="City Name" name="cityName" formControlName="cityName" />
+                        <input type="text" placeholder="City Name" name="cityName" value="{{key11}}" formControlName="cityName" />
                     </div>
                     <div class="input-box">
                         <label class="Details">Pin Code /Zip Code </label>
-                        <input type="text" placeholder="Pincode / Zip Code" name="pincode" formControlName="pincode" />
+                        <input type="text" placeholder="Pincode / Zip Code" name="pincode" value="{{key12}}" formControlName="pincode" />
                     </div>
                 </div>
                 
@@ -190,17 +190,17 @@
                 <div class="user-details">
                     <div class="input-box">
                         <label class="Details"> Project Location</label>
-                        <input type="text" placeholder="Project Location" name="projectLocation"
+                        <input type="text" placeholder="Project Location" value="{{key13}}" name="projectLocation"
                             formControlName="projectLocation" />
                     </div>
                     <div class="input-box">
                         <label class="Details"> Perdiem Amount Per day</label>
-                        <input type="text" placeholder="Perdiem Amount Per day" name="perdiemAmountPerday"
+                        <input type="text" placeholder="Perdiem Amount Per day" value="{{key14}}" name="perdiemAmountPerday"
                             formControlName="perdiemAmountPerday" />
                     </div>
                     <div class="input-box">
                         <label class="details">Perdiem Currency</label>
-                        <select name="projectCurrency" formControlName="perdiemCurrency2" placeholder="perdiemCurrency2">
+                        <select name="projectCurrency" formControlName="perdiemCurrency2" value="{{key15}}" placeholder="perdiemCurrency2">
                             <option value=""></option>
                             <option value="">INR</option>
                             <option value=""></option>

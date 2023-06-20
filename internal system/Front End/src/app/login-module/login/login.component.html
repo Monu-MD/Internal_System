@@ -1,11 +1,23 @@
-
 <div class="allighn">
-    <div class="container" >
+    <div class="container">
 
         <h1 class="title">Login </h1>
         <div class="content">
-           
+
             <form [formGroup]="Login" class="#" (ngSubmit)="login(Login.value)">
+                <div *ngIf="notification!=null">
+                    <div class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive"
+                        aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{notification}}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                                aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="user-details">
                     <div class="input-box">
 
@@ -16,19 +28,19 @@
                         <input type="text" placeholder="Password" name="password" formControlName="password" />
                     </div>
                 </div>
-                <div >
-                    <button class="button"   >Login</button>
+                <div>
+                    <button class="button">Login</button>
                     <button class="button" type="reset">Clear</button>
                 </div>
                 <!-- [routerLink]="['dashboard']" -->
                 <div>
-                    <a [routerLink]="['changePassword']" routerLinkActive="router-link-active" >Reset Password</a> <br>
-                    <a [routerLink]="['forgotPassword']" routerLinkActive="router-link-active" >Forget Password</a><br>
-                    <a [routerLink]="['register']"  >New User?Register here</a> 
+                    <a [routerLink]="['changePassword']" routerLinkActive="router-link-active">Reset Password</a> <br>
+                    <a [routerLink]="['forgotPassword']" routerLinkActive="router-link-active">Forget Password</a><br>
+                    <a [routerLink]="['register']">New User?Register here</a>
                 </div>
             </form>
-            
+
         </div>
     </div>
 </div>
-<app-footer>   </app-footer>
+<app-footer> </app-footer>
