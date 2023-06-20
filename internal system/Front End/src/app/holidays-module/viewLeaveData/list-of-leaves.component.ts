@@ -8,9 +8,9 @@ import { Component } from '@angular/core';
 export class ListOfLeavesComponent {
 
   listleaves = [
-    { leaveType:'No Record Found', allocatedYear:'No Record Found', noOfDaysAllocated:'No Record Found', carrryForwordNoOfDays:'No Record Found', delete:'No Record Found',modify:'No Record Found' },
-    { leaveType:'No Record Found', allocatedYear:'No Record Found', noOfDaysAllocated:'No Record Found', carrryForwordNoOfDays:'No Record Found', delete:'No Record Found',modify:'No Record Found' },
-    { leaveType:'No Record Found', allocatedYear:'No Record Found', noOfDaysAllocated:'No Record Found', carrryForwordNoOfDays:'No Record Found', delete:'No Record Found',modify:'No Record Found' }
+    { leaveType:'No Record Found', allocatedYear:'No Record Found', noOfDaysAllocated:'No Record Found', carrryForwordNoOfDays:'No Record Found' },
+    { leaveType:'No Record Found', allocatedYear:'No Record Found', noOfDaysAllocated:'No Record Found', carrryForwordNoOfDays:'No Record Found' },
+    { leaveType:'No Record Found', allocatedYear:'No Record Found', noOfDaysAllocated:'No Record Found', carrryForwordNoOfDays:'No Record Found'}
   ];
 
 

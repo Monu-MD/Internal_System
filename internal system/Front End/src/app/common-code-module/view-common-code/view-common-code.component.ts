@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CocdService } from 'src/app/services/cocd.service';
 
+
 @Component({
   selector: 'app-view-common-code',
   templateUrl: './view-common-code.component.html',
@@ -112,8 +113,6 @@ updatePageData() {
   this.filteredData = this.rowData.slice(startIndex, endIndex);
 
 }
-
-
 
 }
 

@@ -18,9 +18,20 @@ app.listen(4000, () => {
 });
 
 
-//////////////////////// Importing Node Modules ////////////////////////////////////////
+//////////////////////// Importing Node Modules //////////////////////////////////////
 
 
+app.get("/cocd", (req, res) => {
+  var sql = "SELECT * FROM common_code_tbl";
+  pool.query(sql, function (error, result) {
+    if (error) {
+      console.log("Error Connecting to DB");
+    } else {
+      res.send({ status: true, data: result });
+
+    }
+  });
+});
 
 var capture = require('./captureModule/capture');
 var login = require('./loginModule/login');
