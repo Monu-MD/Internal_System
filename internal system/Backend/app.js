@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 var app = express();
-var pool=require('./Database/dbconfig');
+var pool = require('./Database/dbconfig');
 
 
 app.use(bodyParser.json());
@@ -20,8 +20,13 @@ app.listen(4000, () => {
 
 
 
-var capture=require('./captureModule/capture');
-var login=require('./loginModule/login')
-
-app.use('/capture',capture);
-app.use('/',login);
+var capture = require('./captureModule/capture');
+var login = require('./loginModule/login');
+var childproject = require('./projectModule/childproject');
+var markModule = require('./MarkModule/markDetails');
+var employeeDetails = require('./EMployeeModule/employeeDetails')
+app.use('/capture', capture);
+app.use('/', login);
+app.use('/projectModule/childproject', childproject);
+app.use('/MarkModule/markDetails', markModule);
+app.use('/employeeDetails', employeeDetails);

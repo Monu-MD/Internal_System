@@ -268,69 +268,77 @@ router.post('/upload-profile', upload.single('profile'), (req, res) => {
 
 
 //////////////////// for password change / reset/forget /////////////////////////////////////////////////////
+
 router.get('/generateOtp', (req, res) => {
     const empid = req.query.employeeId;
     console.log("emp_id", empid);
-    // 
-    pool.query("select emp_email,emp_name from emp_master_tbl where emp_id=$1", [empid], function (err, result) {
-        if (err) {
-            console.error('Error with table query', err);
+    
+    pool.query("SELECT emp_email, emp_name FROM emp_master_tbl WHERE emp_id=$1", [empid], function (err, result) {
+      if (err) {
+        console.error('Error with table query', err);
+      } else {
+        var emp_cnt = result.rowCount;
+        console.log("emp_cnt", emp_cnt);
+  
+        if (emp_cnt > 0) {
+          var emp_email = result.rows[0].emp_email;
+          console.log("emp_email", emp_email);
+          var emp_name = result.rows[0].emp_name;
+          console.log("emp_name", emp_name);
+          var notification = "OTP SENT";
+          console.log("err_display", notification);
+  
+          var ranpass = generatePassword(4, false);
+  
+          pool.query("UPDATE users SET otp=$2 WHERE user_id=$1", [empid, ranpass], function (err, result) {
+            
+
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: 'mohammadsab@minorks.com',
+                  pass: '9591788719'
+                }
+              });
+  
+           
+
+            const mailOptions = {
+                from: 'mohammadsab@minorks.com',
+                to: emp_email,
+                // subject: 'Test Email',
+                subject: 'One Time password for Password Reset',
+              html: '<img src="http://www.smartvision.ae/portals/0/OTP-sms-service.jpg" height="85"><br><br>' +
+                '<h3>Dear <b>' + emp_name + '</b>,<br><br>' +
+                'You are receiving this mail because you (or someone else) has attempted to change your password in <b>Amber</b>.<br>' +
+                'Please go through the below details to change your password : <br><br>' +
+                '<table style="border: 10px solid black;"><tr style="border: 10px solid black;"><th style="border: 10px solid black;">User Id</th><th style="border: 10px solid black;">' + empid + '</th></tr><tr style="border: 10px solid black;"><td style="border: 10px solid black;"> Otp </td><td style="border: 10px solid black;">' + ranpass + '</td></tr></table><br><br>' +
+                'URL: http://localhost:4200/forgotPassword <br><br>' +
+                'Contact HR for any clarifications.<br>' +
+                'Kindly do not share your otp with anyone else.<br><br><br><br>' +
+                '- Regards,<br><br>Amber</h3>'
+                // text: 'This is a test email sent from Node.js using Nodemailer.'
+              };
+              console.log(mailOptions, "mailll");
+              transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                  console.error('Error sending email', error);
+                } else {
+                  console.log('Email sent:', info.response);
+                }
+  
+            
+            });
+          });
+        } else {
+          var notification = "Employee Id Does not Exist";
+          console.log("err_display", notification);
+          res.json({ key: notification });
         }
-        else {
-            var emp_cnt = result.rowCount;
-            // console.log("result",result);
-            console.log("emp_cnt", emp_cnt);
-
-            if (emp_cnt > 0) {
-                var emp_email = result.rows['0'].emp_email;
-                console.log("emp_email", emp_email);
-                var emp_name = result.rows['0'].emp_name;
-                console.log("emp_name", emp_name);
-                var notification = "OTP SENT";
-                console.log("err_display", notification);
-
-                var ranpass = generatePassword(4, false);
-
-                pool.query("update users set otp=$2 where user_id=$1", [empid, ranpass], function (err, result) {
-                    // console.log(result);
-                    // var smtpTransport = nodemailer.createTransport('SMTP', {
-                    //         service: 'gmail',
-                    //         auth:
-                    //         {
-                    //                 user: 'amber@nurture.co.in',
-                    //                 pass: 'nurture@123'
-                    //         }
-                    // });
-
-                    // var mailOptions = {
-                    //         to: emp_email,
-                    //         from: 'amber@nurture.co.in',
-                    //         subject: 'One Time password for Password Reset',
-                    //         html: '<img src="http://www.smartvision.ae/portals/0/OTP-sms-service.jpg" height="85"><br><br>' +
-                    //                 '<h3>Dear <b>' + emp_name + '</b>,<br><br>' +
-                    //                 'You are receiving this mail because you (or someone else) has attempted to change your password in <b>Amber</b>.<br>' +
-                    //                 'Please go through the below details to change your password : <br><br>' +
-                    //                 '<table style="border: 10px solid black;"><tr style="border: 10px solid black;"><th style="border: 10px solid black;">User Id</th><th style="border: 10px solid black;">' + empid + '</th></tr><tr style="border: 10px solid black;"><td style="border: 10px solid black;"> Otp </td><td style="border: 10px solid black;">' + ranpass + '</td></tr></table><br><br>' +
-                    //                 'URL: http://amber.nurture.co.in <br><br>' +
-                    //                 'Contact HR for any clarifications.<br>' +
-                    //                 'Kindly do not share your otp with anyone else.<br><br><br><br>' +
-                    //                 '- Regards,<br><br>Amber</h3>'
-                    // };
-
-                    // smtpTransport.sendMail(mailOptions, function (err) {
-                    // });
-
-                    res.json({ key: notification });
-                });
-            }
-            else {
-                var notification = "Employee Id Does not Exist";
-                console.log("err_display", notification);
-                res.json({ key: notification });
-            }
-        }
+      }
     });
-})
+  });
+  
 
 
 router.get('/validateOtp', (req, res) => {
