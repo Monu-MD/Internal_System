@@ -1,8 +1,10 @@
+console.log("App.js Entered");
+
+var pool=require('./Database/dbconfig');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 var app = express();
-var pool = require('./Database/dbconfig');
 
 
 app.use(bodyParser.json());
@@ -12,7 +14,7 @@ const corsOption = {
 app.use(cors(corsOption));
 
 app.listen(4000, () => {
-  console.log('API server is running on port 4000');
+  console.log('API server is running at port 4000');
 });
 
 
@@ -22,11 +24,16 @@ app.listen(4000, () => {
 
 var capture = require('./captureModule/capture');
 var login = require('./loginModule/login');
+var cocd = require('./cocdModule/cocd');
+var mssg = require('./message/message');
 var childproject = require('./projectModule/childproject');
 var markModule = require('./MarkModule/markDetails');
-var employeeDetails = require('./EMployeeModule/employeeDetails')
+var employeeDetails = require('./EMployeeModule/employeeDetails');
+
 app.use('/capture', capture);
 app.use('/', login);
+app.use('/cocd', cocd);
+app.use('/message', mssg);
 app.use('/projectModule/childproject', childproject);
 app.use('/MarkModule/markDetails', markModule);
 app.use('/employeeDetails', employeeDetails);

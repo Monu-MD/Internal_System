@@ -1,9 +1,8 @@
-/////////////////////  DataBase Connection ///////////////////////////////////////////////////////////////
-console.log("database enterd");
-const express = require('express');
-var pg = require('pg');
-var app = express();
+console.log("Database Entered");
 
+/////////////////////  DataBase Connection ///////////////////////////////////////////////////////////////
+
+var pg = require('pg');
 
 var config = {
   user: 'postgres',
@@ -21,12 +20,10 @@ pool.connect(function (err, client, done) {
   if (err) {
     return console.error('error fetching client from pool', err);
   }
-
   console.log("Connection Successfully Established with Postgres");
   done();
   console.log("DB connected")
 });
-
 
 
 module.exports = pool;
