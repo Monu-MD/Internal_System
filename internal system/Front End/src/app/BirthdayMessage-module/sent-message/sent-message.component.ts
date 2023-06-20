@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { MessageDataService } from '../message-data.service';
+// import { MessageDataService } from '../message-data.service';
+import { MessageService } from 'src/app/services/message.service';
 
 interface Message {
   sender: string;
@@ -15,47 +16,33 @@ interface Message {
 })
 export class SentMessageComponent {
 
-  // inbox: Message[];
-  // sentItems: Message[];
-  // recipient= '';
-  // content='';
+   inbox: Message[] = [];
+   sentItems: any[]=[];
 
-  // constructor() {
-  //   this.inbox = [];
-  //   this.sentItems = [];
-  // }
+  constructor(private mssg: MessageService) {}
 
-  // composeMessage() {
-  //   const message: Message = {
-  //     sender: 'Your Name',
-  //     recipient: this.recipient,
-  //     content: this.content,
-  //     timestamp: new Date()
-  //   };
-
-  //   this.sentItems.push(message);
-  //   this.clearForm();
-  // }
-
-  // deleteMessage(index: number, folder: string) {
-  //   if (folder === 'inbox') {
-  //     this.inbox.splice(index, 1);
-  //   } else if (folder === 'sent') {
-  //     this.sentItems.splice(index, 1);
-  //   }
-  // }
-
-  // private clearForm() {
-  //   this.recipient = '';
-  //   this.content = '';
-  // }
-  sentItems: Message[];
-
-  constructor(private messageDataService: MessageDataService) {
-    this.sentItems = this.messageDataService.getSentItems();
+  ngOnInit() {
+    this.mssg.getSentItems();
+    this.sentItems = this.mssg.getMssg();
   }
+  
 
-  deleteMessage(index: number) {
-    this.messageDataService.deleteMessage(index, 'sent');
+
+  // deleteMessage(index: number) {
+  //   this.mssg.deleteMessage(index, 'sent');
+  // }
+  deleteMessage(index: number, folder: string) {
+    this.mssg.deleteMessage(index, folder).subscribe(
+      () => {
+        if (folder === 'inbox') {
+          this.inbox.splice(index, 1);
+        } else if (folder === 'sent') {
+          this.sentItems.splice(index, 1);
+        }
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
   }
 }

@@ -1,4 +1,5 @@
-console.log("capture Module enterd");
+console.log("capture entered");
+
 ////////////////////////// Capture MODULLE START HERE //////////////////////////////////////////////////////////////
 const express = require('express');
 const bodyParser = require('body-parser');

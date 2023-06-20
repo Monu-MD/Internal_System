@@ -16,14 +16,14 @@ export class TopbarComponent {
   constructor(private service: NavserviceService,
     private router: Router) {
     this.data = this.service.returrnAns;
-    console.log("nav enterd");
+    console.log("Topbar Enterd");
     console.log(this.service.returrnAns());
 
 
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = (<NavigationEnd>event).url;
-        console.log("this is url",this.currentRoute);
+        console.log("this url is",this.currentRoute);
         //rimbusrsment
         if(this.currentRoute=="/initiaterem" ||this.currentRoute=="/reimbusmentapprove" || this.currentRoute=="/reimbusmentreqdetails"){
           this.data="rmb"

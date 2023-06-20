@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-
-import { MessageDataService } from '../message-data.service';
+// import { MessageDataService } from '../message-data.service';
+import { MessageService } from 'src/app/services/message.service';
 
 
 interface Message {
@@ -18,47 +18,10 @@ interface Message {
 })
 export class ComposeMessageComponent {
 
-
-  // inbox: Message[];
-  // sentItems: Message[];
-  // recipient= '';
-  // content='';
-
-  // constructor() {
-  //   this.inbox = [];
-  //   this.sentItems = [];
-  // }
-
-  // composeMessage() {
-    
-  //   const message: Message = {
-  //     sender: 'Your Name',
-  //     recipient: this.recipient,
-  //     content: this.content,
-  //     timestamp: new Date()
-  //   };
-
-  //   this.sentItems.push(message);
-  //   this.clearForm();
-  // }
-
-  // deleteMessage(index: number, folder: string) {
-  //   if (folder === 'inbox') {
-  //     this.inbox.splice(index, 1);
-  //   } else if (folder === 'sent') {
-  //     this.sentItems.splice(index, 1);
-  //   }
-  // }
-
-  // private clearForm() {
-  //   this.recipient = '';
-  //   this.content = '';
-  // }
-
   recipient: string = '';
   content: string = '';
 
-  constructor(private messageDataService: MessageDataService) { }
+  constructor(private mssg: MessageService) { }
 
   composeMessage() {
     const message: Message = {
@@ -74,7 +37,8 @@ export class ComposeMessageComponent {
           successMessage.style.display = 'block';
         }
     
-    this.messageDataService.sendMessage(message);
+    // this.messageDataService.sendMessage(message);
+    this.mssg.sendMessage(message);
     this.clearForm();
   }
 
