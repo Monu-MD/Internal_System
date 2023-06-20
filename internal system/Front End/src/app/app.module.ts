@@ -132,6 +132,8 @@ import { ViewTravelApprQueueComponent } from './Travel-module/view-travel-appr-q
 
 import { TopbarComponent } from './common/topbar/topbar.component';
 import { DashboardComponent } from './login-module/dashboard/dashboard.component';
+import { EmpPersonalDetailsComponent } from './employee-module/emp-personal-details/emp-personal-details.component';
+import { EmpProfessionalDetailsComponent } from './employee-module/emp-professional-details/emp-professional-details.component';
 
 
 
@@ -168,6 +170,8 @@ import { DashboardComponent } from './login-module/dashboard/dashboard.component
     ViewAppraisalDataComponent,
     AprDoappraisalComponent,
     ReimbusmentReqDetailsComponent,
+    EmpPersonalDetailsComponent,
+    EmpProfessionalDetailsComponent,
     
 
 
