@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginServiceService } from 'src/app/services/login-service.service';
 import { NavserviceService } from 'src/app/services/navservice.service';
 
 @Component({
@@ -9,11 +10,45 @@ import { NavserviceService } from 'src/app/services/navservice.service';
 })
 export class SidebarComponent {
 
+  user_type: any;
+
+  userEnable = false;
 
   constructor(private router: Router,
     private service: NavserviceService,
+    private loginservice: LoginServiceService
 
-  ) { }
+  ) {
+    console.log("top enterd");
+
+    const user = this.loginservice.getData()
+    this.user_type = user[2];
+    console.log(this.user_type);
+
+    if (this.user_type == 'A1') {
+      console.log("ifEnterd");
+
+      this.userEnable = true;
+    } else {
+      console.log("else enterd", this.userEnable);
+
+      this.userEnable = false;
+
+    }
+  }
+
+  getEnable(){
+    console.log(this.userEnable);
+    
+    return this.userEnable
+  }
+
+
+
+
+
+
+
 
   getID(item: string) {
     console.log(item);

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormControlDirective, FormGroup, Validators } from '@angular/forms';
+import { EmpdetaislService } from 'src/app/services/employeeDetails/empdetaisl.service';
 @Component({
   selector: 'app-search-employee-details',
   templateUrl: './search-employee-details.component.html',
@@ -7,18 +8,21 @@ import { FormControl, FormControlDirective, FormGroup, Validators } from '@angul
 })
 export class SearchEmployeeDetailsComponent {
 
-  
-  employeeId:any;
-  searchEmpolyeeDetailsForm=new FormGroup<any>({
+constructor(private service:EmpdetaislService){}
+  employeeId: any;
+  searchEmpolyeeDetailsForm = new FormGroup<any>({
     employeeId: new FormControl('', [Validators.required])
 
   })
-  onSubmit(item:any){
-    console.log(item);
-  
+  onSubmit(item: any) {
+    console.log(item.employeeId);
+    if (item!= null) {
+      this.service.searchEmpDetails(item)
+    } 
+
   }
 
-  get(){
+  get() {
     return this.onSubmit
   }
 }

@@ -12,8 +12,10 @@ export class HeadderComponent {
   username: any;
   photoUrl: any;
   constructor(private service: LoginServiceService, private http: HttpClient) {
-    this.username = this.service.data
-    this.photoUrl = this.service.phtotUrl;
+    const data = this.service.getData()
+    this.username=data[1]
+    
+    // this.photoUrl = this.service.phtotUrl;
   }
 
 

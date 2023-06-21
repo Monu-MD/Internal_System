@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoginServiceService } from '../../services/login-service.service'
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +11,9 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   notification: any;
+
   constructor(private service: LoginServiceService,
-    private router: Router) {
+    private router: Router, private http: HttpClient) {
 
   }
 
@@ -24,9 +26,49 @@ export class LoginComponent {
   })
   login(item: any) {
     console.log(item);
-    this.service.login(item)
-
+    this.loginData(item)
 
   }
 
+
+  ///// login api///////////
+  loginData(data: any): void {
+    this.http.post('http://localhost:4000/login', data).subscribe(
+      (response: any) => {
+        console.log(response);
+
+        this.notification = response.notification;
+        
+        
+        if (response.message == 'redirect to dashboard') {
+          this.service.setData(response.Data)
+
+          this.router.navigate(['/dashboard'])
+
+        }
+        else if (response.message == 'redirect to login') {
+
+          this.router.navigate(['/'])
+
+        }
+      },
+      (error: any) => {
+        console.error('API Error:', error);
+
+      }
+    );
+  }
+
+
+
+  forgetpas(item: any) {
+    console.log("this is ts ", item);
+
+    if (item != null) {
+      this.service.forget(item)
+    }
+    else {
+      alert("enter user id")
+    }
+  }
 }

@@ -57,21 +57,10 @@ export class AddemployeeserviceService {
        
 
         if(response.message=='redirect to PersonalDetails'){
-          this.router.navigate(['/personalDetails'])
+          this.router.navigate(['/empProfessional'])
           
         }
-        else if(response.message=='redirect to professional Details '){
-          console.log("professional entry");
-          this.router.navigate(['/professionalDetails'])
-          
-        }
-        else if(response.message=='redirect to register'){
-          console.log("professional entry");
-          this.router.navigate(['/register'])
-          
-        }
-
-        
+       
       },
       (error: any) => {
         console.error('API Error:', error);
