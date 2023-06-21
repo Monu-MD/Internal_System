@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-<div>
+<div *ngIf="condition">
     <input type="checkbox" id="check">
     <label for="check">
         <i class="fas fa-bars" id="btn"></i>
@@ -12,6 +12,102 @@
         <!-- <a id="dsh" href="#" class="active" >   
             <span></span>
         </a> -->
+
+        <a id="dsh" (click)="getID('dsh')">
+            <i class="fas fa-qrcode"></i>
+            <span>Dashboard</span>
+        </a>
+
+
+        <!-- <a id="apr" (click)="getID('apr')">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Appraisal</span>
+        </a> -->
+        <a id="ast" (click)="getID('ast')">
+            <i class="fas fa-sliders-h"></i>
+            <span>Assets</span>
+        </a>
+        <a id="arn" (click)="getID('arn')">
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+            <span>App Renovated</span>
+        </a>
+        <a id="brd" (click)="getID('brd')">
+            <i class="fa-solid fa-cake-candles"></i>
+            <span>Birthaday</span>
+        </a>
+        <a id="cocd" (click)="getID('cocd')">
+            <i class="fa-solid fa-code"></i>
+            <span>Common Code</span>
+        </a>
+        <a id="cms" (click)="getID('cms')">
+            <i class="fas fa-stream"></i>
+            <span>CMS</span>
+        </a>
+        <a id="emp" (click)="getID('emp')">
+            <i class="fa-solid fa-user"></i>
+            <span>Employee </span>
+        </a>
+        <a id="hol" (click)="getID('hol')">
+            <i class="fa-sharp fa-solid fa-calendar-days"></i>
+            <span>Holiday</span>
+        </a>
+        <a id="inv" (click)="getID('inv')">
+            <i class="fas fa-sliders-h"></i>
+            <span>Invoice</span>
+        </a>
+        <a id="mrk" (click)="getID('mrk')">
+            <i class="fa-solid fa-people-group"></i>
+            <span>Mark</span>
+        </a>
+        <a id="pjt" (click)="getID('pjt')">
+            <i class="fa-solid fa-envelope-open-text"></i>
+            <span>Project</span>
+        </a>
+        <a id="res" (click)="getID('res')">
+            <i class="fa-solid fa-key"></i>
+            <span>Password</span>
+        </a>
+        <a id="req" (click)="getID('req')">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Request</span>
+        </a>
+        <a id="rpt" (click)="getID('rpt')">
+            <i class="fa-solid fa-print"></i>
+            <span>Report</span>
+        </a>
+
+        <a id="rmb" (click)="getID('rmb')">
+            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+            <span>Reimbusment </span>
+        </a>
+        <a id="tvl" (click)="getID('tvl')">
+            <i class="fa-solid fa-plane-up"></i>
+            <span>Travel</span>
+        </a>
+
+        <a></a>
+        <a></a>
+
+    </div>
+</div>
+
+<!--/////////////////////    Mahesh  ////////////////////////-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+<div *ngIf="!condition">
+    <input type="checkbox" id="check">
+    <label for="check">
+        <i class="fas fa-bars" id="btn"></i>
+        <i class="fas fa-times" id="cancel"></i>
+    </label>
+    <div class="sidebar">
+        <header> Menu</header>
+
+        <!--/////////////  Abhi ////////// -->
+        <!-- <a id="dsh" href="#" class="active" >   
+                    <span></span>
+                </a> -->
 
         <a id="dsh" (click)="getID('dsh')">
             <i class="fas fa-qrcode"></i>
@@ -84,12 +180,6 @@
             <i class="fa-solid fa-plane-up"></i>
             <span>Travel</span>
         </a>
-
-
-
-        <!--/////////////////////    Mahesh  ////////////////////////-->
-
-
 
 
 

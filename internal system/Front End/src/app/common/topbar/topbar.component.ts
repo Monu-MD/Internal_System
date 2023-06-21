@@ -9,10 +9,20 @@ import { NavserviceService } from 'src/app/services/navservice.service';
 })
 export class TopbarComponent {
   data: any;
+user_type='L';
+//   condition:boolean=true;
+  
 
-  redirect() {
+//   redirect() {
     
-  }
+//   }
+
+// toggleEnableDisable(){
+//   this.condition=!this.condition;
+// }
+
+
+  
   constructor(private service: NavserviceService,
     private router: Router) {
     this.data = this.service.returrnAns;

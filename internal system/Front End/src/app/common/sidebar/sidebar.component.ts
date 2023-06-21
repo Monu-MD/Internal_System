@@ -8,6 +8,12 @@ import { NavserviceService } from 'src/app/services/navservice.service';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
+  condition: boolean = true; // Initial value
+ 
+  // Method to enable or disable based on a specific condition
+  toggleEnableDisable() {
+    this.condition = !this.condition; // Toggles the value of condition
+  }
 
 
   constructor(private router: Router,
