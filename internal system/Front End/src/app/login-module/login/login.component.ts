@@ -26,9 +26,13 @@ export class LoginComponent {
 
   })
   login(item: any) {
-    console.log(item);
-    this.loginData(item)
-    this.logincheck(item)
+    const user={
+      userid:item.userid,
+      password:item.password
+    }
+    console.log(user);
+    this.loginData(user)
+    // this.logincheck(user)
 
 
   }
