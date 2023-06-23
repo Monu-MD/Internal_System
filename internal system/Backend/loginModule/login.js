@@ -620,42 +620,43 @@ router.post('/login', (req, res) => {
     var user_id = req.body.userid;
     var password = req.body.password;
     console.log(user_id, "user ID");
-    if (typeof (user_id) != undefined || user_id != null) {
-        pool.query("SELECT * from users where user_id = $1", [user_id], function (err, result) {
-            var row = result.rowCount;
-            var user = result.rows[0];
-            console.log(user);
-            if (row > 0) {
-                if (err) {
-                    console.error('Error fetching photo:', err);
-                    return res.status(500).json({ error: 'Error fetching photo' });
-                }
-                comparePasswordpwd(password, user.password, function (err, isMatch) {
-                    if (err) throw err;
-                    if (isMatch) {
-                        if (row > 0) {
+    console.log(password, "user ID");
 
-                            return res.json({ message: "redirect to dashboard", notification: "login Successful", Data: user });
-                        }
-                        else {
-                            return res.json({ message: "redirect to login", notification: "Invalid user_id or password" });
-                        }
 
-                    }
-                    return res.json({ message: "redirect to login", notification: "Invalid user_id or password" });
-
-                })
-            } else {
-                return res.json({ message: "redirect to login", notification: "Invalid user_id or password" });
+    pool.query("SELECT * from users where user_id = $1", [user_id], function (err, result) {
+        var row = result.rowCount;
+        var user = result.rows[0];
+        console.log(user);
+        if (row > 0) {
+            if (err) {
+                console.error('Error fetching photo:', err);
+                return res.status(500).json({ error: 'Error fetching photo' });
             }
+            comparePasswordpwd(password, user.password, function (err, isMatch) {
+                if (err) throw err;
+                if (isMatch) {
+                    if (row > 0) {
 
-        });
-    } else {
-        return res.json({ message: "redirect to login", notification: "please Enter User ID and Password" });
-    }
+                        return res.json({ message: "redirect to dashboard", notification: "login Successful", Data: user });
+                    }
+                    else {
+                        return res.json({ message: "redirect to login", notification: "Invalid user_id or password" });
+                    }
 
+                }
+                return res.json({ message: "redirect to login", notification: "Invalid user_id or password" });
+
+            })
+        } else {
+            return res.json({ message: "redirect to login", notification: "Invalid user_id or password" });
+        }
+
+    });
 
 });
+
+
+
 
 
 router.post('/logincheck', (req, res) => {

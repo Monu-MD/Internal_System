@@ -30,13 +30,10 @@ export class LoginComponent {
   })
   login(item: any) {
 
-    const user={
-      userid:item.userid,
-      password:item.password
-    }
-    console.log(user);
-    this.loginData(user)
-    this.logincheck(user)
+    
+    console.log(item);
+    this.loginData(item)
+    // this.logincheck(item)
   
   }
 
@@ -67,33 +64,33 @@ export class LoginComponent {
   }
 
 
-  logincheck(data: any): void {
-    this.http.post('http://localhost:4000/logincheck', data).subscribe(
-      (response: any) => {
-        console.log(response.data);
-        this.service.setData(response.data)
-       this.service.setNotification(response.notification)
-        if (response.message == 'redirect to dashboard') {
-          this.router.navigate(['/dashboard'])
+  // logincheck(data: any): void {
+  //   this.http.post('http://localhost:4000/logincheck', data).subscribe(
+  //     (response: any) => {
+  //       console.log(response.data);
+  //       this.service.setData(response.data)
+  //      this.service.setNotification(response.notification)
+  //       if (response.message == 'redirect to dashboard') {
+  //         this.router.navigate(['/dashboard'])
 
-        }
-        else if (response.message == 'redirect to login') {
+  //       }
+  //       else if (response.message == 'redirect to login') {
 
-          this.router.navigate(['/'])
+  //         this.router.navigate(['/'])
 
-        }
-        else if (response.message == 'redirect to reset passwrod ') {
+  //       }
+  //       else if (response.message == 'redirect to reset passwrod ') {
 
-          this.router.navigate(['/changePassword'])
+  //         this.router.navigate(['/changePassword'])
 
-        }
-      },
-      (error: any) => {
-        console.error('API Error:', error);
+  //       }
+  //     },
+  //     (error: any) => {
+  //       console.error('API Error:', error);
 
-      }
-    );
-  }
+  //     }
+  //   );
+  // }
 
 
   forgetpas(item: any) {
