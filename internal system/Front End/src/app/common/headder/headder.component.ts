@@ -53,7 +53,7 @@ export class HeadderComponent {
     console.log("user_id",this.user_id);
     
     const params = new HttpParams()
-      .set('user_id', this.user_id.toString());
+      .set('user_id',  this.user_id.toString());
 
     this.http.get('http://localhost:4000/logout', { params }).subscribe(
       (response: any) => {
