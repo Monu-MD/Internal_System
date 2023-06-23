@@ -1,13 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginServiceService } from './login-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ForgetPasswordService {
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient,private loginserivce:LoginServiceService) { }
 
 
   getOTP(employeeId: any): void {
@@ -40,6 +41,7 @@ export class ForgetPasswordService {
       (response: any) => {
         console.log(response.message);
         console.log(response.notification);
+        this.loginserivce.setNotification(response.notification)
         this.employeeid=response.id;
         
         // Handle the response accordingly
