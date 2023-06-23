@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-list-of-leaves',
@@ -7,54 +9,108 @@ import { Component } from '@angular/core';
 })
 export class ListOfLeavesComponent {
 
-  listleaves = [
-    { leaveType:'No Record Found', allocatedYear:'No Record Found', noOfDaysAllocated:'No Record Found', carrryForwordNoOfDays:'No Record Found' },
-    { leaveType:'No Record Found', allocatedYear:'No Record Found', noOfDaysAllocated:'No Record Found', carrryForwordNoOfDays:'No Record Found' },
-    { leaveType:'No Record Found', allocatedYear:'No Record Found', noOfDaysAllocated:'No Record Found', carrryForwordNoOfDays:'No Record Found'}
-  ];
+  constructor(private http: HttpClient) { }
+
+  viewLeaveForm:any;
+  rowData: any[] = [];
+  dataLoaded: boolean = false;
+  itemsPerPage: number = 10;
+  currentPage: number = 1;
+  totalPages: number = 15;
+  totalItems: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100];
 
 
-itemsPerPage = 10;
-currentPage=1;
-
-totalItems = this.listleaves.length;
-
-PerPage: number = 100;
-itemsPerPageOptions: number[] = [10, 25, 50, 100];
-onItemsPerPageChange(): void {
-  this.currentPage = 1;
+onItemsPerPageChange(event: any) {
+  const value = event.target.value;
+  this.itemsPerPage = value;
+  this.fetchData();
 
 }
 
-totalPages = 45; // Example: total number of pages
-
-constructor() { }
 
 ngOnInit() {
-  // Initialize table data or fetch it from an API
+
+  this.fetchData();
+ 
 }
+
+fetchData() {  
+  this.http.get('http://localhost:4000/holiday/configureLeavesPage')
+    .subscribe(
+      (response: any) => {
+        console.log(response.data);
+        
+        if (response.message=='redirect to viewHolidays') {
+          this.rowData = response.data;
+          this.dataLoaded = true;
+          this.updatePageData();
+        } else {
+          console.error('Invalid response data');
+        }
+
+        console.log(this.rowData);
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
+
+    }
+
+deleteHoliday(row: any) {
+  this.http.delete(`http://localhost:4000/holiday/${row.leave_id}`).subscribe(
+    (response: any) => {
+              console.log('Data deleted successfully:', response);
+               // Remove the deleted item from rowData array it will reloaded 
+              this.rowData = this.rowData.filter(item => item.leave_id !== row.leave_id);
+            },
+            (error: any) => {
+              console.error('Error:', error);
+            }  
+  );
+ 
+  }
+
+
+  onSubmit(item:any){
+    console.log(item);
+     this.deleteHoliday(item);
+  }
+
+  get(){
+    return this.onSubmit
+  }
+
 
 goToFirstPage() {
   this.currentPage = 1;
-  // Load data for the first page
+   this.updatePageData();
 }
 
 goToPreviousPage() {
   if (this.currentPage > 1) {
     this.currentPage--;
-    // Load data for the previous page
+      this.updatePageData();
   }
 }
 
 goToNextPage() {
   if (this.currentPage < this.totalPages) {
     this.currentPage++;
-    // Load data for the next page
+     this.updatePageData();
   }
 }
 
 goToLastPage() {
   this.currentPage = this.totalPages;
-  // Load data for the last page
+   this.updatePageData();
+}
+
+updatePageData() {
+  var startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  var endIndex = startIndex + this.itemsPerPage;
+  this.rowData= this.rowData.slice(startIndex, endIndex);
+
 }
 }

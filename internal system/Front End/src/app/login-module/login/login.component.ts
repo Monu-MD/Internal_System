@@ -6,9 +6,13 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+ 
+
+  styleUrls: ['./login.component.css'],
+
 })
 export class LoginComponent {
+  error:any = "Invaild Password";
   notification: any;
   constructor(private service: LoginServiceService,
     private router: Router) {
@@ -22,11 +26,13 @@ export class LoginComponent {
     password: new FormControl('')
 
   })
+
   login(item: any) {
     console.log(item);
-    this.service.login(item)
-
-
+    this.service.login(item);
+    this.service.getData();
   }
+
+  
 
 }

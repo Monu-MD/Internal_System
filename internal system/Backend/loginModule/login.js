@@ -195,7 +195,7 @@ router.post('/login', (req, res) => {
         var row = result.rowCount;
         var user = result.rows[0];
         pool.query("SELECT * from profiles where user_name=$1", [user.user_name], function (err, result) {
-            var prow = result.rowCount;
+            // var prow = result.rowCount;
             if (row > 0) {
                 if (user.user_id == user_id) {
                     if (err) {
@@ -216,13 +216,15 @@ router.post('/login', (req, res) => {
                             return res.json({ message: "redirect to dashboard", notification: "login Successful", Data: user });
                         }
                         return res.json({ message: "redirect to login", notification: "Invalid username or password" });
-                        
+                        alert('invalid password');
                     })
                 } else {
                     return res.json({ message: "redirect to login", notification: "Invalid username or password" });
+                    alert('invalid password');
                 }
             } else {
                 return res.json({ message: "redirect to login", notification: "Invalid username or password" });
+                alert('invalid password');
             }
         });
     });

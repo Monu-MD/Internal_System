@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormControlDirective, FormGroup, Validators,FormBuilder } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-configure-leaves',
   templateUrl: './configure-leaves.component.html',
@@ -7,21 +8,49 @@ import { FormControl, FormControlDirective, FormGroup, Validators,FormBuilder } 
 })
 export class ConfigureLeavesComponent {
 
-  leaveForm=new FormGroup<any>({
-     leaveType: new FormControl('', [Validators.required]),
-     configureYear: new FormControl('', [Validators.required]),
-     numDays: new FormControl('', [Validators.required]),
-     carryForwardDays: new FormControl('', [Validators.required]),
+  constructor(private http: HttpClient,
+    ) { }
 
-   })
-  onSubmit(item:any){
-    console.log(item);
-  
-  }
+leaveForm=new FormGroup<any>({
 
-  get() {
-    return this.onSubmit;
-  }
+    leave_type: new FormControl('', [Validators.required]),
+    allocated_leaves: new FormControl('', [Validators.required]),
+    carry_fwd: new FormControl('', [Validators.required]),
+    year: new FormControl('', [Validators.required])
+
+  })
+
+  postData(item: any) {
+    const postData = {
+      leave_type: item.leave_type,
+      allocated_leaves: item.allocated_leaves,
+      carry_fwd: item.carry_fwd,
+      year: item.year
+    };
+
+  this.http.post('http://localhost:4000/holiday/configureLeaves', postData)
+  .subscribe(
+    (response: any) => {
+
+
+      console.log('Data posted successfully:', response);
+
+
+    },
+    (error: any) => {
+      console.error('Error:', error);
+    }
+  );
+}
+
+onSubmit(item:any){
+  console.log(item);
+  this.postData(item);
+}
+
+ get() {
+   return this.onSubmit;
+ }
 }
 
 

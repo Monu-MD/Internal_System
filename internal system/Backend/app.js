@@ -35,11 +35,13 @@ app.get("/cocd", (req, res) => {
 
 var capture = require('./captureModule/capture');
 var login = require('./loginModule/login');
-var cocd = require('./cocdModule/cocd');
+var cocd = require(
+  './cocdModule/cocd');
 var mssg = require('./message/message');
 var childproject = require('./projectModule/childproject');
 var markModule = require('./MarkModule/markDetails');
 var employeeDetails = require('./EMployeeModule/employeeDetails');
+var holiday=require('./HolidayModule/holiday');
 
 app.use('/capture', capture);
 app.use('/', login);
@@ -48,3 +50,7 @@ app.use('/message', mssg);
 app.use('/projectModule/childproject', childproject);
 app.use('/MarkModule/markDetails', markModule);
 app.use('/employeeDetails', employeeDetails);
+app.use('/holiday',holiday);
+
+
+

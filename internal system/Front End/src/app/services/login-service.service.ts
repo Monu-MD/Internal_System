@@ -30,6 +30,8 @@ export class LoginServiceService {
         this.data = response.Data.user_name;
         this.phtotUrl = response.path;
         this.notification = response.notification;
+        console.log(this.notification);
+        
         if (response.message == 'redirect to dashboard') {
 
           this.router.navigate(['/dashboard'])
@@ -43,6 +45,8 @@ export class LoginServiceService {
       },
       (error: any) => {
         console.error('API Error:', error);
+        console.log(this.notification );
+        
 
       }
     );

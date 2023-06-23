@@ -56,6 +56,8 @@ fetchData() {
         } else {
           console.error('Invalid response data');
         }
+
+        console.log(this.rowData);
       },
       (error: any) => {
         console.error('Error:', error);
