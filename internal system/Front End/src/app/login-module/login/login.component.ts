@@ -12,6 +12,9 @@ import { HttpClient } from '@angular/common/http';
 export class LoginComponent {
   notification: any;
 
+
+ 
+
   constructor(private service: LoginServiceService,
     private router: Router, private http: HttpClient) {
     const user = this.service.getData();
@@ -26,17 +29,16 @@ export class LoginComponent {
 
   })
   login(item: any) {
+
     const user={
       userid:item.userid,
       password:item.password
     }
     console.log(user);
     this.loginData(user)
-    // this.logincheck(user)
-
-
+    this.logincheck(user)
+  
   }
-
 
   ///// login api///////////
   loginData(data: any): void {
@@ -45,8 +47,6 @@ export class LoginComponent {
         console.log(response);
 
         this.notification = response.notification;
-
-
         if (response.message == 'redirect to dashboard') {
           this.service.setData(response.Data)
 
@@ -65,6 +65,7 @@ export class LoginComponent {
       }
     );
   }
+
 
   logincheck(data: any): void {
     this.http.post('http://localhost:4000/logincheck', data).subscribe(
@@ -93,7 +94,6 @@ export class LoginComponent {
       }
     );
   }
-
 
 
   forgetpas(item: any) {

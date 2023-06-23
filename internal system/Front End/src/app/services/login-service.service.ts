@@ -14,12 +14,15 @@ export class LoginServiceService {
   notification: any;
 
 
+
   constructor(private http: HttpClient, private router: Router) { }
+
 
 
 
   setData(value: any): void {
     console.log(value);
+
 
     this.user_name = value.user_name;
     this.user_id = value.user_id;
@@ -56,7 +59,6 @@ export class LoginServiceService {
       }
     );
   }
-
 
 
 

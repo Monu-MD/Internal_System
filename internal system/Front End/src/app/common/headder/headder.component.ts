@@ -12,13 +12,12 @@ export class HeadderComponent {
   selectedFileName: string | undefined;
   username: any;
   photoUrl: any;
+
   user_id: any;
   constructor(private service: LoginServiceService, private http: HttpClient, private router: Router) {
     const data = this.service.getData()
     this.username = data[1];
     this.user_id = data[0];
-
-    // this.photoUrl = this.service.phtotUrl;
   }
 
   onFileSelected(event: any) {

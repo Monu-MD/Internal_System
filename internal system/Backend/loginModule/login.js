@@ -26,7 +26,9 @@ const { request } = require('http');
 //////////////////////////// /////////// FunctionS///////////////////////////////////////////////////////////////////////
 const getUserByuser_id = function (user_id, callback) {
 
+
     var query = pool.query("SELECT u.user_name,u.password,u.user_id,u.user_type,u.client_ip,u.session_id FROM users u WHERE LOWER(u.user_id) = LOWER($1)", [user_id], function (err, result) {
+
         if (err) throw err;
         console.log('result user', result.rows);
         callback(null, result);
@@ -59,10 +61,12 @@ const comparePassword = function (candidatePassword, hash, callback) {
 }
 
 passport.use(new LocalStrategy(
+
     function (user_id, password, done) {
         pool.query("SELECT login_attempts from users where LOWER(user_id) = LOWER($1)",
             [user_id], function (err, result) {
                 console.log(user_id);
+
                 if (err) throw err;
                 console.log("userid -error")
                 attempts = result.rows['0'].login_attempts;
@@ -86,12 +90,17 @@ passport.use(new LocalStrategy(
                 else if (attempts < 4) {
 
                     attempts++;
+
                     pool.query("UPDATE users SET login_attempts=$1 WHERE LOWER(user_id)=LOWER($2)", [attempts, user_id]);
+
+
                     return done(null, false, { message: 'Wrong Passcode. Please try again. ' + (4 - attempts) + ' attempts remaining.' });
                 }
                 else if (attempts == 4) {
 
                     pool.query("UPDATE users SET login_allowed=$1,login_attempts=$2 WHERE LOWER(user_id)=LOWER($3)", ['N', attempts, user_id]);
+
+
 
                     return done(null, false, {
                         message: 'Your Account is locked. Please contact administrator.'
@@ -186,9 +195,12 @@ function forgotSendMail(empId) {
         });
     });
 }
+
 function getUserByuser_idpwd1(user_id, callback) {
 
     var query = pool.query("SELECT user_name,password,user_id,user_type FROM users WHERE user_id=$1", [user_id], function (err, result) {
+
+
         // ,client_ip,session_id ---> it is not present in db
         if (err) throw err;
         callback(null, result);
@@ -209,7 +221,9 @@ router.post('/forgotpwd', (req, res) => {
     console.log('finalpass', finalpass);
 
 
+
     getUserByuser_idpwd1(userid, function (err, user) {
+
 
         if (err) throw err;
         if (user.rowCount == 0) {
@@ -291,6 +305,63 @@ router.post('/forgotpwd', (req, res) => {
         }
 
     });
+
+
+});
+
+router.post('/login', (req, res) => {
+    var user_id = req.body.userid;
+    var password = req.body.password;
+    console.log(user_id, "user ID");
+    if (typeof (user_id) == undefined) {
+        pool.query("SELECT * from users where user_id = $1", [user_id], function (err, result) {
+            var row = result.rowCount;
+            var user = result.rows[0];
+            console.log(user);
+            if (user.user_id == user_id && row > 0) {
+                if (err) {
+                    console.error('Error fetching photo:', err);
+                    return res.status(500).json({ error: 'Error fetching photo' });
+                }
+                comparePasswordpwd(password, user.password, function (err, isMatch) {
+                    if (err) throw err;
+                    if (isMatch) {
+                        if (row > 0) {
+                            // ----this is for send profile photo ----> its giving error
+                            // pool.query("SELECT * from profiles where user_name=$1", [user.user_name], function (err, result) {
+                            //     var prow = result.rowCount;
+
+                            //     if (prow > 0) {
+                            //         const photoData = result.rows[0].path;
+                            //         const mimeType = result.rows[0].mimetype;
+                            //         console.log(photoData);
+
+                            //         // res.set('Content-Type', mimeType);
+                            //         return res.json({ message: "redirect to dashboard", notification: "login Successful", Data: user, path: photoData });
+                            //     }
+                            //     return res.json({ message: "redirect to dashboard", notification: "login Successful", Data: user });
+
+                            // });
+                            return res.json({ message: "redirect to dashboard", notification: "login Successful", Data: user });
+                        }
+                        else {
+                            return res.json({ message: "redirect to login", notification: "Invalid username or password" });
+                        }
+
+                    }
+                    return res.json({ message: "redirect to login", notification: "Invalid username or password" });
+
+                })
+            } else {
+                return res.json({ message: "redirect to login", notification: "Invalid username or password" });
+            }
+
+        });
+    } else {
+        return res.json({ message: "redirect to login", notification: "please Enter User ID and Password" });
+    }
+
+
 });
 
 
@@ -1256,7 +1327,7 @@ router.get('/logout', (req, res) => {
 
 
     pool.query("UPDATE users SET login_check=$1,client_ip='',session_id='' where user_id=$2", ['N', user_id]);
-    // req.logout();
+    req.logout();
     // req.flash('success_msg', 'You are successfully Logged Out');
     // res.redirect('/');
     res.json({ message: "redirect to login", notification: "You are successfully Logged Out" })
@@ -1264,4 +1335,3 @@ router.get('/logout', (req, res) => {
 
 
 module.exports = router;
-

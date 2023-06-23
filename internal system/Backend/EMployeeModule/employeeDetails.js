@@ -3715,6 +3715,266 @@ router.get('/employeeAddpersonal', function (req, res) {
 ///////////////////////////////////////// admin add the details ////////////////////////////////////////////////////
 router.post('/addempdet', addempdet);
 function addempdet(req, res) {
+	var test = req.body.test;
+
+	if (test == "Add Profile") {
+		var now = new Date();
+		var rcreuserid = req.user.rows['0'].user_id;
+		var rcretime = now;
+		var lchguserid = req.user.rows['0'].user_id;
+		var lchgtime = now;
+		var empid = req.body.empid;
+		var empname = req.body.empName;
+		var email = req.body.email;
+		var empaccess = req.body.empAccess;
+		var jDate = req.body.jDate;
+		var desig = req.body.desig;
+		var empClass = req.body.empClass;
+		var salary = req.body.salary;
+		var sal_curr = req.body.sal_curr;
+		var rptman = req.body.rptMan;
+		var probPeriod = req.body.probPeriod;
+		var preem = req.body.preem;
+		if (preem == "Y") {
+			var preExpyear = req.body.preExpyear;
+			var preExpmonth = req.body.preExpmonth;
+			var preEmp = req.body.preEmp;
+			var preEmp2 = req.body.preEmp2;
+			var preEmp3 = req.body.preEmp3;
+			var preEmp4 = req.body.preEmp4;
+			var preEmp5 = req.body.preEmp5;
+		}
+		else {
+			var preExpyear = "0";
+			var preExpmonth = "0";
+			var preEmp = "";
+			var preEmp2 = "";
+			var preEmp3 = "";
+			var preEmp4 = "";
+			var preEmp5 = "";
+		}
+
+		var entity_cre_flg = "Y";
+		var reset_flg = "N";
+
+		// added for e-docket
+		var pan_flg = "N";
+		var aadhar_flg = "N";
+		var sslc_flg = "N";
+		var preuniv_flg = "N";
+		var degree_flg = "N";
+		var del_flg = "N";
+
+		pool.query("SELECT * from users u INNER JOIN emp_master_tbl e ON u.user_id=e.emp_id where LOWER(u.user_id) = LOWER($1)",
+			[empid], function (err, resultset) {
+				if (err) throw err;
+				var rcount = resultset.rowCount;
+				if (rcount == 0) {
+
+
+					pool.query("SELECT * from emp_master_tbl where emp_email=$1", [email], function (err, test) {
+						if (err) throw err;
+						var emailcheck = test.rowCount;
+
+						if (emailcheck >= 1) {
+							req.json({message: "This Email-Id :" + email + " is registered with Amber"})
+							// res.redirect(req.get('referer'));
+						}
+						else {
+
+							pool.query("INSERT INTO emp_master_tbl(emp_id,emp_name,emp_access,emp_email,joining_date,designation,salary,reporting_mgr,prev_expr_year,prev_expr_month,prev_empr,prev_empr2,prev_empr3,prev_empr4,prev_empr5,emp_prob,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time,entity_cre_flg,pre_emp_flg,emp_classification,salary_curr) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)", [empid, empname, empaccess, email, jDate, desig, salary, rptman, preExpyear, preExpmonth, preEmp, preEmp2, preEmp3, preEmp4, preEmp5, probPeriod, 'N', rcreuserid, rcretime, lchguserid, lchgtime, entity_cre_flg, preem, empClass, sal_curr], function (err, done) {
+								if (err) throw err;
+
+								var userid = req.body.empid;
+								var ranpass = generatePassword(4, false);
+								var finalpass = userid + "@" + ranpass;
+
+
+
+
+								const transporter = nodemailer.createTransport({
+									service: 'gmail',
+									auth: {
+										user: 'mohammadsab@minorks.com',
+										pass: '9591788719'
+									}
+								});
+								const mailOptions = {
+									from: 'mohammadsab@minorks.com',
+									to: email,
+									// subject: 'Test Email',
+			
+									subject: 'Amber Portal account creation',
+									html: '<img src="http://www.confessionsofareviewer.com/wp-content/uploads/2017/05/welcome-on-board.jpg" height="85"><br><br>' +
+									'<h3>Dear <b>' + empname + '</b>,<br><br>' +
+									'You are receiving this mail because you (or someone else) has registered in <b>Amber</b>.<br>' +
+									'Please follow the below Account Activation details : <br><br>' +
+									'<table style="border: 10px solid black;"><tr style="border: 10px solid black;"><th style="border: 10px solid black;">User Id</th><th style="border: 10px solid black;">' + empid + '</th></tr><tr style="border: 10px solid black;"><td style="border: 10px solid black;"> Password </td><td style="border: 10px solid black;">' + finalpass + '</td></tr></table><br><br>' +
+									'URL: http://amber.nurture.co.in <br><br>' +
+									'Contact HR for any clarifications.<br>' +
+									'Kindly do not share your password with anyone else.<br><br><br><br>' +
+									'- Regards,<br><br>Amber</h3>'
+									// text: 'This is a test email sent from Node.js using Nodemailer.'
+								};
+		
+							  
+		
+								  
+		
+		
+								transporter.sendMail(mailOptions, function (error, info) {
+									if (error) {
+										console.error('Error sending email', error);
+									} else {
+										console.log('Email sent:', info.response);
+									}
+			
+			
+								});
+
+								// var smtpTransport = nodemailer.createTransport('SMTP', {
+								// 	service: 'gmail',
+								// 	auth:
+								// 	{
+								// 		user: 'amber@nurture',
+								// 		pass: 'nurture@123'
+								// 	}
+								// });
+
+
+								// var mailOptions = {
+								// 	to: email,
+								// 	from: 'amber@nurture.co.in',
+								// 	subject: 'Amber Portal account creation',
+								// 	html: '<img src="http://www.confessionsofareviewer.com/wp-content/uploads/2017/05/welcome-on-board.jpg" height="85"><br><br>' +
+								// 		'<h3>Dear <b>' + empname + '</b>,<br><br>' +
+								// 		'You are receiving this mail because you (or someone else) has registered in <b>Amber</b>.<br>' +
+								// 		'Please follow the below Account Activation details : <br><br>' +
+								// 		'<table style="border: 10px solid black;"><tr style="border: 10px solid black;"><th style="border: 10px solid black;">User Id</th><th style="border: 10px solid black;">' + empid + '</th></tr><tr style="border: 10px solid black;"><td style="border: 10px solid black;"> Password </td><td style="border: 10px solid black;">' + finalpass + '</td></tr></table><br><br>' +
+								// 		'URL: http://amber.nurture.co.in <br><br>' +
+								// 		'Contact HR for any clarifications.<br>' +
+								// 		'Kindly do not share your password with anyone else.<br><br><br><br>' +
+								// 		'- Regards,<br><br>Amber</h3>'
+								// };
+
+								// smtpTransport.sendMail(mailOptions, function (err) {
+								// });
+
+								bcrypt.hash(finalpass, 10, function (err, hash) {
+
+									hashpassword = finalpass;
+									hashpassword = hash;
+									console.log("inserted in user");
+
+									pool.query("INSERT INTO users(user_name,user_id,password,user_type,expiry_date,login_allowed,login_attempts,del_flag,login_check,reset_flg,session_id,client_ip) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [empname, empid, hash, empaccess, '01-01-2099', 'Y', '0', 'N', 'N', 'N', '', ''], function (err, done) {
+										if (err) throw err;
+									});
+								});
+
+								pool.query("insert into e_docket_tbl(emp_id,pan_flg,aadhar_flg,sslc_flg,preuniv_flg,degree_flg,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empid, pan_flg, aadhar_flg, sslc_flg, preuniv_flg, degree_flg, del_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+									req.flash('success', "User successfully added and an E-mail has been sent to " + email + " with further instructions.")
+									res.redirect(req.get('referer'));
+
+								});
+							});
+						}
+					});
+				}
+				else {
+					req.flash('error', "Employee Details Already Added for this Employee:" + empname)
+					res.redirect(req.get('referer'));
+				}
+
+			});
+		//For fetching Which Value on click of submit(if loop)
+	}
+
+};
+
+//////////////////////////////////// Register ID //////////////////////////////////////////////////////////
+router.get('/employeeAddpersonal', function (req, res) {
+	var empId = req.query.employeeId;
+
+	pool.query("SELECT * from emp_info_tbl where emp_id = $1", [empId], function (err, result) {
+		mtbl = result.rowCount;
+
+		pool.query("SELECT * from emp_info_tbl_temp where emp_id = $1", [empId], function (err, result) {
+			ttbl = result.rowCount;
+
+			pool.query("SELECT * from data_emp_info_tbl_temp where emp_id = $1", [empId], function (err, result) {
+				dtbl = result.rowCount;
+
+				pool.query("SELECT user_type from users where user_id = $1", [empId], function (err, result) {
+					emp_access = result.rows['0'].user_type;
+
+					if (emp_access == "A1") {
+						res.json({ message: "redirect to admin/dashboard" });
+					}
+					else {
+
+						pool.query("SELECT emp_id from emp_master_tbl where emp_id = $1", [empId], function (err, result) {
+							empid = result.rows['0'].emp_id;
+
+							pool.query("SELECT emp_name from emp_master_tbl where emp_id = $1", [empId], function (err, result) {
+								empName = result.rows['0'].emp_name;
+
+								// to fetch blood group
+								pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'BLG' order by comm_code_id asc", function (err, result) {
+									comm_code_blood = result.rows;
+									comm_code_blood_count = result.rowCount;
+
+									// to fetch shirt size
+									pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'SHR' order by comm_code_id asc", function (err, result) {
+										comm_code_shirt = result.rows;
+										comm_code_shirt_count = result.rowCount;
+
+										// to fetch state group
+										pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'STA' order by comm_code_id asc", function (err, result) {
+											comm_code_state = result.rows;
+											comm_code_state_count = result.rowCount;
+
+											// to fetch maritial status
+											pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'MAR' order by comm_code_id asc", function (err, result) {
+												comm_code_maritalstatus = result.rows;
+												comm_code_maritalstatus_count = result.rowCount;
+
+												res.json({
+													Data: {
+														mtbl: mtbl,
+														ttbl: ttbl,
+														dtbl: dtbl,
+														emp_access: emp_access,
+														ename: req.user.rows['0'].user_name,
+														eid: req.user.rows['0'].user_id,
+														empid: empid,
+														empName: empName,
+														comm_code_blood: comm_code_blood,
+														comm_code_blood_count: comm_code_blood_count,
+														comm_code_shirt: comm_code_shirt,
+														comm_code_shirt_count: comm_code_shirt_count,
+														comm_code_state: comm_code_state,
+														comm_code_state_count: comm_code_state_count
+
+													}, message: 'redirect to personal'
+												});
+											});
+										});
+									});
+								});
+							});
+						});
+					}
+				});
+			});
+		});
+	});
+});
+
+
+
+///////////////////////////////////////// admin add the details ////////////////////////////////////////////////////
+router.post('/addempdet', addempdet);
+function addempdet(req, res) {
 	// var test = req.body.test;
 
 	// if (test == "Add Profile") {
@@ -3795,49 +4055,6 @@ function addempdet(req, res) {
 							var ranpass = generatePassword(4, false);
 							var finalpass = userid + "@" + ranpass;
 
-
-
-
-							// const transporter = nodemailer.createTransport({
-							// 	service: 'gmail',
-							// 	auth: {
-							// 		user: 'mohammadsab@minorks.com',
-							// 		pass: '9591788719'
-							// 	}
-							// });
-							// const mailOptions = {
-							// 	from: 'mohammadsab@minorks.com',
-							// 	to: email,
-							// 	// subject: 'Test Email',
-
-							// 	subject: 'Amber Portal account creation',
-							// 	html: '<img src="http://www.confessionsofareviewer.com/wp-content/uploads/2017/05/welcome-on-board.jpg" height="85"><br><br>' +
-							// 		'<h3>Dear <b>' + empname + '</b>,<br><br>' +
-							// 		'You are receiving this mail because you (or someone else) has registered in <b>Amber</b>.<br>' +
-							// 		'Please follow the below Account Activation details : <br><br>' +
-							// 		'<table style="border: 10px solid black;"><tr style="border: 10px solid black;"><th style="border: 10px solid black;">User Id</th><th style="border: 10px solid black;">' + empid + '</th></tr><tr style="border: 10px solid black;"><td style="border: 10px solid black;"> Password </td><td style="border: 10px solid black;">' + finalpass + '</td></tr></table><br><br>' +
-							// 		'URL: http://amber.nurture.co.in <br><br>' +
-							// 		'Contact HR for any clarifications.<br>' +
-							// 		'Kindly do not share your password with anyone else.<br><br><br><br>' +
-							// 		'- Regards,<br><br>Amber</h3>'
-							// 	// text: 'This is a test email sent from Node.js using Nodemailer.'
-							// };
-
-
-
-
-
-
-							// transporter.sendMail(mailOptions, function (error, info) {
-							// 	if (error) {
-							// 		console.error('Error sending email', error);
-							// 	} else {
-							// 		console.log('Email sent:', info.response);
-							// 	}
-
-
-							// });
-
 							const transporter = nodemailer.createTransport({
 								service: 'gmail',
 								auth: {
@@ -3910,11 +4127,6 @@ function addempdet(req, res) {
 	// }
 
 };
-
-
-
-
-
 
 
 

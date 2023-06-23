@@ -10,20 +10,29 @@ import { NavserviceService } from 'src/app/services/navservice.service';
 })
 export class TopbarComponent {
   data: any;
-user_type:any;
+  user_type: any;
+ 
 
+  redirect() {
 
-
-  
+  }
   constructor(private service: NavserviceService,
-    private router: Router,private loginservice:LoginServiceService) {
-    this.data = this.service.returrnAns;
-   
+    private router: Router, private loginService: LoginServiceService) {
+    
+    /// redirect data or id ///
+      this.data = this.service.returrnAns;
+    console.log("Topbar Enterd");
+
     console.log(this.service.returrnAns());
-    const user=this.loginservice.getData();
+    const user=this.loginService.getData();
     this.user_type=user[2];
     console.log(this.user_type);
     
+
+    //// to enable and disable //
+    
+
+
 
 
     this.router.events.subscribe((event: Event) => {
@@ -113,8 +122,15 @@ user_type:any;
 
   }
   currentRoute: any; // dont delte thid it will here only
-  
- 
+
+
+  getUserType() {
+    const user=  this.loginService.getData();
+    this.user_type=user[2]
+    console.log(this.user_type);
+    
+  }
+
 
 
 }

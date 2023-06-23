@@ -39,8 +39,9 @@
                 <!-- [routerLink]="['dashboard']" -->
                 <div>
                     <a [routerLink]="['changePassword']" routerLinkActive="router-link-active">Reset Password</a> <br>
-                    <a (onclick)="forgetpas(id.value)" [routerLink]="['forgotPassword']"
-                        routerLinkActive="router-link-active">Forget Password</a><br>
+
+                    <a (onclick)="forgetpas(id.value)"   [routerLink]="['forgotPassword']" routerLinkActive="router-link-active">Forget Password</a><br>
+
                     <a [routerLink]="['register']">New User?Register here</a>
                 </div>
             </form>
