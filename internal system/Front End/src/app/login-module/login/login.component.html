@@ -27,13 +27,14 @@
 
                         <input type="text" placeholder="User Id" #id name="userid" formControlName="userid" />
                     </div>
-                    <div class="input-box">
 
-                        <input type="text" placeholder="Password" name="password" formControlName="password" />
+                    <div class="input-box">
+                        <input type="text" #passwordInput placeholder="Password" name="password" formControlName="password" />
+                        <p *ngIf="error">{{ error }}</p>
                     </div>
                 </div>
                 <div>
-                    <button class="button">Login</button>
+                    <button class="button" (click)="login(passwordInput.value)">Login</button>
                     <button class="button" type="reset">Clear</button>
                 </div>
                 <!-- [routerLink]="['dashboard']" -->

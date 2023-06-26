@@ -49,6 +49,7 @@ export class LoginServiceService {
         alert(response.notification)
         this.data = response.Data.user_name;
 
+
         if (response.message == 'redirect to login') {
 
           this.router.navigate(['/'])
@@ -57,6 +58,8 @@ export class LoginServiceService {
       },
       (error: any) => {
         console.error('API Error:', error);
+        console.log(this.notification );
+        
 
       }
     );

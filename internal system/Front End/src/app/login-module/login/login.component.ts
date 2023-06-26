@@ -7,9 +7,13 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+ 
+
+  styleUrls: ['./login.component.css'],
+
 })
 export class LoginComponent {
+  error:any = "Invaild Password";
   notification: any;
 
 
@@ -28,6 +32,7 @@ export class LoginComponent {
     password: new FormControl('')
 
   })
+
   login(item: any) {
 
     

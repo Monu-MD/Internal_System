@@ -212,8 +212,6 @@ function getUserByuser_idpwd1(user_id, callback) {
 
 / /////////////////////////////////////////////////LOG IN API //////////////////////////////////////////////////////////////
 
-
-
 router.post('/forgotpwd', (req, res) => {
     var userid = req.body.empid;
     console.log('userid', userid);
@@ -354,8 +352,10 @@ router.post('/login', (req, res) => {
                     return res.json({ message: "redirect to login", notification: "Invalid username or password" });
 
                 })
+
             } else {
                 return res.json({ message: "redirect to login", notification: "Invalid username or password" });
+                alert('invalid password');
             }
 
         });

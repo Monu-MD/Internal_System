@@ -1,71 +1,56 @@
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
-<form>
+<form [formGroup]="viewLeaveForm" (ngSubmit)="onSubmit(viewLeaveForm.value)">
     <div class="container" class="tablecontainer" class="viewData">
         <div class="table-content">
             <div class="contentleft">
                 <h1 class="titleViewPage">ViewLeavesData</h1>
-                <label class="contentleft">Search:</label>
-                <input type="text" name="employeeName" formControlName="employeeName" class="searchData"
-                    placeholder="EmployeeName">
             </div><br>
             <span>Show</span>
-            <select class="show-entries" (click)="onItemsPerPageChange()">
-                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
-            </select>
-            <span>entries</span>
+        <select class="show-entries" (change)="onItemsPerPageChange($event)">
+            <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+          </select>
+        <span>entries</span>
             <hr>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Leave Type</th>
-                        <th>Allocated Year</th>
-                        <th>NoOfDays Allocated</th>
-                        <th>Carry Forward NoOfDays</th>
-                        <th>Delete</th>
-                        <th>Modify</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                        *ngFor="let listleaves of listleaves|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
-                        <td>{{ listleaves.leaveType }}</td>
-                        <td>{{listleaves.allocatedYear}}</td>
-                        <td>{{ listleaves.noOfDaysAllocated }}</td>
-                        <td>{{ listleaves.carrryForwordNoOfDays }}</td>
-                        <td>{{ listleaves.delete }}</td>
-                        <td>{{ listleaves.modify }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-
-            <!-- <div>
-                <pagination-controls> [(page)]="currentPage"
-                    [itemsPerPage]="itemsPerPage"
-                    [totalItems]="totalItems"
-                    
-                </pagination-controls>
-                
-            </div> -->
-            <div >
-                <button (click)="goToFirstPage()" [disabled]="currentPage === 1" class="listbutton">First</button>
-                <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="listbutton">Previous</button>
-                <span>Page {{ currentPage }} of {{ totalPages }}</span>
-                <button (click)="goToNextPage()" [disabled]="currentPage === totalPages" class="listbutton" >Next</button>
-                <button (click)="goToLastPage()" [disabled]="currentPage === totalPages" class="listbutton" >Last</button>
-              </div>
-            <br>
-            <h1 class="titleViewPage">Confirm Submit</h1>
-            <div class="content">
-                <p>Do you want to proceed with updating the data ?</p>
-                <br>
-                <div>
-                    <button class="button">Confirm Submit</button>
-                    <button class="button">Cancel Submit</button>
-                </div>
+            <div *ngIf="dataLoaded">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Leave Type</th>
+                            <th>Allocated Year</th>
+                            <th>NoOfDays Allocated</th>
+                            <th>Carry Forward NoOfDays</th>
+                            <th>Delete</th>
+                            <th>Modify</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of rowData">
+                            <td>{{ row.leave_type }}</td>
+                            <td>{{ row.year}}</td>
+                            <td>{{ row.allocated_leaves}}</td>
+                            <td>{{ row.carry_fwd   }}</td>
+                            <td><button class="button" class="listbutton" (click)="deleteHoliday(row)" >Delete</button></td>
+                            <td><button class="button" class="listbutton" routerLink="/modifyLeave">Modify</button></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+          
+    
+            <div *ngIf="!dataLoaded">
+                <p>Loading data...</p>
+            </div>
+          
+
+            <div>
+                <button (click)="goToFirstPage()" class="listbutton">First</button>
+                <button (click)="goToPreviousPage()"  class="listbutton">Previous</button>
+                <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                <button (click)="goToNextPage()" class="listbutton">Next</button>
+                <button (click)="goToLastPage()" class="listbutton">Last</button>
+            </div>  
         </div>
     </div>
 </form>

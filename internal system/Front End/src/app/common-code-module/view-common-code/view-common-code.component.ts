@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CocdService } from 'src/app/services/cocd.service';
 
+
 @Component({
   selector: 'app-view-common-code',
   templateUrl: './view-common-code.component.html',
@@ -55,6 +56,8 @@ fetchData() {
         } else {
           console.error('Invalid response data');
         }
+
+        console.log(this.rowData);
       },
       (error: any) => {
         console.error('Error:', error);
@@ -112,8 +115,6 @@ updatePageData() {
   this.filteredData = this.rowData.slice(startIndex, endIndex);
 
 }
-
-
 
 }
 
