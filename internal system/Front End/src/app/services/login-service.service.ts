@@ -12,7 +12,7 @@ export class LoginServiceService {
   data: any;
   phtotUrl: any;
   notification: any;
-  emp_data:any
+  emp_data: any
 
 
 
@@ -27,15 +27,17 @@ export class LoginServiceService {
     this.user_name = value.ename;
     this.user_id = value.eid;
     this.user_type = value.emp_access;
-    this.emp_data=value.Emp_Master_Tbl[0];
+  }
 
+  setEmp_master_Tbl(value: any) {
+    this.emp_data = value[0]
   }
   setNotification(notification: any) {
     this.notification = notification
   }
 
   getData(): any {
-    return [this.user_id, this.user_name, this.user_type, this.notification,this.emp_data]
+    return [this.user_id, this.user_name, this.user_type, this.notification, this.emp_data]
   }
 
 
@@ -58,8 +60,8 @@ export class LoginServiceService {
       },
       (error: any) => {
         console.error('API Error:', error);
-        console.log(this.notification );
-        
+        console.log(this.notification);
+
 
       }
     );

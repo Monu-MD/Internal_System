@@ -4,7 +4,7 @@
         <h1 class="title">Login </h1>
         <div class="content">
             <div class="alert" *ngIf="notification">
-                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                 {{notification}}
               </div>
 
@@ -27,14 +27,13 @@
 
                         <input type="text" placeholder="User Id" #id name="userid" formControlName="userid" />
                     </div>
-
                     <div class="input-box">
-                        <input type="text" #passwordInput placeholder="Password" name="password" formControlName="password" />
-                        <p *ngIf="error">{{ error }}</p>
+
+                        <input type="text" placeholder="Password" name="password" formControlName="password" />
                     </div>
                 </div>
                 <div>
-                    <button class="button" (click)="login(passwordInput.value)">Login</button>
+                    <button class="button">Login</button>
                     <button class="button" type="reset">Clear</button>
                 </div>
                 <!-- [routerLink]="['dashboard']" -->

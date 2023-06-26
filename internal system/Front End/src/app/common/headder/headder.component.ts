@@ -20,7 +20,7 @@ export class HeadderComponent {
     this.user_id = data[0];
 
     console.log(this.user_id);
-    
+   
 
     // this.photoUrl = this.service.phtotUrl;
 
@@ -41,7 +41,7 @@ export class HeadderComponent {
     throw new Error('Method not implemented.');
   }
   profilePhoto(formData: any) {
-    
+   
     this.http.post('http://localhost:4000/upload-profile', formData)
       .subscribe(
         response => {
@@ -56,7 +56,7 @@ export class HeadderComponent {
   }
   logout() {
     console.log("user_id",this.user_id);
-    
+   
     const params = new HttpParams()
       .set('user_id',   this.user_id.toString());
 
@@ -75,16 +75,7 @@ export class HeadderComponent {
       }
     );
   }
-  
+ 
  
 
 }
-
-
-
-
-
-
-
-
-

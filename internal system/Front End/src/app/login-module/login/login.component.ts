@@ -7,17 +7,13 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
- 
-
-  styleUrls: ['./login.component.css'],
-
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  error:any = "Invaild Password";
   notification: any;
 
 
- 
+
 
   constructor(private service: LoginServiceService,
     private router: Router, private http: HttpClient) {
@@ -32,10 +28,9 @@ export class LoginComponent {
     password: new FormControl('')
 
   })
-
   login(item: any) {
 
-    
+
     console.log(item);
     this.loginData(item)
     // this.logincheck(item)
@@ -53,6 +48,7 @@ export class LoginComponent {
         this.notification = response.notification;
         if (response.message == 'redirect to dashboard') {
           this.service.setData(response.Data)
+          this.service.setEmp_master_Tbl(response.Data.Emp_Master_Tbl)
 
           this.router.navigate(['/dashboard'])
 
