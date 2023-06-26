@@ -3,21 +3,41 @@
 <app-sidebar></app-sidebar>
 
 
-<div class="container" class="container">
-    <h1 class="title">Search Employee Details</h1>
-    <div class="content">
-        <form [formGroup]="searchEmpolyeeDetailsForm" (ngSubmit)="onSubmit(searchEmpolyeeDetailsForm.value)">
-            <div class="user-details">
-                <div class="input-box">
-                    <label for="employeeName" class="details">Employee Id</label>
-                    <input type="number" placeholder="Employee Id" name="employeeId" formControlName="employeeId" />
+<div [ngSwitch]="user_type">
+    <div class="container" class="container" *ngSwitchCase="'L3'" >
+        <h1 class="title">Search Employee Details</h1>
+        <div class="content">
+            <form [formGroup]="searchEmpolyeeDetailsForm" (ngSubmit)="onSubmit(searchEmpolyeeDetailsForm.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="details">Employee Id</label>
+                        <input type="number" placeholder="Employee Id" name="employeeId" formControlName="employeeId" />
+                    </div>
                 </div>
-            </div>
-            <div>
-                <button class="button">Search</button>
-                <button class="button" type="reset">Clear</button>
-            </div>
-        </form>
+                <div>
+                    <button class="button">Search</button>
+                    <button class="button" type="reset">Clear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container" class="container" *ngSwitchCase="'A1'">
+        <h1 class="title">Search Employee Details</h1>
+        <div class="content">
+            <form [formGroup]="searchEmpolyeeDetailsForm" (ngSubmit)="onSubmit(searchEmpolyeeDetailsForm.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="details">Employee Id</label>
+                        <input type="number" placeholder="Employee Id" name="employeeId" formControlName="employeeId" />
+                    </div>
+                </div>
+                <div>
+                    <button class="button">Search</button>
+                    <button class="button" type="reset">Clear</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
 <app-footer></app-footer>

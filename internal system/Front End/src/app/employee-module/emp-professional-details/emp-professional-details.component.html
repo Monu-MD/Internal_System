@@ -6,31 +6,65 @@
     <div class="allighn">
         <div class="container">
 
-            <div class="title">Professional Details work</div>
+            <div class="title">Add Employee Profile</div>
             <div class="content">
-                <form class="#" [formGroup]="emp_professional_Details" (ngSubmit)="ProfessionalDeatils(emp_professional_Details.value)">
+                <form class="#" [formGroup]="add_Employee_Profile" (ngSubmit)="addEmployeeProfile(add_Employee_Profile.value)">
 
 
                     <div class="user-details">
                         <div class="input-box">
+                            <label class="details">Re-creation User Id</label>
+                            <input type="text"  name="rcreusedid" formControlName="rcreusedid" required>
+                        </div>
+
+                    
+                        <div class="input-box">
                             <label class="details">Employee ID</label>
-                            <input type="text" [readonly]="readable" name="employeeId" formControlName="employeeId" required>
+                            <input type="text"  name="employeeId" formControlName="employeeId" required>
                         </div>
 
                         <div class="input-box">
                             <label class="details">Employee Name</label>
-                            <input type="text" [readonly]="readable" name="employeeName" formControlName="employeeName">
+                            <input type="text"  name="employeeName" formControlName="employeeName">
                         </div>
-
                         <div class="input-box">
-                            <label class="details">Joining Date</label>
-                            <input type="date" [readonly]="readable" name="joiningDate" formControlName="joiningDate">
+                            <label class="details">Employee Access</label>
+                            <input type="text"  name="emp_acess" formControlName="emp_acess">
                         </div>
-
+                        
                         <div class="input-box">
                             <label class="details">Email Id</label>
                             <input type="email" name="email_ID" formControlName="email_ID">
                         </div>
+                        <div class="input-box">
+                            <label class="details">Designation</label>
+                            <input type="text" name="designation" formControlName="designation">
+                        </div>
+                        <div class="input-box">
+                            <label class="details">Project ID</label>
+                            <input type="text" name="pid" formControlName="pid">
+                        </div>
+                        <div class="input-box">
+                            <label class="details">Salary</label>
+                            <input type="text" name="Salary" formControlName="Salary">
+                        </div>
+                        <div class="input-box">
+                            <label class="details">Reporting Manager</label>
+                            <input type="text" name="rptMgr" formControlName="rptMgr">
+                        </div>
+                        <div class="input-box">
+                            <label class="details">Employee Class</label>
+                            <input type="text" name="empClass" formControlName="empClass">
+                        </div>
+                        <div class="input-box">
+                            <label class="details">Salary Currency</label>
+                            <input type="text" name="sal_curr" formControlName="sal_curr">
+                        </div>
+                        <div class="input-box">
+                            <label class="details">Joining Date</label>
+                            <input type="date"  name="joiningDate" formControlName="joiningDate">
+                        </div>
+
                     </div>
                     <div style="    display: flex;
                 flex-wrap: wrap;

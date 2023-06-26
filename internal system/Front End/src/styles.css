@@ -559,3 +559,24 @@ a {
   background-color: rgb(8, 53, 122);
 }
 
+.alert {
+  padding: 20px;
+  background-color: #f8d7da;
+  color: black;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
