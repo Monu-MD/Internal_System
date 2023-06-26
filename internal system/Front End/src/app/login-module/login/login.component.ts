@@ -34,7 +34,9 @@ export class LoginComponent {
     console.log(item);
     this.loginData(item)
     // this.logincheck(item)
-  
+
+
+
   }
 
   ///// login api///////////
@@ -63,34 +65,6 @@ export class LoginComponent {
     );
   }
 
-
-  // logincheck(data: any): void {
-  //   this.http.post('http://localhost:4000/logincheck', data).subscribe(
-  //     (response: any) => {
-  //       console.log(response.data);
-  //       this.service.setData(response.data)
-  //      this.service.setNotification(response.notification)
-  //       if (response.message == 'redirect to dashboard') {
-  //         this.router.navigate(['/dashboard'])
-
-  //       }
-  //       else if (response.message == 'redirect to login') {
-
-  //         this.router.navigate(['/'])
-
-  //       }
-  //       else if (response.message == 'redirect to reset passwrod ') {
-
-  //         this.router.navigate(['/changePassword'])
-
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('API Error:', error);
-
-  //     }
-  //   );
-  // }
 
 
   forgetpas(item: any) {

@@ -78,7 +78,7 @@ export class SidebarComponent {
       this.router.navigate(['initiaterem'])
     }
     if (item == 'emp') {
-      this.router.navigate(['bankdetails'])
+      this.router.navigate(['empDetailview'])
     }
     if (item == 'cocd') {
       this.router.navigate(['cocd'])

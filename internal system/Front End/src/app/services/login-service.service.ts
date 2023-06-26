@@ -12,6 +12,7 @@ export class LoginServiceService {
   data: any;
   phtotUrl: any;
   notification: any;
+  emp_data:any
 
 
 
@@ -23,17 +24,18 @@ export class LoginServiceService {
   setData(value: any): void {
     console.log(value);
 
+    this.user_name = value.ename;
+    this.user_id = value.eid;
+    this.user_type = value.emp_access;
+    this.emp_data=value.Emp_Master_Tbl[0];
 
-    this.user_name = value.user_name;
-    this.user_id = value.user_id;
-    this.user_type = value.user_type;
   }
   setNotification(notification: any) {
     this.notification = notification
   }
 
   getData(): any {
-    return [this.user_id, this.user_name, this.user_type, this.notification]
+    return [this.user_id, this.user_name, this.user_type, this.notification,this.emp_data]
   }
 
 

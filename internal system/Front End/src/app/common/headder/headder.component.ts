@@ -18,6 +18,12 @@ export class HeadderComponent {
     const data = this.service.getData()
     this.username = data[1];
     this.user_id = data[0];
+
+    console.log(this.user_id);
+    
+
+    // this.photoUrl = this.service.phtotUrl;
+
   }
 
   onFileSelected(event: any) {
