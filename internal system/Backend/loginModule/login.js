@@ -559,8 +559,8 @@ router.post('/updatepwd', (req, res) => {
 router.post('/login', (req, res) => {
     const user_id = req.body.userid;
     const password = req.body.password;
-    console.log(user_id, "user ID");
-    if (typeof (user_id) != undefined) {
+    console.log(typeof(user_id), "user ID");
+    if (typeof (user_id) != undefined || user_id!=" ") {
         pool.query("SELECT * from users where user_id = $1", [user_id], function (err, result) {
 
             if (err) {

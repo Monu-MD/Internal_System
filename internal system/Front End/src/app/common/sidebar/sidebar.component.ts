@@ -29,7 +29,7 @@ export class SidebarComponent {
 
     const user = this.loginservice.getData()
     this.user_type = user[2];
-    console.log(this.user_type);
+    console.log(this.user_type,"innsidebar");
 
     if (this.user_type == 'A1') {
       console.log("ifEnterd");
@@ -48,13 +48,6 @@ export class SidebarComponent {
     
     return this.userEnable
   }
-
-
-
-
-
-
-
 
   getID(item: string) {
     console.log(item);
@@ -78,7 +71,12 @@ export class SidebarComponent {
       this.router.navigate(['initiaterem'])
     }
     if (item == 'emp') {
-      this.router.navigate(['empDetailview'])
+      if (this.user_type=='A1') {
+        this.router.navigate(['searchmodify'])
+      } else {
+        
+        this.router.navigate(['empDetailview'])
+      }
     }
     if (item == 'cocd') {
       this.router.navigate(['cocd'])

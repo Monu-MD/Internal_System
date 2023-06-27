@@ -13,14 +13,14 @@ import { LoginServiceService } from 'src/app/services/login-service.service';
 export class EmpProfessionalDetailsComponent {
 
   user_type: any;
-  constructor(private empdet:AddemployeeserviceService,private router:Router, 
-    private http:HttpClient,
-    private loginSerivce:LoginServiceService){
+  constructor(private empdet: AddemployeeserviceService, private router: Router,
+    private http: HttpClient,
+    private loginSerivce: LoginServiceService) {
 
 
-    const user=this.loginSerivce.getData();
-    this.user_type=user[2];
-  
+    const user = this.loginSerivce.getData();
+    this.user_type = user[2];
+
   }
   probation_Period = '';
   previous_Experience = '';
@@ -29,15 +29,15 @@ export class EmpProfessionalDetailsComponent {
     employeeId: new FormControl('', [Validators.required]),
     employeeName: new FormControl(''),
     emp_acess: new FormControl(''),
-    designation:new FormControl(''),
+    designation: new FormControl(''),
     joiningDate: new FormControl(''),
     email_ID: new FormControl(''),
-    Salary:new FormControl(''),
+    Salary: new FormControl(''),
     pid: new FormControl(''),
     rptMgr: new FormControl(''),
-    empClass:new FormControl(''),
-    sal_curr:new FormControl(''),
-    rcreusedid:new FormControl(''),
+    empClass: new FormControl(''),
+    sal_curr: new FormControl(''),
+    rcreusedid: new FormControl(''),
 
     probation_Period: new FormControl(''),
     previous_Experience: new FormControl(''),
@@ -55,24 +55,24 @@ export class EmpProfessionalDetailsComponent {
 
   addEmployeeProfile(item: any) {
     console.log(item);
-    if(this.user_type=='A1'){
+    if (this.user_type == 'A1') {
       this.addProfile(item)
     }
   }
   addProfile(data: any): void {
     this.http.post('http://localhost:4000/employeeDetails/addempdet', data).subscribe(
       (response: any) => {
-        
-          console.log(response.message);
-          console.log(response.notification);
-          
-       
 
-        if(response.message=='redirect to PersonalDetails'){
+        console.log(response.message);
+        console.log(response.notification);
+
+
+
+        if (response.message == 'redirect to PersonalDetails') {
           this.router.navigate(['/empProfessional'])
-          
+
         }
-       
+
       },
       (error: any) => {
         console.error('API Error:', error);
@@ -85,6 +85,6 @@ export class EmpProfessionalDetailsComponent {
   get employeeId() {
     return this.add_Employee_Profile.get('employeeId')
   }
-  
+
 }
 

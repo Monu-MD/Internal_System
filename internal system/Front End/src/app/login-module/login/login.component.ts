@@ -32,10 +32,12 @@ export class LoginComponent {
 
 
     console.log(item);
-    this.loginData(item)
-    // this.logincheck(item)
+    if (item.userid != "" || item.password != "") {
 
-
+      this.loginData(item)
+    } else {
+      this.notification = "Enter login id or password"
+    }
 
   }
 
