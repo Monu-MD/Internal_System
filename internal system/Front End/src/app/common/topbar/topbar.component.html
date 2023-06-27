@@ -177,19 +177,30 @@
         </div>
     </nav>
 
-    <!-- Holiday Module -->
-    <nav class="menu">
-        <div class="top-content" *ngSwitchCase="'hol'">
-            <ul>
-                <li><a routerLink="/addHolidays">Add Holidays Details</a></li>
-                <li><a routerLink="/modifyLeave">Modify Leaves Details</a></li>
-                <li><a routerLink="/removeLeave">Remove Leaves Details</a></li>
-                <li><a routerLink="/ListLeave">View Leaves Details</a></li>
-                <li><a routerLink="/configLeave">Configure Details</a></li>
-                <li><a routerLink="/viewHolidays">List Of Holidays</a></li>
-            </ul>
+  <!-- Holiday Module -->
+<nav class="menu">
+    <div class="top-content" *ngSwitchCase="'hol'">
+        <div [ngSwitch]="user_type">
+            <div *ngSwitchCase="'L3'">
+                <ul>
+                    <li><a routerLink="/viewHolidays">List Of Holidays</a></li> 
+                </ul>
+            </div>
+
+
+            <div class="top-content" *ngSwitchCase="'A1'">
+                <ul>
+                    <li><a routerLink="/addHolidays">Add Holidays Details</a></li>
+                    <li><a routerLink="/viewHolidays">List Of Holidays</a></li> 
+                    <li><a routerLink="/configLeave">Configure Details</a></li>
+                    <li><a routerLink="/modifyLeave">Modify Leaves Details</a></li>
+                    <li><a routerLink="/removeLeave">Remove Leaves Details</a></li>
+                    <li><a routerLink="/ListLeave">View Leaves Details</a></li>
+                </ul>
+            </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
 
     <!-- Asset Module -->

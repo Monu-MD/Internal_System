@@ -682,6 +682,7 @@ function viewHolidaysLeave(req, res) {
     var rcretime = now;
 
     //pool.query("SELECT * FROM holidays where del_flg =$1 and day_type in ('H','O') AND year = $2 ",['N',year], function(err, holidayList) {
+        
     pool.query("SELECT day_type,sel_date,description,year FROM holidays where del_flg ='N' and day_type in ('H','O') order by current_date", function (err, holidayList) {
         if (err) {
             console.error('Error with table query', err);
@@ -703,6 +704,7 @@ function viewHolidaysLeave(req, res) {
                 year: year
             }
         })
+
         // res.render('requestModule/viewHolidaysLeave',{
         // holiday_list:holiday_list,
         // holiday_count:holiday_count,
@@ -745,6 +747,7 @@ function searchHolidays(req, res) {
                 year: year
             }
         })
+
         // res.render('holidaysModule/viewHolidays',{
         // rowData:rowData,
         // emp_id:emp_id,
@@ -787,8 +790,7 @@ function searchHolidaysLeave(req, res) {
                 year: year
             }
         })
-
-
+     
         // res.render('requestModule/viewHolidaysLeave', {
         //     holiday_list: holiday_list,
         //     holiday_count: holiday_count,
@@ -848,6 +850,7 @@ function searchWorkingDays(req, res) {
 }
 
 
+
 function removeHolidays(req, res) {
     var emp_id = req.body.user_id;
     var emp_access = req.body.user_type;
@@ -858,6 +861,7 @@ function removeHolidays(req, res) {
     var lchgtime = now;
     var year = now.getFullYear();
     var rcretime = now;
+
 
     pool.query("UPDATE holidays set del_flg = $1, lchg_user_id = $2 , lchg_time = $3 where  hol_id = $4 ", ['Y', emp_id, lchgtime, hol_id], function (err, done) {
         if (err) {
