@@ -9,7 +9,7 @@ var pool = require('../Database/dbconfig');
 router.get('/holidays', holidays);
 router.post('/addHolidays', addHolidays);
 router.get('/viewHolidays', viewHolidays);
-router.get('/removeHolidays', removeHolidays);
+router.get('/removeHolidays/:hol_id', removeHolidays);
 router.get('/viewWorkingDays', viewWorkingDays);
 router.get('/removeWorkingDays', removeWorkingDays);
 router.get('/searchHolidays', searchHolidays);
@@ -36,9 +36,9 @@ router.delete('/:leave_id', deleteLeaves);
  
 function removeLeavePage(req, res) {
 
-    var emp_id = req.user.rows[0].user_id;
-    var emp_access = req.user.rows[0].user_type;
-    var emp_name = req.user.rows[0].user_name;
+    var emp_id = req.user.query.user_id;
+    var emp_access = req.user.query.user_type;
+    var emp_name = req.user.query.user_name;
     var leave_type = req.query.id;
     var year = req.query.year;
     var now = new Date();
@@ -51,11 +51,11 @@ function removeLeavePage(req, res) {
         }
         else {
             var rowData = leaveList.rows;
-            leave_type_value = rowData[0].description;
-            leave_id = rowData[0].leave_type;
-            no_of_days = rowData[0].allocated_leaves;
-            carry_fwd = rowData[0].carry_fwd;
-            configyears = rowData[0].year;
+            leave_type_value = query.description;
+            leave_id = query.leave_type;
+            no_of_days =query.allocated_leaves;
+            carry_fwd = query.carry_fwd;
+            configyears = query.year;
         }
 
 
@@ -138,9 +138,9 @@ function deleteHolidays(req, res) {
 
 function modifyLeaveData(req, res) {
     
-    var emp_id = req.user.rows[0].user_id;
-    var emp_access = req.user.rows[0].user_type;
-    var emp_name = req.user.rows[0].user_name;
+    var emp_id = req.user.query.user_id;
+    var emp_access = req.user.query.user_type;
+    var emp_name = req.user.query.user_name;
     var leave_type = req.query.id;
     var configyears = req.query.year;
     var now = new Date();
@@ -153,11 +153,11 @@ function modifyLeaveData(req, res) {
         }
         else {
             rowData = leaveList.rows;
-            leave_type_value = rowData[0].description;
-            leave_id = rowData[0].leave_type;
-            no_of_days = rowData[0].allocated_leaves;
-            carry_fwd = rowData[0].carry_fwd;
-            configyears = rowData[0].year;
+            leave_type_value = query.description;
+            leave_id = query.leave_type;
+            no_of_days = query.allocated_leaves;
+            carry_fwd = query.carry_fwd;
+            configyears = query.year;
         }
 
         res.json({
@@ -192,11 +192,11 @@ function modifyLeaveData(req, res) {
 }
 
 function removeLeaveData(req, res) {
-    var emp_id = req.user.rows[0].user_id;
-    var emp_access = req.user.rows[0].user_type;
-    var emp_name = req.user.rows[0].user_name;
-    var leave_type = req.body.leaveId;
-    var configyears = req.body.configyears;
+    var emp_id = req.user.query.user_id;
+    var emp_access = req.user.query.user_type;
+    var emp_name = req.user.query.user_name;
+    var leave_type = req.params.leaveId;
+    var configyears = req.query.configyears;
     var now = new Date();
     var lchgtime = now;
     var rcretime = now;
@@ -250,7 +250,7 @@ function viewLeaveTypes(req, res) {
     var emp_name = req.query.user_name;
 
 
-    pool.query("SELECT comm_code_desc cocd, * FROM leave_config l, common_code_tbl cocd where cocd.del_flg ='N'and l.del_flg ='N' and cocd.comm_code_id = l.leave_type and cocd.code_id ='LTYP' order by l.year", function (err, leaveList) {
+    pool.query("SELECT comm_code_desc  cocd, * FROM leave_config l, common_code_tbl cocd where cocd.del_flg ='N'and l.del_flg ='N' and cocd.comm_code_id = l.leave_type and cocd.code_id ='LTYP' order by l.year", function (err, leaveList) {
         if (err) {
             console.error('Error with table query', err);
         } else {
@@ -682,7 +682,7 @@ function viewHolidaysLeave(req, res) {
     var rcretime = now;
 
     //pool.query("SELECT * FROM holidays where del_flg =$1 and day_type in ('H','O') AND year = $2 ",['N',year], function(err, holidayList) {
-        
+
     pool.query("SELECT day_type,sel_date,description,year FROM holidays where del_flg ='N' and day_type in ('H','O') order by current_date", function (err, holidayList) {
         if (err) {
             console.error('Error with table query', err);
@@ -852,10 +852,10 @@ function searchWorkingDays(req, res) {
 
 
 function removeHolidays(req, res) {
-    var emp_id = req.body.user_id;
-    var emp_access = req.body.user_type;
-    var emp_name = req.body.user_name;
-    var hol_id = req.query.id;
+    var emp_id = req.query.user_id;
+    var emp_access = req.query.user_type;
+    var emp_name = req.query.user_name;
+    var hol_id = req.params.hol_id;
     console.log("hol_idwe", hol_id);
     var now = new Date();
     var lchgtime = now;
@@ -868,6 +868,7 @@ function removeHolidays(req, res) {
             console.error('Error with table query', err);
         }
         else {
+
             //               console.log('111111111111111111111111111');
         }
 
@@ -929,7 +930,7 @@ function removeWorkingDays(req, res) {
     var lchgtime = now;
     var year = now.getFullYear();
     var rcretime = now;
-
+  console.log("emp_id:"+emp_id);
     pool.query("UPDATE  holidays set   del_flg = $1, lchg_user_id = $2 , lchg_time = $3 where  hol_id = $4 ", ['Y', emp_id, lchgtime, hol_id], function (err, done) {
 
         if (err) {
@@ -971,6 +972,7 @@ function removeWorkingDays(req, res) {
                         success: success
                     }
                 })
+
                 // res.render('holidaysModule/viewWorkingDays', {
                 //     rowData: rowData,
                 //     emp_id: emp_id,
@@ -981,6 +983,7 @@ function removeWorkingDays(req, res) {
                 //     holiday_count: holiday_count,
                 //     success: success
                 // });
+
             });
         });
     });

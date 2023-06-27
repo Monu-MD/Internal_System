@@ -67,7 +67,7 @@ fetchData() {
     }
 
 deleteHoliday(row: any) {
-  this.http.delete(`http://localhost:4000/holiday/deleteHoliday/${row.hol_id}`).subscribe(
+  this.http.get(`http://localhost:4000/holiday/removeHolidays/${row.hol_id}`).subscribe(
     (response: any) => {
               console.log('Data deleted successfully:', response);
                // Remove the deleted item from rowData array it will reloaded 

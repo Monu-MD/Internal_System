@@ -10,13 +10,13 @@
                 <h1 class="titleViewPage">View Holiday</h1>
 
                 <div [ngSwitch]="user_type">
-                    <div *ngSwitchCase="'L3'">
-                        <!-- <button class="listbutton" routerLink="/addHolidays">Add Holiday</button> -->
-                    </div>
-
                     <div *ngSwitchCase="'A1'">
                         <button class="listbutton" routerLink="/addHolidays">Add Holiday</button> 
                     </div>
+                    <div *ngSwitchCase="'L3'">
+                        <!-- <button class="listbutton" routerLink="/addHolidays">Add Holiday</button> -->
+                    </div>
+                    
                 </div>
             </div><br>
             <hr>
@@ -25,13 +25,13 @@
                     <tr>
                         <th>Holiday Type</th>
                         <th>Date</th>
-                        <th>description</th>
-                        <div [ngSwitch]="user_type">
+                        <th>description</th>   
+                        <div [ngSwitch]="user_type" >
+                            <div *ngSwitchCase="'A1'">
+                              <th>Action</th> 
+                            </div>
                             <div *ngSwitchCase="'L3'">
                                <!-- <th></th> -->
-                            </div>
-                            <div *ngSwitchCase="'A1'">
-                                <th>Action</th>
                             </div>
                         </div>
                     </tr>
@@ -41,14 +41,15 @@
                         <td>{{ row.day_type }}</td>
                         <td>{{ row.sel_date}}</td>
                         <td>{{ row.description}}</td>
+
                         <div [ngSwitch]="user_type">
+                            <div  *ngSwitchCase="'A1'">
+                            <td><button class="button" class="listbutton" (click)="deleteHoliday(row)">Delete</button></td>
+                            </div>
                             <div *ngSwitchCase="'L3'">
                                 <!-- <td></td> -->
                             </div>
 
-                            <div  *ngSwitchCase="'A1'">
-                            <td><button class="button" class="listbutton" (click)="deleteHoliday(row)">Delete</button></td>
-                            </div>
                         </div>
 
                     </tr>
