@@ -29,6 +29,7 @@ var mssg = require('./message/message');
 var childproject = require('./projectModule/childproject');
 var markModule = require('./MarkModule/markDetails');
 var employeeDetails = require('./EMployeeModule/employeeDetails');
+var request = require('./RequestModule/request')
 
 app.use('/capture', capture);
 app.use('/', login);
@@ -37,3 +38,4 @@ app.use('/message', mssg);
 app.use('/projectModule/childproject', childproject);
 app.use('/MarkModule/markDetails', markModule);
 app.use('/employeeDetails', employeeDetails);
+app.use('/request', request);
