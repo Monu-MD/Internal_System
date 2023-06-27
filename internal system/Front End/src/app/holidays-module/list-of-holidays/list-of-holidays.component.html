@@ -1,13 +1,23 @@
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
-<form>
+<form [formGroup]="viewHolidaysForm" (ngSubmit)="onSubmit(viewHolidaysForm.value)">
+
     <div class="container" class="listcontainer">
         <div class="table-content">
             <div class="addbutton">
 
-                <h1 class="titleViewPage">Add Holiday/Working Day</h1>
-                <button class="listbutton" routerLink="/addHolidays">Add Holiday</button>
+                <h1 class="titleViewPage">View Holiday</h1>
+
+                <div [ngSwitch]="user_type">
+                    <div *ngSwitchCase="'L3'">
+                        <!-- <button class="listbutton" routerLink="/addHolidays">Add Holiday</button> -->
+                    </div>
+
+                    <div *ngSwitchCase="'A1'">
+                        <button class="listbutton" routerLink="/addHolidays">Add Holiday</button> 
+                    </div>
+                </div>
             </div><br>
             <hr>
             <table>
@@ -15,32 +25,36 @@
                     <tr>
                         <th>Holiday Type</th>
                         <th>Date</th>
-                        <th>Description</th>
-                        <th>Year</th>
-                        <th>Action</th>
+                        <th>description</th>
+                        <div [ngSwitch]="user_type">
+                            <div *ngSwitchCase="'L3'">
+                               <!-- <th></th> -->
+                            </div>
+                            <div *ngSwitchCase="'A1'">
+                                <th>Action</th>
+                            </div>
+                        </div>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr
-                        *ngFor="let holidays of holidays|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
-                        <td>{{ holidays.type }}</td>
-                        <td>{{ holidays.date }}</td>
-                        <td>{{ holidays.description }}</td>
-                        <td>{{ holidays.year }}</td>
-                        <td><button class="button" class="listbutton"
-                                (click)="deleteHoliday(holidays.id)">Delete</button></td>
+                    <tr *ngFor="let row of rowData">
+                        <td>{{ row.day_type }}</td>
+                        <td>{{ row.sel_date}}</td>
+                        <td>{{ row.description}}</td>
+                        <div [ngSwitch]="user_type">
+                            <div *ngSwitchCase="'L3'">
+                                <!-- <td></td> -->
+                            </div>
+
+                            <div  *ngSwitchCase="'A1'">
+                            <td><button class="button" class="listbutton" (click)="deleteHoliday(row)">Delete</button></td>
+                            </div>
+                        </div>
+
                     </tr>
                 </tbody>
             </table>
-            <!-- <pagination-controls> [(page)]="currentPage"
-                    [itemsPerPage]="itemsPerPage"
-                    [totalItems]="totalItems"
-                    previousText="Previous"
-                    nextText="Next"
-                    firstText="First"
-                    lastText="Last"
-                    class="pagination">
-                </pagination-controls> -->
+
             <div>
                 <button (click)="goToFirstPage()" [disabled]="currentPage === 1" class="listbutton">First</button>
                 <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="listbutton">Previous</button>

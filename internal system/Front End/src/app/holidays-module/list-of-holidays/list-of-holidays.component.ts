@@ -1,64 +1,124 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { LoginServiceService } from 'src/app/services/login-service.service';
 @Component({
   selector: 'app-list-of-holidays',
   templateUrl: './list-of-holidays.component.html',
   styleUrls: ['./list-of-holidays.component.css']
 })
 export class ListOfHolidaysComponent {
-
-  holidays = [
-    { id: 1, type: 'Public', date: '2023-01-01', description: 'New Year', year: 2023 },
-    { id: 2, type: 'Public', date: '2023-01-26', description: 'Republic Day', year: 2023 },
-    { id: 3, type: 'Optional', date: '2023-02-19', description: 'Shivaji Jayanti', year: 2023 },
-    { id: 4, type: 'Public', date: '2023-03-10', description: 'Holi', year: 2023 },
-    { id: 5, type: 'Public', date: '2023-04-14', description: 'Dr. Babasaheb Ambedkar Jayanti', year: 2023 },
-    { id: 6, type: 'Optional', date: '2023-05-09', description: 'Guru Tegh Bahadur Martyrdom Day', year: 2023 },
-    { id: 7, type: 'Public', date: '2023-08-15', description: 'Independence Day', year: 2023 },
-    { id: 8, type: 'Public', date: '2023-10-02', description: 'Gandhi Jayanti', year: 2023 },
-    { id: 9, type: 'Public', date: '2023-10-19', description: 'Dussehra', year: 2023 },
-    { id: 10, type: 'Public', date: '2023-11-04', description: 'Diwali', year: 2023 },
-    { id: 11, type: 'Optional', date: '2023-11-24', description: 'Guru Tegh Bahadur Martyrdom Day', year: 2023 },
-    { id: 12, type: 'Public', date: '2023-12-25', description: 'Christmas', year: 2023 }
-  ];
-
-
-  itemsPerPage = 10;
-currentPage = 1;
-totalItems = this.holidays.length;
-
-   deleteHoliday(id: number) {
-    this.holidays = this.holidays.filter(holidays => holidays.id !== id);
-  }
+user_type:any;
+  data: any;
   
-totalPages = 45; // Example: total number of pages
+  constructor(private http: HttpClient,private loginservice:LoginServiceService) { 
 
-constructor() { }
+    const user=this.loginservice.getData();
+    this.user_type=user[2];
+    console.log(this.user_type);
+    
+
+  }
+
+  viewHolidaysForm:any;
+  rowData: any[] = [];
+  dataLoaded: boolean = false;
+  itemsPerPage: number = 10;
+  currentPage: number = 1;
+  totalPages: number = 15;
+  totalItems: number = 10;
+  itemsPerPageOptions: number[] = [10, 25, 50, 100];
+
+
+onItemsPerPageChange(event: any) {
+  const value = event.target.value;
+  this.itemsPerPage = value;
+  this.fetchData();
+
+}
+
 
 ngOnInit() {
-  // Initialize table data or fetch it from an API
+
+  this.fetchData();
+ 
 }
+
+fetchData() {  
+  this.http.get('http://localhost:4000/holiday/viewHolidays')
+    .subscribe(
+      (response: any) => {
+        console.log(response.data);
+        
+        if (response.message=='redirect to viewHolidays') {
+          this.rowData = response.data;
+          this.dataLoaded = true;
+          this.updatePageData();
+        } else {
+          console.error('Invalid response data');
+        }
+
+        console.log(this.rowData);
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
+
+    }
+
+deleteHoliday(row: any) {
+  this.http.delete(`http://localhost:4000/holiday/deleteHoliday/${row.hol_id}`).subscribe(
+    (response: any) => {
+              console.log('Data deleted successfully:', response);
+               // Remove the deleted item from rowData array it will reloaded 
+              this.rowData = this.rowData.filter(item => item.hol_id !== row.hol_id);
+            },
+            (error: any) => {
+              console.error('Error:', error);
+            }  
+  );
+ 
+  }
+
+
+  onSubmit(item:any){
+    console.log(item);
+     this.deleteHoliday(item);
+  }
+
+  get(){
+    return this.onSubmit
+  }
+
 
 goToFirstPage() {
   this.currentPage = 1;
-  // Load data for the first page
+   this.updatePageData();
 }
 
 goToPreviousPage() {
   if (this.currentPage > 1) {
     this.currentPage--;
-    // Load data for the previous page
+      this.updatePageData();
   }
 }
 
 goToNextPage() {
   if (this.currentPage < this.totalPages) {
     this.currentPage++;
-    // Load data for the next page
+     this.updatePageData();
   }
 }
 
 goToLastPage() {
   this.currentPage = this.totalPages;
-  // Load data for the last page
+   this.updatePageData();
+}
+
+updatePageData() {
+  var startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  var endIndex = startIndex + this.itemsPerPage;
+  this.rowData= this.rowData.slice(startIndex, endIndex);
+
 }
 }
