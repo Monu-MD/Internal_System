@@ -24,12 +24,16 @@ router.get('/viewLeaveTypes', viewLeaveTypes);
 router.get('/removeLeavePage', removeLeavePage);
 router.post('/removeLeaveData', removeLeaveData);
 router.get('/modifyLeaveData', modifyLeaveData);
-// router.put('/:leave_id', modifyLeaves);
+
+//router.put('/:leave_id', modifyLeaves);
+
 router.put('/modifyLeaves/:leave_id',modifyLeaves);
-router.delete('/:leave_id', deleteHolidays);
+router.delete('/deleteHoliday/:hol_id', deleteHolidays);
+router.delete('/:leave_id', deleteLeaves);
 
 
 
+ 
 function removeLeavePage(req, res) {
 
     var emp_id = req.user.rows[0].user_id;
@@ -86,7 +90,7 @@ function removeLeavePage(req, res) {
 
 
 // //delete data
-function deleteHolidays(req, res) {
+function deleteLeaves(req, res) {
 
     const leave_id = req.params.leave_id;
     const text = 'DELETE FROM leave_config WHERE leave_id = $1';
@@ -108,9 +112,32 @@ function deleteHolidays(req, res) {
 }
 
 
+// //delete data
+function deleteHolidays(req, res) {
+
+    const hol_id = req.params.hol_id;
+    const text = 'DELETE FROM holidays WHERE hol_id = $1';
+    const values = [hol_id];
+  
+    pool.query(text, values, (err, result) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Error updating data');
+          } 
+          else {
+            const message = {
+                message: "Data Deleted successfully"
+            }
+            res.send(message);
+          }
+    });
+
+}
+
+
 
 function modifyLeaveData(req, res) {
-
+    
     var emp_id = req.user.rows[0].user_id;
     var emp_access = req.user.rows[0].user_type;
     var emp_name = req.user.rows[0].user_name;
@@ -148,7 +175,6 @@ function modifyLeaveData(req, res) {
             }
         })
 
-
         // res.render('holidaysModule/modifyLeavesPage', {
         //     rowData: rowData,
         //     emp_id: emp_id,
@@ -160,6 +186,7 @@ function modifyLeaveData(req, res) {
         //     leave_id: leave_id,
         //     configyears: configyears
         // });
+
     });
 
 }
@@ -211,6 +238,7 @@ function removeLeaveData(req, res) {
             //     emp_access: emp_access,
             //     success: success
             // });
+
         });
     });
 }
@@ -477,6 +505,7 @@ function configureLeaves(req, res) {
         
                 });
             })
+
             //  res.render('holidaysModule/viewLeaveTypes',{
             //    emp_id:emp_id, 
             //     emp_name:emp_name,
@@ -484,6 +513,7 @@ function configureLeaves(req, res) {
             //     success:success,
             //     rowData:rowData
             //                         });
+
                           });
            
     }
@@ -515,25 +545,28 @@ function holidays(req, res) {
 
 }
 
-function addHolidays(req, res) {
+
+  function addHolidays(req, res) {
+
     var emp_id = req.body.user_id;
     var emp_access = req.body.user_type;
     var emp_name = req.body.user_name;
-    var action = req.body.action;
+    var action = req.body.day_type;
     console.log('action', action);
-    var desc = req.body.desc;
+    var sel_date = req.body.sel_date;
+    console.log('Seletedate', sel_date);
+    var desc = req.body.description;
     console.log('desc', desc);
-    var doc = req.body.doc;
-    console.log('doc', doc);
     var now = new Date();
-    var year = now.getFullYear();
     var rcretime = now;
-    // var splitValues = doc.split(",");
-    // console.log("splitValues", splitValues);
-    // var year = splitValues[0];
-    // console.log('year', year);
-    var year ;
 
+    // var splitValues = leaveTypeValue.split("-");
+    // var leaveTypeId = splitValues[0];
+    // var leaveTypeDesc = splitValues[1]
+    ///////////////
+
+    var year ;
+    var rowCount;
 
 
 
@@ -544,42 +577,57 @@ function addHolidays(req, res) {
         else {
             hol_id_value = done.rowCount;
             console.log('hol_id_value', hol_id_value);
-            hol_id_value = hol_id_value + 100;
-            console.log('hol_id_value', hol_id_value);
-            hol_id = hol_id_value + 1;
-            console.log('hol_id', hol_id);
+            hol_id_value =  hol_id_value + 100;
+            console.log(' hol_id_value',  hol_id_value);
+            hol_id =  hol_id_value + 1;
+            console.log(' hol_id',  hol_id);
         }
 
-        pool.query("select * from holidays where sel_date = $1 and del_flg='N'", [doc], function (err, done) {
-            var hcount = done.rowCount;
+        //logic added by srikanth
+
+         pool.query("select * from holidays where sel_date = $1 and del_flg='N'", [sel_date], function (err, done) {
+            if (err) {
+                console.error('Error with table query', err);
+            }
+            else {
+                var hcount = done.rowCount
+            }
 
 
             if (hcount == "0") {
 
-                pool.query("INSERT INTO holidays(day_type, sel_date, del_flg, rcre_user_id, rcre_time, lchg_user_id, lchg_time, description,year,hol_id) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)", [action, doc, 'N', emp_id, rcretime, emp_id, rcretime, desc, year, hol_id], function (err, done) {
+                pool.query("INSERT INTO holidays(day_type, sel_date, del_flg, rcre_user_id, rcre_time, lchg_user_id, lchg_time, description,year,hol_id) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)", [action, sel_date, 'N', emp_id, rcretime, emp_id, rcretime, desc, year, hol_id], function (err, done) {
                     if (err) throw err;
                 });
 
 
+
                 res.json({
+
+                    // req.flash('success', "Entry added successfully")
+                    // res.redirect(req.get('referer'));
+                    
                     message: "redirect to referer",
-                    notification: "Entry added sucessfully"
+                    notification: "Entry added successfully",
+                    data: {
+                         action:action,
+                         sel_date:sel_date,
+                         desc:desc,
+                        
+                    }
                 })
-                // req.flash('success', "Entry added successfully")
-                // res.redirect(req.get('referer'));
 
             }
             else {
-
                 res.json({
                     message: "redirect to referer",
-                    notification: "Entry already exists for the entered data"
+                    notification: "Holiday Type Already Added for this Year , Try Modifying the Holiday Type"
                 })
-                // req.flash('error', "Entry already exists for the entered date :" + doc + ".")
+
+                // req.flash('error', "Leave Type Already Added for this Year , Try Modifying the Leave Type")
                 // res.redirect(req.get('referer'));
+
             }
-
-
         });
     });
 }
