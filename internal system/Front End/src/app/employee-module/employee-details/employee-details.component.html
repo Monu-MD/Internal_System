@@ -1,34 +1,30 @@
 <app-headder></app-headder>
-<app-sidebar></app-sidebar>
 <app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
 
 
 <div class="professional-details">
   <h2>Professional Details</h2>
-  <ng-container>
-    <p>Work</p>
-  </ng-container>
+
   <p>Employee Id: {{EMPID}}</p>
   <p>Employee Name: {{ EMPNAME }}</p>
   <p>Email: {{ email }}</p>
   <p>Employee Access: {{ EMPACCESS }}</p>
-  <p>Joining Date (YYYY-MM-DD): {{ JDATE }}</p>
+  <p>Joining Date : {{ JDATE }}</p>
   <p>Designation: {{ DESIG }}</p>
   <p>Employee Classification: {{ EMPCLASS }}</p>
   <p>Gross Salary Per Month: {{ SALARY }}</p>
   <p>Salary Currency: {{ SALARY_CURR }} - {{ SALARY_CURR_DESC }}</p>
   <p>Project Id: {{ PID }}</p>
-  <ng-container *ngIf="rptMan !== ''">
-    <p>Reporting Manager: {{ RPTMAN }} - {{ RPTMAN_DESC }}</p>
-  </ng-container>
-  <ng-container *ngIf="rptMan === ''">
-    <p>Reporting Manager: {{ RPTMAN }}</p>
-  </ng-container>
+  <!-- <div *ngIf="rptMan !== ''"> -->
+  <p>Reporting Manager: {{ RPTMAN }} - {{ RPTMAN_DESC }}</p>
+  <!-- </div> -->
+  <!-- <ng-container *ngIf="rptMan === ''"> -->
+  <p>Reporting Manager: {{ RPTMAN }}</p>
+  <!-- </ng-container> -->
   <p>Probation Period: {{ PROBPERIOD }}</p>
 
-  <ng-container>
-    <p>Experience Details</p>
-  </ng-container>
+
   <p>Previous Experience: {{ PREEM }}</p>
   <p>Previous Experience In (Years And Months): {{ PREEXPYEAR }}{{ PREEXPMONTH }}</p>
   <p>Last Employment In Chronological Order: {{ PREEMP }}</p>
@@ -38,14 +34,9 @@
   <p>Previous Employer Five: {{ PREEMP5 }}</p>
 </div>
 
-<div class="personal-details">
+<div class="professional-details2">
   <h2>Personal Details</h2>
-  <ng-container>
-    <p>perm_identity</p>
-  </ng-container>
-  <ng-container>
-    <p>perm_identity</p>
-  </ng-container>
+
   <p>Gender: {{ GENDER }}</p>
   <p>Date of Birth (YYYY-MM-DD): {{ DOB }}</p>
   <p>Blood Group: {{ BGROUP }}</p>
@@ -73,14 +64,9 @@
   <p>UAN Number: {{ UAN }}</p>
 </div>
 
-<div class="bank-details">
+<div class="professional-details2">
   <h2>Bank Details</h2>
-  <ng-container>
-    <p>business</p>
-  </ng-container>
-  <ng-container>
-    <p>business</p>
-  </ng-container>
+
   <p>Name As per Bank: {{ NAMEINBANK }}</p>
   <p>Bank Name: {{ BANKNAME }}</p>
   <p>Branch Name: {{ BRANCHNAME }}</p>
