@@ -533,16 +533,22 @@ router.post('/updatepwd', (req, res) => {
                         else {
                             bcrypt.genSalt(10, function (err, salt) {
                                 bcrypt.hash(newpasscode, salt, function (err, hash) {
-                                    storepass = newpasscode;
-                                    storepass = hash;
-                                    pool.query("UPDATE users set password=$1 where user_id=$2 and login_allowed =$3", [storepass, userid, 'Y'], function (err, result1) {
+                                  var  storepass = newpasscode;
+                                  var  storepass = hash;
+                                    pool.query('UPDATE users SET password=$1, login_allowed=$2, reset_flg=$3 WHERE user_id=$4', [storepass, 'Y', 'N', userid], function (err, result1) {
                                         // ,client_ip,session_id --> these field not exist in table u need create
+                                        if (err) {
+                                            console.log(err);
+                                        }
+                                        else {
+                                            console.log("reseted flag");
 
+                                            res.json({
+                                                message: "redierct to login",
+                                                notification: "pasword updated successfully"
+                                            })
+                                        }
 
-                                        res.json({
-                                            message: "redierct to login",
-                                            notification: "pasword updated successfully"
-                                        })
                                     });
                                 });
                             });
@@ -621,7 +627,7 @@ router.post('/login', (req, res) => {
                                 // });
 
                                 res.json({
-                                    message: "redirect to reset passwrod ",
+                                    message: "redirect to reset",
                                     notification: "Please Change The Default Password and Proceed",
                                     data: user
                                 })
@@ -1094,7 +1100,7 @@ router.post('/login', (req, res) => {
                                                                                                                                 console.log("after update");
 
 
-                                                                                                                                res.json({
+                                                                                                                                res.sendStatus(200).json({
                                                                                                                                     message: "redirect to dashboard", Data: {
                                                                                                                                         ename: user.user_name,
                                                                                                                                         eid: user.user_id,
@@ -1162,7 +1168,7 @@ router.post('/login', (req, res) => {
                                                     console.log(err, "error");
                                                 }
                                                 emp_master_tbl = result.rows;
-                                                return res.json({
+                                                res.json({
                                                     message: 'redirect to dashboard',
                                                     notificetion: "logged",
                                                     Data: emp_master_tbl

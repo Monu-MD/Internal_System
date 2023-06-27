@@ -21,18 +21,6 @@ app.listen(4000, () => {
 //////////////////////// Importing Node Modules //////////////////////////////////////
 
 
-app.get("/cocd", (req, res) => {
-  var sql = "SELECT * FROM common_code_tbl";
-  pool.query(sql, function (error, result) {
-    if (error) {
-      console.log("Error Connecting to DB");
-    } else {
-      res.send({ status: true, data: result });
-
-    }
-  });
-});
-
 var capture = require('./captureModule/capture');
 var login = require('./loginModule/login');
 var cocd = require('./cocdModule/cocd');
@@ -40,7 +28,8 @@ var mssg = require('./message/message');
 var childproject = require('./projectModule/childproject');
 var markModule = require('./MarkModule/markDetails');
 var employeeDetails = require('./EMployeeModule/employeeDetails');
-var holiday = require('./HolidayModule/holiday');
+var holiday=require('./HolidayModule/holiday');
+var request = require('./RequestModule/request');
 
 app.use('/capture', capture);
 app.use('/', login);
@@ -49,7 +38,6 @@ app.use('/message', mssg);
 app.use('/projectModule/childproject', childproject);
 app.use('/MarkModule/markDetails', markModule);
 app.use('/employeeDetails', employeeDetails);
-app.use('/holiday', holiday);
-
-
+app.use('/holiday',holiday);
+app.use('/request', request);
 

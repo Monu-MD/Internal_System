@@ -70,6 +70,11 @@ export class LoginServiceService {
           this.router.navigate(['/'])
 
         }
+        if (response.message == 'redirect to reset') {
+
+          this.router.navigate(['/changePassword'])
+
+        }
       },
       (error: any) => {
         console.error('API Error:', error);

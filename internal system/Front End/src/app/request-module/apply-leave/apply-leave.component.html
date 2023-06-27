@@ -10,8 +10,8 @@
                     <label for="sessionType" class="details">Session Type</label>
                     <select id="sessionType" class="form-control" formControlName="sessionType">
                         <option value="">--Select--</option>
-                        <option value="fullDay">Full Day</option>
-                        <option value="halfDay">Half Day</option>
+                        <option value="FD">Full Day</option>
+                        <option value="HD">Half Day</option>
                     </select>
                     <pre></pre>
                 </div>
@@ -21,9 +21,9 @@
                     <label for="leaveType" class="details">Leave Type </label>
                     <select id="leaveType" class="form-control" formControlName="leaveType">
                         <option value="">--Select--</option>
-                        <option value="annual">Annual</option>
-                        <option value="sick">Sick</option>
-                        <option value="maternity">Maternity</option>
+                        <option value="EL">Annual</option>
+                        <option value="SL">Sick</option>
+                        <option value="ML">Maternity</option>
                     </select>
                     <pre></pre>
 
@@ -34,6 +34,10 @@
                 <div class="input-box">
                     <label class="details">From Date</label>
                     <input type="date" name="fromDate" formControlName="fromDate">
+                </div>
+                <div class="input-box">
+                    <label class="details">To Date</label>
+                    <input type="date" name="toDate" formControlName="toDate">
                 </div>
 
 
@@ -54,6 +58,10 @@
                     <input type="number" name="numDays" formControlName="appliedNoOfDays">
                 </div>
 
+                <div class="input-box">
+                    <label for="description" class="details">Reason</label>
+                    <textarea id="description" class="form-control" formControlName="description"></textarea>
+                </div>
 
                 <div class="input-box">
                     <label class="details"> Available Leaves for this Quarter</label>
@@ -68,10 +76,7 @@
 
                 </div>
 
-                <div class="input-box">
-                    <label for="description" class="details">Reason</label>
-                    <textarea id="description" class="form-control" formControlName="description"></textarea>
-                </div>
+                
 
             </div>
 
