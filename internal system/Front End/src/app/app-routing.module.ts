@@ -97,6 +97,7 @@ import { CommonCodeDetailsDeleteComponent } from './common-code-module/common-co
 import { ReimbusmentReqDetailsComponent } from './reimbusment-mdule/reimbusment-req-details/reimbusment-req-details.component';
 import { EmpPersonalDetailsComponent } from './employee-module/emp-personal-details/emp-personal-details.component';
 import { EmpProfessionalDetailsComponent } from './employee-module/emp-professional-details/emp-professional-details.component';
+import { EmployeeDetailsComponent } from './employee-module/employee-details/employee-details.component';
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
@@ -135,6 +136,7 @@ const routes: Routes = [
 {path:'searchmodify',component:SearchEmployeeDetailsComponent},
 {path:'empProfessional',component:EmpProfessionalDetailsComponent},
 {path:'emppersonal',component:EmpPersonalDetailsComponent},
+{path:"empDetailview",component:EmployeeDetailsComponent},
 
 //invoice
 { path: 'chooseinvoice', component:ChooseinvoiceDetailsComponent },

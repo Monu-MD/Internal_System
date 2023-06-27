@@ -3,6 +3,10 @@
 
         <h1 class="title">Login </h1>
         <div class="content">
+            <div class="alert" *ngIf="notification">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{notification}}
+              </div>
 
             <form [formGroup]="Login" class="#" (ngSubmit)="login(Login.value)">
                 <div *ngIf="notification!=null">
@@ -21,7 +25,7 @@
                 <div class="user-details">
                     <div class="input-box">
 
-                        <input type="text" placeholder="User Id" name="userid" formControlName="userid" />
+                        <input type="text" placeholder="User Id" #id name="userid" formControlName="userid" />
                     </div>
                     <div class="input-box">
 
@@ -35,7 +39,9 @@
                 <!-- [routerLink]="['dashboard']" -->
                 <div>
                     <a [routerLink]="['changePassword']" routerLinkActive="router-link-active">Reset Password</a> <br>
-                    <a [routerLink]="['forgotPassword']" routerLinkActive="router-link-active">Forget Password</a><br>
+
+                    <a (onclick)="forgetpas(id.value)"   [routerLink]="['forgotPassword']" routerLinkActive="router-link-active">Forget Password</a><br>
+
                     <a [routerLink]="['register']">New User?Register here</a>
                 </div>
             </form>

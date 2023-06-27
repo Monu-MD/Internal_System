@@ -18,6 +18,7 @@ export class ModifyPersonalDetailsComponent {
     employeeName: new FormControl('', [Validators.required])
 
   })
+user_type: any;
 
     onSubmit(iteam:any): void {
         if (this.employeeName && iteam.employeeName) {

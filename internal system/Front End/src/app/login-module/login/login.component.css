@@ -5,3 +5,14 @@ a{
     text-align: center;
     margin-left: 10px;
   }
+
+
+input[type="password"].invalid {
+  border-color: red;
+}
+
+p.invalid {
+  color: red;
+  margin-top: 10px;
+  font-size: 16px;
+}

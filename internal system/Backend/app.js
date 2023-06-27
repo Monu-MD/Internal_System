@@ -18,8 +18,7 @@ app.listen(4000, () => {
 });
 
 
-//////////////////////// Importing Node Modules ////////////////////////////////////////
-
+//////////////////////// Importing Node Modules //////////////////////////////////////
 
 
 var capture = require('./captureModule/capture');
@@ -29,7 +28,8 @@ var mssg = require('./message/message');
 var childproject = require('./projectModule/childproject');
 var markModule = require('./MarkModule/markDetails');
 var employeeDetails = require('./EMployeeModule/employeeDetails');
-var request = require('./RequestModule/request')
+var holiday=require('./HolidayModule/holiday');
+var request = require('./RequestModule/request');
 
 app.use('/capture', capture);
 app.use('/', login);
@@ -38,4 +38,5 @@ app.use('/message', mssg);
 app.use('/projectModule/childproject', childproject);
 app.use('/MarkModule/markDetails', markModule);
 app.use('/employeeDetails', employeeDetails);
+app.use('/holiday',holiday);
 app.use('/request', request);
