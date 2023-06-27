@@ -23,9 +23,22 @@ export class LoginServiceService {
 
   setData(value: any): void {
     console.log(value);
+    if (value.emp_name != null) {
 
-    this.user_name = value.ename;
-    this.user_id = value.eid;
+      this.user_name = value.emp_name;
+    }
+    else{
+      this.user_name = value.ename;
+
+    }
+    if (value.emp_id) {
+      this.user_id = value.emp_id;
+
+    }else{
+
+      this.user_id = value.eid;
+    }
+
     this.user_type = value.emp_access;
   }
 

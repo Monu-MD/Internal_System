@@ -47,8 +47,22 @@ export class LoginComponent {
 
         this.notification = response.notification;
         if (response.message == 'redirect to dashboard') {
-          this.service.setData(response.Data)
-          this.service.setEmp_master_Tbl(response.Data.Emp_Master_Tbl)
+
+          if (response.Data[0] != null) {
+
+            this.service.setData(response.Data[0])
+          }
+          else {
+            this.service.setData(response.Data)
+
+          }
+          if (response.Data.Emp_Master_Tbl != null) {
+
+            this.service.setEmp_master_Tbl(response.Data.Emp_Master_Tbl)
+          }
+          else {
+            this.service.setEmp_master_Tbl(response.Data)
+          }
 
           this.router.navigate(['/dashboard'])
 

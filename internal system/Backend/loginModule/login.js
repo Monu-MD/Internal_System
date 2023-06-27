@@ -560,7 +560,7 @@ router.post('/login', (req, res) => {
     const user_id = req.body.userid;
     const password = req.body.password;
     console.log(user_id, "user ID");
-    if (typeof (user_id) != undefined ) {
+    if (typeof (user_id) != undefined) {
         pool.query("SELECT * from users where user_id = $1", [user_id], function (err, result) {
 
             if (err) {
@@ -629,14 +629,21 @@ router.post('/login', (req, res) => {
                         })
 
                         if (emp_access === 'A1') {
-                            return res.json({ message: "redirect to dashboard", notification: "login Successful" });
+                            pool.query("select * from emp_master_tbl where emp_id=$1", [user_id], function (err, result) {
+                                if (err) {
+                                    console.log(err, "error");
+                                }
+                                emp_master_tbl = result.rows;
+                                return res.json({ message: "redirect to dashboard", notification: "login Successful", Data: emp_master_tbl });
+                            })
+
                         }
                         else {
 
                             pool.query("SELECT login_check,LOWER(user_id),user_type,expiry_date from users where LOWER(user_id) = LOWER($1) and (expiry_date>=$2 and login_allowed=$3) and(del_flag=$4)",
                                 [user_id, now, 'Y', 'N'], function (err, result) {
                                     if (err) throw err;
-                                   
+
 
                                     if (result.rows['0'] != null) {
                                         console.log("within case check");
@@ -683,13 +690,13 @@ router.post('/login', (req, res) => {
 
                                                             pool.query("select * from emp_master_tbl where emp_id=$1", [user_id], function (err, result) {
                                                                 if (err) {
-                                                                    console.log(err,"error");
-                                                                }    
-                                                                emp_master_tbl=result.rows;
+                                                                    console.log(err, "error");
+                                                                }
+                                                                emp_master_tbl = result.rows;
                                                             })
                                                             directoryCount = directoryList.rowCount;
                                                             directoryData = directoryList.rows;
-                                                           
+
                                                             //      console.log('directoryCount',directoryCount);
                                                             //     console.log('directoryData', directoryData);
                                                         }
@@ -1122,11 +1129,11 @@ router.post('/login', (req, res) => {
                                                                                                                                         leave_tobe_approved: leave_tobe_approved,
                                                                                                                                         leave_to_approve: leave_to_approve,
                                                                                                                                         total_leave_count: total_leave_count,
-                                                                                                                                        Emp_Master_Tbl:emp_master_tbl
+                                                                                                                                        Emp_Master_Tbl: emp_master_tbl
 
                                                                                                                                     }
                                                                                                                                 });
-                                                                                                                            
+
                                                                                                                             });
                                                                                                                         });
                                                                                                                     });
@@ -1150,13 +1157,23 @@ router.post('/login', (req, res) => {
                                             });
                                         }
                                         else {
+                                            pool.query("select * from emp_master_tbl where emp_id=$1", [user_id], function (err, result) {
+                                                if (err) {
+                                                    console.log(err, "error");
+                                                }
+                                                emp_master_tbl = result.rows;
+                                                return res.json({
+                                                    message: 'redirect to dashboard',
+                                                    notificetion: "logged",
+                                                    Data: emp_master_tbl
+                                                })
+                                                // return res.json({ message: "redirect to dashboard", notification: "login Successful" ,});
+                                            })
 
                                             // req.flash('error', 'LOGGED');
                                             // res.redirect('/');
-                                            return res.json({
-                                                message: 'redirect to login',
-                                                notificetion: "logged"
-                                            })
+
+
 
                                         }
 
@@ -1219,13 +1236,13 @@ router.get('/logout', (req, res) => {
     pool.query("UPDATE users SET login_check=$1,client_ip='',session_id='' where user_id=$2", ['N', user_id],
         function (err, result) {
             if (err) throw err;
-           
+
 
             res.json({ message: "redirect to login", notification: "You are successfully Logged Out" })
 
         }
     );
- 
+
 
 });
 
