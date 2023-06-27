@@ -620,11 +620,11 @@ router.post('/login', (req, res) => {
                                 //     error1: error1
                                 // });
 
-                                res.json({
-                                    message: "redirect to reset passwrod ",
-                                    notification: "Please Change The Default Password and Proceed",
-                                    data: user
-                                })
+                                // res.json({
+                                //     message: "redirect to reset passwrod ",
+                                //     notification: "Please Change The Default Password and Proceed",
+                                //     data: user
+                                // });
                             }
                         })
 
