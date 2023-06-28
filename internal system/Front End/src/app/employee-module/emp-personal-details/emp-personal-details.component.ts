@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import {  FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AddemployeeserviceService } from 'src/app/services/addemployeeservice.service';
+import { LoginServiceService } from 'src/app/services/login-service.service';
 
 @Component({
   selector: 'app-emp-personal-details',
@@ -11,11 +12,19 @@ import { AddemployeeserviceService } from 'src/app/services/addemployeeservice.s
 })
 export class EmpPersonalDetailsComponent {
 
+  user_id:any;
   gender='';
   
   constructor(private router:Router,
     private http:HttpClient,
-    private service :AddemployeeserviceService){}
+    private service :AddemployeeserviceService,private loginservice:LoginServiceService){
+
+      const user=this.loginservice.getData()
+      this.user_id=user[0]
+     
+      
+
+    }
     
     emp_Personal_Details = new FormGroup<any>({
     
@@ -51,11 +60,29 @@ export class EmpPersonalDetailsComponent {
 
   emp_personalDetails(item: any) {
     console.log(item);
-    // if(item!=null){
-      // this.router.navigate(['professionalDetails'])
-      // this.service.addEmpPer(item);
-    // }
+    this.addEmpPer(item)
+    
   
+  }
+  addEmpPer(data: any): void {
+    this.http.post('http://localhost:4000/employeeDetails/addempper', data).subscribe(
+      (response: any) => {
+        
+          console.log(response.message);
+          console.log(response.notification);
+        if(response.message=='redirect to employee details view'){
+          // console.log("professional entry");
+          this.loginservice.setEmp_master_Tbl(response.Data)
+          this.router.navigate(['/empDetailview'])
+          
+        }
+      },
+      (error: any) => {
+        console.error('API Error:', error);
+        // Handle error cases and navigate accordingly
+        // this.router.navigate(['/error']);
+      }
+    );
   }
   communicationAddress:string='';
   parmanentAddress:string=' ';

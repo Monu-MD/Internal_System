@@ -209,6 +209,53 @@ function getUserByuser_idpwd1(user_id, callback) {
     });
 }
 
+function fetchUserDetails(user_id, callback) {
+    const userDetails = {};
+
+    pool.query('SELECT * FROM users WHERE user_id = $1', [user_id], function (err, result) {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+        userDetails.user_details = result.rows[0];
+
+        pool.query('SELECT * FROM data_emp_info_tbl_temp WHERE emp_id = $1', [user_id], function (err, result) {
+            if (err) {
+                callback(err, null);
+                return;
+                
+            }
+            rowCount=result.rowCount;
+            if (rowCount>0) {
+                
+                userDetails.emp_details = result.rows[0];
+            }
+            else{
+                userDetails.emp_details = null;
+
+            }
+
+            pool.query('SELECT * FROM leaves WHERE emp_id = $1', [user_id], function (err, result) {
+                if (err) {
+                    callback(err, null);
+                    return;
+                }
+                userDetails.leave_details = result.rows[0];
+
+                pool.query('SELECT * FROM holidays', function (err, result) {
+                    if (err) {
+                        callback(err, null);
+                        return;
+                    }
+                    userDetails.holiday_details = result.rows;
+
+                    callback(null, userDetails);
+                });
+            });
+        });
+    });
+}
+
 
 / /////////////////////////////////////////////////LOG IN API //////////////////////////////////////////////////////////////
 
@@ -533,8 +580,8 @@ router.post('/updatepwd', (req, res) => {
                         else {
                             bcrypt.genSalt(10, function (err, salt) {
                                 bcrypt.hash(newpasscode, salt, function (err, hash) {
-                                  var  storepass = newpasscode;
-                                  var  storepass = hash;
+                                    var storepass = newpasscode;
+                                    var storepass = hash;
                                     pool.query('UPDATE users SET password=$1, login_allowed=$2, reset_flg=$3 WHERE user_id=$4', [storepass, 'Y', 'N', userid], function (err, result1) {
                                         // ,client_ip,session_id --> these field not exist in table u need create
                                         if (err) {
@@ -565,8 +612,8 @@ router.post('/updatepwd', (req, res) => {
 router.post('/login', (req, res) => {
     const user_id = req.body.userid;
     const password = req.body.password;
-    console.log(typeof(user_id), "user ID");
-    if (typeof (user_id) != undefined || user_id!=" ") {
+    console.log(typeof (user_id), "user ID");
+    if (typeof (user_id) != undefined || user_id != " ") {
         pool.query("SELECT * from users where user_id = $1", [user_id], function (err, result) {
 
             if (err) {
@@ -583,8 +630,6 @@ router.post('/login', (req, res) => {
                 comparePasswordpwd(password, user.password, function (err, isMatch) {
                     if (err) throw err;
                     if (isMatch) {
-
-                        var emp_access = user.user_type;
                         var hu = ['AU', 'RU'];
                         var queryres = "";
                         var ename = "";
@@ -606,7 +651,7 @@ router.post('/login', (req, res) => {
                         module.exports.sessiontimeout = "";
                         module.exports.activeuser = "";
                         module.exports.user_email = "";
-                        module.exports.user_id = "";
+                        module.exports.username = "";
                         module.exports.email = "";
                         module.exports.listofrecords = "";
                         module.exports.profilepic = "";
@@ -614,18 +659,13 @@ router.post('/login', (req, res) => {
                         module.exports.reminderlist_count = "";
                         module.exports.reminderlist_past = "";
 
+                        var emp_access = user.user_type;
                         pool.query("SELECT reset_flg FROM users where user_id=$1", [user_id], function (err, flg) {
                             if (err) {
                                 console.error('Error with table query', err)
                             }
                             var check = flg.rows['0'].reset_flg;
                             if (check == 'Y') {
-
-                                // var error1 = "Please Change The Default Password and Proceed";
-                                // res.render('changePassword/changePassword', {
-                                //     error1: error1
-                                // });
-
                                 res.json({
                                     message: "redirect to reset",
                                     notification: "Please Change The Default Password and Proceed",
@@ -635,598 +675,98 @@ router.post('/login', (req, res) => {
                         })
 
                         if (emp_access === 'A1') {
-                            pool.query("select * from emp_master_tbl where emp_id=$1", [user_id], function (err, result) {
+                            pool.query('SELECT * FROM users WHERE user_id = $1', [user_id], function (err, result) {
                                 if (err) {
-                                    console.log(err, "error");
+                                    callback(err, null);
+                                    return;
                                 }
-                                emp_master_tbl = result.rows;
-                                return res.json({ message: "redirect to dashboard", notification: "login Successful", Data: emp_master_tbl });
+                                userDetails = result.rows[0];
+                            return res.json({ message: "redirect to admin dashboard", notification: "login Successful",Data:userDetails });
                             })
 
                         }
                         else {
+                            pool.query("SELECT login_check,LOWER(user_id),user_type,expiry_date from users where LOWER(user_id) = LOWER($1) and (expiry_date>=$2 and login_allowed=$3) and(del_flag=$4)", [user_id, now, 'Y', 'N'], function (err, result) {
+                                if (err) throw err;
+
+                                if (result.rows['0'] != null) {
+                                    console.log("within case check");
+                                    logincheck = result.rows['0'].login_check;
+                                    if (logincheck == "N") {
+                                        userid = result.rows['0'].user_id;
+                                        queryres = result.rows['0'].user_type;
+                                        datecheck = result.rows['0'].expiry_date;
+                                        console.log('user_type', queryres);
+                                        attempts = 0;
+
+                                        pool.query("UPDATE users SET login_attempts=$1,login_check=$2,reset_flg='N' where LOWER(user_id)=LOWER($3)", [attempts, 'Y', user_id]);
+                                        console.log("after update");
+                                        fetchUserDetails(user_id, function (err, userDetails) {
+                                            if (err) {
+                                                console.error(err);
+                                                // Handle the error case
+                                                return;
+                                            }
+                                            // Access the userDetails object here
+                                            const detail = userDetails;
+                                            // Now you can use the `detail` variable to access the user details
+                                            res.json({message:"redirect to dashboard",notification:"login Successfull" ,Data:detail})
+                                        });
 
-                            pool.query("SELECT login_check,LOWER(user_id),user_type,expiry_date from users where LOWER(user_id) = LOWER($1) and (expiry_date>=$2 and login_allowed=$3) and(del_flag=$4)",
-                                [user_id, now, 'Y', 'N'], function (err, result) {
-                                    if (err) throw err;
 
 
-                                    if (result.rows['0'] != null) {
-                                        console.log("within case check");
-                                        logincheck = result.rows['0'].login_check;
-                                        if (logincheck == "N") {
-                                            userid = result.rows['0'].user_id;
-                                            queryres = result.rows['0'].user_type;
-                                            datecheck = result.rows['0'].expiry_date;
-                                            console.log('user_type', queryres);
-                                            attempts = 0;
-
-
-
-                                            pool.query("UPDATE users SET login_attempts=$1,login_check=$2,reset_flg='N' where LOWER(user_id)=LOWER($3)", [attempts, 'Y', user_id]);
-                                            console.log("after update");
-                                            //to check the number of unread messages
-                                            pool.query("SELECT * FROM messages  where del_flg = $1 and to_user_id = $2 and read_flg= $3", ['N', user_id, 'N'], function (err, unreadCountList) {
-                                                if (err) {
-                                                    console.error('Error with table query', err);
-                                                } else {
-                                                    unReadCount = unreadCountList.rowCount;
-                                                    //rowData = result.rows;
-
-                                                    //     console.log('unReadCount in login ',unReadCount);
-                                                }
-
-                                                //to check the number of users online
-                                                pool.query("SELECT * FROM users  where login_check = $1 and user_id != $2", ['Y', user_id], function (err, onlinelist) {
-                                                    if (err) {
-                                                        console.error('Error with table query', err);
-                                                    } else {
-                                                        onlineCount = onlinelist.rowCount;
-                                                        onlineData = onlinelist.rows;
-                                                        //     console.log('onlineCount',onlineCount);
-
-
-                                                    }
-
-                                                    //to get phone numbers
-                                                    pool.query("select empMaster.emp_email, empMaster.emp_name,empMaster.emp_id, phone1, phone2, emergency_num from emp_info_tbl empInfo,emp_master_tbl empMaster where  empMaster.emp_id = empInfo.emp_id and empInfo.del_flg = $1 and empMaster.del_flg= $2 order by empMaster.emp_name asc", ['N', 'N'], function (err, directoryList) {
-                                                        if (err) {
-                                                            console.error('Error with table query', err);
-                                                        } else {
-
-                                                            pool.query("select * from emp_master_tbl where emp_id=$1", [user_id], function (err, result) {
-                                                                if (err) {
-                                                                    console.log(err, "error");
-                                                                }
-                                                                emp_master_tbl = result.rows;
-                                                            })
-                                                            directoryCount = directoryList.rowCount;
-                                                            directoryData = directoryList.rows;
-
-                                                            //      console.log('directoryCount',directoryCount);
-                                                            //     console.log('directoryData', directoryData);
-                                                        }
-
-                                                        // to get the birthdays
-                                                        //SELECT emp_name, dob,cast(dob + ((extract(year from age(dob)) + 1) * interval '1' year) as date) as next_birthday from emp_info_tbl where del_flg ='N' order by next_birthday asc
-                                                        pool.query("SELECT emp_name, dob,cast(dob + ((extract(year from age(dob)) + 1) * interval '1' year) as date) as next_birthday from emp_info_tbl where del_flg =$1 order by next_birthday asc", ['N'], function (err, bdayList) {
-                                                            if (err) {
-                                                                console.error('Error with table query', err);
-                                                            } else {
-                                                                bdayCount = bdayList.rowCount;
-                                                                bdayData = bdayList.rows;
-                                                                //     console.log('onlineCount',bdayCount);
-                                                                //     console.log('onlineData', bdayData);
-
-
-                                                            }
-
-                                                            var emp_id = user_id;
-                                                            // to get the pending appraisal related counts
-
-                                                            pool.query("SELECT APPRAISAL_MONTH, APPRAISAL_YEAR FROM appraisal_master_table where emp_id =$1 and app_flg =$2 and app_conf =$3 and rej_flg=$4", [emp_id, 'N', 'N', 'N'], function (err, resultNotApproved) {
-                                                                if (err) {
-                                                                    console.error('Error with table query', err);
-                                                                } else {
-
-                                                                    app_notApproved = resultNotApproved.rowCount;
-                                                                }
-
-
-                                                                pool.query("SELECT APPRAISAL_MONTH, APPRAISAL_YEAR FROM appraisal_master_table where emp_id =$1 and app_flg =$2 and app_conf=$3 and rej_flg=$4", [emp_id, 'Y', 'N', 'N'], function (err, resultNotAccepted) {
-                                                                    if (err) {
-                                                                        console.error('Error with table query', err);
-                                                                    } else {
-                                                                        app_pendingAccep = resultNotAccepted.rowCount
-
-                                                                    }
-
-                                                                    //REJECTED APPRAISALS
-                                                                    pool.query("SELECT APPRAISAL_MONTH, APPRAISAL_YEAR FROM appraisal_master_table where emp_id =$1 and app_flg =$2 and app_conf=$3 and rej_flg=$4", [emp_id, 'Y', 'N', 'Y'], function (err, resultRejected) {
-                                                                        if (err) {
-                                                                            console.error('Error with table query', err);
-                                                                        } else {
-                                                                            app_rejPendClosure = resultRejected.rowCount
-
-                                                                        }
-
-                                                                        var appraisal_main = parseInt(app_notApproved) + parseInt(app_pendingAccep) + parseInt(app_rejPendClosure);
-
-                                                                        // added by srikanth
-                                                                        pool.query("SELECT * from emp_master_tbl_temp where entity_cre_flg='N'", function (err, getInfo) {
-                                                                            if (err) {
-                                                                                console.error('Error with table query', err);
-                                                                            } else {
-                                                                                pending_empProf = getInfo.rowCount
-                                                                                console.log("pending_empProf", pending_empProf);
-
-                                                                            }
-                                                                            console.log("pending_empProf", pending_empProf);
-
-
-
-                                                                            pool.query("SELECT * from emp_info_tbl_temp where entity_cre_flg='N'", function (err, getdata) {
-                                                                                if (err) {
-                                                                                    console.error('Error with table query', err);
-                                                                                } else {
-                                                                                    pending_empPer = getdata.rowCount
-
-                                                                                }
-
-                                                                                var emp_main = parseInt(pending_empProf) + parseInt(pending_empPer);
-
-                                                                                pool.query("SELECT * from emp_info_tbl_temp where entity_cre_flg='N' and emp_id=$1", [emp_id], function (err, getdet) {
-                                                                                    if (err) {
-                                                                                        console.error('Error with table query', err);
-                                                                                    }
-                                                                                    else {
-                                                                                        showFlg = getdet.rowCount
-                                                                                        var empCounter1 = getdet.rowCount;
-
-                                                                                        if (showFlg == "0") {
-                                                                                            var showFlg = "No Records for Verification";
-                                                                                            var empCounter = "0";
-                                                                                        }
-                                                                                        else {
-                                                                                            var showFlg = "Awaiting Verification";
-                                                                                            var empCounter = "1";
-                                                                                        }
-                                                                                    }
-
-                                                                                    pool.query("select * from project_master_tbl p,milestone_proj_tbl m,emp_master_tbl e,emp_master_tbl s where p.project_id = m.project_id and e.emp_id = p.delivery_mgr and s.emp_id = p.project_mgr and m.confirm_flg='N' and m.paid_flg='N' and m.del_flg='N' and p.del_flg='N' order by m.milestone_exp_date asc", function (err, getdata) {
-                                                                                        if (err) {
-                                                                                            console.error('Error with table query', err);
-                                                                                        }
-                                                                                        else {
-                                                                                            pending_invoiceDue = getdata.rowCount
-                                                                                        }
-
-                                                                                        pool.query("select * from project_master_tbl p,milestone_proj_tbl m,emp_master_tbl e,emp_master_tbl s where p.project_id = m.project_id and e.emp_id = p.delivery_mgr and s.emp_id = p.project_mgr and m.confirm_flg='Y' and m.paid_flg='N' and m.del_flg='N' and p.del_flg='N' order by m.milestone_exp_date asc", function (err, getdata) {
-                                                                                            if (err) {
-                                                                                                console.error('Error with table query', err);
-                                                                                            }
-                                                                                            else {
-                                                                                                pending_invoiceRaise = getdata.rowCount
-                                                                                                console.log("invoice due", pending_invoiceRaise);
-                                                                                            }
-
-                                                                                            pool.query("SELECT * from invoice_mast_tbl where confirm_flg = 'Y' and paid_flg = 'N' and del_flg = 'N'", function (err, getdata) {
-                                                                                                if (err) {
-                                                                                                    console.error('Error with table query', err);
-                                                                                                }
-                                                                                                else {
-                                                                                                    pending_invoicePay = getdata.rowCount
-                                                                                                    console.log("invoice due", pending_invoicePay);
-                                                                                                }
-
-
-                                                                                                var invoice_main = parseInt(pending_invoiceDue) + parseInt(pending_invoiceRaise) + parseInt(pending_invoicePay);
-
-
-
-                                                                                                // added by srikanth ends here //
-
-
-
-                                                                                                //Added by arun 27-01-2017 15:50
-                                                                                                if (emp_access != "A1") {
-                                                                                                    var pFolder = './data/CMS/employee/uploadDoc/' + emp_id + "/";
-                                                                                                    if (!fs.existsSync(pFolder)) {
-                                                                                                        console.log('No records found for approval pending');
-                                                                                                    }
-                                                                                                    else {
-                                                                                                        fs.readdirSync(pFolder).forEach(
-                                                                                                            function (name) {
-                                                                                                                var resValue = name.search("uv");
-                                                                                                                if (resValue != -1) {
-                                                                                                                    docPendingCount = docPendingCount + 1;
-                                                                                                                }
-                                                                                                            });
-                                                                                                    }
-                                                                                                }
-                                                                                                else {
-                                                                                                    var len = 0, len1 = 0, len2 = 0;
-                                                                                                    var cpath = [];
-                                                                                                    var testFolder = './data/CMS/employee/uploadDoc/';
-                                                                                                    if (!fs.existsSync(testFolder)) {
-                                                                                                        console.log('No users found for approval pending');
-                                                                                                    }
-                                                                                                    else {
-                                                                                                        fs.readdirSync(testFolder).forEach(
-                                                                                                            function (empId) {
-                                                                                                                len1 = 0;
-                                                                                                                cpath[len] = testFolder + empId + "/";
-                                                                                                                try {
-                                                                                                                    fs.readdirSync(cpath[len]).forEach(
-                                                                                                                        function (empFile) {
-                                                                                                                            var resValue = empFile.search("uv");
-                                                                                                                            if (resValue != -1) {
-                                                                                                                                docPendingCount = docPendingCount + 1;
-                                                                                                                                throw "done";
-                                                                                                                            }
-                                                                                                                        });
-                                                                                                                }
-                                                                                                                catch (e) { if (e != "done") console.log(empId); }
-                                                                                                            });
-                                                                                                    }
-                                                                                                }
-                                                                                                //End
-
-
-                                                                                                //added by Divya for pending details in Claims and Travel module strts
-                                                                                                console.log("BEFORE travel request CALL in dashboard:::");
-                                                                                                var trvlPendngRowData = 0;
-                                                                                                pool.query("SELECT req_id,emp_id FROM travel_master_tbl_temp where approver_id=$1 and appr_flg=$2 and del_flg=$3 order by req_id::integer desc", [emp_id, 'N', 'N'], function (err, trvlPendingData) {
-                                                                                                    if (err) {
-                                                                                                        console.error('Error with table query', err);
-                                                                                                    } else {
-
-                                                                                                        console.log("inside travel request query in dashboard:::");
-                                                                                                        var rowData = trvlPendingData.rows;
-                                                                                                        console.log("row in dashboard:::", rowData);
-                                                                                                        var trvlPendngRowData = trvlPendingData.rowCount;
-
-                                                                                                        console.log("empResult.rowcount :: INDASHBOARD::", trvlPendngRowData);
-
-
-
-                                                                                                    }
-                                                                                                    pool.query("SELECT req_id,emp_id FROM travel_master_tbl where appr_flg=$1 and confrm_flg=$2 and reject_flg=$3 and del_flg=$4 order by req_id::integer desc", ['Y', 'N', 'N', 'N'], function (err, pendingResult) {
-                                                                                                        if (err) {
-                                                                                                            console.error('Error with table query', err);
-                                                                                                        } else {
-
-
-                                                                                                            pendingStatusData = pendingResult.rows;
-                                                                                                            console.log("row", pendingStatusData);
-                                                                                                            var trvlPendngCount = pendingResult.rowCount;
-
-
-
-                                                                                                        }
-                                                                                                        pool.query("SELECT remb_id,emp_id,emp_name,repmgr_id,project_id ,hr_id, amt_payable, net_amt_payable, advance_amt, user_remarks, manager_remarks, hr_remarks, status, lodge_date, document_date FROM reimbursement_master_tbl where repmgr_id=$1 and status=$2 and del_flg=$3 order by remb_id::integer desc", [emp_id, 'pending', 'N'], function (err, claimResult) {
-                                                                                                            if (err) {
-                                                                                                                console.error('Error with table query', err);
-                                                                                                            } else {
-                                                                                                                var claimRowDataPending = claimResult.rows;
-                                                                                                                console.log("claimRowDataPending", claimRowDataPending);
-                                                                                                                var claimPendngCount = claimResult.rowCount;
-                                                                                                                console.log("empResult.rowcount", claimResult.rowCount);
-                                                                                                            }
-
-                                                                                                            pool.query("SELECT remb_id,emp_id,emp_name,repmgr_id,project_id ,hr_id, amt_payable, net_amt_payable, advance_amt, user_remarks, manager_remarks, hr_remarks, status, lodge_date, document_date FROM reimbursement_master_tbl where hr_id=$1 and status=$2 and hr_status=$3 and del_flg=$4 order by remb_id::integer desc", [emp_id, 'approved', 'pending', 'N'], function (err, claimResulthr) {
-                                                                                                                if (err) {
-                                                                                                                    console.error('Error with table query', err);
-                                                                                                                } else {
-
-
-                                                                                                                    var claimRowPending = claimResulthr.rows;
-                                                                                                                    console.log("row", rowData);
-                                                                                                                    var claimPendngHrCount = claimResulthr.rowCount;
-                                                                                                                    console.log("claimResulthr.rowcount", claimResulthr.rowCount);
-
-
-
-                                                                                                                }
-
-                                                                                                                pool.query("SELECT remb_id,emp_id,emp_name,repmgr_id,project_id ,hr_id, amt_payable, net_amt_payable, advance_amt, user_remarks, manager_remarks, hr_remarks, status, lodge_date, document_date FROM reimbursement_master_tbl where hr_id=$1 and status=$2 and hr_status=$3 and del_flg=$4 and settlement_paid_flg=$5 order by remb_id::integer desc", [emp_id, 'approved', 'confirmed', 'N', 'N'], function (err, claimsettleStatus) {
-                                                                                                                    if (err) {
-                                                                                                                        console.error('Error with table query', err);
-                                                                                                                    } else {
-
-
-                                                                                                                        var claimStatusRowPending = claimsettleStatus.rows;
-                                                                                                                        console.log("claimStatusRowPending", claimStatusRowPending);
-                                                                                                                        var claimsettleStatusCount = claimsettleStatus.rowCount;
-                                                                                                                        console.log("claimsettleStatusCount", claimsettleStatusCount);
-
-
-
-                                                                                                                    }
-
-                                                                                                                    pool.query("SELECT comm_code_desc cocd ,emp_name emp, * from leaves l,common_code_tbl cocd , emp_master_tbl emp where  emp.del_flg ='N' and  l.del_flg='N' and l.emp_id =$1 and l.approver_id = emp.emp_id and cocd.del_flg ='N'and cocd.comm_code_id = l.leave_type and cocd.code_id ='LTYP' and l.app_flg='N' and l.rej_flg='N'", [emp_id], function (err, resultleave) {
-                                                                                                                        if (err) {
-                                                                                                                            console.error('Error with table query', err);
-                                                                                                                        }
-                                                                                                                        else {
-                                                                                                                            var leave_tobe_approved = resultleave.rowCount;
-                                                                                                                        }
-
-                                                                                                                        pool.query("SELECT  comm_code_desc cocd ,emp_name emp,* from leaves l, emp_master_tbl emp, common_code_tbl cocd  where l.del_flg= 'N' and l.approver_id =$1 and l.app_flg = 'N' and l.emp_id = emp.emp_id and rej_flg = 'N' and l.app_flg='N' and l.rej_flg='N' and cocd.del_flg ='N' and emp.del_flg ='N' and cocd.comm_code_id = l.leave_type and cocd.code_id ='LTYP'", [emp_id], function (err, resultleave) {
-                                                                                                                            if (err) {
-                                                                                                                                console.error('Error with table query', err);
-                                                                                                                            }
-                                                                                                                            else {
-                                                                                                                                var leave_to_approve = resultleave.rowCount;
-                                                                                                                            }
-
-                                                                                                                            var total_leave_count = parseInt(leave_tobe_approved) + parseInt(leave_to_approve);
-
-
-                                                                                                                            //added by srikanth for l3 project manager if any
-
-                                                                                                                            var userId = user_id;;
-                                                                                                                            console.log("sri user", userId);
-                                                                                                                            pool.query("SELECT * from project_master_tbl where project_mgr = $1 and closure_flg='N' and del_flg='N' order by project_id asc", [userId], function (err, result) {
-                                                                                                                                if (err) {
-                                                                                                                                    console.error('Error with table query', err);
-                                                                                                                                }
-                                                                                                                                else {
-                                                                                                                                    var markCount = result.rowCount;
-                                                                                                                                    console.log("markcount", markCount);
-                                                                                                                                }
-
-
-
-
-                                                                                                                                //end
-
-                                                                                                                                // added to filter dashboard pending tasks
-
-                                                                                                                                if (emp_access == "A1") {
-
-                                                                                                                                    totalAppPending = parseInt(app_notApproved) + parseInt(app_pendingAccep) + parseInt(app_rejPendClosure) + parseInt(docPendingCount) + parseInt(pending_empProf) + parseInt(pending_empPer) + parseInt(total_leave_count);
-
-                                                                                                                                }
-                                                                                                                                else {
-                                                                                                                                    // overides the total count only for finace
-                                                                                                                                    if (emp_access == "F1") {
-
-                                                                                                                                        totalAppPending = parseInt(app_notApproved) + parseInt(app_pendingAccep) + parseInt(app_rejPendClosure) + parseInt(docPendingCount) + parseInt(empCounter) + parseInt(pending_invoiceDue) + parseInt(pending_invoiceRaise) + parseInt(pending_invoicePay) + parseInt(trvlPendngCount) + parseInt(claimPendngHrCount) + parseInt(claimsettleStatusCount) + parseInt(total_leave_count);
-
-
-
-                                                                                                                                    }
-                                                                                                                                    else if (emp_access == "L1" || emp_access == "L2") {
-                                                                                                                                        totalAppPending = parseInt(app_notApproved) + parseInt(app_pendingAccep) + parseInt(app_rejPendClosure) + parseInt(docPendingCount) + parseInt(empCounter) + parseInt(trvlPendngRowData) + parseInt(claimPendngCount) + parseInt(total_leave_count);
-                                                                                                                                    }
-
-                                                                                                                                    else {
-                                                                                                                                        totalAppPending = parseInt(app_notApproved) + parseInt(app_pendingAccep) + parseInt(app_rejPendClosure) + parseInt(docPendingCount) + parseInt(empCounter) + parseInt(total_leave_count);
-                                                                                                                                    }
-
-                                                                                                                                }
-
-                                                                                                                                var document_date = "";
-                                                                                                                                var nowDate = moment().format('YYYY-MM-DD');
-
-                                                                                                                                pool.query("SELECT document_date,remb_id FROM reimbursement_master_tbl where emp_id =$1 and status =$2 and hr_status=$3", [emp_id, 'approved', 'pending'], function (err, approvedResult) {
-                                                                                                                                    if (err) {
-                                                                                                                                        console.error('Error with table query', err);
-                                                                                                                                    } else {
-                                                                                                                                        approvedResultCount = approvedResult.rowCount
-                                                                                                                                        var approvedDataResult = approvedResult.rows;
-                                                                                                                                        //console.error('approvedResult', approvedResult.rows);
-                                                                                                                                        console.log('approvedDataResult.length', approvedDataResult.length);
-                                                                                                                                        for (var i = 0; i < approvedDataResult.length; i++) {
-                                                                                                                                            document_dateString = approvedDataResult[i].document_date;
-                                                                                                                                            remb_id = approvedDataResult[i].remb_id
-                                                                                                                                            //console.log('document_dateString',document_dateString) ;
-                                                                                                                                            //document_date = moment('document_dateString').format('YYYY-MM-DD')
-                                                                                                                                            //var dDate=moment(document_dateString).format('YYYY-MM-DD')
-                                                                                                                                            // var diff = moment(document_dateString).startOf('day').fromNow();
-
-                                                                                                                                            var duration = moment.duration(moment(document_dateString).diff(nowDate));
-                                                                                                                                            var days = duration.asDays();
-
-                                                                                                                                            //console.error('diff', diff);
-                                                                                                                                            //console.error('days', days);
-                                                                                                                                            console.error('nowDate', nowDate);
-                                                                                                                                            console.error('document_date', document_date);
-                                                                                                                                            if (days < 0) {
-                                                                                                                                                pool.query("UPDATE  reimbursement_master_tbl set  status = $1 where remb_id=$2", ['autoreject', remb_id], function (err, done) {
-                                                                                                                                                    if (err)
-                                                                                                                                                        console.error('Error with table query', err);
-                                                                                                                                                    pool.query("UPDATE  reimbursement_master_tbl_hist set  status = $1 where remb_id=$2", ['autoreject', remb_id], function (err, done) {
-                                                                                                                                                        if (err)
-                                                                                                                                                            console.error('Error with table query', err);
-                                                                                                                                                    });
-                                                                                                                                                });
-
-                                                                                                                                                pool.query("select emp_name , emp_email from emp_master_tbl where emp_id=$1", [emp_id], function (err, empResult) {
-                                                                                                                                                    if (err) {
-                                                                                                                                                        console.error('Error with table query', err);
-                                                                                                                                                    } else {
-                                                                                                                                                        employee_name = empResult.rows['0'].emp_name;
-                                                                                                                                                        employee_email = empResult.rows['0'].emp_email;
-                                                                                                                                                        console.log('employee_name in confirm func', employee_name);
-                                                                                                                                                        console.log('employee_email in confirm func', employee_email);
-                                                                                                                                                    }
-                                                                                                                                                });
-
-
-
-
-                                                                                                                                                const transporter = nodemailer.createTransport({
-                                                                                                                                                    service: 'gmail',
-                                                                                                                                                    auth: {
-                                                                                                                                                        user: 'mohammadsab@minorks.com',
-                                                                                                                                                        pass: '9591788719'
-                                                                                                                                                    }
-                                                                                                                                                });
-
-
-
-                                                                                                                                                const mailOptions = {
-                                                                                                                                                    from: 'mohammadsab@minorks.com',
-                                                                                                                                                    to: employee_email,
-                                                                                                                                                    // subject: 'Test Email',
-                                                                                                                                                    subject: 'IS:Reimbursement request autoreject',
-                                                                                                                                                    html: ' The reimbursement request raised for' + remb_id + 'Id is autorejected since document submission date  exceeds the deadline.\n' + '\n' + ' -Reimbursement System'
-                                                                                                                                                    // text: 'This is a test email sent from Node.js using Nodemailer.'
-                                                                                                                                                };
-                                                                                                                                                console.log(mailOptions, "mailll");
-                                                                                                                                                transporter.sendMail(mailOptions, function (error, info) {
-                                                                                                                                                    if (error) {
-                                                                                                                                                        console.error('Error sending email', error);
-                                                                                                                                                    } else {
-                                                                                                                                                        console.log('Email sent:', info.response);
-                                                                                                                                                    }
-
-
-                                                                                                                                                });
-
-                                                                                                                                            }
-
-                                                                                                                                        }
-
-
-
-
-                                                                                                                                    }
-                                                                                                                                });
-                                                                                                                                pool.query("UPDATE users SET login_attempts=$1,login_check=$2,reset_flg='N' where LOWER(user_id)=LOWER($3)", [attempts, 'Y', user_id]);
-                                                                                                                                // , clientIp, sId ,client_ip=$4,session_id=$5  //-- these field are not in db
-                                                                                                                                console.log("after update");
-
-
-                                                                                                                                res.sendStatus(200).json({
-                                                                                                                                    message: "redirect to dashboard", Data: {
-                                                                                                                                        ename: user.user_name,
-                                                                                                                                        eid: user.user_id,
-                                                                                                                                        emp_access: user.user_type,
-                                                                                                                                        unReadCount: unReadCount,
-                                                                                                                                        onlineCount: onlineCount,
-                                                                                                                                        onlineData: onlineData,
-                                                                                                                                        bdayData: bdayData,
-                                                                                                                                        currentDate: now,
-                                                                                                                                        totalAppPending: totalAppPending,
-                                                                                                                                        app_notApproved: app_notApproved,
-                                                                                                                                        app_pendingAccep: app_pendingAccep,
-                                                                                                                                        app_rejPendClosure: app_rejPendClosure,
-                                                                                                                                        docPendingCount: docPendingCount,
-                                                                                                                                        pending_empProf: pending_empProf,
-                                                                                                                                        pending_empPer: pending_empPer,
-                                                                                                                                        showFlg: showFlg,
-                                                                                                                                        pending_invoiceDue: pending_invoiceDue,
-                                                                                                                                        pending_invoiceRaise: pending_invoiceRaise,
-                                                                                                                                        pending_invoicePay: pending_invoicePay,
-                                                                                                                                        emp_access: emp_access,
-                                                                                                                                        trvlPendngRowData: trvlPendngRowData,
-                                                                                                                                        trvlPendngCount: trvlPendngCount,
-                                                                                                                                        claimPendngCount: claimPendngCount,
-                                                                                                                                        claimPendngHrCount: claimPendngHrCount,
-                                                                                                                                        claimsettleStatusCount: claimsettleStatusCount,
-                                                                                                                                        markCount: markCount,
-                                                                                                                                        appraisal_main: appraisal_main,
-                                                                                                                                        emp_main: emp_main,
-                                                                                                                                        empCounter1: empCounter1,
-                                                                                                                                        invoice_main: invoice_main,
-                                                                                                                                        leave_tobe_approved: leave_tobe_approved,
-                                                                                                                                        leave_to_approve: leave_to_approve,
-                                                                                                                                        total_leave_count: total_leave_count,
-                                                                                                                                        Emp_Master_Tbl: emp_master_tbl
-
-                                                                                                                                    }
-                                                                                                                                });
-
-                                                                                                                            });
-                                                                                                                        });
-                                                                                                                    });
-                                                                                                                });
-                                                                                                            });
-                                                                                                        });
-                                                                                                    });
-                                                                                                });
-                                                                                            });
-                                                                                        });
-                                                                                    });
-                                                                                });
-                                                                            });
-                                                                        });
-                                                                    });
-                                                                });
-                                                            });
-                                                        });
-                                                    });
-                                                });
-                                            });
-                                        }
-                                        else {
-                                            pool.query("select * from emp_master_tbl where emp_id=$1", [user_id], function (err, result) {
-                                                if (err) {
-                                                    console.log(err, "error");
-                                                }
-                                                emp_master_tbl = result.rows;
-                                                res.json({
-                                                    message: 'redirect to dashboard',
-                                                    notificetion: "logged",
-                                                    Data: emp_master_tbl
-                                                })
-                                                // return res.json({ message: "redirect to dashboard", notification: "login Successful" ,});
-                                            })
-
-                                            // req.flash('error', 'LOGGED');
-                                            // res.redirect('/');
-
-
-
-                                        }
 
                                     }
                                     else {
-                                        // req.flash('error', 'Your Account is locked. Please contact administrator');
-                                        // res.redirect('/');
-                                        return res.json({
-                                            message: "redirect to login",
-                                            notificetion: "Your Account is locked. Please contact administrator"
-                                        })
+                                        fetchUserDetails(user_id, function (err, userDetails) {
+                                            if (err) {
+                                                console.error(err);
+                                                // Handle the error case
+                                                return;
+                                            }
+                                            // Access the userDetails object here
+                                            const detail = userDetails;
+                                            // Now you can use the `detail` variable to access the user details
+                                            res.json({message:"redirect to dashboard",notification:"login Successfull" ,Data:detail})
+                                        });
+                                        
+
                                     }
-                                });
+                                }
+                                else if (attempts < 4) {
+
+                                    attempts++;
+                                    console.log(attempts);
+                                    console.log();
+                                    pool.query("UPDATE users SET login_attempts=$1 WHERE LOWER(user_id)=LOWER($2)", [attempts, user.user_id]);
+                                    return res.json({ notification: 'Wrong Passcode. Please try again. ' + (4 - attempts) + ' attempts remaining.', message: "redirect to login" });
+                                }
+                                else {
+
+                                    pool.query("UPDATE users SET login_allowed=$1,login_attempts=$2 WHERE LOWER(user_id)=LOWER($3)", ['N', attempts, user.username]);
+                                    
+                                    res.json({ message: "redirect to login", notification: "Your Account is locked. Please Contact administration" })
+                                }
+                            })
 
                         }
 
-
-                        // return res.json({ message: "redirect to dashboard", notification: "login Successful", Data: user });
-
                     }
-                    else if (attempts < 4) {
-
-                        attempts++;
-                        console.log(attempts);
-                        console.log();
-                        pool.query("UPDATE users SET login_attempts=$1 WHERE LOWER(user_id)=LOWER($2)", [attempts, user.user_id]);
-                        return res.json({ notification: 'Wrong Passcode. Please try again. ' + (4 - attempts) + ' attempts remaining.', message: "redirect to login" });
-                    } else {
-
-                        pool.query("UPDATE users SET login_allowed=$1,login_attempts=$2 WHERE LOWER(user_id)=LOWER($3)", ['N', attempts, user.username]);
-
-                        res.json({ message: "redirect to login", notification: "Your Account is locked. Please Contact administration" })
+                    else {
+                        return res.json({ message: "redirect to login", notification: "User ID does not  exist" });
                     }
-                })
 
+                });
+            } else {
+                return res.json({ message: "redirect to login", notification: "please Enter User ID and Password" });
             }
-            else {
-                return res.json({ message: "redirect to login", notification: "User ID does not  exist" });
-            }
+
 
         });
-    } else {
-        return res.json({ message: "redirect to login", notification: "please Enter User ID and Password" });
     }
+})
 
 
-});
 
 
 

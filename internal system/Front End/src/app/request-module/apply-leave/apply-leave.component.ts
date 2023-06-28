@@ -37,6 +37,8 @@ export class ApplyLeaveComponent {
 
   postData(data: any) {
     // post Data api 
+    console.log("post enterd");
+    
     this.http.post('http://localhost:4000/request/requestLeave', data)
       .subscribe(
         (response: any) => {

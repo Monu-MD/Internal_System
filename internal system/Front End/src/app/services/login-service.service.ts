@@ -6,9 +6,9 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class LoginServiceService {
-  user_name: any;
-  user_id: any;
-  user_type: any;
+  ename: any;
+  eid: any;
+  emp_access: any;
   data: any;
   phtotUrl: any;
   notification: any;
@@ -22,35 +22,20 @@ export class LoginServiceService {
 
 
   setData(value: any): void {
-    console.log(value);
-    if (value.emp_name != null) {
-
-      this.user_name = value.emp_name;
-    }
-    else{
-      this.user_name = value.ename;
-
-    }
-    if (value.emp_id) {
-      this.user_id = value.emp_id;
-
-    }else{
-
-      this.user_id = value.eid;
-    }
-
-    this.user_type = value.emp_access;
+    this.ename = value.user_name;
+    this.eid = value.user_id;
+    this.emp_access = value.user_type
   }
 
   setEmp_master_Tbl(value: any) {
-    this.emp_data = value[0]
+    this.emp_data = value
   }
   setNotification(notification: any) {
     this.notification = notification
   }
 
   getData(): any {
-    return [this.user_id, this.user_name, this.user_type, this.notification, this.emp_data]
+    return [this.eid, this.ename, this.emp_access, this.notification, this.emp_data]
   }
 
 

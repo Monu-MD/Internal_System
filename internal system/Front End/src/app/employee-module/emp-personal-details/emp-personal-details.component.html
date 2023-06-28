@@ -14,7 +14,7 @@
                 <div class="user-details">
                     <div class="input-box">
                         <label class="details">Employee ID</label>
-                        <input type="text" name="employeeId" formControlName="employeeId" required>
+                        <input type="text" [ngModel]="user_id" [readOnly]="true" name="employeeId" formControlName="employeeId" required>
                     </div>
 
                     <div class="input-box">

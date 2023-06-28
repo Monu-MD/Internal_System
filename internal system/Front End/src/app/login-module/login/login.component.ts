@@ -48,30 +48,29 @@ export class LoginComponent {
         console.log(response);
 
         this.notification = response.notification;
+        if (response.message == 'redirect to admin dashboard') {
+          this.service.setData(response.Data)
+          this.router.navigate(['/dashboard'])
+
+        }
         if (response.message == 'redirect to dashboard') {
+          this.service.setData(response.Data.user_details)
+          console.log("cheking3", response.Data.emp_details);
 
-          if (response.Data[0] != null) {
+          this.service.setEmp_master_Tbl(response.Data.emp_details)
 
-            this.service.setData(response.Data[0])
-          }
-          else {
-            this.service.setData(response.Data)
-
-          }
-          if (response.Data.Emp_Master_Tbl != null) {
-
-            this.service.setEmp_master_Tbl(response.Data.Emp_Master_Tbl)
-          }
-          else {
-            this.service.setEmp_master_Tbl(response.Data)
-          }
-
+          this.notification = response.notification
           this.router.navigate(['/dashboard'])
 
         }
         else if (response.message == 'redirect to login') {
 
           this.router.navigate(['/'])
+
+        }
+        else if (response.message == 'redirect to reset') {
+          this.service.setData(response.data)
+          this.router.navigate(['/changePassword'])
 
         }
       },
