@@ -12,7 +12,8 @@ export class LoginServiceService {
   data: any;
   phtotUrl: any;
   notification: any;
-  emp_data: any
+  emp_data: any;
+  leave_master:any;
 
 
 
@@ -33,9 +34,12 @@ export class LoginServiceService {
   setNotification(notification: any) {
     this.notification = notification
   }
+  setLeaveMaster(leave_master:any){
+    this.leave_master=leave_master;
+  }
 
   getData(): any {
-    return [this.eid, this.ename, this.emp_access, this.notification, this.emp_data]
+    return [this.eid, this.ename, this.emp_access, this.notification, this.emp_data,this.leave_master]
   }
 
 

@@ -55,9 +55,10 @@ export class LoginComponent {
         }
         if (response.message == 'redirect to dashboard') {
           this.service.setData(response.Data.user_details)
-          console.log("cheking3", response.Data.emp_details);
+         
 
           this.service.setEmp_master_Tbl(response.Data.emp_details)
+          this.service.setLeaveMaster(response.Data.leave_master)
 
           this.notification = response.notification
           this.router.navigate(['/dashboard'])

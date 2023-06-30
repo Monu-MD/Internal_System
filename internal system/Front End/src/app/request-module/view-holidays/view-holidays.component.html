@@ -7,7 +7,6 @@
             <div class="addbutton">
     
                 <h1 class="titleViewPage" >View Holiday</h1>
-                <button class="listbutton">Add Holiday</button>
             </div><br>
             <hr>
             <table>
@@ -17,7 +16,6 @@
                         <th>Date</th>
                         <th>Description</th>
                         <th>Year</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,20 +24,10 @@
                         <td>{{ holidays.date }}</td>
                         <td>{{ holidays.description }}</td>
                         <td>{{ holidays.year }}</td>
-                        <td><button class="button" class="listbutton"
-                                (click)="deleteHoliday(holidays.id)">Delete</button></td>
                     </tr>
                 </tbody>
             </table> 
-                <!-- <pagination-controls> [(page)]="currentPage"
-                    [itemsPerPage]="itemsPerPage"
-                    [totalItems]="totalItems"
-                    previousText="Previous"
-                    nextText="Next"
-                    firstText="First"
-                    lastText="Last"
-                    class="pagination">
-                </pagination-controls> -->
+                
         </div>
     </div>
 </form>
