@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginServiceService } from 'src/app/services/login-service.service';
 @Component({
   selector: 'app-apply-leave',
   templateUrl: './apply-leave.component.html',
@@ -20,14 +21,27 @@ export class ApplyLeaveComponent {
     availableLeaves: new FormControl('', [Validators.required]),
     availedLevs: new FormControl('', [Validators.required]),
   })
-
+  
+  user_id:any;
+  user_type:any;
+  user_name:any;
   constructor(private http: HttpClient,
-    private router: Router) { }
+    private router: Router,private loginservice:LoginServiceService) { 
+      const user=this.loginservice.getData();
+      this.user_id=user[0];
+      this.user_name=user[1];
+      this.user_type=user[2];
+    }
 
 
   submit(item: any) {
     console.log(item);
-    this.postData(item);
+    const data={
+      user_id:this.user_id,
+      user_name:this.user_name,
+      item:item
+    }
+    this.postData(data);
   }
 
   get() {
@@ -39,7 +53,7 @@ export class ApplyLeaveComponent {
     // post Data api 
     console.log("post enterd");
     
-    this.http.post('http://localhost:4000/request/requestLeave', data)
+    this.http.post('http://localhost:4000/request/applyLeave', data)
       .subscribe(
         (response: any) => {
 
