@@ -534,6 +534,8 @@ router.post('/viewempdet', (req, res) => {
 									//query 1 to fetch professional details
 									pool.query("select emp_id,emp_name,emp_email,emp_access,joining_date,designation,salary,reporting_mgr,prev_expr_year,prev_expr_month,prev_empr,prev_empr2,prev_empr3,prev_empr4,prev_empr5,emp_prob,pre_emp_flg,emp_classification from emp_master_tbl where LOWER(emp_id)=LOWER($1)", [empId], function (err, resultset) {
 										// ,salary_curr--> it is not present in db 
+										
+									
 										if (err) throw err;
 										var empid = resultset.rows['0'].emp_id;
 										var empName = resultset.rows['0'].emp_name;
@@ -579,9 +581,9 @@ router.post('/viewempdet', (req, res) => {
 
 											pool.query("select comm_code_desc from common_code_tbl where code_id='ACC' and comm_code_id=$1", [empAccess], function (err, resultset) {
 												empAccess = resultset.rows['0'].comm_code_desc;
-
+											
 												pool.query("select emp_name from emp_master_tbl where emp_id=$1", [rptMan], function (err, resultset) {
-													console.log(resultset);
+													
 													rptMan_desc = resultset.rows['0'].emp_name;
 
 													//Setting Values for designation List
@@ -607,6 +609,62 @@ router.post('/viewempdet', (req, res) => {
 															if (preem == "N") { preem = "NO"; }
 
 															res.json({
+
+																// this.EMPID = data.emp_id;
+																// this.EMPNAME = data.emp_name;
+																// this.email = data.emp_email;
+																// this.EMPACCESS = data.emp_access;
+																// this.JDATE = data.joining_date;
+																// this.DESIG = data.designation;
+																// this.EMPCLASS = data.emp_classification;
+																// this.SALARY = data.salary;
+																// this.SALARY_CURR = data.salary_curr;
+																// this.SALARY_CURR_DESC = data.salary_curr_desc;
+																// this.PID = data.project_id;
+																// this.rptMan = data.reporting_mgr;
+																// this.RPTMAN = data.rptman;
+																// this.RPTMAN_DESC = data.rptman_desc;
+																// this.PROBPERIOD = data.emp_prob;
+																// this.PREEM = data.pre_emp_flg;
+																// this.PREEXPYEAR = data.prev_expr_year;
+																// this.PREEXPMONTH = data.prev_expr_month;
+																// this.PREEMP = data.prev_empr;
+																// this.PREEMP2 = data.prev_empr2;
+																// this.PREEMP3 = data.prev_empr3;
+																// this.PREEMP4 = data.prev_empr4;
+																// this.PREEMP5 = data.prev_empr5;
+																// this.enFlg = data.entity_cre_flg;
+																// this.GENDER = data.gender;
+																// this.DOB = data.dob;
+																// this.BGROUP = data.blood_group;
+																// this.SHIRT = data.shirt_size;
+																// this.COMMADD = data.com_addr1;
+																// this.STATE = data.state;
+																// this.CITY = data.city;
+																// this.PINCODE = data.pincode;
+																// this.RESADD = data.comm_addr2;
+																// this.STATE1 = data.state1;
+																// this.CITY1 = data.city1;
+																// this.PINCODE1 = data.pincode1;
+																// this.MOBNUM = data.phone1;
+																// this.TELNUM = data.phone2;
+																// this.ECONNUM = data.emergency_num;
+																// this.EMERPER = data.emergency_con_person;
+																// this.FATHERSNAME = data.father_name;
+																// this.MOTHERSNAME = data.mother_name;
+																// this.MARITALSTATUS = data.martial_status;
+																// this.SPOUSENAME = data.spouse_name;
+																// this.PANNUM = data.pan_number;
+																// this.PASSNUM = data.passport_num;
+																// this.AADHAARNUM = data.aadhaar_num;
+																// this.DLNUM = data.license_num;
+																// this.UAN = data.uan_num;
+																// this.NAMEINBANK = data.name_in_bank;
+																// this.BANKNAME = data.bank_name;
+																// this.BRANCHNAME = data.branch_name;
+																// this.ACCTNUM = data.account_num;
+																// this.IFSCCODE = data.ifsc_code;
+
 																message: 'redirect to employee detail view', data: {
 																	enFlg: enFlg,
 																	cflag: cflag,
@@ -614,57 +672,57 @@ router.post('/viewempdet', (req, res) => {
 																	// ename: req.user.rows['0'].user_name,
 																	// eid: req.user.rows['0'].user_id,
 																	empid: empid,
-																	empName: empName,
-																	email: email,
-																	empAccess: empAccess,
-																	jDate: jDate,
-																	desig: desig,
-																	empClass: empClass,
+																	emp_name: empName,
+																	emp_email: email,
+																	emp_access: empAccess,
+																	joining_date: jDate,
+																	designation: desig,
+																	emp_classification: empClass,
 																	salary: salary,
 																	// salary_curr: salary_curr,
 																	// salary_curr_desc: salary_curr_desc,
-																	pid: pid,
-																	rptMan: rptMan,
-																	rptMan_desc: rptMan_desc,
+																	project_id: pid,
+																	reporting_mgr: rptMan,
+																	rptman_desc: rptMan_desc,
 																	preem: preem,
-																	probPeriod: probPeriod,
-																	preExpyear: preExpyear,
-																	preExpmonth: preExpmonth,
-																	preEmp: preEmp,
-																	preEmp2: preEmp2,
-																	preEmp3: preEmp3,
-																	preEmp4: preEmp4,
-																	preEmp5: preEmp5,
+																	emp_prob: probPeriod,
+																	prev_expr_year: preExpyear,
+																	prev_expr_month: preExpmonth,
+																	prev_empr: preEmp,
+																	prev_empr2: preEmp2,
+																	prev_empr3: preEmp3,
+																	prev_empr4: preEmp4,
+																	prev_empr5: preEmp5,
 																	gender: gender,
 																	dob: dob,
-																	bgroup: bgroup,
-																	shirt: shirt,
-																	commAdd: commAdd,
+																	blood_group: bgroup,
+																	shirt_size: shirt,
+																	com_addr1: commAdd,
 																	state: state,
 																	city: city,
 																	pincode: pincode,
-																	resAdd: resAdd,
+																	comm_addr2: resAdd,
 																	state1: state1,
 																	city1: city1,
 																	pincode1: pincode1,
-																	mobNum: mobNum,
-																	telNum: telNum,
-																	econNum: econNum,
-																	emerPer: emerPer,
-																	fathersName: fathersName,
-																	mothersName: mothersName,
-																	maritalstatus: maritalstatus,
-																	spouseName: spouseName,
-																	panNum: panNum,
-																	passNum: passNum,
-																	aadhaarNum: aadhaarNum,
-																	dlNum: dlNum,
-																	uan: uan,
-																	nameinBank: nameinBank,
-																	bankName: bankName,
-																	branchName: branchName,
-																	acctNum: acctNum,
-																	ifscCode: ifscCode
+																	phone1: mobNum,
+																	phone2: telNum,
+																	emergency_num: econNum,
+																	emergency_con_person: emerPer,
+																	father_name: fathersName,
+																	mother_name: mothersName,
+																	martial_status: maritalstatus,
+																	spouse_name: spouseName,
+																	pan_number: panNum,
+																	passport_num: passNum,
+																	aadhaar_num: aadhaarNum,
+																	license_num: dlNum,
+																	uan_num: uan,
+																	name_in_bank: nameinBank,
+																	bank_name: bankName,
+																	branch_name: branchName,
+																	account_num: acctNum,
+																	ifsc_code: ifscCode
 																	//closing bracket of query1
 																}
 															});
