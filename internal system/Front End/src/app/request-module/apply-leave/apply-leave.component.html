@@ -40,19 +40,6 @@
                     <input type="date" name="toDate" formControlName="toDate">
                 </div>
 
-
-              
-                    <div class="input-box">
-                        <label  class="details"for="applyTo">Apply To</label>
-                        <select id="applyTo" class="form-control" formControlName="applyTo">
-                            <option value="">--Select--</option>
-                            <option value="approver">Approver</option>
-                        </select>
-                        <pre></pre>
-
-                    </div>
-              
-
                 <div class="input-box">
                     <label class="details">Applied Number of Days</label>
                     <input type="number" name="numDays" formControlName="appliedNoOfDays">
@@ -64,19 +51,25 @@
                 </div>
 
                 <div class="input-box">
+                    <label class="details" for="applyTo">Applying To</label>
+                    <input type="text" id="mangername" class="form-control" formControlName="mangername">
+
+
+                </div>
+                <div class="input-box">
                     <label class="details"> Available Leaves for this Quarter</label>
-                    <input type="number" id="availableLeaves" class="form-control" formControlName="availableLeaves">
+                    <input type="text" id="availableLeaves" class="form-control" formControlName="availableLeaves">
                 </div>
 
 
 
                 <div class="input-box">
-                    <label for="leavesBorrowed" class="details"> Leaves Borrowed from upcoming Quarter </label>
-                    <input type="number" id="leavesBorrowed" class="form-control" formControlName="leavesBorrowed">
+                    <label for="leavesBorrowed" class="details"> Availed Leaves </label>
+                    <input type="text" id="availedLevs" class="form-control" formControlName="availedLevs">
 
                 </div>
 
-                
+
 
             </div>
 

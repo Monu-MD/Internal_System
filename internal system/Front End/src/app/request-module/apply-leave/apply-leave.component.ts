@@ -14,11 +14,11 @@ export class ApplyLeaveComponent {
     leaveType: new FormControl('', [Validators.required]),
     fromDate: new FormControl('', [Validators.required]),
     toDate: new FormControl('', [Validators.required]),
-    applyTo: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required]),
+    mangername: new FormControl('', [Validators.required]),
     appliedNoOfDays: new FormControl('', [Validators.required]),
     availableLeaves: new FormControl('', [Validators.required]),
-    leavesBorrowed: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required])
+    availedLevs: new FormControl('', [Validators.required]),
   })
 
   constructor(private http: HttpClient,

@@ -715,7 +715,7 @@ router.post('/login', (req, res) => {
 
 
 
-
+ 
                                     }
                                     else {
                                         fetchUserDetails(user_id, function (err, userDetails) {
