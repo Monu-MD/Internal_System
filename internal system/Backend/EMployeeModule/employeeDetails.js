@@ -534,6 +534,8 @@ router.post('/viewempdet', (req, res) => {
 									//query 1 to fetch professional details
 									pool.query("select emp_id,emp_name,emp_email,emp_access,joining_date,designation,salary,reporting_mgr,prev_expr_year,prev_expr_month,prev_empr,prev_empr2,prev_empr3,prev_empr4,prev_empr5,emp_prob,pre_emp_flg,emp_classification from emp_master_tbl where LOWER(emp_id)=LOWER($1)", [empId], function (err, resultset) {
 										// ,salary_curr--> it is not present in db 
+										
+									
 										if (err) throw err;
 										var empid = resultset.rows['0'].emp_id;
 										var empName = resultset.rows['0'].emp_name;
@@ -579,9 +581,9 @@ router.post('/viewempdet', (req, res) => {
 
 											pool.query("select comm_code_desc from common_code_tbl where code_id='ACC' and comm_code_id=$1", [empAccess], function (err, resultset) {
 												empAccess = resultset.rows['0'].comm_code_desc;
-
+											
 												pool.query("select emp_name from emp_master_tbl where emp_id=$1", [rptMan], function (err, resultset) {
-													console.log(resultset);
+													
 													rptMan_desc = resultset.rows['0'].emp_name;
 
 													//Setting Values for designation List
@@ -614,57 +616,57 @@ router.post('/viewempdet', (req, res) => {
 																	// ename: req.user.rows['0'].user_name,
 																	// eid: req.user.rows['0'].user_id,
 																	empid: empid,
-																	empName: empName,
-																	email: email,
-																	empAccess: empAccess,
-																	jDate: jDate,
-																	desig: desig,
-																	empClass: empClass,
+																	emp_name: empName,
+																	emp_email: email,
+																	emp_access: empAccess,
+																	joining_date: jDate,
+																	designation: desig,
+																	emp_classification: empClass,
 																	salary: salary,
 																	// salary_curr: salary_curr,
 																	// salary_curr_desc: salary_curr_desc,
-																	pid: pid,
-																	rptMan: rptMan,
-																	rptMan_desc: rptMan_desc,
+																	project_id: pid,
+																	reporting_mgr: rptMan,
+																	rptman_desc: rptMan_desc,
 																	preem: preem,
-																	probPeriod: probPeriod,
-																	preExpyear: preExpyear,
-																	preExpmonth: preExpmonth,
-																	preEmp: preEmp,
-																	preEmp2: preEmp2,
-																	preEmp3: preEmp3,
-																	preEmp4: preEmp4,
-																	preEmp5: preEmp5,
+																	emp_prob: probPeriod,
+																	prev_expr_year: preExpyear,
+																	prev_expr_month: preExpmonth,
+																	prev_empr: preEmp,
+																	prev_empr2: preEmp2,
+																	prev_empr3: preEmp3,
+																	prev_empr4: preEmp4,
+																	prev_empr5: preEmp5,
 																	gender: gender,
 																	dob: dob,
-																	bgroup: bgroup,
-																	shirt: shirt,
-																	commAdd: commAdd,
+																	blood_group: bgroup,
+																	shirt_size: shirt,
+																	com_addr1: commAdd,
 																	state: state,
 																	city: city,
 																	pincode: pincode,
-																	resAdd: resAdd,
+																	comm_addr2: resAdd,
 																	state1: state1,
 																	city1: city1,
 																	pincode1: pincode1,
-																	mobNum: mobNum,
-																	telNum: telNum,
-																	econNum: econNum,
-																	emerPer: emerPer,
-																	fathersName: fathersName,
-																	mothersName: mothersName,
-																	maritalstatus: maritalstatus,
-																	spouseName: spouseName,
-																	panNum: panNum,
-																	passNum: passNum,
-																	aadhaarNum: aadhaarNum,
-																	dlNum: dlNum,
-																	uan: uan,
-																	nameinBank: nameinBank,
-																	bankName: bankName,
-																	branchName: branchName,
-																	acctNum: acctNum,
-																	ifscCode: ifscCode
+																	phone1: mobNum,
+																	phone2: telNum,
+																	emergency_num: econNum,
+																	emergency_con_person: emerPer,
+																	father_name: fathersName,
+																	mother_name: mothersName,
+																	martial_status: maritalstatus,
+																	spouse_name: spouseName,
+																	pan_number: panNum,
+																	passport_num: passNum,
+																	aadhaar_num: aadhaarNum,
+																	license_num: dlNum,
+																	uan_num: uan,
+																	name_in_bank: nameinBank,
+																	bank_name: bankName,
+																	branch_name: branchName,
+																	account_num: acctNum,
+																	ifsc_code: ifscCode
 																	//closing bracket of query1
 																}
 															});
@@ -770,95 +772,7 @@ router.get('/employeeAddpersonal', function (req, res) {
 		});
 	});
 });
-///////////////////////////////////////////////// add Emplyee Detail by user after first time login //////////////////////////////////////////////////
-// router.post('/addempper', addempper);
-// function addempper(req, res) {
-// 	var now = new Date();
-// 	var rcreuserid = req.body.user_id;
-// 	var rcretime = now;
-// 	var lchguserid = req.body.user_id;
-// 	var lchgtime = now;
-// 	var empid = req.body.empid
-// 	var empName = req.body.empName
-// 	var gender = req.body.gender
-// 	var dob = req.body.dob
-// 	var bgroup = req.body.bgroup
-// 	var shirt = req.body.shirt
-// 	var commAdd = req.body.commAdd
-// 	var state = req.body.state
-// 	var city = req.body.city
-// 	var pincode = req.body.pincode
-// 	var resAdd = req.body.resAdd
-// 	var state1 = req.body.state1
-// 	var city1 = req.body.city1
-// 	var pincode1 = req.body.pincode1
-// 	var mobNum = req.body.mobNum
-// 	var telNum = req.body.telNum
-// 	var econNum = req.body.econNum
-// 	var emerPer = req.body.emerPer
-// 	var fathersName = req.body.fathersName
-// 	var mothersName = req.body.mothersName
-// 	var maritalstatus = req.body.maritalstatus
-// 	var spouseName = req.body.spouseName
-// 	var panNum = req.body.panNum
-// 	var passNum = req.body.passNum
-// 	var aadhaarNum = req.body.aadhaarNum
-// 	var dlNum = req.body.dlNum
-// 	var uan = req.body.uan
-// 	var nameinBank = req.body.nameinBank
-// 	var bankName = req.body.bankName
-// 	var branchName = req.body.branchName
-// 	var acctNum = req.body.acctNum
-// 	var ifscCode = req.body.ifscCode
-// 	var entity_cre_flg = "N";
 
-// 	pool.query("SELECT * from emp_info_tbl e where LOWER(e.emp_id) = LOWER($1)",
-// 		[empid], function (err, resultset) {
-// 			if (err) throw err;
-// 			var mcount = resultset.rowCount;
-
-// 			pool.query("SELECT * from emp_info_tbl_temp e where LOWER(e.emp_id) = LOWER($1)",
-// 				[empid], function (err, resultset) {
-// 					if (err) throw err;
-// 					var tcount = resultset.rowCount;
-
-// 					if (mcount == 0) {
-// 						if (tcount == 0) {
-// 							pool.query("INSERT INTO emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
-// 								if (err) throw err;
-// 							});
-// 							req.flash('success', "Personal Details Added sucessfully, Verification pending by Admin.")
-// 							res.redirect(req.get('referer'));
-
-
-// 						}
-// 						else {
-
-// 							req.flash('error', "Record Already Exists.")
-// 							res.redirect(req.get('referer'));
-
-// 						}
-
-// 					}
-// 					else {
-// 						if (tcount == 1) {
-// 							req.flash('error', "Record Already Exists.")
-// 							res.redirect(req.get('referer'));
-// 						}
-// 						else {
-
-// 							pool.query("INSERT INTO emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
-// 								if (err) throw err;
-// 							});
-// 							req.flash('success', "Personal Details Added sucessfully, Verification pending by Admin.")
-// 							res.redirect(req.get('referer'));
-// 						}
-
-
-// 					}
-// 				});
-// 		});
-// };
 
 
 router.post('/addempper', (req, res) => {
