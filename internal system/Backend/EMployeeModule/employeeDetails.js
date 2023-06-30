@@ -856,7 +856,7 @@ router.post('/addempper', (req, res) => {
 
 											res.json({
 												notification: "Employee Details Captured successfully",
-												message: "redirect to employee details view", Data: userDetails
+												message: "redirect to login page"
 											});
 
 

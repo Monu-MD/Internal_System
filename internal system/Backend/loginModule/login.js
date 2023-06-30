@@ -591,7 +591,7 @@ router.post('/updatepwd', (req, res) => {
                                             console.log("reseted flag");
 
                                             res.json({
-                                                message: "redierct to login",
+                                                message: "redierct to add Personal Details",
                                                 notification: "pasword updated successfully"
                                             })
                                         }
