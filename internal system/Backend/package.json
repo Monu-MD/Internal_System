@@ -1,12 +1,12 @@
 {
-  "name": "backend",
+  "name": "minorks-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Internal System",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js"
   },
-  "author": "",
+  "author": "Minorks",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -29,5 +29,8 @@
     "passport-local": "^1.0.0",
     "password-generator": "^2.3.2",
     "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }

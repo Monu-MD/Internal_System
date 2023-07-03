@@ -1,4 +1,4 @@
-console.log("Request entered");
+console.log("Request-1 entered");
 
 var express = require('express');
 var router = express.Router();
@@ -7,8 +7,6 @@ var pool = require('../Database/dbconfig');
 
 
 router.post('/applyLeave', applyLeave);
-// router.post('/requestLeave', requestLeave);
-// router.get('/getapplydet', getapply);
 
 
 function applyLeave(req, res) {
@@ -24,7 +22,6 @@ function applyLeave(req, res) {
     var reason = req.body.item.description;
 
     // Input from user login
-
     var emp_id = req.body.user_id;
     console.log("EID: " + emp_id);
     var emp_name = req.body.user_name;
@@ -58,7 +55,6 @@ function applyLeave(req, res) {
     var lchg_user_id;
     var lchg_time = now;
     var year = now.getFullYear();
-
 
     if (leave_type == "EL") {
         console.log("el");

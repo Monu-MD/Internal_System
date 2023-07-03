@@ -22,7 +22,7 @@ pool.connect(function (err, client, done) {
   }
   console.log("Connection Successfully Established with Postgres");
   done();
-  console.log("DB connected"+"\n   \n=============================")
+  console.log("DB connected"+"\n   \n==================================================")
 });
 
 
