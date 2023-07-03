@@ -1,0 +1,28 @@
+h1.titleViewPage{
+    margin-right: 970px;
+}
+.titleViewPage{
+    font-size: 30px;
+}
+.table-content{
+    margin-bottom: 300px;
+}
+.button {
+    width: 80px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 11px;
+    cursor: pointer;
+  }
+
+  
+  .red-button {
+    background-color: red;
+  }
+  
+  .green-button {
+    background-color: green;
+  }
+  

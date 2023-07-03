@@ -1,70 +1,54 @@
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
-<div class="container">
-    <h1 class="title">Approve/Reject Leave</h1>
-    <div class="content">
-        <form [formGroup]="approveLeaveForm" (ngSubmit)="submit(approveLeaveForm.value)">
-            <div class="user-details">
-                <div class="input-box">
-                    <label class="details">EmployeeId</label>
-                    <input type="number" name="employeeId" formControlName="employeeId">
-                </div>
+<form>
+    <div class="container" class="tablecontainer" class="viewData">
+        <div class="table-content">
+            <div class="contentleft">
+                <h1 class="titleViewPage">Approve/Reject</h1>
+                <label class="contentleft">Search:</label>
+                <input type="text" name="employeeName" formControlName="employeeName" class="searchData"
+                    placeholder="EmployeeName">
+            </div><br>
+            <span>Show</span>
+            <select class="show-entries" (click)="onItemsPerPageChange()">
+                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+            </select>
+            <span>entries</span>
 
+            <hr>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Leave Type</th>
+                        <th>From Date<br>(YYYY-MM-DD)</th>
+                        <th>To Date<br>(YYYY-MM-DD)</th>
+                        <th>Num Of Days</th>
+                        <th>Reason</th>
+                        <th style="padding-left: 75px;">Action</th>
 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let row of rowData|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                        <td>{{ row.empname }}</td>
+                        <td>{{row.leavetype}}</td>
+                        <td>{{ row.fromdate }}</td>
+                        <td>{{ row.toDate }}</td>
+                        <td>{{ row.NumOfDays}}</td>
+                        <td>{{ row.reason}}</td>
+                        <div style="    margin-right: -32px;">
+                        <button class="button red-button">Approve</button>
+                        <button class="button green-button">Reject</button>
+                    </div>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
 
-
-                <div class="input-box">
-                    <label class="details">EmployeeName</label>
-                    <input type="text" name="employeeName" formControlName="employeeName">
-                </div>
-
-
-
-                <div class="input-box">
-                    <label for="leaveType" class="details">Leave Type </label>
-                    <select id="leaveType" class="form-control" formControlName="leaveType">
-                        <option value="">--Select--</option>
-                        <option value="annual">Annual</option>
-                        <option value="sick">Sick</option>
-                        <option value="maternity">Maternity</option>
-                    </select>
-                    <pre></pre>
-
-                </div>
-
-
-
-                <div class="input-box">
-                    <label class="details">Applied Number of Days</label>
-                    <input type="number" name="numDays" formControlName="appliedNoOfDays">
-                </div>
-
-
-
-                <div class="input-box">
-                    <label class="details">From Date</label>
-                    <input type="date" name="fromDate" formControlName="fromDate">
-                </div>
-
-
-                <div class="input-box">
-                    <label class="details">To Date</label>
-                    <input type="date" name="toDate" formControlName="toDate">
-                </div>
-
-
-                <div class="input-box">
-                    <label for="reason" class="details">Reason</label>
-                    <textarea id="reason" class="form-control" formControlName="reason"></textarea>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button type="submit" class="button">Approve</button>
-                <button type="reset" class="button">Reject</button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</form>
 <app-footer></app-footer>

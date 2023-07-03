@@ -1,4 +1,4 @@
-console.log("employee Details");
+console.log("Employee Details");
 
 var express = require('express');
 var router = express.Router();
