@@ -15,6 +15,8 @@ export class EmpPersonalDetailsComponent {
   user_id: any;
   gender = '';
 
+  
+
   constructor(private router: Router,
     private http: HttpClient,
     private service: AddemployeeserviceService, private loginservice: LoginServiceService) {

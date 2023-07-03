@@ -753,7 +753,7 @@ router.post('/login', (req, res) => {
 
                     }
                     else {
-                        return res.json({ message: "redirect to login", notification: "User ID does not  exist" });
+                        return res.json({ message: "redirect to login", notification: "incorrect password" });
                     }
 
                 });
@@ -763,6 +763,8 @@ router.post('/login', (req, res) => {
 
 
         });
+    }else{
+        res.json({message:"redirect to login", notification: "User ID does not  exist"})
     }
 })
 
