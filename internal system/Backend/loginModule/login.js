@@ -248,8 +248,16 @@ function fetchUserDetails(user_id, callback) {
                         return;
                     }
                     userDetails.holiday_details = result.rows;
-
-                    callback(null, userDetails);
+                    pool.query('SELECT * FROM leave_master where emp_id=$1',[user_id], function (err, result) {
+                        if (err) {
+                            callback(err, null);
+                            return;
+                        }
+                        userDetails.leave_master = result.rows;
+    
+                        
+                        callback(null, userDetails);
+                    });
                 });
             });
         });
@@ -715,7 +723,7 @@ router.post('/login', (req, res) => {
 
 
 
-
+ 
                                     }
                                     else {
                                         fetchUserDetails(user_id, function (err, userDetails) {
