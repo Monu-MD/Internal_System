@@ -689,7 +689,7 @@ router.post('/login', (req, res) => {
                                     return;
                                 }
                                 userDetails = result.rows[0];
-                            return res.json({ message: "redirect to admin dashboard", notification: "login Successful",Data:userDetails });
+                             res.json({ message: "redirect to admin dashboard", notification: "login Successful",Data:userDetails });
                             })
 
                         }

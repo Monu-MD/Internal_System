@@ -116,7 +116,7 @@ function applyLeave(req, res) {
 
                     if (leaveOverlapList_count == 0) {
                         console.log(approver_id + " ================");
-                        pool.query("INSERT INTO leaves(leave_type, from_date,to_date, del_flg, availed_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, reason,approver_id, leave_id,emp_id,app_flg,rej_flg,year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)", [leave_type, from_date, to_date, 'N', availed_leaves, emp_id, rcre_time, emp_id, rcre_time, reason, approver_id, leave_id, emp_id, 'N', 'N', year], function (err, done) {
+                        pool.query("INSERT INTO leaves(leave_type, from_date,to_date, del_flg, availed_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, reason,approver_id, leave_id,emp_id,app_flg,rej_flg,year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)", [leave_type, from_date, to_date, 'N', applNorDays, emp_id, rcre_time, emp_id, rcre_time, reason, approver_id, leave_id, emp_id, 'P', 'N', year], function (err, done) {
                             if (err) throw err;
                             console.log("Data Inserted to leaves table");
                         });
@@ -430,11 +430,12 @@ function applyLeave(req, res) {
                     if (leaveOverlapList_count == 0) {
 
                         pool.query("INSERT INTO leaves(leave_type, from_date, to_date, del_flg,availed_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, reason,approver_id, leave_id, emp_id, app_flg, rej_flg, year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)",
-                            [leave_type, from_date, to_date, 'N', availed_leaves, emp_id, rcretime, emp_id, rcretime, reason, approver_id, leave_id, emp_id, 'N', 'N', year], function (err, done) {
+                            [leave_type, from_date, to_date, 'N', applNorDays, emp_id, rcretime, emp_id, rcretime, reason, approver_id, leave_id, emp_id, 'P', 'N', year], function (err, done) {
                                 if (err) throw err;
+                                console.log("Inserted into leaves table!!!!!!!!!!!!!");
                             });
                         res.json({
-                            message: "inserted to leaves", notification: "redirect to leaves",
+                            message: "Leave request submitted successfully", notification: "redirect to leaves",
                             Data: {
                                 leave_type,
                                 from_date,
@@ -501,7 +502,7 @@ function applyLeave(req, res) {
                                         pool.query("INSERT INTO leave_master(emp_id, leave_type,del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [emp_id, leave_type, 'N', availed_leaves, carry_forwarded, credited_leaves, emp_id, rcretime, emp_id, rcretime, year], function (err, done) {
                                             if (err) throw err;
                                         });
-                                        console.log("Inserted into leave_master!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                        console.log("Inserted into leave_master!!!!!!!!!!!!!");
                                         //     res.json({
                                         //         message: "success", notification: "redirect to viewpage1",
                                         //         Data: {

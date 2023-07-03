@@ -10,6 +10,11 @@ import { LoginServiceService } from 'src/app/services/login-service.service';
 export class ApproveLeaveComponent {
   user_id: any;
 
+  approveleave = new FormGroup<any>({
+    employeeName: new FormControl('', [Validators.required]),
+
+  })
+
   constructor(private http: HttpClient, private loginservice: LoginServiceService) {
     const user = this.loginservice.getData();
     this.user_id = user[0];
@@ -28,28 +33,31 @@ export class ApproveLeaveComponent {
     this.currentPage = 1;
   }
 
+  submit(item: any) {
+  }
 
   ngOnInit() {
-
     this.fetchData(this.user_id);
-
   }
 
   fetchData(user_id: any) {
     const params = new HttpParams()
       .set('user_id', user_id.toString());
-    this.http.get('http://localhost:4000/approve/approveView', { params })
+    this.http.get('http://localhost:4000/approverequest/approveView', { params })
       .subscribe(
         (response: any) => {
-          console.log(response.data);
 
-          if (response.message == 'redirect to apprv/Reject') {
-            this.rowData = response.data;
-          } else {
-            console.error('Invalid response data');
+          console.log(response.Data);
+          this.rowData = response.Data;
+          if (response.message == "admin viewed") {
+
           }
+          else {
+            console.log("admin not viewed");
 
+          }
           console.log(this.rowData);
+
         },
         (error: any) => {
           console.error('Error:', error);

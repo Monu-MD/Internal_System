@@ -98,6 +98,7 @@ import { ReimbusmentReqDetailsComponent } from './reimbusment-mdule/reimbusment-
 import { EmpPersonalDetailsComponent } from './employee-module/emp-personal-details/emp-personal-details.component';
 import { EmpProfessionalDetailsComponent } from './employee-module/emp-professional-details/emp-professional-details.component';
 import { EmployeeDetailsComponent } from './employee-module/employee-details/employee-details.component';
+
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
