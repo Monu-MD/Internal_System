@@ -21,25 +21,25 @@ export class ApplyLeaveComponent {
     availableLeaves: new FormControl('', [Validators.required]),
     availedLevs: new FormControl('', [Validators.required]),
   })
-  
-  user_id:any;
-  user_type:any;
-  user_name:any;
+
+  user_id: any;
+  user_type: any;
+  user_name: any;
   constructor(private http: HttpClient,
-    private router: Router,private loginservice:LoginServiceService) { 
-      const user=this.loginservice.getData();
-      this.user_id=user[0];
-      this.user_name=user[1];
-      this.user_type=user[2];
-    }
+    private router: Router, private loginservice: LoginServiceService) {
+    const user = this.loginservice.getData();
+    this.user_id = user[0];
+    this.user_name = user[1];
+    this.user_type = user[2];
+  }
 
 
   submit(item: any) {
     console.log(item);
-    const data={
-      user_id:this.user_id,
-      user_name:this.user_name,
-      item:item
+    const data = {
+      user_id: this.user_id,
+      user_name: this.user_name,
+      item: item
     }
     this.postData(data);
   }
@@ -52,15 +52,19 @@ export class ApplyLeaveComponent {
   postData(data: any) {
     // post Data api 
     console.log("post enterd");
-    
+
     this.http.post('http://localhost:4000/request/applyLeave', data)
       .subscribe(
         (response: any) => {
 
 
           console.log('Data posted successfully:', response);
+          if (response.message == "Leave request submitted successfully") {
+            this.router.navigateByUrl("/viewLev");
+          }
+          else {
 
-
+          }
         },
         (error: any) => {
           console.error('Error:', error);
