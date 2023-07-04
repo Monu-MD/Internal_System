@@ -98,7 +98,11 @@ import { ReimbusmentReqDetailsComponent } from './reimbusment-mdule/reimbusment-
 import { EmpPersonalDetailsComponent } from './employee-module/emp-personal-details/emp-personal-details.component';
 import { EmpProfessionalDetailsComponent } from './employee-module/emp-professional-details/emp-professional-details.component';
 import { EmployeeDetailsComponent } from './employee-module/employee-details/employee-details.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 const routes: Routes = [
+
+  {path:'admindashboard',component:AdminDashboardComponent},
+
   { path: '', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'forgotPassword', component: ForgotpasswordComponent },

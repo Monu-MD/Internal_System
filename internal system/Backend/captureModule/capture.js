@@ -304,7 +304,7 @@ router.post('/insert', (req, res) => {
                         // req.flash('success', "User successfully added and An e-mail has been sent to " + email + " with further instructions.")
                         //res.redirect('/captureModule/captureDetail/captureDetailPersonal');
                         const message = {
-                            message: "redirect to PersonalDetails",
+                            message: "redirect to add profile",
                             notification: "User successfully added and An e-mail has been sent to " + email + " with further instructions."
                         }
                         res.send(message)
