@@ -1,13 +1,16 @@
+console.log("child enterd");
 var express = require('express');
 var multer = require('multer');
 var app = express();
 var util = require('util');
 var path = require('path');
 var fs = require('fs');
-var router = express.Router();
+var router = express.Router();	
 var pool = require('./../Database/dbconfig');
 var nodemailer = require('nodemailer');
 const { log } = require('console');
+router.use(express.json())
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,26 +19,30 @@ const { log } = require('console');
 
 router.get('/childproject', function (req, res) {
 	var empId = req.body.empid;
+	console.log(empId);
 	pool.query("SELECT user_type from users where user_id = $1", [empId], function (err, result) {
-		var emp_access = result.rows['0'].user_type;
+		console.log(result);
+		var emp_access = result.rows[0].user_type;
+		console.log(emp_access);
 
-		if (emp_access != "L1" && emp_access != "L2") {
-			res.json({message:"redirect ot dashboard"})
-		}
-		else {
-			pool.query("SELECT emp_id from emp_master_tbl order by emp_id asc", function (err, result) {
+		if (emp_access == "L3") {
+			// res.json({message:"redirect ot dashboard"})
+
+
+			pool.query("SELECT emp_id from emp_master_tbl ", function (err, result) {
 				var employee = result.rows;
 				var empid_count = result.rowCount;
 				console.log("empid:::", employee);
 				console.log("empid_count:::", empid_count);
 
-				pool.query("SELECT emp_name from emp_master_tbl order by emp_id asc", function (err, result) {
+				pool.query("SELECT emp_name from emp_master_tbl ", function (err, result) {
 					var empname = result.rows;
 					var empname_count = result.rowCount;
 					console.log("empname:::", empname);
 					console.log("empname_count:::", empname_count);
 
-					pool.query("SELECT customer_id from customer_master_tbl order by customer_id asc", function (err, result) {
+
+					pool.query("SELECT customer_id from customer_master_tbl ", function (err, result) {
 						var customer_id = result.rows;
 						var customer_count = result.rowCount;
 						console.log("cid:::", customer_id);
@@ -101,7 +108,7 @@ router.get('/childproject', function (req, res) {
 																var parpid_count = result.rowCount;
 																console.log("at end");
 
-																res.json( {
+																res.json({
 
 																	emp_access: emp_access,
 																	// ename: req.user.rows['0'].user_name,
@@ -144,6 +151,7 @@ router.get('/childproject', function (req, res) {
 				});
 			});
 		}
+
 	});
 });
 
@@ -155,7 +163,7 @@ router.get('/fetchDet', fetchDet);
 function fetchDet(req, res) {
 
 	var parpid = req.query.parpid;
-console.log("project id", parpid);
+	console.log("project id", parpid);
 	pool.query("select cid,delivery_mgr,payment_type,customer_class,team_size,project_mgr,project_type,project_curr,bill_addrline1,bill_addrline2,bill_country,bill_city,bill_pin_code,project_loc,perdium_amount_per_day,perdium_curr_per_day from project_master_tbl where project_id=$1", [parpid], function (err, result) {
 		if (err) {
 			console.error('Error with table query', err);
