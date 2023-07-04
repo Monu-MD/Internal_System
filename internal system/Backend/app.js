@@ -18,7 +18,7 @@ app.listen(4000, () => {
 });
 
 
-//////////////////////// Importing Node Modules //////////////////////////////////////
+//////////////////////// Importing Node Modules ////////////////////////////////////////
 
 
 var capture = require('./captureModule/capture');
@@ -26,7 +26,7 @@ var login = require('./loginModule/login');
 var cocd = require('./cocdModule/cocd');
 var mssg = require('./message/message');
 var childproject = require('./projectModule/childproject');
-var markModule = require('./MarkModule/markDetails');
+var markDetails = require('./MarkModule/markDetails');
 var employeeDetails = require('./EMployeeModule/employeeDetails');
 var holiday=require('./HolidayModule/holiday');
 var request = require('./RequestModule/request');
@@ -36,7 +36,7 @@ app.use('/', login);
 app.use('/cocd', cocd);
 app.use('/message', mssg);
 app.use('/projectModule/childproject', childproject);
-app.use('/MarkModule/markDetails', markModule);
+app.use('/markDetails', markDetails);
 app.use('/employeeDetails', employeeDetails);
 app.use('/holiday',holiday);
 app.use('/request', request);

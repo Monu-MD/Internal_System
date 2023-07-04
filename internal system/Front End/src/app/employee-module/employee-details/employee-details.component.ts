@@ -77,9 +77,9 @@ export class EmployeeDetailsComponent {
     console.log("emp", emp_details[4]);
     if (emp_details != null ) {
 
-      // Assigning values from emp_details to class properties
-      const data = emp_details[4]; // Assuming emp_details[4] contains the data object
-      // this.cflag = data.del_flg;
+      
+      const data = emp_details[4]; 
+      
       this.EMPID = data.emp_id;
       this.EMPNAME = data.emp_name;
       this.email = data.emp_email;
