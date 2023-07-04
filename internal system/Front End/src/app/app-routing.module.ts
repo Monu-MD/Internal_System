@@ -99,6 +99,7 @@ import { EmpPersonalDetailsComponent } from './employee-module/emp-personal-deta
 import { EmpProfessionalDetailsComponent } from './employee-module/emp-professional-details/emp-professional-details.component';
 import { EmployeeDetailsComponent } from './employee-module/employee-details/employee-details.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+
 const routes: Routes = [
 
   {path:'admindashboard',component:AdminDashboardComponent},

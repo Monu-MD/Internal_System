@@ -4,50 +4,51 @@
 <form>
     <div class="container" class="tablecontainer" class="viewData">
         <div class="table-content">
-            <div class="contentleft">
-                <h1 class="titleViewPage">Approve/Reject</h1>
-                <label class="contentleft">Search:</label>
-                <input type="text" name="employeeName" formControlName="employeeName" class="searchData"
-                    placeholder="EmployeeName">
-            </div><br>
-            <span>Show</span>
-            <select class="show-entries" (click)="onItemsPerPageChange()">
-                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
-            </select>
-            <span>entries</span>
+            <form [formGroup]="approveleave" (ngSubmit)="submit(approveleave.value)">
+                <div class="contentleft">
+                    <h1 class="titleViewPage">Approve/Reject</h1>
+                    <label class="contentleft">Search:</label>
+                    <input type="text" name="employeeName" formControlName="employeeName" class="searchData"
+                        placeholder="EmployeeName">
+                </div><br>
+                <span>Show</span>
+                <select class="show-entries" (click)="onItemsPerPageChange()">
+                    <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+                </select>
+                <span>entries</span>
 
-            <hr>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Employee Name</th>
-                        <th>Leave Type</th>
-                        <th>From Date<br>(YYYY-MM-DD)</th>
-                        <th>To Date<br>(YYYY-MM-DD)</th>
-                        <th>Num Of Days</th>
-                        <th>Reason</th>
-                        <th style="padding-left: 75px;">Action</th>
+                <hr>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Leave Type</th>
+                            <th>From Date<br>(YYYY-MM-DD)</th>
+                            <th>To Date<br>(YYYY-MM-DD)</th>
+                            <th>Num Of Days</th>
+                            <th>Reason</th>
+                            <th style="padding-left: 75px;">Action</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                        *ngFor="let row of rowData|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
-                        <td>{{ row.empname }}</td>
-                        <td>{{row.leavetype}}</td>
-                        <td>{{ row.fromdate }}</td>
-                        <td>{{ row.toDate }}</td>
-                        <td>{{ row.NumOfDays}}</td>
-                        <td>{{ row.reason}}</td>
-                        <div style="    margin-right: -32px;">
-                        <button class="button red-button">Approve</button>
-                        <button class="button green-button">Reject</button>
-                    </div>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let row of rowData|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                            <td>{{ row.emp }}</td>
+                            <td>{{row.cocd}}</td>
+                            <td>{{ row.from_date | date:'yyyy-MM-dd'  }}</td>
+                            <td>{{ row.to_date | date:'yyyy-MM-dd' }}</td>
+                            <td>{{ row.availed_leaves}}</td>
+                            <td>{{ row.reason}}</td>
+                            <div style="    margin-right: -32px;">
+                                <button class="button green-button">Approve</button>
+                                <button class="button red-button">Reject</button>
+                            </div>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+            </form>
         </div>
     </div>
 </form>
