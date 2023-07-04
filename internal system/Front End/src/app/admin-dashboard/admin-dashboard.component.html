@@ -1,1 +1,123 @@
-<p>admin-dashboard works!</p>
+<app-headder></app-headder>
+<app-sidebar></app-sidebar>
+<body class="body">
+    <div class="widge-container">
+        <div class="item">
+            <div class="wiedge-card">
+                <div class="widge-icon">
+                    <i class="fa-solid fa-cake-candles fa-shake" style="color: #c026a3;overflow: auto"></i>
+                </div>
+                <label class="widge-lable">Birth Day Reminders</label>
+                <div class="widge-tags">
+                    {{EmployeeDocumentCount}} <a href="">today</a>
+
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="wiedge-card">
+                <div class="widge-icon">
+                    <i class="fa-solid fa-book fa-bounce" style="color: #ff8000;overflow: auto"></i>
+                </div>
+                <label class="widge-lable">Employee Documents</label>
+                <div class="widge-tags">
+                    {{EmployeeDocumentCount}} <a href="">Yet To Be Approved</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="wiedge-card">
+                <div class="widge-icon">
+                    <i class="fa-solid fa-id-card fa-beat " style="color: rgb(11, 108, 144);overflow: auto"></i>
+                </div>
+                <label class="widge-lable">Employee Details</label>
+                <div class="widge-tags">
+                    {{EmployeeDocumentCount}} <a href="">Yet To Be Approved</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="item">
+            <div class="wiedge-card">
+                <div class="widge-icon"> <i class="fa-solid fa-money-check-dollar fa-flip"
+                        style="--fa-animation-duration: 3s; " style="color: #008000;overflow: auto"></i>
+                </div>
+                <label class="widge-lable">Invoice Detilas</label>
+                <div class="widge-tags">
+                    <a href="">Milestone Due :</a>{{EmployeeDocumentCount}}<br>
+                    <a href="">Milestone To Be Raised :</a>{{EmployeeDocumentCount}} <br>
+                    <a href="">Milestone Recivable :</a>{{EmployeeDocumentCount}}
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="item">
+            <div class="wiedge-card">
+                <div class="widge-icon">
+                    <i class="fa-solid fa-person-through-window fa-flip" style="color: #1e4338; overflow: auto"></i>
+                </div>
+                <label class="widge-lable">leave Request</label>
+                <div class="widge-tags">
+                    <a href="">To Be Approved :</a>{{EmployeeDocumentCount}}<br>
+                    <a href="">To Approve:</a>{{EmployeeDocumentCount}} <br>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="wiedge-card">
+                <div class="widge-icon">
+                    <i class="fa-solid fa-plane fa-spin" style="color: #fb0404; overflow: auto"></i>
+                </div>
+                <label class="widge-lable">Travel</label>
+                <div class="widge-tags">
+                    <a href="">Yet To Be Approved :</a>{{EmployeeDocumentCount}}<br>
+                    <a href="">Yet To Be Approved :</a>{{EmployeeDocumentCount}} <br>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="wiedge-card">
+                <div class="widge-icon">
+                    <i class="fa-sharp fa-solid fa-coins fa-bounce "style="overflow: auto"></i>
+                </div>
+                <label class="widge-lable">Appraisal</label>
+                <div class="widge-tags">
+                    <a href="">Yet To Be Approved :</a>{{EmployeeDocumentCount}}<br>
+                    <a href="">Pending For Acceptance :</a>{{EmployeeDocumentCount}} <br>
+                    <a href="">Pending For Closure :</a>{{EmployeeDocumentCount}} <br>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="wiedge-card">
+                <div class="widge-icon">
+                  <i class="fa-sharp fa-solid fa-wifi" style="color: #3dc318; overflow: auto"></i>
+                </div>
+                <label class="widge-lable">Online User</label>
+                <div class="widge-tags">
+                    {{EmployeeDocumentCount}}
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="wiedge-card">
+                <div class="widge-icon">
+                    <i class="fa-sharp fa-solid fa-code-pull-request fa-spin fa-spin-reverse" style="color: #8f7070; overflow: auto;"></i>
+                </div>
+                <label class="widge-lable">Claim Request</label>
+                <div class="widge-tags">
+                    <a href="">Yet To Be Approved :</a>{{EmployeeDocumentCount}}<br>
+                    <a href="">Yet To Be Approved :</a>{{EmployeeDocumentCount}} <br>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+<app-footer></app-footer>

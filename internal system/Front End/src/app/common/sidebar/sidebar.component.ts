@@ -54,8 +54,14 @@ export class SidebarComponent {
     this.service.get(item)
 
     if (item == 'dsh') {
+      if (this.user_type=='A1') {
+        this.router.navigate(['admindashboard'])
+        
+      } else {
+        
+        this.router.navigate(['dashboard'])
+      }
 
-      this.router.navigate(['dashboard'])
     }
 
     if (item == 'apr') {
