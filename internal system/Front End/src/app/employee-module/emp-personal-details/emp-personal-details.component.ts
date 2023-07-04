@@ -14,6 +14,9 @@ export class EmpPersonalDetailsComponent {
 
   user_id: any;
   gender = '';
+  user_name:any;
+
+  
 
   constructor(private router: Router,
     private http: HttpClient,
@@ -21,6 +24,7 @@ export class EmpPersonalDetailsComponent {
 
     const user = this.loginservice.getData()
     this.user_id = user[0]
+    this.user_name=user[1]
 
 
 

@@ -1,5 +1,7 @@
 
-
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
 <body>
     <div class="allighn">
     <div class="container">
@@ -17,7 +19,7 @@
 
                     <div class="input-box">
                         <label class="details">Employee Name</label>
-                        <input type="text" name="employeeName" formControlName="employeeName">
+                        <input type="text" [ngModel]="user_name" [readOnly]="true"  name="employeeName" formControlName="employeeName">
                     </div>
                     <div>
                         <div style="    display: flex;

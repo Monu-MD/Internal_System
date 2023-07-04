@@ -1,4 +1,4 @@
-console.log("Request entered");
+console.log("Request-1 entered");
 
 var express = require('express');
 var router = express.Router();
@@ -7,8 +7,6 @@ var pool = require('../Database/dbconfig');
 
 
 router.post('/applyLeave', applyLeave);
-// router.post('/requestLeave', requestLeave);
-// router.get('/getapplydet', getapply);
 
 
 function applyLeave(req, res) {
@@ -24,14 +22,12 @@ function applyLeave(req, res) {
     var reason = req.body.item.description;
 
     // Input from user login
-
-    var emp_id =  req.body.user_id;
-    console.log("EID: "+emp_id);
+    var emp_id = req.body.user_id;
+    console.log("EID: " + emp_id);
     var emp_name = req.body.user_name;
-    console.log("ENAME: "+emp_name);
+    console.log("ENAME: " + emp_name);
     // var emp_access = req.body.user_type;
-    // var approver_id = req.body.applyTo;
-    var approver_id = "1257";
+
 
     var availed_leaves = req.body.availed_leaves;
     console.log("availed_leaves" + availed_leaves);
@@ -59,7 +55,6 @@ function applyLeave(req, res) {
     var lchg_user_id;
     var lchg_time = now;
     var year = now.getFullYear();
-
 
     if (leave_type == "EL") {
         console.log("el");
@@ -98,7 +93,18 @@ function applyLeave(req, res) {
 
                 var rest_leaves = parseFloat(available_leaves) - parseFloat(availed_leaves);
                 console.log('rest_leaves', rest_leaves);
-
+                ///
+                pool.query("SELECT reporting_mgr FROM emp_master_tbl where emp_id =$1  ", [emp_id], function (err, repotmanagerMail) {
+                    if (err) {
+                        console.error('Error with table query', err);
+                    }
+                    else {
+                        rowData2 = repotmanagerMail.rows;
+                        approver_id = rowData2[0].reporting_mgr;
+                        console.log('Approver ID: ', approver_id);
+                    }
+                })
+                ///
                 pool.query("select * from LEAVES where del_flg = $1 and emp_id =$2  and  ((from_date <= ($3) and to_date >= ($3)) or (from_date <= ($4) and to_date >= ($4))) and rej_flg= $5 and year=$6", ['N', emp_id, from_date, to_date, 'N', year], function (err, leaveOverlapList) {
                     if (err) {
                         console.error('Error with table query', err);
@@ -109,8 +115,8 @@ function applyLeave(req, res) {
                     }
 
                     if (leaveOverlapList_count == 0) {
-
-                        pool.query("INSERT INTO leaves(leave_type, from_date,to_date, del_flg, availed_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, reason,approver_id, leave_id,emp_id,app_flg,rej_flg,year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)", [leave_type, from_date, to_date, 'N', availed_leaves, emp_id, rcre_time, emp_id, rcre_time, reason, approver_id, leave_id, emp_id, 'N', 'N', year], function (err, done) {
+                        console.log(approver_id + " ================");
+                        pool.query("INSERT INTO leaves(leave_type, from_date,to_date, del_flg, availed_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, reason,approver_id, leave_id,emp_id,app_flg,rej_flg,year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)", [leave_type, from_date, to_date, 'N', applNorDays, emp_id, rcre_time, emp_id, rcre_time, reason, approver_id, leave_id, emp_id, 'P', 'N', year], function (err, done) {
                             if (err) throw err;
                             console.log("Data Inserted to leaves table");
                         });
@@ -133,7 +139,7 @@ function applyLeave(req, res) {
                                 console.log('availed_leaves_master value', availed_leaves_master);
                             }
 
-                               console.log("0");
+                            console.log("0");
                             if (leaveMasterList_count == 0) {
                                 console.log("1");
                                 pool.query("SELECT * from emp_info_tbl where emp_id =$1 and del_flg=$2", [emp_id, 'N'], function (err, done) {
@@ -154,8 +160,8 @@ function applyLeave(req, res) {
                                             credited_leaves = leaveConfigList.rows[0].allocated_leaves;
                                             console.log('credited_leaves value', credited_leaves);
                                         }
-                                                
-                                     
+
+
                                         pool.query("INSERT INTO leave_master (emp_id, leave_type, del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year, quaterly_leave) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [emp_id, leave_type, 'N', availed_leaves, carry_forwarded, credited_leaves, emp_id, rcre_time, emp_id, rcre_time, year, borr_leaves], function (err, done) {
                                             if (err) throw err;
                                         });
@@ -202,7 +208,7 @@ function applyLeave(req, res) {
                                         }
                                         else {
                                             console.log("5  pick Company Email");
-                                             cmpyEmail = cmpyMailList.rows['0'].comm_code_desc;
+                                            cmpyEmail = cmpyMailList.rows['0'].comm_code_desc;
                                             console.log('Company Email: ', cmpyEmail);
                                         }
 
@@ -217,7 +223,7 @@ function applyLeave(req, res) {
                                             console.log("6  pick Manager Email");
                                             rowData1 = managerMail.rows;
                                             managerMailId = rowData1[0].emp_email;
-                                            console.log('managerMailId: ', managerMailId);
+                                            console.log('ManagerMailId: ', managerMailId);
                                         }
 
 
@@ -347,7 +353,7 @@ function applyLeave(req, res) {
 
 
                         success = 'Leave request submitted successfully';
-                      
+
                         res.json({ message: "Leave request submitted successfully" })
                     }
                     else {
@@ -386,6 +392,18 @@ function applyLeave(req, res) {
                     console.log('leave_id', leave_id);
                 }
 
+                ///
+                pool.query("SELECT reporting_mgr FROM emp_master_tbl where emp_id =$1  ", [emp_id], function (err, repotmanagerMail) {
+                    if (err) {
+                        console.error('Error with table query', err);
+                    }
+                    else {
+                        rowData2 = repotmanagerMail.rows;
+                        approver_id = rowData2[0].reporting_mgr;
+                        console.log('Approver ID: ', approver_id);
+                    }
+                })
+                ///
 
                 var rest_leaves = parseFloat(available_leaves) - parseFloat(availed_leaves);
                 console.log(available_leaves);
@@ -406,16 +424,18 @@ function applyLeave(req, res) {
                         leaveOverlapList_count = leaveOverlapList.rowCount;
                         console.log('leaveOverlapList_count value', leaveOverlapList_count);
                     }
+                    
                     console.log("leaveOverlapList_countkkkkkkkkkkkkkkkkkkkk" + leaveOverlapList_count);
 
                     if (leaveOverlapList_count == 0) {
 
                         pool.query("INSERT INTO leaves(leave_type, from_date, to_date, del_flg,availed_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, reason,approver_id, leave_id, emp_id, app_flg, rej_flg, year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)",
-                            [leave_type, from_date, to_date, 'N', availed_leaves, emp_id, rcretime, emp_id, rcretime, reason, approver_id, leave_id, emp_id, 'N', 'N', year], function (err, done) {
+                            [leave_type, from_date, to_date, 'N', applNorDays, emp_id, rcretime, emp_id, rcretime, reason, approver_id, leave_id, emp_id, 'P', 'N', year], function (err, done) {
                                 if (err) throw err;
+                                console.log("Inserted into leaves table!!!!!!!!!!!!!");
                             });
                         res.json({
-                            message: "inserted to leaves", notification: "redirect to leaves",
+                            message: "Leave request submitted successfully", notification: "redirect to leaves",
                             Data: {
                                 leave_type,
                                 from_date,
@@ -458,7 +478,7 @@ function applyLeave(req, res) {
 
                             if (leaveMasterList_count == 0) {
 
-                                    pool.query("SELECT * from emp_info_tbl where emp_id =$1 and del_flg=$2", [emp_id, 'N'], function (err, done) {
+                                pool.query("SELECT * from emp_info_tbl where emp_id =$1 and del_flg=$2", [emp_id, 'N'], function (err, done) {
                                     if (err) {
                                         console.error('Error with table query', err);
                                     }
@@ -482,7 +502,7 @@ function applyLeave(req, res) {
                                         pool.query("INSERT INTO leave_master(emp_id, leave_type,del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [emp_id, leave_type, 'N', availed_leaves, carry_forwarded, credited_leaves, emp_id, rcretime, emp_id, rcretime, year], function (err, done) {
                                             if (err) throw err;
                                         });
-                                        console.log("Inserted into leave_master!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                        console.log("Inserted into leave_master!!!!!!!!!!!!!");
                                         //     res.json({
                                         //         message: "success", notification: "redirect to viewpage1",
                                         //         Data: {
@@ -541,7 +561,7 @@ function applyLeave(req, res) {
                                         }
                                         else {
                                             console.log("5  pick Company Email");
-                                             cmpyEmail = cmpyMailList.rows['0'].comm_code_desc;
+                                            cmpyEmail = cmpyMailList.rows['0'].comm_code_desc;
                                             console.log('Company Email: ', cmpyEmail);
                                         }
 
@@ -690,7 +710,7 @@ function applyLeave(req, res) {
 
 
                         success = 'Leave request submitted successfully';
-                     
+
                     }
                     else {
                         res.json({ message: "Leave dates overlap please recheck" })

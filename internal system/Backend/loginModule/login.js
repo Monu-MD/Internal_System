@@ -689,7 +689,7 @@ router.post('/login', (req, res) => {
                                     return;
                                 }
                                 userDetails = result.rows[0];
-                            return res.json({ message: "redirect to admin dashboard", notification: "login Successful",Data:userDetails });
+                             res.json({ message: "redirect to admin dashboard", notification: "login Successful",Data:userDetails });
                             })
 
                         }
@@ -761,7 +761,7 @@ router.post('/login', (req, res) => {
 
                     }
                     else {
-                        return res.json({ message: "redirect to login", notification: "User ID does not  exist" });
+                        return res.json({ message: "redirect to login", notification: "incorrect password" });
                     }
 
                 });
@@ -771,6 +771,8 @@ router.post('/login', (req, res) => {
 
 
         });
+    }else{
+        res.json({message:"redirect to login", notification: "User ID does not  exist"})
     }
 })
 
