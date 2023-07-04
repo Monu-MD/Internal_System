@@ -3,55 +3,29 @@
 <app-sidebar></app-sidebar>
 <form>
     <div class="container" class="tablecontainer" class="viewData">
-        <div class="table-content">
-            <div class="contentleft">
-                <h1 class="titleViewPage">Milestone Marking</h1>
-                <label class="contentleft">Search:</label>
-                <input type="text" name="employeeName" formControlName="employeeName" class="searchData"
-                    placeholder="EmployeeName">
-            </div><br>
-            <span>Show</span>
-            <select class="show-entries" (click)="onItemsPerPageChange()">
-                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
-            </select>
-            <span>entries</span>
+        <div class="professional-details">
+            <h2>Professional Details</h2>
 
-            <hr>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Milestone Name</th>
-                        <th>Percentage</th>
-                        <th>Milestone Amount</th>
-                        <th>Confirm Amount</th>
-                        <th>Expected Date</th>
-                        <th>Mark as Confirmed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                        *ngFor="let markDetails of markDetails|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
-                        <td>{{ markDetails.milestoneName }}</td>
-                        <td>{{markDetails.percentage}}</td>
-                        <td>{{ markDetails.milestoneAmount }}</td>
-                        <td>{{ markDetails.confirmAmount }}</td>
-                        <td>{{ markDetails.expectedDate}}</td>
-                        <td><button class="button" class="listbutton">Mark</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
+            <p>project Id: {{project_id}}</p>
+            <p>serial Number: {{ serial_number }}</p>
+            <p>milestone_name: {{ milestone_name }}</p>
+            <p>lchg_user_id: {{ lchg_user_id }}</p>
+            <p>capture_per : {{ capture_per }}</p>
+            <p>rcre_user_id: {{ rcre_user_id }}</p>
+            <p>paid_flg: {{ paid_flg }}</p>
+            <p>direct_amount: {{ direct_amount }}</p>
+            <p>del_flg: {{ del_flg }}</p>
+            <p>milestone_exp_date: {{ milestone_exp_date }}</p>
+            <p>confirm_flg: {{ confirm_flg }}</p>
+            <p>confirmed_date: {{ confirmed_date }}</p>
 
-            <div >
-                <button (click)="goToFirstPage()" [disabled]="currentPage === 1" class="listbutton">First</button>
-                <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="listbutton">Previous</button>
-                <span>Page {{ currentPage }} of {{ totalPages }}</span>
-                <button (click)="goToNextPage()" [disabled]="currentPage === totalPages" class="listbutton" >Next</button>
-                <button (click)="goToLastPage()" [disabled]="currentPage === totalPages" class="listbutton" >Last</button>
-              </div>
-            
+
+
+
+
         </div>
+
+
     </div>
 </form>
 <app-footer></app-footer>
-
