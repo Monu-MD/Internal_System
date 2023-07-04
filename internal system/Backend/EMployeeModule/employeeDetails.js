@@ -1,4 +1,4 @@
-console.log("employee Details");
+console.log("Employee Details");
 
 var express = require('express');
 var router = express.Router();
@@ -237,7 +237,147 @@ router.get('/employeeDetailsView', function (req, res) {
 		// }
 	});
 });
+/////////////////////////////////// Admin Modify Employee Professinal Details  is pending../////////////////////////////////////////////////////////////////////////////
+router.post('/addmodempdet', function (req, res) {
+	console.log(req.body);
+	var now = new Date();
+	var rcreuserid = req.body.user_id;
+	var rcretime = now;
+	var lchguserid = req.body.user_id;
+	var lchgtime = now;
+	var empid = req.body.empid;
+	var empName = req.body.empName;
+	var email = req.body.email;
+	var empAccess = req.body.empAccess;
+	var jDate = req.body.jDate;
+	var desig = req.body.desig;
+	var empClass = req.body.empClass;
+	var salary = req.body.salary;
+	var sal_curr = req.body.sal_curr;
+	var rptMan = req.body.rptMan;
+	var probPeriod = req.body.probPeriod;
+	var preem = req.body.preem;
+	if (preem == "Y") {
+		var preExpyear = req.body.preExpyear;
+		var preExpmonth = req.body.preExpmonth;
+		var preEmp = req.body.preEmp;
+		var preEmp2 = req.body.preEmp2;
+		var preEmp3 = req.body.preEmp3;
+		var preEmp4 = req.body.preEmp4;
+		var preEmp5 = req.body.preEmp5;
+	}
+	else {
+		var preExpyear = "0";
+		var preExpmonth = "0";
+		var preEmp = "";
+		var preEmp2 = "";
+		var preEmp3 = "";
+		var preEmp4 = "";
+		var preEmp5 = "";
+	}
 
+	var entity_cre_flg = "Y";
+
+	pool.query("select * from emp_master_tbl_hist where emp_id = $1", [empid], function (err, done) {
+		var hist_count = done.rowCount;
+
+
+		if (hist_count == "1") {
+
+			pool.query("delete from emp_master_tbl_hist where emp_id = $1", [empid], function (err, done) {
+				if (err) throw err;
+			});
+
+			pool.query("insert into emp_master_tbl_hist select * from emp_master_tbl where emp_id=$1 ", [empid], function (err, result) {
+				if (err) throw err;
+			});
+		}
+		else {
+
+			pool.query("insert into emp_master_tbl_hist select * from emp_master_tbl where emp_id=$1 ", [empid], function (err, result) {
+				if (err) throw err;
+			});
+		}
+
+
+		pool.query("UPDATE emp_master_tbl set emp_name=$2,emp_email=$3,emp_access=$4,joining_date=$5,designation=$6,salary=$7,reporting_mgr=$8,emp_prob=$9,prev_expr_year=$10,prev_expr_month=$11,prev_empr=$12,prev_empr2=$13,prev_empr3=$14,prev_empr4=$15,prev_empr5=$16,del_flg=$17,rcre_user_id=$18,rcre_time=$19,lchg_user_id=$20,lchg_time=$21,entity_cre_flg=$22,pre_emp_flg=$23,emp_classification=$24,salary_curr=$25 where emp_id=$1", [empid, empName, email, empAccess, jDate, desig, salary, rptMan, probPeriod, preExpyear, preExpmonth, preEmp, preEmp2, preEmp3, preEmp4, preEmp5, 'N', rcreuserid, rcretime, lchguserid, lchgtime, entity_cre_flg, preem, empClass, sal_curr], function (err, done) {
+			if (err) throw err;
+
+			pool.query("UPDATE users set user_type=$2 where user_id=$1", [empid, empAccess], function (err, done) {
+				if (err) throw err;
+
+				// Added after new request
+
+				// var smtpTransport = nodemailer.createTransport('SMTP', {
+				// 	service: 'gmail',
+				// 	auth:
+				// 	{
+				// 		user: 'amber@nurture.co.in',
+				// 		pass: 'nurture@123'
+				// 	}
+				// });
+
+				// var mailOptions = {
+				// 	to: email,
+				// 	from: 'amber@nurture.co.in',
+				// 	subject: 'Modification made on your Professional Details',
+				// 	html: '<h3><p> Dear <b> ' + empName + ' </b> , <br><br>' +
+				// 		'You are receiving this mail because HR has modified your Professional details.<br>' +
+				// 		'Please go through the details and cross check from your end<br>' +
+				// 		'In case of any clarifications/concerns feel free to contact HR.<br>' +
+				// 		'URL: http://amber.nurture.co.in <br><br><br><br><br>' +
+				// 		'- Regards,<br><br>Amber</h3>'
+
+				// };
+
+				// smtpTransport.sendMail(mailOptions, function (err) {
+				// });
+
+				const transporter = nodemailer.createTransport({
+					service: 'gmail',
+					auth: {
+						user: 'mohammadsab@minorks.com',
+						pass: '9591788719'
+					}
+				});
+
+
+
+				const mailOptions = {
+					from: 'mohammadsab@minorks.com',
+					to: email,
+					// subject: 'Test Email',
+					subject: 'Modification made on your Professional Details',
+					html: '<h3><p> Dear <b> ' + empName + ' </b> , <br><br>' +
+						'You are receiving this mail because HR has modified your Professional details.<br>' +
+						'Please go through the details and cross check from your end<br>' +
+						'In case of any clarifications/concerns feel free to contact HR.<br>' +
+						'URL: http://amber.nurture.co.in <br><br><br><br><br>' +
+						'- Regards,<br><br>Amber</h3>'
+					// text: 'This is a test email sent from Node.js using Nodemailer.'
+				};
+				console.log(mailOptions, "mailll");
+				transporter.sendMail(mailOptions, function (error, info) {
+					if (error) {
+						console.error('Error sending email', error);
+					} else {
+						console.log('Email sent:', info.response);
+					}
+
+
+				});
+			});
+		});
+	});
+
+	// req.flash('success', "Employee Professional Details has been Modified sucessfully for the Employee Id :" + empid + ".")
+	// res.redirect('/employeeModule/employeeDetails/employeeDetailsModify');
+	res.json({
+		message:"redirect to modify employeeDetails",notification:"Employee Professional Details has been Modified sucessfully for the Employee Id :" + empid + "."
+	})
+
+})
+/////////////////////////////////////////// View Emp Details//////////////////////////////////////////////////////////////////////////////////////
 router.post('/viewempdet', (req, res) => {
 
 	var user_id = req.body.userid;
@@ -534,8 +674,8 @@ router.post('/viewempdet', (req, res) => {
 									//query 1 to fetch professional details
 									pool.query("select emp_id,emp_name,emp_email,emp_access,joining_date,designation,salary,reporting_mgr,prev_expr_year,prev_expr_month,prev_empr,prev_empr2,prev_empr3,prev_empr4,prev_empr5,emp_prob,pre_emp_flg,emp_classification from emp_master_tbl where LOWER(emp_id)=LOWER($1)", [empId], function (err, resultset) {
 										// ,salary_curr--> it is not present in db 
-										
-									
+
+
 										if (err) throw err;
 										var empid = resultset.rows['0'].emp_id;
 										var empName = resultset.rows['0'].emp_name;
@@ -581,9 +721,9 @@ router.post('/viewempdet', (req, res) => {
 
 											pool.query("select comm_code_desc from common_code_tbl where code_id='ACC' and comm_code_id=$1", [empAccess], function (err, resultset) {
 												empAccess = resultset.rows['0'].comm_code_desc;
-											
+
 												pool.query("select emp_name from emp_master_tbl where emp_id=$1", [rptMan], function (err, resultset) {
-													
+
 													rptMan_desc = resultset.rows['0'].emp_name;
 
 													//Setting Values for designation List
@@ -843,25 +983,11 @@ router.post('/addempper', (req, res) => {
 								if (tcount == 0) {
 									pool.query("INSERT INTO data_emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
 										if (err) throw err;
-										
-										pool.query('SELECT * FROM data_emp_info_tbl_temp WHERE emp_id = $1', [empid], function (err, result) {
-											if (err) {
-												callback(err, null);
-												return;
 
-											}
-
-
-											const userDetails = result.rows[0];
-
-											res.json({
-												notification: "Employee Details Captured successfully",
-												message: "redirect to login page"
-											});
-
-
-
-										})
+										res.json({
+											notification: "Employee Details Captured successfully",
+											message: "redirect to login page"
+										});
 									});
 								} else {
 									const message = {
@@ -1078,6 +1204,533 @@ function addempdet(req, res) {
 
 };
 
+///////////////////////////////////////////////////////////// Admin Dahboard ///////////////////////////////////////////////////////////////////////
+router.get('/admindashboard',function (req, res)
+{
+    var emp_id = req.query.user_id;
+    var emp_access = req.query.user_type;
+    var now = new Date();
+    var docPendingCount = 0; //Added by arun 21-07-2017 16:15
+    //to check the number of unread messages
+    console.log("INside Admin Dashboard");
+    pool.query("SELECT * FROM messages  where del_flg = $1 and to_user_id = $2 and read_flg= $3", ['N', emp_id, 'N'], function (err, unreadCountList) {
+        if (err) {
+            console.error('Error with table query', err);
+        }
+        else {
+            unReadCount = unreadCountList.rowCount;
+        }
 
+        pool.query("SELECT * from project_master_tbl where project_mgr = $1 and closure_flg='N' and del_flg='N' order by project_id asc", [emp_id], function (err, result) {
+            if (err) {
+                console.error('Error with table query', err);
+            }
+            else {
+                markCount = result.rowCount;
+            }
+
+            //to check the number of users online
+            pool.query("SELECT * FROM users  where login_check = $1 and user_id != $2", ['Y', emp_id], function (err, onlinelist) {
+                if (err) {
+                    console.error('Error with table query', err);
+                }
+                else {
+                    onlineCount = onlinelist.rowCount;
+                    onlineData = onlinelist.rows;
+                }
+
+                //to get phone numbers
+                pool.query("select empMaster.emp_email, empMaster.emp_name,empMaster.emp_id, phone1, phone2, emergency_num from emp_info_tbl empInfo,emp_master_tbl empMaster where  empMaster.emp_id = empInfo.emp_id and empInfo.del_flg = $1 and empMaster.del_flg= $2 order by empMaster.emp_name asc", ['N', 'N'], function (err, directoryList) {
+                    if (err) {
+                        console.error('Error with table query', err);
+                    }
+                    else {
+                        directoryCount = directoryList.rowCount;
+                        directoryData = directoryList.rows;
+                    }
+
+                    //select dob,cast(dob + ((extract(year from age(dob)) + 1) * interval '1' year) as date) as next_birthday from emp_info_tbl
+
+                    pool.query("SELECT dob, emp_name, cast(dob + ((extract(year from age(dob)) + 1) * interval '1' year) as date) as next_birthday from emp_info_tbl where del_flg = $1   order by next_birthday asc ", ['N'], function (err, bdayList) {
+                        if (err) {
+                            console.error('Error with table query', err);
+                        }
+                        else {
+                            bdayCount = bdayList.rowCount;
+                            bdayData = bdayList.rows;
+                        }
+
+                        // to get the pending appraisal related counts
+                        pool.query("SELECT APPRAISAL_MONTH, APPRAISAL_YEAR FROM appraisal_master_table where emp_id =$1 and app_flg =$2 and app_conf =$3 and rej_flg=$4", [emp_id, 'N', 'N', 'N'], function (err, resultNotApproved) {
+                            if (err) {
+                                console.error('Error with table query', err);
+                            }
+                            else {
+                                app_notApproved = resultNotApproved.rowCount;
+                            }
+
+
+                            pool.query("SELECT APPRAISAL_MONTH, APPRAISAL_YEAR FROM appraisal_master_table where emp_id =$1 and app_flg =$2 and app_conf=$3 and rej_flg=$4", [emp_id, 'Y', 'N', 'N'], function (err, resultNotAccepted) {
+                                if (err) {
+                                    console.error('Error with table query', err);
+                                }
+                                else {
+                                    app_pendingAccep = resultNotAccepted.rowCount
+                                }
+
+                                //REJECTED APPRAISALS
+                                pool.query("SELECT APPRAISAL_MONTH, APPRAISAL_YEAR FROM appraisal_master_table where emp_id =$1 and app_flg =$2 and app_conf=$3 and rej_flg=$4", [emp_id, 'Y', 'N', 'Y'], function (err, resultRejected) {
+                                    if (err) {
+                                        console.error('Error with table query', err);
+                                    } else {
+                                        app_rejPendClosure = resultRejected.rowCount
+                                    }
+
+                                    var appraisal_main = parseInt(app_notApproved) + parseInt(app_pendingAccep) + parseInt(app_rejPendClosure);
+
+
+                                    // added by srikanth //
+                                    pool.query("SELECT * from emp_master_tbl_temp where entity_cre_flg='N'", function (err, getInfo) {
+                                        if (err) {
+                                            console.error('Error with table query', err);
+                                        }
+                                        else {
+                                            pending_empProf = getInfo.rowCount
+                                        }
+
+                                        pool.query("SELECT * from emp_info_tbl_temp where entity_cre_flg='N'", function (err, getdata) {
+                                            if (err) {
+                                                console.error('Error with table query', err);
+                                            }
+                                            else {
+                                                pending_empPer = getdata.rowCount
+                                            }
+
+
+                                            var emp_main = parseInt(pending_empProf) + parseInt(pending_empPer);
+
+                                            pool.query("SELECT * from emp_info_tbl_temp where entity_cre_flg='N' and emp_id=$1", [emp_id], function (err, getdet) {
+                                                if (err) {
+                                                    console.error('Error with table query', err);
+                                                }
+                                                else {
+                                                    showFlg = getdet.rowCount
+                                                    var empCounter1 = getdet.rowCount;
+
+                                                    if (showFlg == "0") {
+                                                        var showFlg = "No Records for Verification";
+                                                        var empCounter = "0";
+                                                    }
+                                                    else {
+                                                        var showFlg = "Awaiting Verification";
+                                                        var empCounter = "1";
+                                                    }
+                                                }
+
+                                                // added for invoice module from srikanth on 05-10-2017 10:22 AM
+
+                                                // invoice due	
+                                                pool.query("select * from project_master_tbl p,milestone_proj_tbl m,emp_master_tbl e,emp_master_tbl s where p.project_id = m.project_id and e.emp_id = p.delivery_mgr and s.emp_id = p.project_mgr and m.confirm_flg='N' and m.paid_flg='N' and m.del_flg='N' and p.del_flg='N' order by m.milestone_exp_date asc", function (err, getdata) {
+                                                    if (err) {
+                                                        console.error('Error with table query', err);
+                                                    }
+                                                    else {
+                                                        pending_invoiceDue = getdata.rowCount
+                                                    }
+
+
+                                                    // invoice raise
+                                                    pool.query("select * from project_master_tbl p,milestone_proj_tbl m,emp_master_tbl e,emp_master_tbl s where p.project_id = m.project_id and e.emp_id = p.delivery_mgr and s.emp_id = p.project_mgr and m.confirm_flg='Y' and m.paid_flg='N' and m.del_flg='N' and p.del_flg='N' order by m.milestone_exp_date asc", function (err, getdata) {
+                                                        if (err) {
+                                                            console.error('Error with table query', err);
+                                                        }
+                                                        else {
+                                                            pending_invoiceRaise = getdata.rowCount
+                                                        }
+
+
+                                                        // invoice to be paid
+                                                        pool.query("SELECT * from invoice_mast_tbl where confirm_flg = 'Y' and paid_flg = 'N' and del_flg = 'N'", function (err, getdata) {
+                                                            if (err) {
+                                                                console.error('Error with table query', err);
+                                                            }
+                                                            else {
+                                                                pending_invoicePay = getdata.rowCount
+                                                            }
+
+                                                            var invoice_main = parseInt(pending_invoiceDue) + parseInt(pending_invoiceRaise) + parseInt(pending_invoicePay);
+
+
+                                                            // added by srikanth ends here //
+
+                                                            //Added by arun 27-01-2017 16:15
+                                                            if (emp_access != "A1") {
+                                                                var pFolder = './data/CMS/employee/uploadDoc/' + emp_id + "/";
+                                                                if (!fs.existsSync(pFolder)) {
+                                                                    console.log('No records found for approval pending');
+                                                                }
+                                                                else {
+                                                                    fs.readdirSync(pFolder).forEach(
+                                                                        function (name) {
+                                                                            var resValue = name.search("uv");
+                                                                            if (resValue != -1) {
+                                                                                docPendingCount = docPendingCount + 1;
+                                                                            }
+                                                                        });
+                                                                }
+                                                            }
+                                                            else {
+                                                                // var len = 0, len1 = 0, len2 = 0;
+                                                                // var cpath = [];
+                                                                // var testFolder = './data/CMS/employee/uploadDoc/';
+                                                                // if (!fs.existsSync(testFolder)) {
+                                                                //     console.log('No users found for approval pending');
+                                                                // }
+                                                                // else {
+                                                                //     fs.readdirSync(testFolder).forEach(
+                                                                //         function (empId) {
+                                                                //             len1 = 0;
+                                                                //             cpath[len] = testFolder + empId + "/";
+                                                                //             try {
+                                                                //                 fs.readdirSync(cpath[len]).forEach(
+                                                                //                     function (empFile) {
+                                                                //                         var resValue = empFile.search("uv");
+                                                                //                         if (resValue != -1) {
+                                                                //                             docPendingCount = docPendingCount + 1;
+                                                                //                             throw "done";
+                                                                //                         }
+                                                                //                     });
+                                                                //             }
+                                                                //             catch (e) { if (e != "done") console.log(empId); }
+                                                                //         });
+                                                                // }
+                                                            }
+                                                            //End
+
+                                                            //added by Divya for pending details in Claims and Travel module strts
+                                                            console.log("BEFORE travel request CALL in dashboard:::");
+                                                            var trvlPendngRowData = 0;
+                                                            pool.query("SELECT req_id,emp_id FROM travel_master_tbl_temp where approver_id=$1 and appr_flg=$2 and del_flg=$3 order by req_id::integer desc", [emp_id, 'N', 'N'], function (err, trvlPendingData) {
+                                                                if (err) {
+                                                                    console.error('Error with table query', err);
+                                                                } else {
+
+                                                                    console.log("inside travel request query in dashboard:::");
+                                                                    var rowData = trvlPendingData.rows;
+                                                                    console.log("row in dashboard:::", rowData);
+                                                                    var trvlPendngRowData = trvlPendingData.rowCount;
+                                                                }
+
+                                                                pool.query("SELECT req_id,emp_id FROM travel_master_tbl where appr_flg=$1 and confrm_flg=$2 and reject_flg=$3 and del_flg=$4 order by req_id::integer desc", ['Y', 'N', 'N', 'N'], function (err, pendingResult) {
+                                                                    if (err) {
+                                                                        console.error('Error with table query', err);
+                                                                    } else {
+
+
+                                                                        pendingStatusData = pendingResult.rows;
+                                                                        var trvlPendngCount = pendingResult.rowCount;
+
+
+
+                                                                    }
+                                                                    pool.query("SELECT remb_id,emp_id,emp_name,repmgr_id,project_id ,hr_id, amt_payable, net_amt_payable, advance_amt, user_remarks, manager_remarks, hr_remarks, status, lodge_date, document_date FROM reimbursement_master_tbl where repmgr_id=$1 and status=$2 and del_flg=$3 order by remb_id::integer desc", [emp_id, 'pending', 'N'], function (err, claimResult) {
+                                                                        if (err) {
+                                                                            console.error('Error with table query', err);
+                                                                        } else {
+
+
+                                                                            var claimRowDataPending = claimResult.rows;
+                                                                            var claimPendngCount = claimResult.rowCount;
+
+
+
+                                                                        }
+                                                                        pool.query("SELECT remb_id,emp_id,emp_name,repmgr_id,project_id ,hr_id, amt_payable, net_amt_payable, advance_amt, user_remarks, manager_remarks, hr_remarks, status, lodge_date, document_date FROM reimbursement_master_tbl where hr_id=$1 and status=$2 and hr_status=$3 and del_flg=$4 order by remb_id::integer desc", [emp_id, 'approved', 'pending', 'N'], function (err, claimResulthr) {
+                                                                            if (err) {
+                                                                                console.error('Error with table query', err);
+                                                                            } else {
+
+
+                                                                                var claimRowPending = claimResulthr.rows;
+                                                                                var claimPendngHrCount = claimResulthr.rowCount;
+
+
+
+                                                                            }
+
+                                                                            pool.query("SELECT remb_id,emp_id,emp_name,repmgr_id,project_id ,hr_id, amt_payable, net_amt_payable, advance_amt, user_remarks, manager_remarks, hr_remarks, status, lodge_date, document_date FROM reimbursement_master_tbl where hr_id=$1 and status=$2 and hr_status=$3 and del_flg=$4 and settlement_paid_flg=$5 order by remb_id::integer desc", [emp_id, 'approved', 'confirmed', 'N', 'N'], function (err, claimsettleStatus) {
+                                                                                if (err) {
+                                                                                    console.error('Error with table query', err);
+                                                                                } else {
+
+
+                                                                                    var claimStatusRowPending = claimsettleStatus.rows;
+                                                                                    var claimsettleStatusCount = claimsettleStatus.rowCount;
+                                                                                }
+
+                                                                                /// added by srikanth for leave
+
+                                                                                pool.query("SELECT comm_code_desc cocd ,emp_name emp, * from leaves l,common_code_tbl cocd , emp_master_tbl emp where  emp.del_flg ='N' and  l.del_flg='N' and l.emp_id =$1 and l.approver_id = emp.emp_id and cocd.del_flg ='N'and cocd.comm_code_id = l.leave_type and cocd.code_id ='LTYP' and l.app_flg='N' and l.rej_flg='N'", [emp_id], function (err, resultleave) {
+                                                                                    if (err) {
+                                                                                        console.error('Error with table query', err);
+                                                                                    }
+                                                                                    else {
+                                                                                        var leave_tobe_approved = resultleave.rowCount;
+                                                                                    }
+
+
+                                                                                    pool.query("SELECT  comm_code_desc cocd ,emp_name emp,* from leaves l, emp_master_tbl emp, common_code_tbl cocd  where l.del_flg= 'N' and l.approver_id =$1 and l.app_flg = 'N' and l.emp_id = emp.emp_id and rej_flg = 'N' and cocd.del_flg ='N' and emp.del_flg ='N' and cocd.comm_code_id = l.leave_type and cocd.code_id ='LTYP' and l.app_flg='N' and l.rej_flg='N'", [emp_id], function (err, resultleave) {
+                                                                                        if (err) {
+                                                                                            console.error('Error with table query', err);
+                                                                                        }
+                                                                                        else {
+                                                                                            var leave_to_approve = resultleave.rowCount;
+                                                                                        }
+
+                                                                                        var total_leave_count = parseInt(leave_tobe_approved) + parseInt(leave_to_approve);
+
+                                                                                        //End
+
+
+
+                                                                                        // added to filter dashboard pending tasks
+
+                                                                                        if (emp_access == "A1") {
+
+                                                                                            totalAppPending = parseInt(app_notApproved) + parseInt(app_pendingAccep) + parseInt(app_rejPendClosure) + parseInt(docPendingCount) + parseInt(pending_empProf) + parseInt(pending_empPer) + parseInt(total_leave_count);
+
+                                                                                        }
+                                                                                        else {
+                                                                                            // overides the total count only for finace
+                                                                                            if (emp_access == "F1") {
+
+                                                                                                totalAppPending = parseInt(app_notApproved) + parseInt(app_pendingAccep) + parseInt(app_rejPendClosure) + parseInt(docPendingCount) + parseInt(empCounter) + parseInt(pending_invoiceDue) + parseInt(pending_invoiceRaise) + parseInt(pending_invoicePay) + parseInt(trvlPendngCount) + parseInt(claimPendngHrCount) + parseInt(claimsettleStatusCount) + parseInt(total_leave_count);
+
+
+                                                                                            }
+                                                                                            else if (emp_access == "L1" || emp_access == "L2") {
+                                                                                                totalAppPending = parseInt(app_notApproved) + parseInt(app_pendingAccep) + parseInt(app_rejPendClosure) + parseInt(docPendingCount) + parseInt(empCounter) + parseInt(trvlPendngRowData) + parseInt(claimPendngCount) + parseInt(total_leave_count);
+                                                                                            }
+
+                                                                                            else {
+                                                                                                totalAppPending = parseInt(app_notApproved) + parseInt(app_pendingAccep) + parseInt(app_rejPendClosure) + parseInt(docPendingCount) + parseInt(empCounter) + parseInt(total_leave_count);
+                                                                                            }
+
+                                                                                        }
+
+                                                                                        //added by nandhini 08-09-2017 for reimbursement module
+                                                                                        var document_date = "";
+                                                                                        // var nowDate = moment().format('YYYY-MM-DD');
+
+                                                                                        pool.query("SELECT document_date,remb_id FROM reimbursement_master_tbl where emp_id =$1 and status =$2 and hr_status=$3", [emp_id, 'approved', 'pending'], function (err, approvedResult) {
+                                                                                            if (err) {
+                                                                                                console.error('Error with table query', err);
+                                                                                            } else {
+                                                                                                approvedResultCount = approvedResult.rowCount
+                                                                                                var approvedDataResult = approvedResult.rows;
+
+                                                                                                console.log('approvedDataResult.length', approvedDataResult.length);
+                                                                                                for (var i = 0; i < approvedDataResult.length; i++) {
+                                                                                                    document_dateString = approvedDataResult[i].document_date;
+                                                                                                    remb_id = approvedDataResult[i].remb_id
+
+                                                                                                    var duration = moment.duration(moment(document_dateString).diff(nowDate));
+                                                                                                    var days = duration.asDays();
+
+                                                                                                    if (days < 0) {
+                                                                                                        pool.query("UPDATE  reimbursement_master_tbl set  status = $1 where remb_id=$2", ['autoreject', remb_id], function (err, done) {
+                                                                                                            if (err)
+                                                                                                                console.error('Error with table query', err);
+                                                                                                            pool.query("UPDATE  reimbursement_master_tbl_hist set  status = $1 where remb_id=$2", ['autoreject', remb_id], function (err, done) {
+                                                                                                                if (err)
+                                                                                                                    console.error('Error with table query', err);
+                                                                                                            });
+                                                                                                        });
+
+                                                                                                        pool.query("select emp_name , emp_email from emp_master_tbl where emp_id=$1", [emp_id], function (err, empResult) {
+                                                                                                            if (err) {
+                                                                                                                console.error('Error with table query', err);
+                                                                                                            } else {
+                                                                                                                employee_name = empResult.rows['0'].emp_name;
+                                                                                                                employee_email = empResult.rows['0'].emp_email;
+                                                                                                            }
+                                                                                                        });
+                                                                                                        var smtpTransport = nodemailer.createTransport('SMTP', {
+                                                                                                            service: 'gmail',
+                                                                                                            auth: {
+                                                                                                                user: 'nurtureportal',
+                                                                                                                pass: 'nurture@123'
+                                                                                                            }
+                                                                                                        });
+                                                                                                        var mailOptions = {
+                                                                                                            to: employee_email,
+                                                                                                            from: 'nurtureportal@gmail.com',
+                                                                                                            subject: 'IS:Reimbursement request autoreject',
+                                                                                                            text: ' The reimbursement request raised for' + remb_id + 'Id is autorejected since document submission date  exceeds the deadline.\n' + '\n' + ' -Reimbursement System'
+                                                                                                        };
+                                                                                                        smtpTransport.sendMail(mailOptions, function (err) { });
+                                                                                                    }
+
+                                                                                                }
+
+
+
+
+                                                                                            }
+                                                                                        });
+                                                                                        pool.query("SELECT from_date,req_id FROM travel_master_tbl_temp where emp_id =$1 and appr_flg =$2", [emp_id, 'N'], function (err, pendingResult) {
+                                                                                            if (err) {
+                                                                                                console.error('Error with table query', err);
+                                                                                            } else {
+                                                                                                pendingResultCount = pendingResult.rowCount
+                                                                                                var pendingDataResult = pendingResult.rows;
+
+                                                                                                console.log('pendingDataResult.length', pendingDataResult.length);
+                                                                                                for (var i = 0; i < pendingDataResult.length; i++) {
+                                                                                                    document_dateString = pendingDataResult[i].from_date;
+                                                                                                    req_id = pendingDataResult[i].req_id;
+
+                                                                                                    var duration = moment.duration(moment(document_dateString).diff(nowDate));
+                                                                                                    var days = duration.asDays();
+
+                                                                                                    if (days < 0) {
+                                                                                                        pool.query("UPDATE  travel_master_tbl_temp set  del_flag = $1 where req_id=$2", ['Y', req_id], function (err, done) {
+                                                                                                            if (err)
+                                                                                                                console.error('Error with table query', err);
+                                                                                                            pool.query("UPDATE  reimbursement_master_tbl_hist set  del_flag = $1 where req_id=$2", ['Y', req_id], function (err, done) {
+                                                                                                                if (err)
+                                                                                                                    console.error('Error with table query', err);
+                                                                                                            });
+                                                                                                        });
+
+                                                                                                        pool.query("select emp_name , emp_email from emp_master_tbl where emp_id=$1", [emp_id], function (err, empResult) {
+                                                                                                            if (err) {
+                                                                                                                console.error('Error with table query', err);
+                                                                                                            } else {
+                                                                                                                employee_name = empResult.rows['0'].emp_name;
+                                                                                                                employee_email = empResult.rows['0'].emp_email;
+                                                                                                            }
+                                                                                                        });
+                                                                                                        var smtpTransport = nodemailer.createTransport('SMTP', {
+                                                                                                            service: 'gmail',
+                                                                                                            auth: {
+                                                                                                                user: 'nurtureportal',
+                                                                                                                pass: 'nurture@123'
+                                                                                                            }
+                                                                                                        });
+                                                                                                        var mailOptions = {
+                                                                                                            to: employee_email,
+                                                                                                            from: 'nurtureportal@gmail.com',
+                                                                                                            subject: 'IS:Reimbursement request autoreject',
+                                                                                                            text: ' The reimbursement request raised for' + remb_id + 'Id is autorejected since document submission date  exceeds the deadline.\n' + '\n' + ' -Reimbursement System'
+                                                                                                        };
+                                                                                                        smtpTransport.sendMail(mailOptions, function (err) { });
+
+
+                                                                                                    }
+
+                                                                                                }
+
+
+
+
+                                                                                            }
+                                                                                        });
+
+
+
+
+
+                                                                                        res.json({message:'admin-dashboard/adminDashboard', Data:{
+                                                                                            // ename: req.query.user_name,
+                                                                                            eid: req.query.user_id,
+                                                                                            emp_access: req.query.user_type,
+                                                                                            unReadCount: unReadCount,
+                                                                                            onlineCount: onlineCount,
+                                                                                            onlineData: onlineData,
+                                                                                            bdayCount: bdayCount,
+                                                                                            bdayData: bdayData,
+                                                                                            currentDate: now,
+                                                                                            pending_empProf: pending_empProf,    //added by srikanth
+                                                                                            pending_empPer: pending_empPer,	//added by srikanth
+                                                                                            showFlg: showFlg, // added by srikanth
+                                                                                            pending_invoiceDue: pending_invoiceDue, // added by srikanth
+                                                                                            pending_invoiceRaise: pending_invoiceRaise, // added by srikanth
+                                                                                            pending_invoicePay: pending_invoicePay, // added by srikanth
+                                                                                            totalAppPending: totalAppPending,
+                                                                                            app_notApproved: app_notApproved,
+                                                                                            app_pendingAccep: app_pendingAccep,
+                                                                                            app_rejPendClosure: app_rejPendClosure,
+                                                                                            docPendingCount: docPendingCount,         //Added by arun 27-01-2017 16:15
+                                                                                            trvlPendngRowData: trvlPendngRowData,
+                                                                                            trvlPendngCount: trvlPendngCount,
+                                                                                            claimPendngCount: claimPendngCount,
+                                                                                            claimsettleStatusCount: claimsettleStatusCount,
+                                                                                            claimPendngHrCount: claimPendngHrCount,
+                                                                                            markCount: markCount,
+                                                                                            appraisal_main: appraisal_main,
+                                                                                            emp_main: emp_main,
+                                                                                            empCounter1: empCounter1,
+                                                                                            invoice_main: invoice_main,
+                                                                                            leave_tobe_approved: leave_tobe_approved,
+                                                                                            leave_to_approve: leave_to_approve,
+                                                                                            total_leave_count: total_leave_count
+                                                                                        }});
+                                                                                    });
+                                                                                });
+                                                                            });
+                                                                        });
+                                                                    });
+                                                                });
+                                                            });
+                                                        });
+                                                    });
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+
+});
+
+/////////////////////////////////////////////////////////////////////////////////// Employee Aproval ///////////////////////////////////////////////////
+router.get('/employeeApprovalDetails', function (req, res) {
+
+	var empId = req.query.user_id;
+
+	pool.query("SELECT user_type from users where user_id = $1", [empId], function (err, result) {
+		emp_access = result.rows['0'].user_type;
+
+		if (emp_access != "A1") {
+			res.redirect('/admin-dashboard/adminDashboard/admindashboard');
+		}
+		else {
+
+			pool.query("select emp_id,emp_name from emp_info_tbl_temp where entity_cre_flg='N' order by emp_id asc", function (err, done) {
+				if (err) throw err;
+				emp = done.rows;
+				emp_count = done.rowCount;
+
+				res.json({message:'employeeModule/employeeApprovalDetails', Data: {
+
+					emp_access: emp_access,
+					ename: emp.user_name,
+					eid: emp.user_id,
+					emp: emp,
+					emp_count: emp_count
+
+				}});
+			});
+		}
+
+	});
+}); 
 
 module.exports = router;

@@ -50,7 +50,7 @@ export class LoginComponent {
         this.notification = response.notification;
         if (response.message == 'redirect to admin dashboard') {
           this.service.setData(response.Data)
-          this.router.navigate(['/dashboard'])
+          this.router.navigate(['/admindashboard'])
 
         }
         if (response.message == 'redirect to dashboard') {
