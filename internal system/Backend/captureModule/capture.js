@@ -4,8 +4,8 @@ console.log("capture entered");
 const express = require('express');
 const bodyParser = require('body-parser');
 var nodemailer = require('nodemailer');
-var router=express.Router();
-var pool=require('../Database/dbconfig');
+var router = express.Router();
+var pool = require('../Database/dbconfig');
 
 
 
@@ -260,7 +260,7 @@ router.post('/insert', (req, res) => {
                         if (err) throw err;
                         console.log("added");
 
-                      
+
                         const transporter = nodemailer.createTransport({
                             service: 'gmail',
                             auth: {
@@ -272,22 +272,22 @@ router.post('/insert', (req, res) => {
                             from: 'mohammadsab@minorks.com',
                             to: email,
                             // subject: 'Test Email',
-    
+
                             subject: 'Forgot Password',
                             html: '<img src="http://www.confessionsofareviewer.com/wp-content/uploads/2017/05/welcome-on-board.jpg" height="85"><br><br>' +
-                            '<h3>Dear <b>' + empname + '</b>,<br><br>' +
-                            'You are receiving this mail because you (or someone else) has filled in the details <b>Amber</b>.<br>' +
-                            'Registered Account details : <br><br>' +
-                            '<table style="border: 10px solid black;"><tr style="border: 10px solid black;"><th style="border: 10px solid black;">User Id</th><th style="border: 10px solid black;">' + empid + '</th></tr><tr style="border: 10px solid black;"><td style="border: 10px solid black;"> Employee Name </td><td style="border: 10px solid black;">' + empname + '</td></tr></table><br><br>' +
-                            'Password will be generated once HR routerroves your Record<br>' +
-                            'Contact administrator for any clarifications<br><br><br>' +
-                            '- Regards,<br><br>Amber</h3>'
+                                '<h3>Dear <b>' + empname + '</b>,<br><br>' +
+                                'You are receiving this mail because you (or someone else) has filled in the details <b>Amber</b>.<br>' +
+                                'Registered Account details : <br><br>' +
+                                '<table style="border: 10px solid black;"><tr style="border: 10px solid black;"><th style="border: 10px solid black;">User Id</th><th style="border: 10px solid black;">' + empid + '</th></tr><tr style="border: 10px solid black;"><td style="border: 10px solid black;"> Employee Name </td><td style="border: 10px solid black;">' + empname + '</td></tr></table><br><br>' +
+                                'Password will be generated once HR routerroves your Record<br>' +
+                                'Contact administrator for any clarifications<br><br><br>' +
+                                '- Regards,<br><br>Amber</h3>'
                             // text: 'This is a test email sent from Node.js using Nodemailer.'
                         };
 
-                      
 
-                          
+
+
 
 
                         transporter.sendMail(mailOptions, function (error, info) {
@@ -296,8 +296,8 @@ router.post('/insert', (req, res) => {
                             } else {
                                 console.log('Email sent:', info.response);
                             }
-    
-    
+
+
                         });
 
 
@@ -421,78 +421,138 @@ router.post('/addempper', (req, res) => {
     var ifscCode = "";
     var entity_cre_flg = "N";
 
-    pool.query("SELECT * from data_emp_master_tbl_temp e where LOWER(e.emp_id) = LOWER($1)", [empid], function (err, resultset) {
-        if (err) throw err;
-        var mcount = resultset.rowCount;
+    // pool.query("SELECT * from data_emp_master_tbl_temp e where LOWER(e.emp_id) = LOWER($1)", [empid], function (err, resultset) {
+    //     if (err) throw err;
+    //     var mcount = resultset.rowCount;
 
-        pool.query("SELECT * from data_emp_info_tbl_temp e where LOWER(e.emp_id) = LOWER($1)", [empid], function (err, resultset) {
+    //     pool.query("SELECT * from data_emp_info_tbl_temp e where LOWER(e.emp_id) = LOWER($1)", [empid], function (err, resultset) {
+    //         if (err) throw err;
+    //         var tcount = resultset.rowCount;
+
+    //         pool.query("SELECT * from emp_info_tbl where emp_id = $1", [empid], function (err, result) {
+    //             var main_count = result.rowCount;
+    //             console.log("main_count", main_count);
+
+    //             pool.query("SELECT * from emp_info_tbl_temp where emp_id = $1", [empid], function (err, result) {
+    //                 var maintmp_count = result.rowCount;
+    //                 console.log("main_counttmp", maintmp_count);
+
+    //                 if (main_count == 0) {
+    //                     if (maintmp_count == 0) {
+    //                         if (mcount == 0) {
+    //                             if (tcount == 0) {
+    //                                 pool.query("INSERT INTO data_emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+    //                                     if (err) throw err;
+    //                                     const message = {
+    //                                         notification: "Employee Details Captured successfully",
+    //                                         message: "redirect to login page"
+    //                                     };
+    //                                     res.send(message);
+    //                                 });
+    //                             } else {
+    //                                 const message = {
+    //                                     notification: "Record Pending for Verification",
+    //                                     message: "redirect to login page"
+    //                                 };
+    //                                 res.send(message);
+    //                             }
+    //                         } else {
+    //                             if (tcount == 1) {
+    //                                 const message = {
+    //                                     notification: "Record Pending for Verification",
+    //                                     message: "redirect to login page"
+    //                                 };
+    //                                 res.send(message);
+    //                             } else {
+    //                                 pool.query("INSERT INTO data_emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+    //                                     if (err) throw err;
+    //                                     const message = {
+    //                                         notification: "Employee Details Captured successfully",
+    //                                         message: "redirect to login page"
+    //                                     };
+    //                                     res.send(message);
+    //                                 });
+    //                             }
+    //                         }
+    //                     } else {
+    //                         const message = {
+    //                             notification: "Employee Details Already Present in Amber for verification",
+    //                             message: "redirect to login page"
+    //                         };
+    //                         res.send(message);
+    //                     }
+    //                 } else {
+    //                     const message = {
+    //                         notification: "Employee Details Already Present in Amber",
+    //                         message: "redirect to login page"
+    //                     };
+    //                     res.send(message);
+    //                 }
+    //             });
+    //         });
+    //     });
+    // });
+
+    pool.query("SELECT * from emp_info_tbl e where LOWER(e.emp_id) = LOWER($1)",
+        [empid], function (err, resultset) {
             if (err) throw err;
-            var tcount = resultset.rowCount;
+            var mcount = resultset.rowCount;
 
-            pool.query("SELECT * from emp_info_tbl where emp_id = $1", [empid], function (err, result) {
-                var main_count = result.rowCount;
-                console.log("main_count", main_count);
+            pool.query("SELECT * from emp_info_tbl_temp e where LOWER(e.emp_id) = LOWER($1)",
+                [empid], function (err, resultset) {
+                    if (err) throw err;
+                    var tcount = resultset.rowCount;
 
-                pool.query("SELECT * from emp_info_tbl_temp where emp_id = $1", [empid], function (err, result) {
-                    var maintmp_count = result.rowCount;
-                    console.log("main_counttmp", maintmp_count);
-
-                    if (main_count == 0) {
-                        if (maintmp_count == 0) {
-                            if (mcount == 0) {
-                                if (tcount == 0) {
-                                    pool.query("INSERT INTO data_emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
-                                        if (err) throw err;
-                                        const message = {
-                                            notification: "Employee Details Captured successfully",
-                                            message: "redirect to login page"
-                                        };
-                                        res.send(message);
-                                    });
-                                } else {
-                                    const message = {
-                                        notification: "Record Pending for Verification",
-                                        message: "redirect to login page"
-                                    };
-                                    res.send(message);
-                                }
-                            } else {
-                                if (tcount == 1) {
-                                    const message = {
-                                        notification: "Record Pending for Verification",
-                                        message: "redirect to login page"
-                                    };
-                                    res.send(message);
-                                } else {
-                                    pool.query("INSERT INTO data_emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
-                                        if (err) throw err;
-                                        const message = {
-                                            notification: "Employee Details Captured successfully",
-                                            message: "redirect to login page"
-                                        };
-                                        res.send(message);
-                                    });
-                                }
-                            }
-                        } else {
+                    if (mcount == 0) {
+                        if (tcount == 0) {
+                            pool.query("INSERT INTO emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+                                if (err) throw err;
+                            });
                             const message = {
-                                notification: "Employee Details Already Present in Amber for verification",
+                                notification: "Personal Details Added sucessfully, Verification pending by Admin.",
+                                message: "redirect to login page"
+                            };
+                            res.send(message);
+
+
+                        }
+                        else {
+
+                            // req.flash('error', "Record Already Exists.")
+                            // res.redirect(req.get('referer'));
+                            res.json({
+                                message: "redirect to login page",
+                                notification: "Record Alredy Exist",
+
+                            })
+                        }
+
+                    }
+                    else {
+                        if (tcount == 1) {
+                            res.json({
+                                message: "redirect to login page",
+                                notification: "Record Alredy Exist",
+
+                            })
+                        }
+                        else {
+
+                            pool.query("INSERT INTO emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+                                if (err) throw err;
+                            });
+                            const message = {
+                                notification: "Personal Details Added sucessfully, Verification pending by Admin.",
                                 message: "redirect to login page"
                             };
                             res.send(message);
                         }
-                    } else {
-                        const message = {
-                            notification: "Employee Details Already Present in Amber",
-                            message: "redirect to login page"
-                        };
-                        res.send(message);
+
+
                     }
                 });
-            });
         });
-    });
 
 })
 
-module.exports=router;
+module.exports = router;

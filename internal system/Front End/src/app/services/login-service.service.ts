@@ -13,8 +13,9 @@ export class LoginServiceService {
   phtotUrl: any;
   notification: any;
   emp_data: any;
-  leave_master:any;
-  project_data:any;
+  leave_master: any;
+  project_data: any;
+  adminDashboard: any;
 
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -26,25 +27,35 @@ export class LoginServiceService {
     this.ename = value.user_name;
     this.eid = value.user_id;
     this.emp_access = value.user_type
-    this.project_data=value.projectId
+    this.project_data = value.projectId
   }
 
   setEmp_master_Tbl(value: any) {
     this.emp_data = value
   }
 
-  set_project_tbl(value:any){
-    this.project_data=value;
+  set_project_tbl(value: any) {
+    this.project_data = value;
   }
   setNotification(notification: any) {
     this.notification = notification
   }
-  setLeaveMaster(leave_master:any){
-    this.leave_master=leave_master;
+  setLeaveMaster(leave_master: any) {
+    this.leave_master = leave_master;
+  }
+  setAdminDashBoard(value: any) {
+    this.adminDashboard = value
   }
 
   getData(): any {
-    return [this.eid, this.ename, this.emp_access, this.notification, this.emp_data,this.leave_master,this.project_data  ]
+    return [this.eid,
+    this.ename,
+    this.emp_access,
+    this.notification,
+    this.emp_data,
+    this.leave_master,
+    this.project_data,
+    this.adminDashboard]
   }
 
 
