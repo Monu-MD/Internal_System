@@ -99,7 +99,7 @@ export class EmployeeDetailsComponent {
       this.PREEXPYEAR = data.prev_expr_year;
       this.PREEXPMONTH = data.prev_expr_month;
       this.PREEMP = data.prev_empr;
-      this.PREEMP2 = data.prev_empr2;
+      this.PREEMP2 = data.prev_empr2; 
       this.PREEMP3 = data.prev_empr3;
       this.PREEMP4 = data.prev_empr4;
       this.PREEMP5 = data.prev_empr5;

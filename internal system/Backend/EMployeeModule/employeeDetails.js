@@ -838,8 +838,8 @@ router.post('/viewempdet', (req, res) => {
 //////////////////////////////////////////// Adding Employee Details ////////////////////////////////
 
 router.get('/employeeAddpersonal', (req, res) => {
-	
-	var empId = req.user_id	;
+
+	var empId = req.user_id;
 	console.log(req.user_id);
 
 	pool.query("SELECT * from emp_info_tbl where emp_id = $1", [empId], function (err, result) {
@@ -1381,31 +1381,31 @@ router.get('/admindashboard', function (req, res) {
 															// 	}
 															// }
 															// else {
-																// var len = 0, len1 = 0, len2 = 0;
-																// var cpath = [];
-																// var testFolder = './data/CMS/employee/uploadDoc/';
-																// if (!fs.existsSync(testFolder)) {
-																//     console.log('No users found for approval pending');
-																// }
-																// else {
-																//     fs.readdirSync(testFolder).forEach(
-																//         function (empId) {
-																//             len1 = 0;
-																//             cpath[len] = testFolder + empId + "/";
-																//             try {
-																//                 fs.readdirSync(cpath[len]).forEach(
-																//                     function (empFile) {
-																//                         var resValue = empFile.search("uv");
-																//                         if (resValue != -1) {
-																//                             docPendingCount = docPendingCount + 1;
-																//                             throw "done";
-																//                         }
-																//                     });
-																//             }
-																//             catch (e) { if (e != "done") console.log(empId); }
-																//         });
-																// }
-															
+															// var len = 0, len1 = 0, len2 = 0;
+															// var cpath = [];
+															// var testFolder = './data/CMS/employee/uploadDoc/';
+															// if (!fs.existsSync(testFolder)) {
+															//     console.log('No users found for approval pending');
+															// }
+															// else {
+															//     fs.readdirSync(testFolder).forEach(
+															//         function (empId) {
+															//             len1 = 0;
+															//             cpath[len] = testFolder + empId + "/";
+															//             try {
+															//                 fs.readdirSync(cpath[len]).forEach(
+															//                     function (empFile) {
+															//                         var resValue = empFile.search("uv");
+															//                         if (resValue != -1) {
+															//                             docPendingCount = docPendingCount + 1;
+															//                             throw "done";
+															//                         }
+															//                     });
+															//             }
+															//             catch (e) { if (e != "done") console.log(empId); }
+															//         });
+															// }
+
 															//End
 
 															//added by Divya for pending details in Claims and Travel module strts
@@ -1643,8 +1643,8 @@ router.get('/admindashboard', function (req, res) {
 
 
 																						res.json({
-																							message: 'admin-dashboard/adminDashboard', Data: {
-																								// ename: req.query.user_name,
+																							message: 'redirect admin dashboard', Data: {
+																								ename: req.query.user_name,
 																								eid: req.query.user_id,
 																								emp_access: req.query.user_type,
 																								unReadCount: unReadCount,
@@ -1704,12 +1704,12 @@ router.get('/admindashboard', function (req, res) {
 });
 
 /////////////////////////////////////////////////////////////////////////////////// Employee Aproval ///////////////////////////////////////////////////
-router.get('/employeeApprovalDetails', function (req, res) {
+router.get('/employeeApprovalDetails', (req, res) => {
 
-	var empId = req.query.user_id;
+	var empId = req.body.user_id;
 
 	pool.query("SELECT user_type from users where user_id = $1", [empId], function (err, result) {
-		emp_access = result.rows['0'].user_type;
+		emp_access = result.rows[0].user_type;
 
 		if (emp_access != "A1") {
 			res.redirect('/admin-dashboard/adminDashboard/admindashboard');
@@ -1737,5 +1737,26 @@ router.get('/employeeApprovalDetails', function (req, res) {
 
 	});
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router;
