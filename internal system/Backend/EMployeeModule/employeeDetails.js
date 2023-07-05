@@ -1606,8 +1606,6 @@ router.get('/admindashboard', function (req, res) {
 																								}
 																							});
 
-
-
 																							res.json({
 																								message: 'redirect to admin dashboard', userData: emp_details, Data: {
 																									// ename: req.query.user_name,
