@@ -11,31 +11,33 @@
 
                 <div [ngSwitch]="user_type">
                     <div *ngSwitchCase="'A1'">
-                        <button class="listbutton" routerLink="/addHolidays">Add Holiday</button> 
+                        <button class="listbutton" routerLink="/addHolidays">Add Holiday</button>
                     </div>
                     <div *ngSwitchCase="'L3'">
                         <!-- <button class="listbutton" routerLink="/addHolidays">Add Holiday</button> -->
                     </div>
-                    
+
                 </div>
             </div><br>
             <hr>
-            <table>
-                <thead>
+            <table [ngSwitch]="user_type">
+                
+                <thead *ngSwitchCase="'A1'">
                     <tr>
                         <th>Holiday Type</th>
                         <th>Date</th>
-                        <th>description</th>   
-                        <div [ngSwitch]="user_type" >
-                            <div *ngSwitchCase="'A1'">
-                              <th>Action</th> 
-                            </div>
-                            <div *ngSwitchCase="'L3'">
-                               <!-- <th></th> -->
-                            </div>
-                        </div>
+                        <th>description</th> 
+                        <th>Action</th>
                     </tr>
                 </thead>
+                <thead *ngSwitchCase="'L3'">
+                    <tr>
+                        <th>Holiday Type</th>
+                        <th>Date</th>
+                        <th>description</th>
+                    </tr>
+                </thead>
+
                 <tbody>
                     <tr *ngFor="let row of rowData">
                         <td>{{ row.day_type }}</td>
@@ -43,13 +45,13 @@
                         <td>{{ row.description}}</td>
 
                         <div [ngSwitch]="user_type">
-                            <div  *ngSwitchCase="'A1'">
-                            <td><button class="button" class="listbutton" (click)="deleteHoliday(row)">Delete</button></td>
+                            <div *ngSwitchCase="'A1'">
+                                <td><button class="button" class="listbutton"
+                                        (click)="deleteHoliday(row)">Delete</button></td>
                             </div>
                             <div *ngSwitchCase="'L3'">
                                 <!-- <td></td> -->
                             </div>
-
                         </div>
 
                     </tr>
@@ -58,13 +60,11 @@
             </table>
 
             <div>
-                <button (click)="goToFirstPage()" [disabled]="currentPage === 1" class="listbutton">First</button>
-                <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="listbutton">Previous</button>
+                <button (click)="goToFirstPage()"  class="listbutton">First</button>
+                <button (click)="goToPreviousPage()"  class="listbutton">Previous</button>
                 <span>Page {{ currentPage }} of {{ totalPages }}</span>
-                <button (click)="goToNextPage()" [disabled]="currentPage === totalPages"
-                    class="listbutton">Next</button>
-                <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
-                    class="listbutton">Last</button>
+                <button (click)="goToNextPage()"class="listbutton">Next</button>
+                <button (click)="goToLastPage()" class="listbutton">Last</button>
             </div>
         </div>
     </div>

@@ -13,7 +13,7 @@ export class LoginServiceService {
   phtotUrl: any;
   notification: any;
   emp_data: any
-
+asset:any;
 
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -48,9 +48,12 @@ export class LoginServiceService {
   setNotification(notification: any) {
     this.notification = notification
   }
+  setAsset(value:any){
+    this.asset=value;
+  }
 
   getData(): any {
-    return [this.user_id, this.user_name, this.user_type, this.notification, this.emp_data]
+    return [this.user_id, this.user_name, this.user_type, this.notification, this.emp_data,this.asset]
   }
 
 

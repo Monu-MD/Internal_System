@@ -128,9 +128,7 @@ export class ChildProjectComponent {
     this.key12= response.key12
     this.key13= response.key13
     this.key14 = response.key14
-    this.key15 = response.key15
-
-    
+    this.key15 = response.key15 
   }
 
   modifybtn = false;

@@ -1,0 +1,92 @@
+
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<form [formGroup]="viewItAssetForm" (ngSubmit)="onSubmit()" >
+    <div class="container" class="tablecontainer" class="viewData">
+        <div class="table-content">
+            <div class="contentleft">
+                <h1 class="titleViewPage">View It Details</h1>
+                <label class="contentleft">Search:</label>
+            <input type="text"  name="searchAssetId" formControlName="searchAssetId" class="searchData" placeholder="Search Asset Id" r>
+            <button  style="color: aliceblue; background-color: azure; border: 1px white;"></button>
+        </div><br>
+            <span>Show</span>
+            <select class="show-entries" (change)="onItemsPerPageChange($event)">
+            <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+          </select>
+        <span>entries</span>
+            <hr>
+            <div *ngIf="dataLoaded">
+                <table>
+                    <thead>
+                        <tr>
+                             <th>Serial No</th>
+                            <th>Asset Id</th>
+                            <th>Product</th>
+                            <th>Make</th> 
+                            <th>Model</th>
+                            <th>Os Type</th>
+                            <!-- <th>Action</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of filteredData">
+                            <td>{{ row.serial_no }}</td>
+                            <td>{{ row.asset_id }}</td>
+                            <td>{{ row.product}}</td>
+                            <td>{{ row.make}}</td>
+                            <td>{{ row.model }}</td>
+                            <td>{{ row.os_type }}</td>
+                            <!-- <button class="listbutton"  (click)="filter()">Know More</button> -->
+                           <!-- <td> <a href="" style="color: rgba(11, 7, 139, 0.911);" (click)="search()"  routerLink="/ViewItAssetDetails">Know More</a></td> -->
+                    </tbody>
+                </table>
+            </div>
+          
+    
+            <div *ngIf="!dataLoaded">
+                <p>Loading data...</p>
+            </div>
+          
+
+            <div>
+                <button (click)="goToFirstPage()" class="listbutton">First</button>
+                <button (click)="goToPreviousPage()"  class="listbutton">Previous</button>
+                <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                <button (click)="goToNextPage()" class="listbutton">Next</button>
+                <button (click)="goToLastPage()" class="listbutton">Last</button>
+            </div>  
+        </div>
+    </div>
+</form>
+
+<!-- 
+<div class="view-details" *ngIf="assetData" >
+    <h2>View IT Details</h2>
+    <p>Asset ID: {{ assetData?.asset_id }}</p>
+    <p>Product: {{ assetData?.product }}</p>
+    <p>Make: {{ assetData?.make }}</p>
+    <p>SerialNo: {{ assetData?.serial_no }}</p>
+    <p>Model: {{ assetData?.model }}</p>
+    <p>HostName: {{ assetData?.host_name }}</p>
+    <p>Ip Address: {{ assetData?.ip_addr }}</p>
+    <p>Os: {{ assetData?.os }}</p>
+    <p>Os_Type: {{ assetData?.os_type }}</p>
+    <p>Software: {{ assetData?.software }}</p>
+    <p>ram: {{ assetData?.ram }}</p>
+    <p>Processor: {{ assetData?.processor }}</p>
+    <p>Hard Disk: {{ assetData?.hard_disk }}</p>
+    <p>Accessories: {{ assetData?.accessories }}</p>
+    <p>Window Product Key: {{ assetData?.window_product_key }}</p>
+</div> -->
+
+  <app-footer></app-footer>
+ 
+  
+  
+  
+  
+  
+  
+  

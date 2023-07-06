@@ -30,6 +30,7 @@ var markModule = require('./MarkModule/markDetails');
 var employeeDetails = require('./EMployeeModule/employeeDetails');
 var holiday=require('./HolidayModule/holiday');
 var request = require('./RequestModule/request');
+var assetDeatails=require('./AseetModule/assetDetails');
 
 app.use('/capture', capture);
 app.use('/', login);
@@ -40,3 +41,4 @@ app.use('/MarkModule/markDetails', markModule);
 app.use('/employeeDetails', employeeDetails);
 app.use('/holiday',holiday);
 app.use('/request', request);
+app.use('/assetDetails',assetDeatails);

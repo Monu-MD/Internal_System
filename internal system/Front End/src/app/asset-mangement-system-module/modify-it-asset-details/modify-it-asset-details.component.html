@@ -4,16 +4,17 @@
 <div class="container">
     <div class="title">Modify IT Assets</div>
     <div class="content">
-        <form [formGroup]="modifyItAssetDetailsForm" (ngSubmit)="submit(modifyItAssetDetailsForm.value)">
+        <form [formGroup]="modifyItAssetDetailsForm" (ngSubmit)="onSubmit(modifyItAssetDetailsForm.value)">
             <div class="user-details">
 
                 <div class="input-box">
                     <label class="details">Asset ID</label>
-                    <input type="number" name="assetId" formControlName="assetId" placeholder="Asset ID">
+                    <input type="text" name="asset_id" formControlName="asset_id"  placeholder="Asset ID" #assetId (blur)="fetchData(assetId.value)">
+                     <!-- <button  style="color: aliceblue; background-color: azure; border: 1px white;" (click)="search()"></button> -->
                 </div>
                 <div class="input-box">
                     <label class="details">Product</label>
-                    <select name="product" formControlName="product">
+                    <select name="product" formControlName="product" value="{{product}}">
                         <option>Select Product</option>
                         <option>Laptop</option>
                         <option>Desktop</option>
@@ -25,65 +26,65 @@
 
                 <div class="input-box">
                     <label class="details">Make</label>
-                    <input type="text" name="make" formControlName="make" placeholder="Make">
+                    <input type="text" name="make" formControlName="make" placeholder="Make" value="{{make}}">
                 </div>
 
                 <div class="input-box">
                     <label class="details">Serial No</label>
-                    <input type="number" name="serialNo" formControlName="serialNo" required placeholder="Serial No">
+                    <input type="number" name="serial_no" formControlName="serial_no" required placeholder="Serial No" value="{{serial_no}}">
                 </div>
                 <div class="input-box">
                     <label class="details">Model</label>
-                    <input type="text" name="model" formControlName="modle" placeholder="Model">
+                    <input type="text" name="model" formControlName="model" placeholder="Model" value="{{model}}">
                 </div>
                 <div class="input-box">
                     <label class="details">Host Name</label>
-                    <input type="text" name="hostName" formControlName="hostName" placeholder="HostName">
+                    <input type="text" name="host_name" formControlName="host_name" placeholder="HostName" value="{{host_name}}">
                 </div>
             
                 <div class="input-box">
                     <label class="details">IP Address</label>
-                    <input type="text" name="ipAddress" formControlName="ipAddress" placeholder="IP Address">
+                    <input type="text" name="ip_addr" formControlName="ip_addr" placeholder="IP Address" value="{{ip_addr}}">
                 </div>
 
                     <div class="input-box">
                         <label class="details">OS</label>
-                        <input type="text" name="os" formControlName="os" placeholder="OS">
+                        <input type="text" name="os" formControlName="os" placeholder="OS" value="{{os}}">
                     </div>
 
                     <div class="input-box">
                         <label class="details">OS Type</label>
-                        <input type="text" name="osType" formControlName="osType" placeholder="OS Type">
+                        <input type="text" name="os_type" formControlName="os_type" placeholder="OS Type" value="{{os_type}}">
                     </div>
 
                 <div class="input-box">
                     <label class="details">Software</label>
-                    <input type="text" name="software" formControlName="software" placeholder="Software">
+                    <input type="text" name="software" formControlName="software" placeholder="Software" value="{{software}}">
                 </div>
 
                 <div class="input-box">
                     <label class="details">RAM</label>
-                    <input type="number" name="ram" formControlName="ram" placeholder="RAM">
+                    <input type="number" name="ram" formControlName="ram" placeholder="RAM" value="{{ram}}">
                 </div>
 
                 <div class="input-box">
                     <label class="details">Processor</label>
-                    <input type="text" name="processor" formControlName="processor" placeholder="Serial No">
+                    <input type="text" name="processor" formControlName="processor" placeholder="Serial No" value="{{processor}}">
                 </div>
 
                 <div class="input-box">
                     <label class="details">Hard Disk</label>
-                    <input type="text" name="hardDisk" formControlName="hardDisk" placeholder="HardDisk">
+                    <input type="text" name="hard_disk" formControlName="hard_disk" placeholder="HardDisk" value="{{hard_disk}}">
                 </div>
 
                 <div class="input-box">
                     <label class="details">Accessories</label>
-                    <input type="text" name="accessories" formControlName="accessories" placeholder="Accessories">
+                    <input type="text" name="accessories" formControlName="accessories" placeholder="Accessories" value="{{accessories}}">
                 </div>
             
                 <div class="input-box">
                     <label class="details">Windows Product Key</label>
-                    <input type="text" name="windowsProductKey" formControlName="windowsProductKey" placeholder="WindowProductKey">
+                    <input type="text" name="window_product_key" formControlName="window_product_key" placeholder="WindowProductKey" value="{{window_product_key}}">
                 </div>
         
             </div>
