@@ -59,6 +59,21 @@ export class ViewItAllocationDeatilComponent {
       }
     );
   }
+
+
+  deleteHoliday(row: any) {
+    this.http.get(`http://localhost:4000/assetDetails/removeAsset/${row.asset_id}`).subscribe(
+      (response: any) => {
+                console.log('Data deleted successfully:', response);
+                 // Remove the deleted item from rowData array it will reloaded 
+                this.rowData = this.rowData.filter(item => item.asset_id !== row.asset_id);
+              },
+              (error: any) => {
+                console.error('Error:', error);
+              }  
+    );
+   
+    }
   
 
   filterData(assetId: string) {

@@ -24,7 +24,8 @@
                             <th>Employee Id</th>
                             <th>Employee Name</th>
                             <th>Allocated Date</th> 
-                            <th>Return Date</th>    
+                            <th>Return Date</th>
+                            <th>Action</th>    
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,8 @@
                             <td>{{ row.emp_name}}</td>
                             <td>{{ row.allocdate}}</td>   
                             <td>{{ row.rdate}}</td>
+                            <td><button class="button" class="listbutton"
+                                (click)="deleteHoliday(row)">Delete</button></td>
                     </tbody>
                 </table>
             </div>
