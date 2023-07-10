@@ -31,7 +31,7 @@ export class LoginServiceService {
 
 
   setData(value: any): void {
-    console.log(value);
+ 
     
     this.ename = value.user_name;
     this.eid = value.user_id;
