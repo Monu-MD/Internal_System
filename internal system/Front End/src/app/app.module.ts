@@ -270,6 +270,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     TopbarComponent,
      DashboardComponent,
      EmployeeDetailsComponent,
+     AdminDashboardComponent
 
 
 

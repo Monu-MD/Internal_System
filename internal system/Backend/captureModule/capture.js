@@ -34,60 +34,58 @@ router.post('/registerEmpId', (req, res) => {
                 if (main_count == 0) {
                     if (mcount == 0) {
                         if (icount == 0) {
-                            //res.redirect('/captureModule/captureDetail/captureDetailProfessional');
-                            // res.render('captureModule/captureDetailProfessional',
-                            //     {
-                            //         empid: empid
-                            //     });
 
-                            console.log('m count if enterd');
-                            const message = {
-                                message: "redirect to professional Details "
-                            }
-                            return res.send(message);
+                            pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'BLG' order by comm_code_id asc", function (err, result) {
+                                comm_code_blood = result.rows;
+                                comm_code_blood_count = result.rowCount;
+
+                                // to fetch shirt size
+                                pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'SHR' order by comm_code_id asc", function (err, result) {
+                                    comm_code_shirt = result.rows;
+                                    comm_code_shirt_count = result.rowCount;
+
+                                    // to fetch state group
+                                    pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'STA' order by comm_code_id asc", function (err, result) {
+                                        comm_code_state = result.rows;
+                                        comm_code_state_count = result.rowCount;
+
+                                        // to fetch maritial status
+                                        pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'MAR' order by comm_code_id asc", function (err, result) {
+                                            comm_code_maritalstatus = result.rows;
+                                            comm_code_maritalstatus_count = result.rowCount;
+
+                                            const cocd = {
+                                                empid: empid,
+                                                comm_code_blood: comm_code_blood,
+                                                comm_code_blood_count: comm_code_blood_count,
+                                                comm_code_shirt: comm_code_shirt,
+                                                comm_code_shirt_count: comm_code_shirt_count,
+                                                comm_code_state: comm_code_state,
+                                                comm_code_state_count: comm_code_state_count
+
+                                            };
+                                            console.log('m count if enterd');
+                                            const message = {
+                                                message: "redirect to personal Details ",
+                                                cocd: cocd
+                                            }
+                                            return res.send(message);
+                                        });
+                                    });
+                                });
+                            });
 
 
 
                         }
                         else {
 
-                            // pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'BLG' order by comm_code_id asc", function (err, result) {
-                            //     comm_code_blood = result.rows;
-                            //     comm_code_blood_count = result.rowCount;
 
-                            //     // to fetch shirt size
-                            //     pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'SHR' order by comm_code_id asc", function (err, result) {
-                            //         comm_code_shirt = result.rows;
-                            //         comm_code_shirt_count = result.rowCount;
-
-                            //         // to fetch state group
-                            //         pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'STA' order by comm_code_id asc", function (err, result) {
-                            //             comm_code_state = result.rows;
-                            //             comm_code_state_count = result.rowCount;
-
-                            //             // to fetch maritial status
-                            //             pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'MAR' order by comm_code_id asc", function (err, result) {
-                            //                 comm_code_maritalstatus = result.rows;
-                            //                 comm_code_maritalstatus_count = result.rowCount;
-
-                            //                 res.render('captureModule/captureDetailPersonal', {
-                            //                     empid: empid,
-                            //                     comm_code_blood: comm_code_blood,
-                            //                     comm_code_blood_count: comm_code_blood_count,
-                            //                     comm_code_shirt: comm_code_shirt,
-                            //                     comm_code_shirt_count: comm_code_shirt_count,
-                            //                     comm_code_state: comm_code_state,
-                            //                     comm_code_state_count: comm_code_state_count
-
-                            //                 });
-                            //             });
-                            //         });
-                            //     });
-                            // });
                             const message = {
-                                message: "redirect to personal Details "
+                                message: "redirect to register ",
+                                notification: "Verification Pending for this Employee Id:  " + empid
                             }
-                            return res.send(message);
+                            res.send(message);
 
 
 
@@ -110,44 +108,7 @@ router.post('/registerEmpId', (req, res) => {
 
                         }
                         else {
-                            // res.redirect('/captureModule/captureDetail/captureDetailPersonal');
-                            // pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'BLG' order by comm_code_id asc", function (err, result) {
-                            //     comm_code_blood = result.rows;
-                            //     comm_code_blood_count = result.rowCount;
 
-                            //     // to fetch shirt size
-                            //     pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'SHR' order by comm_code_id asc", function (err, result) {
-                            //         comm_code_shirt = result.rows;
-                            //         comm_code_shirt_count = result.rowCount;
-
-                            //         // to fetch state group
-                            //         pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'STA' order by comm_code_id asc", function (err, result) {
-                            //             comm_code_state = result.rows;
-                            //             comm_code_state_count = result.rowCount;
-
-                            //             // to fetch maritial status
-                            //             pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'MAR' order by comm_code_id asc", function (err, result) {
-                            //                 comm_code_maritalstatus = result.rows;
-                            //                 comm_code_maritalstatus_count = result.rowCount;
-
-                            //                 // res.render('captureModule/captureDetailPersonal', {
-
-                            //                 // });
-                            //                 var data = {
-
-                            //                     empid: empid,
-                            //                     comm_code_blood: comm_code_blood,
-                            //                     comm_code_blood_count: comm_code_blood_count,
-                            //                     comm_code_shirt: comm_code_shirt,
-                            //                     comm_code_shirt_count: comm_code_shirt_count,
-                            //                     comm_code_state: comm_code_state,
-                            //                     comm_code_state_count: comm_code_state_count
-                            //                 }
-                            //                 res.send(data)
-                            //             });
-                            //         });
-                            //     });
-                            // });
 
                             const message = {
                                 message: "redirect to personal Details "

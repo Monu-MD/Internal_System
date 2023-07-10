@@ -74,6 +74,7 @@ export class EmployeeDetailsComponent {
     this.user_id=emp_details[0];
     this.user_type=emp_details[2]
     
+    
     console.log("emp", emp_details[4]);
     if (emp_details != null ) {
 

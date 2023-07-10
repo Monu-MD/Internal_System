@@ -1222,7 +1222,7 @@ router.get('/admindashboard', function (req, res) {
 	pool.query("SELECT * FROM users where user_id=$1", [emp_id], function (err, result) {
 
 		if (err) throw err;
-		emp_details= result.rows[0];
+		emp_details = result.rows[0];
 
 		console.log("INside Admin Dashboard");
 		pool.query("SELECT * FROM messages  where del_flg = $1 and to_user_id = $2 and read_flg= $3", ['N', emp_id, 'N'], function (err, unreadCountList) {
@@ -1670,11 +1670,15 @@ router.get('/admindashboard', function (req, res) {
 
 /////////////////////////////////////////////////////////////////////////////////// Employee Aproval ///////////////////////////////////////////////////
 router.get('/employeeApprovalDetails', (req, res) => {
-
+	// console.log(req);
 	var empId = req.body.user_id;
+	console.log(empId);
+	// console.log(req);
 
 	pool.query("SELECT user_type from users where user_id = $1", [empId], function (err, result) {
+		console.log(result);
 		emp_access = result.rows[0].user_type;
+
 
 		if (emp_access != "A1") {
 			res.redirect('/admin-dashboard/adminDashboard/admindashboard');
@@ -1685,6 +1689,7 @@ router.get('/employeeApprovalDetails', (req, res) => {
 				if (err) throw err;
 				emp = done.rows;
 				emp_count = done.rowCount;
+				console.log(result);
 
 				res.json({
 					message: 'employeeModule/employeeApprovalDetails', Data: {
@@ -1702,26 +1707,305 @@ router.get('/employeeApprovalDetails', (req, res) => {
 
 	});
 });
+//////////////////////////////////////////////////////////verify////////////////////////
+router.post('/verifyDetails', (req, res) => {
+	console.log(req.body.test);
+	console.log(req.body.test1);
+
+	console.log(req.body.test2);
+
+	var now = new Date();
+	var rcreuserid = req.user_id;
+	var rcretime = now;
+	var lchguserid = req.user_id;
+	var lchgtime = now;
+	var empid = req.body.user_id;
+	console.log(empid);
+	// var empName = req.body.empName;
+	// var gender = req.body.gender;
+	// var dob = req.body.dob;
+	// var bgroup = req.body.bgroup;
+	// var shirt = req.body.shirt;
+	// var commAdd = req.body.commAdd;
+	// var state = req.body.state;
+	// var city = req.body.city;
+	// var pincode = req.body.pincode;
+	// var resAdd = req.body.resAdd;
+	// var state1 = req.body.state1;
+	// var city1 = req.body.city1;
+	// var pincode1 = req.body.pincode1;
+	// var mobNum = req.body.mobNum;
+	// var telNum = req.body.telNum;
+	// var econNum = req.body.econNum;
+	// var emerPer = req.body.emerPer;
+	// var fathersName = req.body.fathersName;
+	// var mothersName = req.body.mothersName;
+	// var maritalstatus = req.body.maritalstatus;
+	// var spouseName = req.body.spouseName;
+	// var panNum = req.body.panNum;
+	// var passNum = req.body.passNum;
+	// var aadhaarNum = req.body.aadhaarNum;
+	// var dlNum = req.body.dlNum;
+	// var uan = req.body.uan;
+	// var nameinBank = req.body.nameinBank;
+	// var bankName = req.body.bankName;
+	// var branchName = req.body.branchName;
+	// var acctNum = req.body.acctNum;
+	// var ifscCode = req.body.ifscCode;
+	var entity_cre_flg = "Y";
+	var rejReason = "some Credential are missing for further details contact Admin";
 
 
 
+	pool.query("SELECT * FROM data_emp_info_tbl_temp where emp_id=$1", [empid], function (err, result) {
+
+		if (err) throw err;
+		details1 = result.rows[0];
+		console.log(details1, "===============");
+
+		var emp_id = details1.emp_id;
+		console.log(emp_id);
+		emp_name = details1.emp_name;
+		gender = details1.gender;
+		dob = details1.dob;
+		blood_group = details1.blood_group;
+		shirt_size = details1.shirt_size;
+		comm_addr1 = details1.comm_addr1;
+		state = details1.state;
+		city = details1.city;
+		pincode = details1.pincode;
+		comm_addr2 = details1.comm_addr2;
+		state1 = details1.state1;
+		city1 = details1.city1;
+		pincode1 = details1.pincode1;
+		martial_status = details1.martial_status;
+		phone1 = details1.phone1;
+		phone2 = details1.phone2;
+		emergency_num = details1.emergency_num;
+		emergency_con_person = details1.emergency_con_person;
+		father_name = details1.father_name;
+		mother_name = details1.mother_name;
+		spouse_name = details1.spouse_name;
+		pan_number = details1.pan_number;
+		passport_num = details1.passport_num;
+		license_num = details1.license_num;
+		aadhaar_num = details1.aadhaar_num;
+		uan_num = details1.uan_num;
+		name_in_bank = details1.name_in_bank;
+		bank_name = details1.bank_name;
+		branch_name = details1.branch_name;
+		account_num = details1.account_num;
+		ifsc_code = details1.ifsc_code;
+		del_flg = details1.del_flg;
+		// entity_cre_flg = details1.entity_cre_flg;
+		rcre_user_id = details1.rcre_user_id;
+		rcre_time = details1.rcre_time;
+		lchg_user_id = details1.lchg_user_id;
+		lchg_time = details1.lchg_time;
 
 
+	})
+
+	pool.query("select emp_email from emp_master_tbl where emp_id=$1", [empid], function (err, result) {
+		var email = result.rows['0'].emp_email;
+
+		console.log(result.rows);
+		var test = req.body.test;
+		if (test != "") {
+			if (test == "Verify Profile") {
+				console.log(test);
+				pool.query("select * from emp_info_tbl_hist where emp_id = $1", [empid], function (err, done) {
+					var hist_count = done.rowCount;
+					console.log(result.rows);
+
+					if (hist_count == "1") {
+
+						pool.query("delete from emp_info_tbl_hist where emp_id = $1", [empid], function (err, done) {
+							if (err) throw err;
+						});
+						console.log(result.rows);
+
+						pool.query("insert into emp_info_tbl_hist select * from emp_info_tbl where emp_id=$1 ", [empid], function (err, result) {
+							if (err) throw err;
+						});
+						console.log(result.rows);
+					}
+					else {
+
+						pool.query("insert into emp_info_tbl_hist select * from emp_info_tbl where emp_id=$1", [empid], function (err, result) {
+							if (err) throw err;
+						});
+
+					}
 
 
+					pool.query("select * from emp_info_tbl where emp_id=$1", [empid], function (err, result) {
+						var rcount = result.rowCount;
+
+						if (rcount == 0) {
+
+							pool.query("INSERT INTO emp_info_tbl(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+								if (err) throw err;
+
+								pool.query("delete from emp_info_tbl_temp where emp_id=$1", [empid], function (err, done) {
+									if (err) throw err;
+
+									var smtpTransport = nodemailer.createTransport('SMTP', {
+										service: 'gmail',
+										auth:
+										{
+											user: 'amber@nurture.co.in',
+											pass: 'nurture@123'
+										}
+									});
 
 
+									var mailOptions = {
+										to: email,
+										from: 'amber@nurture.co.in',
+										subject: 'Verification Successful for your Personal Details Added/Modified.',
+										html: '<img src="http://www.helisconsulting.com/wp-content/uploads/2017/01/Employee-Verification_Helis-Conuslting.jpg" height="85"><br><br>' +
+											'<h3>Dear <b>' + empName + '</b>,<br><br>' +
+											'You are receiving this mail because HR has verified the Added/Modified Personal Details.<br>' +
+											'Please go through the system for affected changes.<br>' +
+											'In case of any Clarifications/Concern please contact HR .<br>' +
+											'URL: http://amber.nurture.co.in <br><br><br>' +
+											'- Regards,<br><br>Amber</h3>'
+									};
+
+									smtpTransport.sendMail(mailOptions, function (err) {
+									});
 
 
+									req.flash('success', "Employee Personal Details Verified sucessfully for the user:" + empid + ".")
+									res.redirect('/employeeModule/employeeDetails/employeeApprovalDetails');
+								});
+							});
+						}
+						else {
+
+							pool.query("update emp_info_tbl set gender=$2,dob=$3,blood_group=$4,shirt_size=$5,comm_addr1=$6,state=$7,city=$8,pincode=$9,comm_addr2=$10,state1=$11,city1=$12,pincode1=$13,martial_status=$14,phone1=$15,phone2=$16,emergency_num=$17,emergency_con_person=$18,father_name=$19,mother_name=$20,spouse_name=$21,pan_number=$22,passport_num=$23,license_num=$24,aadhaar_num=$25,uan_num=$26,name_in_bank=$27,bank_name=$28,branch_name=$29,account_num=$30,ifsc_code=$31,del_flg=$32,rcre_user_id=$33,rcre_time=$34,lchg_user_id=$35,lchg_time=$36,entity_cre_flg=$37 where emp_id=$1", [empid, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', rcreuserid, rcretime, lchguserid, lchgtime, entity_cre_flg], function (err, done) {
+								if (err) throw err;
+
+								pool.query("delete from emp_info_tbl_temp where emp_id=$1", [empid], function (err, done) {
+									if (err) throw err;
+
+									var smtpTransport = nodemailer.createTransport('SMTP', {
+										service: 'gmail',
+										auth:
+										{
+											user: 'amber@nurture.co.in',
+											pass: 'nurture@123'
+										}
+									});
+
+									var mailOptions = {
+										to: email,
+										from: 'amber@nurture.co.in',
+										subject: 'Verification Successful for your Personal Details Added/Modified.',
+										html: '<img src="http://www.helisconsulting.com/wp-content/uploads/2017/01/Employee-Verification_Helis-Conuslting.jpg" height="85"><br><br>' +
+											'<h3>Dear <b>' + empName + '</b>,<br><br>' +
+											'You are receiving this mail because HR has verified the Added/Modified Personal Details.<br>' +
+											'Please go through the system for affected changes.<br>' +
+											'In case of any Clarifications/Concern please contact HR .<br>' +
+											'URL: http://amber.nurture.co.in <br><br><br>' +
+											'- Regards,<br><br>Amber</h3>'
+									};
 
 
+									smtpTransport.sendMail(mailOptions, function (err) {
+									});
 
 
+									req.flash('success', "Employee Perssonal Details Verified sucessfully for the user:" + empid + ".")
+									res.redirect('/employeeModule/employeeDetails/employeeApprovalDetails');
+
+								});
+							});
+						}
+					});
+				});
+			}
+		}
+
+		var test1 = req.body.test1;
+		if (test1 != "") {
+			if (test1 == "Reject Profile") {
+
+				var smtpTransport = nodemailer.createTransport('SMTP', {
+					service: 'gmail',
+					auth:
+					{
+						user: 'amber@nurture.co.in',
+						pass: 'nurture@123'
+					}
+				});
+
+				var mailOptions = {
+					to: email,
+					from: 'amber@nurture.co.in',
+					subject: 'Rejection of Employee Personal Details Added/Modified.',
+					html: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF3AN6vk9aZnh5KQ_KPzHWYwlVWNNCxzAFK-994yO9WY6UwfiSIA" height="85"><br><br>' +
+						'<h3> Dear <b>' + empName + '</b>,<br><br>' +
+						'You are receiving this mail because HR has rejected the Added/Modified Employee Personal Details.<br>' +
+						'Please Provide the supporting documents or contact HR for any clarifications on the same .<br>' +
+						'Rejection Reason : <u>' + rejReason + '</u>.<br><br>' +
+						'URL: http://amber.nurture.co.in' + '<br><br><br>' +
+						'- Regards,<br><br>Amber</h3>'
+				};
 
 
+				smtpTransport.sendMail(mailOptions, function (err) {
+
+				});
 
 
+				req.flash('success', "Employee Personal Details has been Rejected sucessfully for Employee Id:" + empid + " and E-mail has been sent to." + email + "with further instructions.")
+				res.redirect('/employeeModule/employeeDetails/employeeApprovalDetails');
 
+			}
+		}
+
+		var test2 = req.body.test2;
+		if (test2 != "") {
+			if (test2 == "Delete Profile") {
+				var smtpTransport = nodemailer.createTransport('SMTP', {
+					service: 'gmail',
+					auth:
+					{
+						user: 'amber@nurture.co.in',
+						pass: 'nurture@123'
+					}
+				});
+
+				var mailOptions = {
+					to: email,
+					from: 'amber@nurture.co.in',
+					subject: 'Deletion of your Personal Details Added/Modified.',
+					html: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhnWZ-CQDkryjFGSvC7gHqaoaJyZFp4vGSfuPYR-nrz5IcC09ayQ" height="85"><br><br>' +
+						'<h3> Dear <b>' + empName + '</b>,<br><br>' +
+						'You are receiving this mail because HR has deleted the Added/Modified Employee Personal Details.<br>' +
+						'Please make a new entry by Adding/Modifying the Personal Details.<br><br>' +
+						'Deletion Reason :<u>' + deleteReason + '</u>.<br><br>' +
+						'URL: http://amber.nurture.co.in' + '<br><br><br>' +
+						'- Regards,<br><br>Amber</h3>'
+				};
+
+
+				smtpTransport.sendMail(mailOptions, function (err) {
+				});
+
+				pool.query("delete from emp_info_tbl_temp where emp_id=$1", [empid], function (err, done) {
+					if (err) throw err;
+
+					req.flash('success', "Employee Personal Details has been deleted sucessfully for the Employee Id:" + empid + " and E-mail has been sent to." + email + " with further instructions.")
+					res.redirect('/employeeModule/employeeDetails/employeeApprovalDetails');
+				});
+			}
+		}
+
+	});
+})
 
 
 module.exports = router;

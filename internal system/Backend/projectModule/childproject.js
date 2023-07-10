@@ -5,7 +5,7 @@ var app = express();
 var util = require('util');
 var path = require('path');
 var fs = require('fs');
-var router = express.Router();	
+var router = express.Router();
 var pool = require('./../Database/dbconfig');
 var nodemailer = require('nodemailer');
 const { log } = require('console');
@@ -25,8 +25,8 @@ router.get('/childproject', function (req, res) {
 		var emp_access = result.rows[0].user_type;
 		console.log(emp_access);
 
-		if (emp_access == "L3") {
-			// res.json({message:"redirect ot dashboard"})
+		if (emp_access != "L3") {
+			res.json({ message: "redirect ot dashboard" })
 
 
 			pool.query("SELECT emp_id from emp_master_tbl ", function (err, result) {
@@ -109,33 +109,36 @@ router.get('/childproject', function (req, res) {
 																console.log("at end");
 
 																res.json({
+																	message: 'redirect to child project',
+																	data: {
 
-																	emp_access: emp_access,
-																	// ename: req.user.rows['0'].user_name,
-																	// eid: req.user.rows['0'].user_id,
-																	parpid: parpid,
-																	parpid_count: parpid_count,
-																	employee: employee,
-																	empid_count: empid_count,
-																	empname: empname,
-																	customer_id: customer_id,
-																	customer_count: customer_count,
-																	customer_name: customer_name,
-																	comm_code_id: comm_code_id,
-																	comm_code_id_count: comm_code_id_count,
-																	comm_code_desc: comm_code_desc,
-																	comm_code_pcr: comm_code_pcr,
-																	comm_code_pcr_count: comm_code_pcr_count,
-																	comm_code_pty: comm_code_pty,
-																	comm_code_pty_count: comm_code_pty_count,
-																	comm_code_tnu: comm_code_tnu,
-																	comm_code_tnu_count: comm_code_tnu_count,
-																	delname_count: delname_count,
-																	delname: delname,
-																	delid: delid,
-																	delid_count: delid_count,
-																	comm_paymentype_count: comm_paymentype_count,
-																	comm_paymentype: comm_paymentype
+																		emp_access: emp_access,
+																		// ename: req.user.rows['0'].user_name,
+																		// eid: req.user.rows['0'].user_id,
+																		parpid: parpid,
+																		parpid_count: parpid_count,
+																		employee: employee,
+																		empid_count: empid_count,
+																		empname: empname,
+																		customer_id: customer_id,
+																		customer_count: customer_count,
+																		customer_name: customer_name,
+																		comm_code_id: comm_code_id,
+																		comm_code_id_count: comm_code_id_count,
+																		comm_code_desc: comm_code_desc,
+																		comm_code_pcr: comm_code_pcr,
+																		comm_code_pcr_count: comm_code_pcr_count,
+																		comm_code_pty: comm_code_pty,
+																		comm_code_pty_count: comm_code_pty_count,
+																		comm_code_tnu: comm_code_tnu,
+																		comm_code_tnu_count: comm_code_tnu_count,
+																		delname_count: delname_count,
+																		delname: delname,
+																		delid: delid,
+																		delid_count: delid_count,
+																		comm_paymentype_count: comm_paymentype_count,
+																		comm_paymentype: comm_paymentype
+																	}
 																});
 															});
 														});
@@ -159,60 +162,60 @@ router.get('/childproject', function (req, res) {
 ///////////////////////////////////////// Child Parent Project Fetch ////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-router.get('/fetchDet',(req, res)=> {
+router.get('/fetchDet', (req, res) => {
 
 	var parpid = req.body.parpid;
 	console.log("project id", parpid);
 	pool.query("select cid,delivery_mgr,payment_type,customer_class,team_size,project_mgr,project_type,project_curr,bill_addrline1,bill_addrline2,bill_country,bill_city,bill_pin_code,project_loc,perdium_amount_per_day,perdium_curr_per_day from project_master_tbl where project_id=$1", [parpid], function (err, result) {
 		console.log(result.rows);
-			// console.log(result);
-			const cid = result.rows[0].cid
-			console.log(cid);
-			var delmgr = result.rows[0].delivery_mgr;
-			var paymenttype = result.rows[0].payment_type;
-			console.log("paymenttype", paymenttype);
-			var classid = result.rows[0].customer_class;
-			var projectsize =result.rows[0].team_size;
-			var projmgr = result.rows[0].project_mgr;
-			var projtype = result.rows[0].project_type;
-			var projcur =result.rows[0].project_curr;
-			var clientaddr1 =result.rows[0].bill_addrline1;
-			var clientaddr2 = result.rows[0].bill_addrline2;
-			var countryId = result.rows[0].bill_country;
-			var cityId = result.rows[0].bill_city;
-			var pincode = result.rows[0].bill_pin_code;
-			var perloc = result.rows[0].project_loc;
-			var perdiumamt = result.rows[0].perdium_amount_per_day;
-			var perprocurr = result.rows[0].perdium_curr_per_day;
+		// console.log(result);
+		const cid = result.rows[0].cid
+		console.log(cid);
+		var delmgr = result.rows[0].delivery_mgr;
+		var paymenttype = result.rows[0].payment_type;
+		console.log("paymenttype", paymenttype);
+		var classid = result.rows[0].customer_class;
+		var projectsize = result.rows[0].team_size;
+		var projmgr = result.rows[0].project_mgr;
+		var projtype = result.rows[0].project_type;
+		var projcur = result.rows[0].project_curr;
+		var clientaddr1 = result.rows[0].bill_addrline1;
+		var clientaddr2 = result.rows[0].bill_addrline2;
+		var countryId = result.rows[0].bill_country;
+		var cityId = result.rows[0].bill_city;
+		var pincode = result.rows[0].bill_pin_code;
+		var perloc = result.rows[0].project_loc;
+		var perdiumamt = result.rows[0].perdium_amount_per_day;
+		var perprocurr = result.rows[0].perdium_curr_per_day;
 
-			pool.query("SELECT customer_id,customer_name from customer_master_tbl where customer_id=$1", [cid], function (err, result) {
-				var customer_name = result.rows['0'].customer_name;
-				var cid = result.rows['0'].customer_id;
-				var cid = cid + "-" + customer_name;
+		pool.query("SELECT customer_id,customer_name from customer_master_tbl where customer_id=$1", [cid], function (err, result) {
+			var customer_name = result.rows['0'].customer_name;
+			var cid = result.rows['0'].customer_id;
+			var cid = cid + "-" + customer_name;
 
-				pool.query("SELECT emp_id,emp_name from emp_master_tbl where emp_id=$1", [delmgr], function (err, result) {
-					var delmgr_name = result.rows['0'].emp_name;
-					var delmgr = result.rows['0'].emp_id;
-					var delmgr = delmgr + "-" + delmgr_name;
+			pool.query("SELECT emp_id,emp_name from emp_master_tbl where emp_id=$1", [delmgr], function (err, result) {
+				var delmgr_name = result.rows['0'].emp_name;
+				var delmgr = result.rows['0'].emp_id;
+				var delmgr = delmgr + "-" + delmgr_name;
 
-					pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'CUS' and comm_code_id=$1", [classid], function (err, result) {
-						var class_id_name = result.rows['0'].comm_code_desc;
-						var classid = result.rows['0'].comm_code_id;
-						var classid = classid + "-" + class_id_name;
+				pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'CUS' and comm_code_id=$1", [classid], function (err, result) {
+					var class_id_name = result.rows['0'].comm_code_desc;
+					var classid = result.rows['0'].comm_code_id;
+					var classid = classid + "-" + class_id_name;
 
-						pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'PTY' and comm_code_id=$1", [projtype], function (err, result) {
-							var project_type_name = result.rows['0'].comm_code_desc;
-							var projtype = result.rows['0'].comm_code_id;
-							var projtype = projtype + "-" + project_type_name;
+					pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'PTY' and comm_code_id=$1", [projtype], function (err, result) {
+						var project_type_name = result.rows['0'].comm_code_desc;
+						var projtype = result.rows['0'].comm_code_id;
+						var projtype = projtype + "-" + project_type_name;
 
 
-							res.json({ key: cid, key1: delmgr, key2: paymenttype, key3: classid, key4: projectsize, key5: projmgr, key6: projtype, key7: projcur, key8: clientaddr1, key9: clientaddr2, key10: countryId, key11: cityId, key12: pincode, key13: perloc, key14: perdiumamt, key15: perprocurr, key16: parpid });
+						res.json({ key: cid, key1: delmgr, key2: paymenttype, key3: classid, key4: projectsize, key5: projmgr, key6: projtype, key7: projcur, key8: clientaddr1, key9: clientaddr2, key10: countryId, key11: cityId, key12: pincode, key13: perloc, key14: perdiumamt, key15: perprocurr, key16: parpid });
 
-						});
 					});
 				});
 			});
-		
+		});
+
 	});
 })
 
@@ -223,8 +226,8 @@ router.get('/fetchDet',(req, res)=> {
 ///////////////////////////////////////// Child Project Add (POST) //////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-router.post('/addchildproject', (req, res) =>{
-console.log(req.body);
+router.post('/addchildproject', (req, res) => {
+	console.log(req.body);
 	var empId = req.user_id;
 	var eid = req.user_id;
 	var now = new Date();
@@ -296,17 +299,17 @@ console.log(req.body);
 
 	pool.query("select cid,delivery_mgr,customer_class,team_size,project_type,bill_addrline1,bill_addrline2,bill_country,bill_city,bill_pin_code from project_master_tbl where project_id=$1", [parpid], function (err, result) {
 		console.log(result);
-			var cid = result.rows[0].cid
-			var delmgr = result.rows[0].delivery_mgr;
-			var classid = result.rows[0].customer_class;
-			var projectsize = result.rows[0].team_size;
-			var projtype = result.rows[0].project_type;
-			var clientaddr1 = result.rows[0].bill_addrline1;
-			var clientaddr2 = result.rows[0].bill_addrline2;
-			var countryId = result.rows[0].bill_country;
-			var cityId = result.rows[0].bill_city;
-			var pincode = result.rows[0].bill_pin_code;
-	
+		var cid = result.rows[0].cid
+		var delmgr = result.rows[0].delivery_mgr;
+		var classid = result.rows[0].customer_class;
+		var projectsize = result.rows[0].team_size;
+		var projtype = result.rows[0].project_type;
+		var clientaddr1 = result.rows[0].bill_addrline1;
+		var clientaddr2 = result.rows[0].bill_addrline2;
+		var countryId = result.rows[0].bill_country;
+		var cityId = result.rows[0].bill_city;
+		var pincode = result.rows[0].bill_pin_code;
+
 
 		pool.query("SELECT chld_cnt from project_master_tbl where project_id = $1", [parpid], function (err, result) {
 			if (err) throw err;
@@ -418,33 +421,33 @@ console.log(req.body);
 															console.log("cclist", cclist);
 
 
-															var smtpTransport = nodemailer.createTransport('SMTP', {
-																service: 'gmail',
-																auth:
-																{
-																	user: 'amber@nurture.co.in',
-																	pass: 'nurture@123'
-																}
-															});
+															// var smtpTransport = nodemailer.createTransport('SMTP', {
+															// 	service: 'gmail',
+															// 	auth:
+															// 	{
+															// 		user: 'amber@nurture.co.in',
+															// 		pass: 'nurture@123'
+															// 	}
+															// });
 
-															var mailOptions =
-															{
-																to: mailids,
-																cc: cclist,
-																from: 'amber@nurture.co.in',
-																subject: 'Project Creation Notification ',
-																text: 'Hi Team ,\n\n' +
-																	' Child Project Creation Details.\n\n' +
-																	' Parent Project ID   : ' + parpid + ' .\n' +
-																	' Child Project ID    : ' + projectid + ' .\n' +
-																	' Delivery manager    : ' + delmgr + '-' + delname + ' .\n' +
-																	' Project manager     : ' + projectmgr + '-' + projmgrname + '\n' +
-																	' Project created by  : ' + rcreuserid + '-' + createdgrname + '.\n\n\n\n' +
-																	'- Regards,\n Amber'
-															};
+															// var mailOptions =
+															// {
+															// 	to: mailids,
+															// 	cc: cclist,
+															// 	from: 'amber@nurture.co.in',
+															// 	subject: 'Project Creation Notification ',
+															// 	text: 'Hi Team ,\n\n' +
+															// 		' Child Project Creation Details.\n\n' +
+															// 		' Parent Project ID   : ' + parpid + ' .\n' +
+															// 		' Child Project ID    : ' + projectid + ' .\n' +
+															// 		' Delivery manager    : ' + delmgr + '-' + delname + ' .\n' +
+															// 		' Project manager     : ' + projectmgr + '-' + projmgrname + '\n' +
+															// 		' Project created by  : ' + rcreuserid + '-' + createdgrname + '.\n\n\n\n' +
+															// 		'- Regards,\n Amber'
+															// };
 
-															smtpTransport.sendMail(mailOptions, function (err) {
-															});
+															// smtpTransport.sendMail(mailOptions, function (err) {
+															// });
 
 															req.flash('success', "Child Project :" + projectid + " created sucessfully for Parent Project :" + parpid + ".")
 															res.redirect('/projectModule/childproject/childproject');
