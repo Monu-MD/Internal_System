@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormControlDirective, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AddemployeeserviceService } from 'src/app/services/addemployeeservice.service';
+import { LoginServiceService } from 'src/app/services/login-service.service';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(private router: Router,
     private http: HttpClient,
-    private service: AddemployeeserviceService) { }
+    private service: AddemployeeserviceService,
+    private loginservice:LoginServiceService) { }
   output: any;
 
 
@@ -33,10 +35,35 @@ export class RegisterComponent implements OnInit {
     console.log(item);
     if (item != null) {
       // this.router.navigate(['personalDetails'])
-      this.service.postData(item);
+      this.postData(item);
 
     }
 
+  }
+  postData(data: any): void {
+    this.http.post('http://localhost:4000/capture/registerEmpId', data).subscribe(
+      (response: any) => {
+      
+        if(response.message=='redirect to personal Details '){
+          this.loginservice.cocd=response.cocd;
+          this.router.navigate(['/personalDetails'])
+          
+        }
+      
+        else if(response.message=='redirect to register '){
+          console.log("professional entry");
+          this.router.navigate(['/register'])
+          
+        }
+
+        
+      },
+      (error: any) => {
+        console.error('API Error:', error);
+        // Handle error cases and navigate accordingly
+        // this.router.navigate(['/error']);
+      }
+    );
   }
 
   get() {

@@ -80,7 +80,7 @@ export class SidebarComponent {
       if (this.user_type=='A1') {
         this.router.navigate(['searchmodify'])
       } else {
-        
+        this.loginservice.setViewAproval('viewData')
         this.router.navigate(['empDetailview'])
       }
     }

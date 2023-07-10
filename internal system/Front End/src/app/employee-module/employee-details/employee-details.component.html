@@ -1,76 +1,173 @@
-<app-headder></app-headder>
-<app-topbar></app-topbar>
-<app-sidebar></app-sidebar>
+<div *ngIf="viewaproval==='viewData'">
+  <app-headder></app-headder>
+  <app-topbar></app-topbar>
+  <app-sidebar></app-sidebar>
+  <div class="professional-details">
+    <h2>Professional Details</h2>
+
+    <p>Employee Id: {{EMPID}}</p>
+    <p>Employee Name: {{ EMPNAME }}</p>
+    <p>Email: {{ email }}</p>
+    <p>Employee Access: {{ EMPACCESS }}</p>
+    <p>Joining Date : {{ JDATE }}</p>
+    <p>Designation: {{ DESIG }}</p>
+    <p>Employee Classification: {{ EMPCLASS }}</p>
+    <p>Gross Salary Per Month: {{ SALARY }}</p>
+    <p>Salary Currency: {{ SALARY_CURR }} - {{ SALARY_CURR_DESC }}</p>
+    <p>Project Id: {{ PID }}</p>
+    <!-- <div *ngIf="rptMan !== ''"> -->
+    <p>Reporting Manager: {{ RPTMAN }} - {{ RPTMAN_DESC }}</p>
+    <!-- </div> -->
+    <!-- <ng-container *ngIf="rptMan === ''"> -->
+    <p>Reporting Manager: {{ RPTMAN }}</p>
+    <!-- </ng-container> -->
+    <p>Probation Period: {{ PROBPERIOD }}</p>
 
 
-<div class="professional-details">
-  <h2>Professional Details</h2>
+    <p>Previous Experience: {{ PREEM }}</p>
+    <p>Previous Experience In (Years And Months): {{ PREEXPYEAR }}{{ PREEXPMONTH }}</p>
+    <p>Last Employment In Chronological Order: {{ PREEMP }}</p>
+    <p>Previous Employer Two: {{ PREEMP2 }}</p>
+    <p>Previous Employer Three: {{ PREEMP3 }}</p>
+    <p>Previous Employer Four: {{ PREEMP4 }}</p>
+    <p>Previous Employer Five: {{ PREEMP5 }}</p>
+  </div>
 
-  <p>Employee Id: {{EMPID}}</p>
-  <p>Employee Name: {{ EMPNAME }}</p>
-  <p>Email: {{ email }}</p>
-  <p>Employee Access: {{ EMPACCESS }}</p>
-  <p>Joining Date : {{ JDATE }}</p>
-  <p>Designation: {{ DESIG }}</p>
-  <p>Employee Classification: {{ EMPCLASS }}</p>
-  <p>Gross Salary Per Month: {{ SALARY }}</p>
-  <p>Salary Currency: {{ SALARY_CURR }} - {{ SALARY_CURR_DESC }}</p>
-  <p>Project Id: {{ PID }}</p>
-  <!-- <div *ngIf="rptMan !== ''"> -->
-  <p>Reporting Manager: {{ RPTMAN }} - {{ RPTMAN_DESC }}</p>
-  <!-- </div> -->
-  <!-- <ng-container *ngIf="rptMan === ''"> -->
-  <p>Reporting Manager: {{ RPTMAN }}</p>
-  <!-- </ng-container> -->
-  <p>Probation Period: {{ PROBPERIOD }}</p>
+  <div class="professional-details2">
+    <h2>Personal Details</h2>
 
+    <p>Gender: {{ GENDER }}</p>
+    <p>Date of Birth (YYYY-MM-DD): {{ DOB }}</p>
+    <p>Blood Group: {{ BGROUP }}</p>
+    <p>T-Shirt Size: {{ SHIRT }}</p>
+    <p>Address for Communication: {{ COMMADD }}</p>
+    <p>State: {{ STATE }}</p>
+    <p>City: {{ CITY }}</p>
+    <p>Pincode: {{ PINCODE }}</p>
+    <p>Permanent Address: {{ RESADD }}</p>
+    <p>State: {{ STATE1 }}</p>
+    <p>City: {{ CITY1 }}</p>
+    <p>Pincode: {{ PINCODE1 }}</p>
+    <p>Mobile Number: {{ MOBNUM }}</p>
+    <p>Telephone Number: {{ TELNUM }}</p>
+    <p>Emergency Contact Number: {{ ECONNUM }}</p>
+    <p>Emergency Contact Person: {{ EMERPER }}</p>
+    <p>Father's Name: {{ FATHERSNAME }}</p>
+    <p>Mother's Name: {{ MOTHERSNAME }}</p>
+    <p>Marital Status: {{ MARITALSTATUS }}</p>
+    <p>Spouse Name: {{ SPOUSENAME }}</p>
+    <p>Pan Number: {{ PANNUM }}</p>
+    <p>Passport Number: {{ PASSNUM }}</p>
+    <p>Aadhaar Card Number: {{ AADHAARNUM }}</p>
+    <p>Driving License Number: {{ DLNUM }}</p>
+    <p>UAN Number: {{ UAN }}</p>
+  </div>
 
-  <p>Previous Experience: {{ PREEM }}</p>
-  <p>Previous Experience In (Years And Months): {{ PREEXPYEAR }}{{ PREEXPMONTH }}</p>
-  <p>Last Employment In Chronological Order: {{ PREEMP }}</p>
-  <p>Previous Employer Two: {{ PREEMP2 }}</p>
-  <p>Previous Employer Three: {{ PREEMP3 }}</p>
-  <p>Previous Employer Four: {{ PREEMP4 }}</p>
-  <p>Previous Employer Five: {{ PREEMP5 }}</p>
+  <div class="professional-details2">
+    <h2>Bank Details</h2>
+
+    <p>Name As per Bank: {{ NAMEINBANK }}</p>
+    <p>Bank Name: {{ BANKNAME }}</p>
+    <p>Branch Name: {{ BRANCHNAME }}</p>
+    <p>Account Number: {{ ACCTNUM }}</p>
+    <p>IFSC Code: {{ IFSCCODE }}</p>
+  </div>
+  <app-footer></app-footer>
 </div>
+<!-- view aproval -->
+<div *ngIf="viewaproval==='aprovalView'">
+  <app-headder></app-headder>
 
-<div class="professional-details2">
-  <h2>Personal Details</h2>
+  <app-sidebar></app-sidebar>
+  <div class="professional-details">
+    <h2>Professional Details</h2>
 
-  <p>Gender: {{ GENDER }}</p>
-  <p>Date of Birth (YYYY-MM-DD): {{ DOB }}</p>
-  <p>Blood Group: {{ BGROUP }}</p>
-  <p>T-Shirt Size: {{ SHIRT }}</p>
-  <p>Address for Communication: {{ COMMADD }}</p>
-  <p>State: {{ STATE }}</p>
-  <p>City: {{ CITY }}</p>
-  <p>Pincode: {{ PINCODE }}</p>
-  <p>Permanent Address: {{ RESADD }}</p>
-  <p>State: {{ STATE1 }}</p>
-  <p>City: {{ CITY1 }}</p>
-  <p>Pincode: {{ PINCODE1 }}</p>
-  <p>Mobile Number: {{ MOBNUM }}</p>
-  <p>Telephone Number: {{ TELNUM }}</p>
-  <p>Emergency Contact Number: {{ ECONNUM }}</p>
-  <p>Emergency Contact Person: {{ EMERPER }}</p>
-  <p>Father's Name: {{ FATHERSNAME }}</p>
-  <p>Mother's Name: {{ MOTHERSNAME }}</p>
-  <p>Marital Status: {{ MARITALSTATUS }}</p>
-  <p>Spouse Name: {{ SPOUSENAME }}</p>
-  <p>Pan Number: {{ PANNUM }}</p>
-  <p>Passport Number: {{ PASSNUM }}</p>
-  <p>Aadhaar Card Number: {{ AADHAARNUM }}</p>
-  <p>Driving License Number: {{ DLNUM }}</p>
-  <p>UAN Number: {{ UAN }}</p>
+    <p>Employee Id: {{EMPID}}</p>
+    <p>Employee Name: {{ EMPNAME }}</p>
+    <p>Email: {{ email }}</p>
+    <p>Employee Access: {{ EMPACCESS }}</p>
+    <p>Joining Date : {{ JDATE }}</p>
+    <p>Designation: {{ DESIG }}</p>
+    <p>Employee Classification: {{ EMPCLASS }}</p>
+    <p>Gross Salary Per Month: {{ SALARY }}</p>
+    <p>Salary Currency: {{ SALARY_CURR }} - {{ SALARY_CURR_DESC }}</p>
+    <p>Project Id: {{ PID }}</p>
+    <!-- <div *ngIf="rptMan !== ''"> -->
+    <p>Reporting Manager: {{ RPTMAN }} - {{ RPTMAN_DESC }}</p>
+    <!-- </div> -->
+    <!-- <ng-container *ngIf="rptMan === ''"> -->
+    <p>Reporting Manager: {{ RPTMAN }}</p>
+    <!-- </ng-container> -->
+    <p>Probation Period: {{ PROBPERIOD }}</p>
+
+
+    <p>Previous Experience: {{ PREEM }}</p>
+    <p>Previous Experience In (Years And Months): {{ PREEXPYEAR }}{{ PREEXPMONTH }}</p>
+    <p>Last Employment In Chronological Order: {{ PREEMP }}</p>
+    <p>Previous Employer Two: {{ PREEMP2 }}</p>
+    <p>Previous Employer Three: {{ PREEMP3 }}</p>
+    <p>Previous Employer Four: {{ PREEMP4 }}</p>
+    <p>Previous Employer Five: {{ PREEMP5 }}</p>
+  </div>
+
+  <div class="professional-details2">
+    <h2>Personal Details</h2>
+
+    <p>Gender: {{ GENDER }}</p>
+    <p>Date of Birth (YYYY-MM-DD): {{ DOB }}</p>
+    <p>Blood Group: {{ BGROUP }}</p>
+    <p>T-Shirt Size: {{ SHIRT }}</p>
+    <p>Address for Communication: {{ COMMADD }}</p>
+    <p>State: {{ STATE }}</p>
+    <p>City: {{ CITY }}</p>
+    <p>Pincode: {{ PINCODE }}</p>
+    <p>Permanent Address: {{ RESADD }}</p>
+    <p>State: {{ STATE1 }}</p>
+    <p>City: {{ CITY1 }}</p>
+    <p>Pincode: {{ PINCODE1 }}</p>
+    <p>Mobile Number: {{ MOBNUM }}</p>
+    <p>Telephone Number: {{ TELNUM }}</p>
+    <p>Emergency Contact Number: {{ ECONNUM }}</p>
+    <p>Emergency Contact Person: {{ EMERPER }}</p>
+    <p>Father's Name: {{ FATHERSNAME }}</p>
+    <p>Mother's Name: {{ MOTHERSNAME }}</p>
+    <p>Marital Status: {{ MARITALSTATUS }}</p>
+    <p>Spouse Name: {{ SPOUSENAME }}</p>
+    <p>Pan Number: {{ PANNUM }}</p>
+    <p>Passport Number: {{ PASSNUM }}</p>
+    <p>Aadhaar Card Number: {{ AADHAARNUM }}</p>
+    <p>Driving License Number: {{ DLNUM }}</p>
+    <p>UAN Number: {{ UAN }}</p>
+  </div>
+
+  <div class="professional-details2">
+    <h2>Bank Details</h2>
+
+    <p>Name As per Bank: {{ NAMEINBANK }}</p>
+    <p>Bank Name: {{ BANKNAME }}</p>
+    <p>Branch Name: {{ BRANCHNAME }}</p>
+    <p>Account Number: {{ ACCTNUM }}</p>
+    <p>IFSC Code: {{ IFSCCODE }}</p><br>
+    <div>
+      <div style="width: 100%;">
+        <button type="button" class="btn btn-success" (click)="approveProfile()">Approve</button>
+        <span style="margin: 0 10px;"></span>
+        <button type="button" class="btn btn-danger" (click)="openRejectInput()">Reject</button>
+        <span style="margin: 0 10px;"></span>
+        <button type="button" class="btn btn-warning" (click)="openDeleteInput()">Delete</button>
+    
+        <div *ngIf="showRejectInput" class="input-group mb-3" style="margin-top: 18px;">
+          <input type="text" class="form-control" [(ngModel)]="rejectionReason" placeholder="Enter rejection reason" aria-label="Rejection reason">
+          <button class="btn btn-outline-secondary" (click)="rejectProfile()" type="button" id="rejectButton">Submit</button>
+        </div>
+    
+        <div *ngIf="showDeleteInput" class="input-group mb-3">
+          <input type="text" class="form-control" [(ngModel)]="deleteReason" placeholder="Enter delete reason" aria-label="Delete reason">
+          <button class="btn btn-outline-secondary" (click)="deleteProfile()" type="button" id="deleteButton">Submit</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <app-footer></app-footer>
 </div>
-
-<div class="professional-details2">
-  <h2>Bank Details</h2>
-
-  <p>Name As per Bank: {{ NAMEINBANK }}</p>
-  <p>Bank Name: {{ BANKNAME }}</p>
-  <p>Branch Name: {{ BRANCHNAME }}</p>
-  <p>Account Number: {{ ACCTNUM }}</p>
-  <p>IFSC Code: {{ IFSCCODE }}</p>
-</div>
-<app-footer></app-footer>

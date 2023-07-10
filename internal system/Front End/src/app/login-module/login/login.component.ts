@@ -51,6 +51,7 @@ export class LoginComponent {
         if (response.message == 'redirect to admin dashboard') {
           this.service.setData(response.userData)
           this.service.setAdminDashBoard(response.Data)
+          this.service.cocd=response.cocd;
           this.router.navigate(['/admindashboard'])
 
         }
