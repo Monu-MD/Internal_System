@@ -2,16 +2,19 @@
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar> 
 
-<div class="container">
-  <h2>Sent Items</h2>
-  <ul>
-    <li *ngFor="let message of sentItems; let i = index">
-      <strong>To: </strong> {{ message.to_user_id }}
-      <br>
-      <strong>Message: </strong> {{ message.message_content }}
-      <br>
-      <button class="button" (click)="deleteMessage(i, 'sent')">Delete</button>
+<div class="container1">
+  <h2 class="header">Sent Items</h2>
+  <ul class="message-list">
+    <li *ngFor="let message of messages" class="message-item">
+      <div class="message-header">
+        <strong class="to-label">To: </strong>
+        <span class="to-user">{{ message.to_user }}</span>
+      </div>
+      <div class="message-content">
+        <strong class="message-label">Message: </strong>
+        <span class="message-text">{{ message.mssg }}</span>
+      </div>
     </li>
-    <li *ngIf="sentItems.length === 0">No sent messages.</li>
   </ul>
 </div>
+

@@ -681,6 +681,7 @@ router.post('/login', (req, res) => {
                                     notification: "Please Change The Default Password and Proceed",
                                     data: user
                                 })
+
                             }
                         })
 
@@ -725,10 +726,10 @@ router.post('/login', (req, res) => {
                                             res.json({ message: "redirect to dashboard", notification: "login Successfull", Data: detail })
                                         });
 
-
-
-
                                     }
+
+                                  
+                                  
                                     else {
                                         fetchUserDetails(user_id, function (err, userDetails) {
                                             if (err) {

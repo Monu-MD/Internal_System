@@ -93,7 +93,7 @@ export class SidebarComponent {
     }
 
     if (item == 'hol') {
-      this.router.navigate(['addHolidays'])
+      this.router.navigate(['viewHolidays'])
     }
     if (item == 'inv') {
       this.router.navigate(['chooseinvoice'])
