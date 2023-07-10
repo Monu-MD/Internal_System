@@ -16,6 +16,8 @@ export class ChangePasswordComponent {
   constructor(private service: ForgetPasswordService,private loginservice:LoginServiceService) {
     const user =this.loginservice.getData()
     this.employeeId=user[0]   
+    console.log(this.employeeId);
+    
     
     this.notification=user[3]
     

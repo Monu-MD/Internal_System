@@ -278,6 +278,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     TopbarComponent,
      DashboardComponent,
      EmployeeDetailsComponent,
+    AdminDashboardComponent,
+
 
 
   ],

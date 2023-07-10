@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginServiceService } from '../services/login-service.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -34,7 +36,7 @@ user_type:any;
   
 
   
-  constructor(private loginservice:LoginServiceService)
+  constructor(private loginservice:LoginServiceService,private http:HttpClient,private router:Router)
   {
   
     const adminDasboard=this.loginservice.getData();
@@ -64,6 +66,30 @@ user_type:any;
     this.claimPendngHrCount = Data.claimPendngHrCount;
     
     
+  }
+
+  apprvalData(){
+    const params = new HttpParams()
+    .set('user_id', this.user_id.toString())
+   
+
+  this.http.get('http://localhost:4000/employeeDetails/employeeApprovalDetails', { params }).subscribe(
+    (response: any) => {
+      console.log(response.message);
+      console.log(response.Data);
+     
+      // Handle the response accordingly
+      if(response.message=='routing to show data page [personalDetails]'){
+        this.loginservice.approvalData=(response.Data)
+        this.router.navigate(['/personalDetails'])
+      }
+    },
+    (error: any) => {
+      console.error('API Error:', error);
+      // Handle error cases and navigate accordingly
+      // this.router.navigate(['/error']);
+    }
+  );
   }
 
 

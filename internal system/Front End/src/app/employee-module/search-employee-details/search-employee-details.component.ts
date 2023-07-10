@@ -49,6 +49,7 @@ export class SearchEmployeeDetailsComponent {
         console.log(response.data);
         if (response.message == 'redirect to employee detail view') {
           // this.empDetservice.setData(response.data)
+          this.loginSerivce.setViewAproval('viewData')
           this.loginSerivce.setEmp_master_Tbl(response.data)
           this.router.navigate(['/empDetailview'])
 

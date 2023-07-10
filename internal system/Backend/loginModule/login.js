@@ -25,7 +25,9 @@ const { request } = require('http');
 const { Pool } = require('pg');
 const { error } = require('console');
 
-//////////////////////////// /////////// FunctionS///////////////////////////////////////////////////////////////////////
+// //////////////////////////// /////////// FunctionS///////////////////////////////////////////////////////////////////////
+
+
 const getUserByuser_id = function (user_id, callback) {
 
 
@@ -181,7 +183,7 @@ function forgotSendMail(empId) {
                                                             console.error('Error with table query', err);
                                                             reject({ error: 'Internal Server Error' });
                                                         } else {
-                                                            resolve({ message: 'redirect to reset page', notification: 'OTP verified, mail sent', id: userId });
+                                                            resolve({ message: 'redirect to reset page', notification: 'OTP verified, mail sent', user_id: userId });
                                                         }
                                                     });
                                                 }
@@ -603,7 +605,7 @@ router.post('/updatepwd', (req, res) => {
                                             console.log("reseted flag");
 
                                             res.json({
-                                                message: "redierct to add Personal Details",
+                                                message: "redierct to login",
                                                 notification: "pasword updated successfully"
                                             })
                                         }
