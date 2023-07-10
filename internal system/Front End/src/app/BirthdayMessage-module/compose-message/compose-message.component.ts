@@ -1,14 +1,18 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginServiceService } from 'src/app/services/login-service.service';
+
 // import { MessageDataService } from '../message-data.service';
-import { MessageService } from 'src/app/services/message.service';
+// import { MessageService } from 'src/app/services/message.service';
 
 
-interface Message {
-  sender: string;
-  recipient: string;
-  content: string;
-  timestamp: Date;
-}
+// interface Message {
+//   sender: string;
+//   recipient: string;
+//   content: string;
+//   timestamp: Date;
+// }
 
 
 @Component({
@@ -18,33 +22,41 @@ interface Message {
 })
 export class ComposeMessageComponent {
 
+
   recipient: string = '';
   content: string = '';
+  user_id: any;
 
-  constructor(private mssg: MessageService) { }
+  constructor(private http: HttpClient, private loginservice: LoginServiceService, private router: Router) {
+    const user = this.loginservice.getData();
+    this.user_id = user[0];
+  }
 
   composeMessage() {
-    const message: Message = {
-      sender: 'Your Name',
+    const message = {
+      user_id: this.user_id,
       recipient: this.recipient,
-      content: this.content,
-      timestamp: new Date()
+      content: this.content
     };
+      
+    this.http.post('http://localhost:4000/message/sendWishes', message)
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          if (response.message == "redirect to admindashboard") {
+            this.router.navigateByUrl("/dashboard");
+          }
+          else {
 
-        // Display the success message
-        const successMessage = document.getElementById('successMessage');
-        if (successMessage) {
-          successMessage.style.display = 'block';
+          }
+        },
+        (error: any) => {
+          console.error('Error:', error);
         }
-    
-    // this.messageDataService.sendMessage(message);
-    this.mssg.sendMessage(message);
-    this.clearForm();
+      );
   }
 
-  private clearForm() {
-    this.recipient = '';
-    this.content = '';
-  }
+  
+
 }
 

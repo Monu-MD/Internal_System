@@ -142,7 +142,8 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 
 
 
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
+import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBarModule
 
 
 @NgModule({
@@ -279,17 +280,18 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
      EmployeeDetailsComponent,
 
 
-
-
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
-
+    FormsModule,
+    BrowserAnimationsModule, // Add BrowserAnimationsModule
+    MatSnackBarModule // Add MatSnackBarModule
+    
   ],
+  
   providers: [ApiserviceService],
   bootstrap: [AppComponent]
 })
