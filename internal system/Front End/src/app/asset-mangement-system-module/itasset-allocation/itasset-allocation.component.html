@@ -2,39 +2,39 @@
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
 <div class="container">
-    <h1 class="title">IT Asset Allocation</h1>
+    <h1 class="title">Add IT Asset Allocation</h1>
     <div class="content">
-        <form [formGroup]="addItAssetAllocationForm" (ngSubmit)="submit(addItAssetAllocationForm.value)">
+        <form [formGroup]="addItAssetAllocationForm" (ngSubmit)=" onSubmit(addItAssetAllocationForm.value)">
             <div class="user-details">
 
                 <div class="input-box">
                     <label class="details">Asset ID</label>
-                    <input type="number" name="assetId" formControlName="assetId" placeholder="Asset ID">
+                    <input type="text" name="asset_id" formControlName="asset_id" placeholder="Asset ID">
                 </div>
 
 
                 <div class="input-box">
                     <label class="details">Employee ID</label>
-                    <input type="number" name="id" formControlName="employeeId" placeholder="Employee ID">
+                    <input type="text" name="empId" formControlName="empId" placeholder="Employee ID">
                 </div>
 
 
                 <div class="input-box">
                     <label class="details">Employee Name</label>
-                    <input type="text" name="employeeName" formControlName="employeeName" placeholder="EmpolyeeName">
+                    <input type="text" name="emp_name" formControlName="emp_name" placeholder="EmpolyeeName">
                 </div>
 
 
 
                 <div class="input-box">
                     <label class="details">Allocation Date</label>
-                    <input type="date" name="allocationDate" formControlName="allocationDate">
+                    <input type="date" name="allocdate" formControlName="allocdate">
                 </div>
 
 
                 <div class="input-box">
                     <label class="details">Return Date</label>
-                    <input type="date" name="allocationDate" formControlName="returnDate">
+                    <input type="date" name="rdate" formControlName="rdate">
                 </div>
 
                 

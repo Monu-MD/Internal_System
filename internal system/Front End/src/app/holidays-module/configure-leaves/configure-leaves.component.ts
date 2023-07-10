@@ -11,6 +11,8 @@ export class ConfigureLeavesComponent {
   constructor(private http: HttpClient,
     ) { }
 
+
+    
 leaveForm=new FormGroup<any>({
 
     leave_type: new FormControl('', [Validators.required]),
@@ -34,7 +36,7 @@ leaveForm=new FormGroup<any>({
 
 
       console.log('Data posted successfully:', response);
-
+      // location.reload();
 
     },
     (error: any) => {

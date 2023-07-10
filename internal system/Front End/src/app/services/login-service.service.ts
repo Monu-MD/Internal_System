@@ -12,6 +12,8 @@ export class LoginServiceService {
   data: any;
   phtotUrl: any;
   notification: any;
+ 
+  asset:any;
   emp_data: any;
   leave_master: any;
   project_data: any;
@@ -40,6 +42,11 @@ export class LoginServiceService {
   setNotification(notification: any) {
     this.notification = notification
   }
+
+  setAsset(value:any){
+    this.asset=value;
+  }
+
   setLeaveMaster(leave_master: any) {
     this.leave_master = leave_master;
   }
@@ -55,7 +62,8 @@ export class LoginServiceService {
     this.emp_data,
     this.leave_master,
     this.project_data,
-    this.adminDashboard]
+    this.adminDashboard,
+           this.asset]
   }
 
 
@@ -84,8 +92,6 @@ export class LoginServiceService {
       (error: any) => {
         console.error('API Error:', error);
         console.log(this.notification);
-
-
       }
     );
   }

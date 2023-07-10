@@ -32,9 +32,6 @@ export class TopbarComponent {
     //// to enable and disable //
     
 
-
-
-
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = (<NavigationEnd>event).url;
@@ -100,15 +97,15 @@ export class TopbarComponent {
         }
 
         // /Asset
-        if (this.currentRoute == "/ItAssetDetails" || this.currentRoute == "/ModifyItAssetDetails" || this.currentRoute == "/ViewItAssetDetails") {
+        if (this.currentRoute == "/ItAssetDetails" || this.currentRoute == "/ModifyItAssetDetails" || this.currentRoute == "/ViewItAssetDetails"||  this.currentRoute == "/ViewItAssetDetail" ) {
           this.data = "ast"
         }
 
-        if (this.currentRoute == "/ITAssetAllocation" || this.currentRoute == "/ModifyItAllocationDetails" || this.currentRoute == "/ViewItAllocationDetails") {
+        if (this.currentRoute == "/ITAssetAllocation" || this.currentRoute == "/ModifyItAllocationDetails" || this.currentRoute == "/ViewItAllocationDetails"|| this.currentRoute=="/ViewItAllocationDetail") {
           this.data = "allast"
         }
 
-        if (this.currentRoute == "/AddNonItAssetDetails" || this.currentRoute == "/ModifyNonItAssetDetails" || this.currentRoute == "/ViewNonItAssetDetails") {
+        if (this.currentRoute == "/AddNonItAssetDetails" || this.currentRoute == "/ModifyNonItAssetDetails" || this.currentRoute == "/ViewNonItAssetDetails"|| this.currentRoute == "/ViewNonItAssetDetail") {
           this.data = "nonast"
         }
       }

@@ -40,7 +40,7 @@ onItemsPerPageChange(event: any) {
 ngOnInit() {
 
   this.fetchData();
- 
+
 }
 
 fetchData() {  
@@ -67,7 +67,7 @@ fetchData() {
     }
 
 deleteHoliday(row: any) {
-  this.http.delete(`http://localhost:4000/holiday/deleteHoliday/${row.hol_id}`).subscribe(
+  this.http.get(`http://localhost:4000/holiday/removeHolidays/${row.hol_id}`).subscribe(
     (response: any) => {
               console.log('Data deleted successfully:', response);
                // Remove the deleted item from rowData array it will reloaded 
@@ -91,34 +91,36 @@ deleteHoliday(row: any) {
   }
 
 
-goToFirstPage() {
-  this.currentPage = 1;
-   this.updatePageData();
-}
-
-goToPreviousPage() {
-  if (this.currentPage > 1) {
-    this.currentPage--;
+  goToFirstPage() {
+    if(this.currentPage = 1){
       this.updatePageData();
+    }
+     
   }
-}
-
-goToNextPage() {
-  if (this.currentPage < this.totalPages) {
-    this.currentPage++;
+  
+  goToPreviousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+        this.updatePageData();
+    }
+  }
+  
+  goToNextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+       this.updatePageData();
+    }
+  }
+  
+  goToLastPage() {
+    this.currentPage = this.totalPages;
      this.updatePageData();
   }
-}
-
-goToLastPage() {
-  this.currentPage = this.totalPages;
-   this.updatePageData();
-}
-
-updatePageData() {
-  var startIndex = (this.currentPage - 1) * this.itemsPerPage;
-  var endIndex = startIndex + this.itemsPerPage;
-  this.rowData= this.rowData.slice(startIndex, endIndex);
-
-}
+  
+  updatePageData() {
+    var startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    var endIndex = startIndex + this.itemsPerPage;
+    this.rowData = this.rowData.slice(startIndex, endIndex);
+  
+  }
 }
