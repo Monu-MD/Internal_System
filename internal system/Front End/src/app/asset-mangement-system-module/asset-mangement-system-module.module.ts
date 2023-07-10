@@ -11,7 +11,10 @@ import { ViewItAssetDetailsComponent } from './view-it-asset-details/view-it-ass
 import { ModifyNonItAssetDetailsComponent } from './modify-non-it-asset-details/modify-non-it-asset-details.component';
 import { ViewNonItAssetDetailsComponent } from './view-non-it-asset-details/view-non-it-asset-details.component';
 import { ModifyItAllocationDetailsComponent } from './modify-it-allocation-details/modify-it-allocation-details.component';
-import { ViewItAllocationDetailsComponent } from './view-it-allocation-details/view-it-allocation-details.component'
+import { ViewItAllocationDetailsComponent } from './view-it-allocation-details/view-it-allocation-details.component';
+import { ViewItAssetDetailComponent } from './view-it-asset-detail/view-it-asset-detail.component';
+import { ViewNonItAssetDetailComponent } from '../view-non-it-asset-detail/view-non-it-asset-detail.component';
+import { ViewItAllocationDeatilComponent } from './view-it-allocation-deatil/view-it-allocation-deatil.component'
 
 
 
@@ -37,6 +40,12 @@ import { ViewItAllocationDetailsComponent } from './view-it-allocation-details/v
   //  ViewNonItAssetDetailsComponent,
   //  ModifyItAllocationDetailsComponent,
   //  ViewItAllocationDetailsComponent
+  
+    //ViewItAssetDetailComponent
+  
+    // ViewNonItAssetDetailComponent
+  
+    // ViewItAllocationDeatilComponent
   ],
   imports: [
     CommonModule

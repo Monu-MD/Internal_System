@@ -20,12 +20,22 @@ export class RemoveLeavesComponent {
   })
 
 
-
   deleteHoliday(row: any) {
-    this.http.delete(`http://localhost:4000/holiday/${row.leave_id}`).subscribe(
+    this.http.get(`http://localhost:4000/holiday/removeLeavePage/${row.leave_id}`).subscribe(
       (response: any) => {
                 console.log('Data deleted successfully:', response);
         
+
+                   // Update the form fields with received data
+        this.removeForm.patchValue({
+          leave_type: response.leave_type,
+          leave_id: response.leave_id,
+          year: response.year,
+          allocated_leaves: response.allocated_leaves,
+          carry_fwd: response.carry_fwd
+        });
+
+         console.log(this.removeForm)
               },
               (error: any) => {
                 console.error('Error:', error);
@@ -34,6 +44,8 @@ export class RemoveLeavesComponent {
     );
     
     }
+
+
  onSubmit(item:any){
    console.log(item);
    this.deleteHoliday(item)

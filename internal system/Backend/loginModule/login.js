@@ -223,14 +223,14 @@ function fetchUserDetails(user_id, callback) {
             if (err) {
                 callback(err, null);
                 return;
-                
+
             }
-            rowCount=result.rowCount;
-            if (rowCount>0) {
-                
+            rowCount = result.rowCount;
+            if (rowCount > 0) {
+
                 userDetails.emp_details = result.rows[0];
             }
-            else{
+            else {
                 userDetails.emp_details = null;
 
             }
@@ -248,14 +248,14 @@ function fetchUserDetails(user_id, callback) {
                         return;
                     }
                     userDetails.holiday_details = result.rows;
-                    pool.query('SELECT * FROM leave_master where emp_id=$1',[user_id], function (err, result) {
+                    pool.query('SELECT * FROM leave_master where emp_id=$1', [user_id], function (err, result) {
                         if (err) {
                             callback(err, null);
                             return;
                         }
                         userDetails.leave_master = result.rows;
-    
-                        
+
+
                         callback(null, userDetails);
                     });
                 });
@@ -679,6 +679,7 @@ router.post('/login', (req, res) => {
                                     notification: "Please Change The Default Password and Proceed",
                                     data: user
                                 })
+
                             }
                         })
 
@@ -688,8 +689,10 @@ router.post('/login', (req, res) => {
                                     callback(err, null);
                                     return;
                                 }
-                                userDetails = result.rows[0];
-                             res.json({ message: "redirect to admin dashboard", notification: "login Successful",Data:userDetails });
+                                const userDetails = result.rows[0];
+                                
+                                res.redirect(`/employeeDetails/admindashboard?userId=${user_id}&userType=${emp_access}`);
+
                             })
 
                         }
@@ -718,13 +721,13 @@ router.post('/login', (req, res) => {
                                             // Access the userDetails object here
                                             const detail = userDetails;
                                             // Now you can use the `detail` variable to access the user details
-                                            res.json({message:"redirect to dashboard",notification:"login Successfull" ,Data:detail})
+                                            res.json({ message: "redirect to dashboard", notification: "login Successfull", Data: detail })
                                         });
 
-
-
- 
                                     }
+
+                                  
+                                  
                                     else {
                                         fetchUserDetails(user_id, function (err, userDetails) {
                                             if (err) {
@@ -735,9 +738,9 @@ router.post('/login', (req, res) => {
                                             // Access the userDetails object here
                                             const detail = userDetails;
                                             // Now you can use the `detail` variable to access the user details
-                                            res.json({message:"redirect to dashboard",notification:"login Successfull" ,Data:detail})
+                                            res.json({ message: "redirect to dashboard", notification: "login Successfull", Data: detail })
                                         });
-                                        
+
 
                                     }
                                 }
@@ -752,7 +755,7 @@ router.post('/login', (req, res) => {
                                 else {
 
                                     pool.query("UPDATE users SET login_allowed=$1,login_attempts=$2 WHERE LOWER(user_id)=LOWER($3)", ['N', attempts, user.username]);
-                                    
+
                                     res.json({ message: "redirect to login", notification: "Your Account is locked. Please Contact administration" })
                                 }
                             })
@@ -761,7 +764,7 @@ router.post('/login', (req, res) => {
 
                     }
                     else {
-                        return res.json({ message: "redirect to login", notification: "User ID does not  exist" });
+                        return res.json({ message: "redirect to login", notification: "incorrect password" });
                     }
 
                 });
@@ -771,6 +774,8 @@ router.post('/login', (req, res) => {
 
 
         });
+    } else {
+        res.json({ message: "redirect to login", notification: "User ID does not  exist" })
     }
 })
 

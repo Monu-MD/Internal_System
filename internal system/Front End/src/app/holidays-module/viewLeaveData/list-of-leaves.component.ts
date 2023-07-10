@@ -36,7 +36,7 @@ ngOnInit() {
 }
 
 fetchData() {  
-  this.http.get('http://localhost:4000/holiday/configureLeavesPage')
+  this.http.get('http://localhost:4000/holiday/ViewConfigureLeavesPage')
     .subscribe(
       (response: any) => {
         console.log(response.data);
@@ -45,11 +45,27 @@ fetchData() {
           this.rowData = response.data;
           this.dataLoaded = true;
           this.updatePageData();
-        } else {
+
+
+          if (response.data && response.data.rows && Array.isArray(response.data.rows)) {
+            // Loop through the response data and map it to the desired format
+            for (const item of response.data.rows) {
+              if (item.leave_type === 'annual') {
+                this.rowData.push({ type: 'EL', value: item.value });
+              } else if (item.leave_type === 'sick') {
+                this.rowData.push({ type: 'SL', value: item.value });
+              }
+            }
+          } else {
+            console.error('Invalid response data format');
+          }
+      
+      }
+        else {
           console.error('Invalid response data');
         }
 
-        console.log(this.rowData);
+        // console.log(this.rowData);
       },
       (error: any) => {
         console.error('Error:', error);
@@ -58,8 +74,9 @@ fetchData() {
 
     }
 
+
 deleteHoliday(row: any) {
-  this.http.delete(`http://localhost:4000/holiday/${row.leave_id}`).subscribe(
+  this.http.get(`http://localhost:4000/holiday/removeLeavePage/${row.leave_id}`).subscribe(
     (response: any) => {
               console.log('Data deleted successfully:', response);
                // Remove the deleted item from rowData array it will reloaded 

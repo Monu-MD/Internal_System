@@ -4,23 +4,23 @@
 <div class="container">
     <div class="title"> Add NON IT Asset Allocation</div>
     <div class="content">
-        <form   [formGroup]="addNonItAssetDetailsForm" (ngSubmit)="submit(addNonItAssetDetailsForm.value)">
+        <form   [formGroup]="addNonItAssetDetailsForm" (ngSubmit)="onSubmit(addNonItAssetDetailsForm.value)">
             <div class="user-details">
                 <div class="input-box">
                     <label class="details">Particulars</label>
-                    <input type="text" name="particulars" formControlName="particulars" placeholder="Particulars">
+                    <input type="text" name="particulr" formControlName="particulr" placeholder="Particulars">
                 </div>
             </div>
             <div class="user-details">
                 <div class="input-box">
                     <label class="details">Quantity in No.s</label>
-                    <input type="text" name="quantity" formControlName="quantity" placeholder="Quantity">
+                    <input type="text" name="quant" formControlName="quant" placeholder="Quantity">
                 </div>
             </div>
             <div class="user-details">
                 <div class="input-box">
                     <label class="details">Remarks</label>
-                    <input type="text" name="remarks" formControlName="remarks" placeholder="Remarks">
+                    <input type="text" name="rmks" formControlName="rmks" placeholder="Remarks">
                 </div>
             </div>
             <div class="button-group">
