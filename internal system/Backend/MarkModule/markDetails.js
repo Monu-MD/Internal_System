@@ -4,12 +4,16 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var pool = require('../Database/dbconfig');
 var path = require('path');
+var Promise = require('mpromise');
+
 
 
 
 var nodemailer = require('nodemailer');
+const { log } = require('console');
+router.use(express.json())
 
-router.get('/markDetails', function (req, res) {
+router.get('/markDetailsssss', function (req, res) {
 	var parse = "";
 	var parse_count = "";
 	console.log(req.query);
@@ -49,55 +53,119 @@ router.get('/markDetails', function (req, res) {
 
 
 
-router.post('/fetchMark', fetchMark);
-function fetchMark(req, res) {
+router.post('/fetchMark',(req, res)=> {
+	console.log(req.body.Item);
+	var empId = req.body.userid;
+	console.log(empId);
 
-	var empId = req.user.rows['0'].user_id;
+	pool.query("SELECT user_type FROM users WHERE user_id = $1", [empId], function (err, result) {
+		if (err) {
+			console.error("Error fetching user_type:", err);
+			return res.status(500).json({ error: "Internal Server Error" });
+		}
 
-	pool.query("SELECT user_type from users where user_id = $1", [empId], function (err, result) {
-		var emp_access = result.rows['0'].user_type;
+		// Check if any rows were returned
+		if (result.rows.length === 0) {
+			console.error("No user found with user_id:", empId);
+			return res.status(404).json({ error: "User not found" });
+		}
 
-		var project_id = req.body.projectid;
+		var emp_access = result.rows[0].user_type;
+		console.log("emp_access:", emp_access);
 
-		pool.query("SELECT project_id from project_master_tbl where project_mgr = $1 and closure_flg='N' order by project_id asc", [empId], function (err, result) {
-			if (err) throw err;
-			projectid = result.rows;
-			projectid_count = result.rowCount;
+		var project_id = req.body.Item.projectId;
+		console.log(project_id);
+
+		pool.query("SELECT project_id FROM project_master_tbl WHERE project_mgr = $1 AND closure_flg='N' ORDER BY project_id ASC", [empId], function (err, result) {
+			if (err) {
+				console.error("Error fetching project_id:", err);
+				return res.status(500).json({ error: "Internal Server Error" });
+			}
+
+			// console.log(result.rows);
+			var projectid = result.rows;
+			var projectid_count = result.rowCount;
+
 			console.log("projectid:::", projectid);
 			console.log("projectid_count:::", projectid_count);
 
-			pool.query("SELECT * from milestone_proj_tbl where project_id=$1 and confirm_flg='N' and paid_flg='N' and del_flg='N' order by serial_number asc", [project_id], function (err, result) {
-				parse = result.rows;
-				parse_count = result.rowCount;
+			pool.query("SELECT project_id,serial_number,milestone_name,lchg_user_id,capture_per,rcre_user_id,paid_flg,direct_amount,del_flg,milestone_exp_date,confirm_flg,confirmed_date FROM milestone_proj_tbl WHERE project_id = $1 AND confirm_flg='N' AND paid_flg='N' AND del_flg='N' ORDER BY serial_number ASC", [project_id], function (err, result) {
+				if (err) {
+					console.error("Error fetching milestone data:", err);
+					return res.status(500).json({ error: "Internal Server Error" });
+				}
+				console.log(result.rows);
+				var parse = result.rows;
+				var serial_number = result.serial_number;
+				var milestone_name = result.milestone_name;
+				var capture_per = result.capture_per
+				var direct_amount = result.direct_amount
+				var del_flg = result.del_flg
+				var milestone_exp_date = result.milestone_exp_date
+				var confirm_flg = result.confirm_flg
+				var paid_flg = result.paid_flg
+				var rcre_user_id = result.rcre_user_id
+				var lchg_user_id = result.lchg_user_id
+				var rcre_time = result.rcre_time
+				var lchg_time = result.lchg_time
+				var confirmed_date = result.confirmed_date
+				var paid_date = result.paid_date
+				var parse_count = result.rowCount;
 				console.log("milestone data:::", parse);
 				console.log("milestone count:::", parse_count);
 
+				res.json({
+					message: "redirect to recall mile stone",
+					data: {
+						project_id: project_id,
+						ename: req.user_name,
+						eid: req.user_id,
+						emp_access: emp_access,
+						projectid_count: projectid_count,
+						parse_count: parse_count,
+						parse: parse,
+						serial_number: serial_number,
+						milestone_name: milestone_name,
+						capture_per: capture_per,
+						direct_amount: direct_amount,
+						del_flg: del_flg,
+						milestone_exp_date: milestone_exp_date,
+						confirm_flg: confirm_flg,
+						paid_flg: paid_flg,
+						rcre_user_id: rcre_user_id,
+						lchg_user_id: lchg_user_id,
+						rcre_time: rcre_time,
+						lchg_time: lchg_time,
+						confirmed_date: confirmed_date,
+						paid_date: paid_date
 
-				res.render('markModule/markDetails', {
-					project_id: project_id,
-					ename: req.user.rows['0'].user_name,
-					eid: req.user.rows['0'].user_id,
-					emp_access: emp_access,
-					projectid_count: projectid_count,
-					parse_count: parse_count,
-					parse: parse
-
+					}
 				});
 			});
 		});
 	});
-};
+})
 
-router.post('/markpost', markpost);
-function markpost(req, res) {
+
+
+
+
+
+//////////////////////////////////////////////////////markpost///////////////////////////////////////
+router.post('/markpost', (req, res) => {
 
 
 	console.log(" inside miletsone post function");
+
 	var array = req.body.button;
-	var milestonedata = req.body.milestonedata;
-	console.log(" project_id", milestonedata);
-	var empId = req.user.rows['0'].user_id;
-	var eid = req.user.rows['0'].user_id;
+	console.log(req.body.button, "================");
+
+	// var milestonedata = req.body.milestonedata;
+	// console.log(" project_id", milestonedata);
+
+	var project_id = req.project_id;
+	var empId = req.user_id;
+	var eid = req.user_id;
 	var now = new Date();
 	var rcreuserid = empId;
 	var rcretime = now;
@@ -105,7 +173,7 @@ function markpost(req, res) {
 	var lchgtime = now;
 	var confirmed_date = now;
 
-	pool.query("SELECT project_mgr from project_master_tbl  where project_id=$1 ", [milestonedata], function (err, result) {
+	pool.query("SELECT project_mgr from project_master_tbl  where project_id=$1 ", [project_id], function (err, result) {
 		var projmgr = result.rows['0'].project_mgr;
 
 		if (projmgr == empId) {
@@ -215,7 +283,7 @@ function markpost(req, res) {
 			res.redirect('/markModule/markDetails/markDetails');
 		}
 	});
-};
+});
 
 
 router.get('/recallmilestone', function (req, res) {

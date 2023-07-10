@@ -4,178 +4,178 @@ console.log("capture entered");
 const express = require('express');
 const bodyParser = require('body-parser');
 var nodemailer = require('nodemailer');
-var router=express.Router();
-var pool=require('../Database/dbconfig');
+var router = express.Router();
+var pool = require('../Database/dbconfig');
 
 
 
 //////////// Register Employee ID Checking ///////////////////
 
 router.use(express.json())
-// router.post('/registerEmpId', (req, res) => {
+router.post('/registerEmpId', (req, res) => {
 
 
 
-//     var empid = req.body.employeeId
-//     console.log("empid", empid);
+    var empid = req.body.employeeId
+    console.log("empid", empid);
 
-//     pool.query("SELECT * from data_emp_master_tbl_temp where emp_id = $1", [empid], function (err, result) {
-//         mcount = result.rowCount;
-//         console.log(mcount, "mcount");
+    pool.query("SELECT * from data_emp_master_tbl_temp where emp_id = $1", [empid], function (err, result) {
+        mcount = result.rowCount;
+        console.log(mcount, "mcount");
 
-//         pool.query("SELECT * from data_emp_info_tbl_temp where emp_id = $1", [empid], function (err, resultset) {
-//             icount = resultset.rowCount;
-//             console.log("icount", icount);
+        pool.query("SELECT * from data_emp_info_tbl_temp where emp_id = $1", [empid], function (err, resultset) {
+            icount = resultset.rowCount;
+            console.log("icount", icount);
 
-//             pool.query("SELECT * from emp_master_tbl where emp_id = $1", [empid], function (err, result) {
-//                 main_count = result.rowCount;
-//                 console.log("main_count", main_count);
+            pool.query("SELECT * from emp_master_tbl where emp_id = $1", [empid], function (err, result) {
+                main_count = result.rowCount;
+                console.log("main_count", main_count);
 
-//                 if (main_count == 0) {
-//                     if (mcount == 0) {
-//                         if (icount == 0) {
-//                             //res.redirect('/captureModule/captureDetail/captureDetailProfessional');
-//                             // res.render('captureModule/captureDetailProfessional',
-//                             //     {
-//                             //         empid: empid
-//                             //     });
+                if (main_count == 0) {
+                    if (mcount == 0) {
+                        if (icount == 0) {
+                            //res.redirect('/captureModule/captureDetail/captureDetailProfessional');
+                            // res.render('captureModule/captureDetailProfessional',
+                            //     {
+                            //         empid: empid
+                            //     });
 
-//                             console.log('m count if enterd');
-//                             const message = {
-//                                 message: "redirect to professional Details "
-//                             }
-//                             return res.send(message);
-
-
-
-//                         }
-//                         else {
-
-//                             // pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'BLG' order by comm_code_id asc", function (err, result) {
-//                             //     comm_code_blood = result.rows;
-//                             //     comm_code_blood_count = result.rowCount;
-
-//                             //     // to fetch shirt size
-//                             //     pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'SHR' order by comm_code_id asc", function (err, result) {
-//                             //         comm_code_shirt = result.rows;
-//                             //         comm_code_shirt_count = result.rowCount;
-
-//                             //         // to fetch state group
-//                             //         pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'STA' order by comm_code_id asc", function (err, result) {
-//                             //             comm_code_state = result.rows;
-//                             //             comm_code_state_count = result.rowCount;
-
-//                             //             // to fetch maritial status
-//                             //             pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'MAR' order by comm_code_id asc", function (err, result) {
-//                             //                 comm_code_maritalstatus = result.rows;
-//                             //                 comm_code_maritalstatus_count = result.rowCount;
-
-//                             //                 res.render('captureModule/captureDetailPersonal', {
-//                             //                     empid: empid,
-//                             //                     comm_code_blood: comm_code_blood,
-//                             //                     comm_code_blood_count: comm_code_blood_count,
-//                             //                     comm_code_shirt: comm_code_shirt,
-//                             //                     comm_code_shirt_count: comm_code_shirt_count,
-//                             //                     comm_code_state: comm_code_state,
-//                             //                     comm_code_state_count: comm_code_state_count
-
-//                             //                 });
-//                             //             });
-//                             //         });
-//                             //     });
-//                             // });
-//                             const message = {
-//                                 message: "redirect to personal Details "
-//                             }
-//                             return res.send(message);
+                            console.log('m count if enterd');
+                            const message = {
+                                message: "redirect to professional Details "
+                            }
+                            return res.send(message);
 
 
 
-//                         }
+                        }
+                        else {
 
-//                     }
-//                     else {
-//                         if (icount == 1) {
-//                             // req.flash('error', "Verification Pending for this Employee Id:  " + empid)
-//                             // res.redirect('/captureModule/captureDetail/index');
-//                             const message = {
-//                                 message: "redirect to register ",
-//                                 notification: "Verification Pending for this Employee Id:  " + empid
-//                             }
-//                             res.send(message);
+                            // pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'BLG' order by comm_code_id asc", function (err, result) {
+                            //     comm_code_blood = result.rows;
+                            //     comm_code_blood_count = result.rowCount;
 
-//                             // return res.status(200).json()
+                            //     // to fetch shirt size
+                            //     pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'SHR' order by comm_code_id asc", function (err, result) {
+                            //         comm_code_shirt = result.rows;
+                            //         comm_code_shirt_count = result.rowCount;
 
+                            //         // to fetch state group
+                            //         pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'STA' order by comm_code_id asc", function (err, result) {
+                            //             comm_code_state = result.rows;
+                            //             comm_code_state_count = result.rowCount;
 
+                            //             // to fetch maritial status
+                            //             pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'MAR' order by comm_code_id asc", function (err, result) {
+                            //                 comm_code_maritalstatus = result.rows;
+                            //                 comm_code_maritalstatus_count = result.rowCount;
 
-//                         }
-//                         else {
-//                             // res.redirect('/captureModule/captureDetail/captureDetailPersonal');
-//                             // pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'BLG' order by comm_code_id asc", function (err, result) {
-//                             //     comm_code_blood = result.rows;
-//                             //     comm_code_blood_count = result.rowCount;
+                            //                 res.render('captureModule/captureDetailPersonal', {
+                            //                     empid: empid,
+                            //                     comm_code_blood: comm_code_blood,
+                            //                     comm_code_blood_count: comm_code_blood_count,
+                            //                     comm_code_shirt: comm_code_shirt,
+                            //                     comm_code_shirt_count: comm_code_shirt_count,
+                            //                     comm_code_state: comm_code_state,
+                            //                     comm_code_state_count: comm_code_state_count
 
-//                             //     // to fetch shirt size
-//                             //     pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'SHR' order by comm_code_id asc", function (err, result) {
-//                             //         comm_code_shirt = result.rows;
-//                             //         comm_code_shirt_count = result.rowCount;
-
-//                             //         // to fetch state group
-//                             //         pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'STA' order by comm_code_id asc", function (err, result) {
-//                             //             comm_code_state = result.rows;
-//                             //             comm_code_state_count = result.rowCount;
-
-//                             //             // to fetch maritial status
-//                             //             pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'MAR' order by comm_code_id asc", function (err, result) {
-//                             //                 comm_code_maritalstatus = result.rows;
-//                             //                 comm_code_maritalstatus_count = result.rowCount;
-
-//                             //                 // res.render('captureModule/captureDetailPersonal', {
-
-//                             //                 // });
-//                             //                 var data = {
-
-//                             //                     empid: empid,
-//                             //                     comm_code_blood: comm_code_blood,
-//                             //                     comm_code_blood_count: comm_code_blood_count,
-//                             //                     comm_code_shirt: comm_code_shirt,
-//                             //                     comm_code_shirt_count: comm_code_shirt_count,
-//                             //                     comm_code_state: comm_code_state,
-//                             //                     comm_code_state_count: comm_code_state_count
-//                             //                 }
-//                             //                 res.send(data)
-//                             //             });
-//                             //         });
-//                             //     });
-//                             // });
-
-//                             const message = {
-//                                 message: "redirect to personal Details "
-//                             }
-//                             return res.send(message);
-//                             // console.log("400 2nd returned");
-//                             // return res.send('Condition is not met');
+                            //                 });
+                            //             });
+                            //         });
+                            //     });
+                            // });
+                            const message = {
+                                message: "redirect to personal Details "
+                            }
+                            return res.send(message);
 
 
-//                         }
-//                     }
-//                 }
-//                 else {
-//                     // req.flash('error', "You have Already been registered in Amber")
-//                     // res.redirect('/captureModule/captureDetail/index');
-//                     console.log("400 3rd returned");
-//                     // return res.send('Condition is not met');
-//                     const message = {
-//                         message: "redirect to register ",
-//                         notification: "You have Already been registered in Amber"
-//                     }
-//                     res.send(message);
 
-//                 }
-//             });
-//         });
-//     });
-// })
+                        }
+
+                    }
+                    else {
+                        if (icount == 1) {
+                            // req.flash('error', "Verification Pending for this Employee Id:  " + empid)
+                            // res.redirect('/captureModule/captureDetail/index');
+                            const message = {
+                                message: "redirect to register ",
+                                notification: "Verification Pending for this Employee Id:  " + empid
+                            }
+                            res.send(message);
+
+                            // return res.status(200).json()
+
+
+
+                        }
+                        else {
+                            // res.redirect('/captureModule/captureDetail/captureDetailPersonal');
+                            // pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'BLG' order by comm_code_id asc", function (err, result) {
+                            //     comm_code_blood = result.rows;
+                            //     comm_code_blood_count = result.rowCount;
+
+                            //     // to fetch shirt size
+                            //     pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'SHR' order by comm_code_id asc", function (err, result) {
+                            //         comm_code_shirt = result.rows;
+                            //         comm_code_shirt_count = result.rowCount;
+
+                            //         // to fetch state group
+                            //         pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'STA' order by comm_code_id asc", function (err, result) {
+                            //             comm_code_state = result.rows;
+                            //             comm_code_state_count = result.rowCount;
+
+                            //             // to fetch maritial status
+                            //             pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'MAR' order by comm_code_id asc", function (err, result) {
+                            //                 comm_code_maritalstatus = result.rows;
+                            //                 comm_code_maritalstatus_count = result.rowCount;
+
+                            //                 // res.render('captureModule/captureDetailPersonal', {
+
+                            //                 // });
+                            //                 var data = {
+
+                            //                     empid: empid,
+                            //                     comm_code_blood: comm_code_blood,
+                            //                     comm_code_blood_count: comm_code_blood_count,
+                            //                     comm_code_shirt: comm_code_shirt,
+                            //                     comm_code_shirt_count: comm_code_shirt_count,
+                            //                     comm_code_state: comm_code_state,
+                            //                     comm_code_state_count: comm_code_state_count
+                            //                 }
+                            //                 res.send(data)
+                            //             });
+                            //         });
+                            //     });
+                            // });
+
+                            const message = {
+                                message: "redirect to personal Details "
+                            }
+                            return res.send(message);
+                            // console.log("400 2nd returned");
+                            // return res.send('Condition is not met');
+
+
+                        }
+                    }
+                }
+                else {
+                    // req.flash('error', "You have Already been registered in Amber")
+                    // res.redirect('/captureModule/captureDetail/index');
+                    console.log("400 3rd returned");
+                    // return res.send('Condition is not met');
+                    const message = {
+                        message: "redirect to register ",
+                        notification: "You have Already been registered in Amber"
+                    }
+                    res.send(message);
+
+                }
+            });
+        });
+    });
+})
 
 
 
@@ -260,7 +260,7 @@ router.post('/insert', (req, res) => {
                         if (err) throw err;
                         console.log("added");
 
-                      
+
                         const transporter = nodemailer.createTransport({
                             service: 'gmail',
                             auth: {
@@ -272,22 +272,22 @@ router.post('/insert', (req, res) => {
                             from: 'mohammadsab@minorks.com',
                             to: email,
                             // subject: 'Test Email',
-    
+
                             subject: 'Forgot Password',
                             html: '<img src="http://www.confessionsofareviewer.com/wp-content/uploads/2017/05/welcome-on-board.jpg" height="85"><br><br>' +
-                            '<h3>Dear <b>' + empname + '</b>,<br><br>' +
-                            'You are receiving this mail because you (or someone else) has filled in the details <b>Amber</b>.<br>' +
-                            'Registered Account details : <br><br>' +
-                            '<table style="border: 10px solid black;"><tr style="border: 10px solid black;"><th style="border: 10px solid black;">User Id</th><th style="border: 10px solid black;">' + empid + '</th></tr><tr style="border: 10px solid black;"><td style="border: 10px solid black;"> Employee Name </td><td style="border: 10px solid black;">' + empname + '</td></tr></table><br><br>' +
-                            'Password will be generated once HR routerroves your Record<br>' +
-                            'Contact administrator for any clarifications<br><br><br>' +
-                            '- Regards,<br><br>Amber</h3>'
+                                '<h3>Dear <b>' + empname + '</b>,<br><br>' +
+                                'You are receiving this mail because you (or someone else) has filled in the details <b>Amber</b>.<br>' +
+                                'Registered Account details : <br><br>' +
+                                '<table style="border: 10px solid black;"><tr style="border: 10px solid black;"><th style="border: 10px solid black;">User Id</th><th style="border: 10px solid black;">' + empid + '</th></tr><tr style="border: 10px solid black;"><td style="border: 10px solid black;"> Employee Name </td><td style="border: 10px solid black;">' + empname + '</td></tr></table><br><br>' +
+                                'Password will be generated once HR routerroves your Record<br>' +
+                                'Contact administrator for any clarifications<br><br><br>' +
+                                '- Regards,<br><br>Amber</h3>'
                             // text: 'This is a test email sent from Node.js using Nodemailer.'
                         };
 
-                      
 
-                          
+
+
 
 
                         transporter.sendMail(mailOptions, function (error, info) {
@@ -296,15 +296,15 @@ router.post('/insert', (req, res) => {
                             } else {
                                 console.log('Email sent:', info.response);
                             }
-    
-    
+
+
                         });
 
 
                         // req.flash('success', "User successfully added and An e-mail has been sent to " + email + " with further instructions.")
                         //res.redirect('/captureModule/captureDetail/captureDetailPersonal');
                         const message = {
-                            message: "redirect to PersonalDetails",
+                            message: "redirect to add profile",
                             notification: "User successfully added and An e-mail has been sent to " + email + " with further instructions."
                         }
                         res.send(message)
@@ -421,78 +421,138 @@ router.post('/addempper', (req, res) => {
     var ifscCode = "";
     var entity_cre_flg = "N";
 
-    pool.query("SELECT * from data_emp_master_tbl_temp e where LOWER(e.emp_id) = LOWER($1)", [empid], function (err, resultset) {
-        if (err) throw err;
-        var mcount = resultset.rowCount;
+    // pool.query("SELECT * from data_emp_master_tbl_temp e where LOWER(e.emp_id) = LOWER($1)", [empid], function (err, resultset) {
+    //     if (err) throw err;
+    //     var mcount = resultset.rowCount;
 
-        pool.query("SELECT * from data_emp_info_tbl_temp e where LOWER(e.emp_id) = LOWER($1)", [empid], function (err, resultset) {
+    //     pool.query("SELECT * from data_emp_info_tbl_temp e where LOWER(e.emp_id) = LOWER($1)", [empid], function (err, resultset) {
+    //         if (err) throw err;
+    //         var tcount = resultset.rowCount;
+
+    //         pool.query("SELECT * from emp_info_tbl where emp_id = $1", [empid], function (err, result) {
+    //             var main_count = result.rowCount;
+    //             console.log("main_count", main_count);
+
+    //             pool.query("SELECT * from emp_info_tbl_temp where emp_id = $1", [empid], function (err, result) {
+    //                 var maintmp_count = result.rowCount;
+    //                 console.log("main_counttmp", maintmp_count);
+
+    //                 if (main_count == 0) {
+    //                     if (maintmp_count == 0) {
+    //                         if (mcount == 0) {
+    //                             if (tcount == 0) {
+    //                                 pool.query("INSERT INTO data_emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+    //                                     if (err) throw err;
+    //                                     const message = {
+    //                                         notification: "Employee Details Captured successfully",
+    //                                         message: "redirect to login page"
+    //                                     };
+    //                                     res.send(message);
+    //                                 });
+    //                             } else {
+    //                                 const message = {
+    //                                     notification: "Record Pending for Verification",
+    //                                     message: "redirect to login page"
+    //                                 };
+    //                                 res.send(message);
+    //                             }
+    //                         } else {
+    //                             if (tcount == 1) {
+    //                                 const message = {
+    //                                     notification: "Record Pending for Verification",
+    //                                     message: "redirect to login page"
+    //                                 };
+    //                                 res.send(message);
+    //                             } else {
+    //                                 pool.query("INSERT INTO data_emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+    //                                     if (err) throw err;
+    //                                     const message = {
+    //                                         notification: "Employee Details Captured successfully",
+    //                                         message: "redirect to login page"
+    //                                     };
+    //                                     res.send(message);
+    //                                 });
+    //                             }
+    //                         }
+    //                     } else {
+    //                         const message = {
+    //                             notification: "Employee Details Already Present in Amber for verification",
+    //                             message: "redirect to login page"
+    //                         };
+    //                         res.send(message);
+    //                     }
+    //                 } else {
+    //                     const message = {
+    //                         notification: "Employee Details Already Present in Amber",
+    //                         message: "redirect to login page"
+    //                     };
+    //                     res.send(message);
+    //                 }
+    //             });
+    //         });
+    //     });
+    // });
+
+    pool.query("SELECT * from emp_info_tbl e where LOWER(e.emp_id) = LOWER($1)",
+        [empid], function (err, resultset) {
             if (err) throw err;
-            var tcount = resultset.rowCount;
+            var mcount = resultset.rowCount;
 
-            pool.query("SELECT * from emp_info_tbl where emp_id = $1", [empid], function (err, result) {
-                var main_count = result.rowCount;
-                console.log("main_count", main_count);
+            pool.query("SELECT * from emp_info_tbl_temp e where LOWER(e.emp_id) = LOWER($1)",
+                [empid], function (err, resultset) {
+                    if (err) throw err;
+                    var tcount = resultset.rowCount;
 
-                pool.query("SELECT * from emp_info_tbl_temp where emp_id = $1", [empid], function (err, result) {
-                    var maintmp_count = result.rowCount;
-                    console.log("main_counttmp", maintmp_count);
-
-                    if (main_count == 0) {
-                        if (maintmp_count == 0) {
-                            if (mcount == 0) {
-                                if (tcount == 0) {
-                                    pool.query("INSERT INTO data_emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
-                                        if (err) throw err;
-                                        const message = {
-                                            notification: "Employee Details Captured successfully",
-                                            message: "redirect to login page"
-                                        };
-                                        res.send(message);
-                                    });
-                                } else {
-                                    const message = {
-                                        notification: "Record Pending for Verification",
-                                        message: "redirect to login page"
-                                    };
-                                    res.send(message);
-                                }
-                            } else {
-                                if (tcount == 1) {
-                                    const message = {
-                                        notification: "Record Pending for Verification",
-                                        message: "redirect to login page"
-                                    };
-                                    res.send(message);
-                                } else {
-                                    pool.query("INSERT INTO data_emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
-                                        if (err) throw err;
-                                        const message = {
-                                            notification: "Employee Details Captured successfully",
-                                            message: "redirect to login page"
-                                        };
-                                        res.send(message);
-                                    });
-                                }
-                            }
-                        } else {
+                    if (mcount == 0) {
+                        if (tcount == 0) {
+                            pool.query("INSERT INTO emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+                                if (err) throw err;
+                            });
                             const message = {
-                                notification: "Employee Details Already Present in Amber for verification",
+                                notification: "Personal Details Added sucessfully, Verification pending by Admin.",
+                                message: "redirect to login page"
+                            };
+                            res.send(message);
+
+
+                        }
+                        else {
+
+                            // req.flash('error', "Record Already Exists.")
+                            // res.redirect(req.get('referer'));
+                            res.json({
+                                message: "redirect to login page",
+                                notification: "Record Alredy Exist",
+
+                            })
+                        }
+
+                    }
+                    else {
+                        if (tcount == 1) {
+                            res.json({
+                                message: "redirect to login page",
+                                notification: "Record Alredy Exist",
+
+                            })
+                        }
+                        else {
+
+                            pool.query("INSERT INTO emp_info_tbl_temp(emp_id,emp_name,gender,dob,blood_group,shirt_size,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,martial_status,phone1,phone2,emergency_num,emergency_con_person,father_name,mother_name,spouse_name,pan_number,passport_num,license_num,aadhaar_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code,del_flg,entity_cre_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38)", [empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+                                if (err) throw err;
+                            });
+                            const message = {
+                                notification: "Personal Details Added sucessfully, Verification pending by Admin.",
                                 message: "redirect to login page"
                             };
                             res.send(message);
                         }
-                    } else {
-                        const message = {
-                            notification: "Employee Details Already Present in Amber",
-                            message: "redirect to login page"
-                        };
-                        res.send(message);
+
+
                     }
                 });
-            });
         });
-    });
 
 })
 
-module.exports=router;
+module.exports = router;

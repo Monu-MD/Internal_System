@@ -3,6 +3,7 @@ console.log("Message entered");
 var express = require('express');
 var router = express.Router();
 var pool = require('../Database/dbconfig');
+var nodemailer = require('nodemailer');
 
 
 // /////////////// Message api's ////////////////////
@@ -34,72 +35,172 @@ var pool = require('../Database/dbconfig');
 
 // birthday wishes post
 
-router.post('/sendWishes', function (req,res){
-  var emp_id =req.body.user_id;
-  var emp_access =req.body.user_type;
-  var my_name =req.body.user_name;
-  
-   var now = new Date();
-  var lchgtime=now;
-  console.log('req value' ,req.body);
-  
-  var message_content = req.body.message_content;
-  var to_user_id = req.body.to_user_id;
-  var subject = req.body.subject;
-  
-        pool.query("SELECT * from messages",function(err,done){
-               if (err) {
-                  console.error('Error with table query', err);
-              } else {
-                 msg_id_value = done.rowCount;
-                console.log('msg_id_value',msg_id_value);
-                 msg_id_value = msg_id_value +100;
-                 console.log('msg_id_value1',msg_id_value);
-                msg_id = msg_id_value+1;
-                console.log('msg_id',msg_id);
+router.post('/sendWishes', function (req, res) {
+
+  console.log('req value', req.body);
+
+  var emp_id = req.body.user_id;
+  console.log(emp_id);
+  // var emp_access = req.body.user_type;
+  // var my_name = req.body.user_name;
+
+  // var now = new Date();
+  // var lchgtime = now;
+
+  var brdName = req.body.recipient;
+  console.log(brdName);
+  var message_content = req.body.content;
+  console.log(message_content);
+
+  pool.query("SELECT emp_id, emp_email  FROM emp_master_tbl  where del_flg = $1  and emp_name=$2 ", ['N', brdName], function (err, empList) {
+    if (err) {
+      console.error('Error with table query', err);
+    } else {
+      usersCount = empList.rowCount;
+
+      var brdmail = empList.rows;
+      var brdEmpid = brdmail[0].emp_id;
+      console.log("Emp ID of brdy person: " + brdEmpid);
+      var bedEmail1 = brdmail[0].emp_email;
+      console.log("Email of brdy person: " + bedEmail1);
+
+    }
+    pool.query("SELECT emp_name ,emp_email  FROM emp_master_tbl  where del_flg = $1  and emp_id=$2 ", ['N', emp_id], function (err, empList) {
+      if (err) {
+        console.error('Error with table query', err);
+      } else {
+        usersCount = empList.rowCount;
+
+        var brdmail = empList.rows;
+        var Myname = brdmail[0].emp_name;
+        console.log("My Name: " + Myname);
+        var MyEmail = brdmail[0].emp_email;
+        console.log("My Email: " + MyEmail);
+
+      }
+
+
+      pool.query("INSERT INTO messages(to_user_id, from_user_id, message_content) values($1,$2,$3)", [brdEmpid, emp_id, message_content], function (err, done) {
+        if (err) throw err;
+        console.log("Inserted to Message Table!!");
+
+        pool.query("SELECT comm_code_desc from common_code_tbl where code_id='EMAL' and comm_code_id='HR'", function (err, hrMailList) {
+          if (err) {
+            console.error('Error with table query', err);
+          }
+          else {
+            console.log("3  pick HR_email");
+            var hrEmail = hrMailList.rows['0'].comm_code_desc;
+          }
+
+
+          tempList = hrEmail + ',' + MyEmail;
+          console.log('tempList', tempList);
+
+          pool.query("SELECT comm_code_desc from common_code_tbl where code_id='EMAL' and comm_code_id='INFO'", function (err, cmpyMailList) {
+            if (err) {
+              console.error('Error with table query', err);
+            }
+            else {
+              console.log(" pick Company Email");
+              cmpyEmail = cmpyMailList.rows['0'].comm_code_desc;
+              console.log('Company Email: ', cmpyEmail);
+            }
+
+            // Mail
+
+            console.log("Ready to send mail");
+            const transporter = nodemailer.createTransport({
+              service: 'gmail',
+              auth: {
+                user: 'mohammadsab@minorks.com',
+                pass: '9591788719'
               }
-  
-                pool.query("SELECT emp_name, emp_id FROM emp_master_tbl  where del_flg = $1  order by emp_name asc" ,['N'], function(err, empList) {
-              if (err) {
-                  console.error('Error with table query', err);
+            });
+
+            // https://mailmycards.ca/wp-content/uploads/2021/03/HBD-350-View-5.png
+            // https://i.pinimg.com/564x/89/bd/37/89bd37b68338b7e591596bad98f56cf2.jpg
+            var mailOptions = {
+              from: cmpyEmail,
+              to: bedEmail1,
+              cc: tempList,
+              subject: 'Birthday Wish!',
+              html: '<img src="https://mailmycards.ca/wp-content/uploads/2021/03/HBD-350-View-5.png" alt="Birthday Image" width="180" height="140"><br><br>' +
+                '<h3>Happy Birthday!</h3>' +
+                '<p> Dear ' + brdName + ',</p>' +
+                '<p>' + message_content + '</p> <br>' +
+                '<p>Best regards,</p>' +
+                '<p>' + Myname + '</p>'
+            };
+
+            console.log(mailOptions, "mailll");
+
+            transporter.sendMail(mailOptions, function (error, info) {
+              if (error) {
+                console.error('Error sending email', error);
               } else {
-                  usersCount = empList.rowCount;
-                  // empData = empList.rows;
-  
-                  
-                  }
-      
-  
-   pool.query("INSERT INTO messages(to_user_id, from_user_id, message_content, read_flg, del_flg, rcre_user_id, rcre_time, lchg_user_id, lchg_time, subject, msg_id,del_flg_sent) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)",[to_user_id,emp_id,message_content,'N','N',emp_id,now,emp_id,now,subject,msg_id,'N'],function(err,done){
-               if(err) throw err;
-                });
-              
-  
-                res.json({succcess:200,message:"redirect to admindashboard"})
-                //  res.status('sucessful')
-          // res.redirect('/admin-dashboard/adminDashboard/admindashboard');
-  });
-  });
+                console.log('Email sent:', info.response);
+              }
+            });
+
+            res.json({ succcess: 200, message: "redirect to admindashboard" })
+
+          });
         });
-  
+      });
+    });
+
+  });
+
+
+
+
+
+
+
+
+
+});
+
 
 
 
 
 // Get message api
-router.get("/", (req, res) => {
+router.post('/sentmssg', function (req, res) {
+  var user_id = req.body.user_id;
 
-  var sql = "SELECT * FROM messages";
-  pool.query(sql, function (error, result) {
-    if (error) {
-      console.log("Error Connecting to DB");
-      res.status(500).send("Error Connecting to DB");
+  pool.query("SELECT * FROM messages WHERE from_user_id = $1", [user_id], function (err, mssg) {
+    if (err) {
+      console.log("Error connecting to DB");
+      res.status(500).send("Error connecting to DB");
     } else {
-      res.send({ data: result.rows });
-      // console.log(result.rows);
+      var messgs = mssg.rows;
+      var messages = [];
+
+      messgs.forEach(function (message) {
+        var touser = message.to_user_id;
+        var content = message.message_content;
+
+        pool.query("SELECT emp_name FROM emp_master_tbl WHERE del_flg = $1 AND emp_id = $2", ['N', touser], function (err, empList) {
+          if (err) {
+            console.error('Error with table query', err);
+          } else {
+            var toname = empList.rows;
+            var tousername = toname[0].emp_name;
+
+            messages.push({ to_user: tousername, mssg: content });
+
+            if (messages.length === messgs.length) {
+              res.send({ messages: messages });
+            }
+          }
+        });
+      });
     }
   });
 });
+
 
 
 //delete message api
@@ -129,63 +230,6 @@ router.delete('/:folder/:id', (req, res) => {
     res.sendStatus(204); // Send a success status code (204 No Content)
   });
 });
-
-
-
-// const folder = req.params.folder;
-// const index = parseInt(req.params.index);
-
-// // Assuming you have an array or database containing messages
-// // Retrieve the messages from the appropriate folder
-// let messages = [];
-// if (folder === 'inbox') {
-//   messages = inboxMessages;
-// } else if (folder === 'sent') {
-//   messages = sentMessages;
-// }
-
-// // Check if the index is within the valid range
-// if (index >= 0 && index < messages.length) {
-//   // Delete the message at the specified index
-//   messages.splice(index, 1);
-//   res.sendStatus(204); // Send a success status code (204 No Content)
-// } else {
-//   res.sendStatus(404); // Send a not found status code (404 Not Found)
-// }
-
-// router.delete('/:folder/:index', (req, res) => {
-//   const folder = req.params.folder;
-//   const index = parseInt(req.params.index);
-
-//   // Check if the index is within the valid range
-//   if (index >= 0 && index < messages.length) {
-//     // Delete the message at the specified index
-//     messages.splice(index, 1);
-//     res.sendStatus(204); // Send a success status code (204 No Content)
-//   } else {
-//     res.sendStatus(404); // Send a not found status code (404 Not Found)
-//   }
-// });
-
-
-// router.delete("/:code_id", (req, res) => {
-//     const code_id = req.params.code_id;
-//     const text = 'DELETE FROM common_code_tbl WHERE code_id = $1';
-//     const values = [code_id];
-
-//     pool.query(text, values, (err, result) => {
-//         if (err) {
-//             console.error(err);
-//             res.status(500).send('Error updating data');
-//           } 
-//           else {
-//             const message = {
-//                 message: "Data Deleted successfully"
-//             }
-//             res.send(message);
-//           }
-//     });
-//   });
 
 
 

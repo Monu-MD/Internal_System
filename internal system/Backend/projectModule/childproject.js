@@ -1,13 +1,16 @@
+console.log("child enterd");
 var express = require('express');
 var multer = require('multer');
 var app = express();
 var util = require('util');
 var path = require('path');
 var fs = require('fs');
-var router = express.Router();
+var router = express.Router();	
 var pool = require('./../Database/dbconfig');
 var nodemailer = require('nodemailer');
 const { log } = require('console');
+router.use(express.json())
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,26 +19,30 @@ const { log } = require('console');
 
 router.get('/childproject', function (req, res) {
 	var empId = req.body.empid;
+	console.log(empId);
 	pool.query("SELECT user_type from users where user_id = $1", [empId], function (err, result) {
-		var emp_access = result.rows['0'].user_type;
+		console.log(result);
+		var emp_access = result.rows[0].user_type;
+		console.log(emp_access);
 
-		if (emp_access != "L1" && emp_access != "L2") {
-			res.json({message:"redirect ot dashboard"})
-		}
-		else {
-			pool.query("SELECT emp_id from emp_master_tbl order by emp_id asc", function (err, result) {
+		if (emp_access == "L3") {
+			// res.json({message:"redirect ot dashboard"})
+
+
+			pool.query("SELECT emp_id from emp_master_tbl ", function (err, result) {
 				var employee = result.rows;
 				var empid_count = result.rowCount;
 				console.log("empid:::", employee);
 				console.log("empid_count:::", empid_count);
 
-				pool.query("SELECT emp_name from emp_master_tbl order by emp_id asc", function (err, result) {
+				pool.query("SELECT emp_name from emp_master_tbl ", function (err, result) {
 					var empname = result.rows;
 					var empname_count = result.rowCount;
 					console.log("empname:::", empname);
 					console.log("empname_count:::", empname_count);
 
-					pool.query("SELECT customer_id from customer_master_tbl order by customer_id asc", function (err, result) {
+
+					pool.query("SELECT customer_id from customer_master_tbl ", function (err, result) {
 						var customer_id = result.rows;
 						var customer_count = result.rowCount;
 						console.log("cid:::", customer_id);
@@ -101,7 +108,7 @@ router.get('/childproject', function (req, res) {
 																var parpid_count = result.rowCount;
 																console.log("at end");
 
-																res.json( {
+																res.json({
 
 																	emp_access: emp_access,
 																	// ename: req.user.rows['0'].user_name,
@@ -144,6 +151,7 @@ router.get('/childproject', function (req, res) {
 				});
 			});
 		}
+
 	});
 });
 
@@ -151,34 +159,31 @@ router.get('/childproject', function (req, res) {
 ///////////////////////////////////////// Child Parent Project Fetch ////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-router.get('/fetchDet', fetchDet);
-function fetchDet(req, res) {
+router.get('/fetchDet',(req, res)=> {
 
-	var parpid = req.query.parpid;
-console.log("project id", parpid);
+	var parpid = req.body.parpid;
+	console.log("project id", parpid);
 	pool.query("select cid,delivery_mgr,payment_type,customer_class,team_size,project_mgr,project_type,project_curr,bill_addrline1,bill_addrline2,bill_country,bill_city,bill_pin_code,project_loc,perdium_amount_per_day,perdium_curr_per_day from project_master_tbl where project_id=$1", [parpid], function (err, result) {
-		if (err) {
-			console.error('Error with table query', err);
-		}
-		else {
-			console.log(result);
-			var cid = result.rows['0'].cid
-			var delmgr = result.rows['0'].delivery_mgr;
-			var paymenttype = result.rows['0'].payment_type;
+		console.log(result.rows);
+			// console.log(result);
+			const cid = result.rows[0].cid
+			console.log(cid);
+			var delmgr = result.rows[0].delivery_mgr;
+			var paymenttype = result.rows[0].payment_type;
 			console.log("paymenttype", paymenttype);
-			var classid = result.rows['0'].customer_class;
-			var projectsize = result.rows['0'].team_size;
-			var projmgr = result.rows['0'].project_mgr;
-			var projtype = result.rows['0'].project_type;
-			var projcur = result.rows['0'].project_curr;
-			var clientaddr1 = result.rows['0'].bill_addrline1;
-			var clientaddr2 = result.rows['0'].bill_addrline2;
-			var countryId = result.rows['0'].bill_country;
-			var cityId = result.rows['0'].bill_city;
-			var pincode = result.rows['0'].bill_pin_code;
-			var perloc = result.rows['0'].project_loc;
-			var perdiumamt = result.rows['0'].perdium_amount_per_day;
-			var perprocurr = result.rows['0'].perdium_curr_per_day;
+			var classid = result.rows[0].customer_class;
+			var projectsize =result.rows[0].team_size;
+			var projmgr = result.rows[0].project_mgr;
+			var projtype = result.rows[0].project_type;
+			var projcur =result.rows[0].project_curr;
+			var clientaddr1 =result.rows[0].bill_addrline1;
+			var clientaddr2 = result.rows[0].bill_addrline2;
+			var countryId = result.rows[0].bill_country;
+			var cityId = result.rows[0].bill_city;
+			var pincode = result.rows[0].bill_pin_code;
+			var perloc = result.rows[0].project_loc;
+			var perdiumamt = result.rows[0].perdium_amount_per_day;
+			var perprocurr = result.rows[0].perdium_curr_per_day;
 
 			pool.query("SELECT customer_id,customer_name from customer_master_tbl where customer_id=$1", [cid], function (err, result) {
 				var customer_name = result.rows['0'].customer_name;
@@ -207,9 +212,9 @@ console.log("project id", parpid);
 					});
 				});
 			});
-		}
+		
 	});
-}
+})
 
 
 
@@ -218,17 +223,17 @@ console.log("project id", parpid);
 ///////////////////////////////////////// Child Project Add (POST) //////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-router.post('/addchildproject', addchildproject);
-function addchildproject(req, res) {
-
-	var empId = req.user.rows['0'].user_id;
-	var eid = req.user.rows['0'].user_id;
+router.post('/addchildproject', (req, res) =>{
+console.log(req.body);
+	var empId = req.user_id;
+	var eid = req.user_id;
 	var now = new Date();
 	var rcreuserid = empId;
 	var rcretime = now;
 	var lchguserid = empId;
 	var lchgtime = now;
 	var parpid = req.body.parpid1;
+	console.log(parpid);
 	var paymenttype = req.body.paymenttype;
 	var projectsize = req.body.projectsize;
 	var projectmgr = req.body.projmgr;
@@ -290,21 +295,18 @@ function addchildproject(req, res) {
 
 
 	pool.query("select cid,delivery_mgr,customer_class,team_size,project_type,bill_addrline1,bill_addrline2,bill_country,bill_city,bill_pin_code from project_master_tbl where project_id=$1", [parpid], function (err, result) {
-		if (err) {
-			console.error('Error with table query', err);
-		}
-		else {
-			var cid = result.rows['0'].cid
-			var delmgr = result.rows['0'].delivery_mgr;
-			var classid = result.rows['0'].customer_class;
-			var projectsize = result.rows['0'].team_size;
-			var projtype = result.rows['0'].project_type;
-			var clientaddr1 = result.rows['0'].bill_addrline1;
-			var clientaddr2 = result.rows['0'].bill_addrline2;
-			var countryId = result.rows['0'].bill_country;
-			var cityId = result.rows['0'].bill_city;
-			var pincode = result.rows['0'].bill_pin_code;
-		}
+		console.log(result);
+			var cid = result.rows[0].cid
+			var delmgr = result.rows[0].delivery_mgr;
+			var classid = result.rows[0].customer_class;
+			var projectsize = result.rows[0].team_size;
+			var projtype = result.rows[0].project_type;
+			var clientaddr1 = result.rows[0].bill_addrline1;
+			var clientaddr2 = result.rows[0].bill_addrline2;
+			var countryId = result.rows[0].bill_country;
+			var cityId = result.rows[0].bill_city;
+			var pincode = result.rows[0].bill_pin_code;
+	
 
 		pool.query("SELECT chld_cnt from project_master_tbl where project_id = $1", [parpid], function (err, result) {
 			if (err) throw err;
@@ -467,7 +469,7 @@ function addchildproject(req, res) {
 			});
 		});
 	});
-};
+});
 
 
 

@@ -138,10 +138,12 @@ import { DashboardComponent } from './login-module/dashboard/dashboard.component
 import { EmpPersonalDetailsComponent } from './employee-module/emp-personal-details/emp-personal-details.component';
 import { EmpProfessionalDetailsComponent } from './employee-module/emp-professional-details/emp-professional-details.component';
 import { EmployeeDetailsComponent } from './employee-module/employee-details/employee-details.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 
 
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
+import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBarModule
 
 
 @NgModule({
@@ -276,8 +278,6 @@ import { EmployeeDetailsComponent } from './employee-module/employee-details/emp
     TopbarComponent,
      DashboardComponent,
      EmployeeDetailsComponent,
-   
-
 
 
   ],
@@ -286,9 +286,12 @@ import { EmployeeDetailsComponent } from './employee-module/employee-details/emp
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
-
+    FormsModule,
+    BrowserAnimationsModule, // Add BrowserAnimationsModule
+    MatSnackBarModule // Add MatSnackBarModule
+    
   ],
+  
   providers: [ApiserviceService],
   bootstrap: [AppComponent]
 })

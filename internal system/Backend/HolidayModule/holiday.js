@@ -1,4 +1,4 @@
-console.log('holiday entered');
+console.log('Holiday entered');
 
 const express = require('express');
 var router = express.Router();

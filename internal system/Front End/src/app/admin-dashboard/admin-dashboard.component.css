@@ -1,0 +1,80 @@
+.widge-container {
+  height: 900px;
+  padding: 72px;
+  display: grid;
+  grid-template-rows: 133px 133px 133px;
+  grid-template-columns: 133px 133px 133px;
+  row-gap: 20px;
+  column-gap: 22px;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  font-family: 'Open Sans', sans-serif;
+  color: black;
+
+}
+
+.item {
+  background-color: aliceblue;
+  border-radius: 19px;
+  /* height: 178px;
+  width: 343px; */
+}
+
+.wiedge-card {
+  margin: 17px;
+  text-align: center;
+}
+
+.widge-lable {
+  font-size: 29px;
+}
+
+a {
+  color: black;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.widge-icon {
+  font-size: 68px;
+}
+
+
+/* Media query for max-width: 800px */
+
+@media (max-width: 800px) {
+  .widge-container {
+    padding: 40px;
+    grid-template-rows: repeat(1, 1fr);
+    grid-template-columns: repeat(1, 1fr);
+    row-gap: 15px;
+    column-gap: 15px;
+      overflow: auto;
+  }
+  
+  .item {
+    background-color: lightgray;
+    border-radius: 10px;
+    height: auto;
+    width: 100%;
+  }
+  
+  .widge-card {
+    margin: 10px;
+  }
+  
+  .widge-lable {
+    font-size: 24px;
+  }
+  
+  a {
+    font-size: 16px;
+  }
+  
+  .widge-icon {
+    font-size: 48px;
+  }
+  
+  /* Add more styles for other elements in mobile view as needed */
+}
+

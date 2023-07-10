@@ -1,0 +1,91 @@
+/* .container{
+    margin-bottom: 80px;
+} */
+
+.table-content {
+    background-color: #394250;
+    width: 58%;
+    padding: -18px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-left: 326px;
+    margin-top: 150px;
+}
+
+
+
+/* Styles for the dropdown */
+.select-wrapper select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px; /* Adjust this value to align the text properly */
+  }
+  
+  .select-wrapper select::-ms-expand {
+    display: none; /* Hide the default arrow in Internet Explorer */
+  }
+  
+  /* Styles for the select element */
+  .select-wrapper {
+    position: relative;
+  }
+  
+  .select-wrapper label {
+    color: #f8f9fa;
+    margin-left: 30px;
+  }
+
+  
+
+  
+  hr {
+    border-color: #f9f7f7;
+  }
+  
+
+.content {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 20px;
+    color: #f9f7f7;
+    margin-bottom: 10px;
+    margin-left: 26px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-size: 12pt;
+    color: #404040;
+    margin-left: 30px;
+  }
+
+  select,
+  input[type="text"] {
+    margin-left: 30px;
+    width: 348px;
+  }
+
+  .row {
+    margin-bottom: 20px;
+    margin-left: 195px;
+  }
+
+  hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* Optional: Styling for error message */
+  span.error-message {
+    color: red;
+    font-size: 10pt;
+  }
