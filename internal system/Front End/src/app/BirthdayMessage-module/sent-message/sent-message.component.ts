@@ -1,13 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-// import { MessageDataService } from '../message-data.service';
-import { MessageService } from 'src/app/services/message.service';
+import { Router } from '@angular/router';
+import { LoginServiceService } from 'src/app/services/login-service.service';
 
-interface Message {
-  sender: string;
-  recipient: string;
-  content: string;
-  timestamp: Date;
-}
 
 @Component({
   selector: 'app-sent-message',
@@ -16,33 +11,29 @@ interface Message {
 })
 export class SentMessageComponent {
 
-   inbox: Message[] = [];
-   sentItems: any[]=[];
+  messages: any[] = [];
+  user_id: any;
 
-  constructor(private mssg: MessageService) {}
-
-  ngOnInit() {
-    this.mssg.getSentItems();
-    this.sentItems = this.mssg.getMssg();
+  constructor(private http: HttpClient, private loginservice: LoginServiceService) {
+    const user = this.loginservice.getData();
+    this.user_id = user[0];
   }
-  
 
+  ngOnInit(): void {
+    this.fetchMessages();
+  }
 
-  // deleteMessage(index: number) {
-  //   this.mssg.deleteMessage(index, 'sent');
-  // }
-  deleteMessage(index: number, folder: string) {
-    this.mssg.deleteMessage(index, folder).subscribe(
-      () => {
-        if (folder === 'inbox') {
-          this.inbox.splice(index, 1);
-        } else if (folder === 'sent') {
-          this.sentItems.splice(index, 1);
+  fetchMessages(): void {
+    this.http.post('http://localhost:4000/message/sentmssg', { user_id: this.user_id })
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.messages = response.messages;
+        },
+        (error: any) => {
+          console.error('Error:', error);
         }
-      },
-      (error: any) => {
-        console.error('Error:', error);
-      }
-    );
+      );
   }
+
 }

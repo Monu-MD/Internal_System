@@ -137,7 +137,8 @@ import { EmpProfessionalDetailsComponent } from './employee-module/emp-professio
 import { EmployeeDetailsComponent } from './employee-module/employee-details/employee-details.component';
 
 
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
+import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBarModule
 
 
 @NgModule({
@@ -268,7 +269,8 @@ import { EmployeeDetailsComponent } from './employee-module/employee-details/emp
     // TopBar 
     TopbarComponent,
      DashboardComponent,
-     EmployeeDetailsComponent
+     EmployeeDetailsComponent,
+     
 
 
 
@@ -278,9 +280,12 @@ import { EmployeeDetailsComponent } from './employee-module/employee-details/emp
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
-
+    FormsModule,
+    BrowserAnimationsModule, // Add BrowserAnimationsModule
+    MatSnackBarModule // Add MatSnackBarModule
+    
   ],
+  
   providers: [ApiserviceService],
   bootstrap: [AppComponent]
 })
