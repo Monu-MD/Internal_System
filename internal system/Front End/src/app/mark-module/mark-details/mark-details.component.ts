@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { LoginServiceService } from 'src/app/services/login-service.service';
+import { ProjectserviceService } from 'src/app/services/projectservice.service';
 
 
 @Component({
@@ -7,56 +9,91 @@ import { Component } from '@angular/core';
   styleUrls: ['./mark-details.component.css']
 })
 export class MarkDetailsComponent {
-
-  
-  markDetails = [
-    { milestoneName:'No Record Found', percentage:'No Record Found', milestoneAmount:'No Record Found', confirmAmount:'No Record Found', expectedDate:'No Record Found',markAsConfirmed:'No Record Found' },
-    { milestoneName:'No Record Found', percentage:'No Record Found', milestoneAmount:'No Record Found', confirmAmount:'No Record Found', expectedDate:'No Record Found',markAsConfirmed:'No Record Found' },
-    { milestoneName:'No Record Found', percentage:'No Record Found', milestoneAmount:'No Record Found', confirmAmount:'No Record Found', expectedDate:'No Record Found',markAsConfirmed:'No Record Found' }
-  ];
-
-
-itemsPerPage = 10;
-currentPage = 1;
-totalItems = this.markDetails.length;
-
-PerPage: number = 100;
-itemsPerPageOptions: number[] = [10, 25, 50, 100];
-onItemsPerPageChange(): void {
-  this.currentPage = 1;
-
-}
-
-totalPages = 45; // Example: total number of pages
-
-constructor() { }
-
-ngOnInit() {
-  // Initialize table data or fetch it from an API
-}
-
-goToFirstPage() {
-  this.currentPage = 1;
-  // Load data for the first page
-}
-
-goToPreviousPage() {
-  if (this.currentPage > 1) {
-    this.currentPage--;
-    // Load data for the previous page
+  itemsPerPageOptions: any;
+  onItemsPerPageChange() {
+    throw new Error('Method not implemented.');
   }
-}
+  user_id: any;
+  user_type: any;
+  user_name: any;
+  projectId: any;
 
-goToNextPage() {
-  if (this.currentPage < this.totalPages) {
-    this.currentPage++;
-    // Load data for the next page
+  project_id: any;
+  ename: any;
+  eid: any;
+  emp_access: any;
+  projectid_count: any;
+  parse_count: any;
+  parse: any;
+  serial_number: any;
+  milestone_name: any;
+  capture_per: any;
+  direct_amount: any;
+  del_flg: any;
+  milestone_exp_date: any;
+  confirm_flg: any;
+  paid_flg: any;
+  rcre_user_id: any;
+  lchg_user_id: any;
+  rcre_time: any;
+  lchg_time: any;
+  confirmed_date: any;
+  paid_date: any;
+  project_details: any;
+
+
+  constructor(private loginservice: LoginServiceService, private projectdet: ProjectserviceService) {
+    const project_details = this.loginservice.getData();
+    this.user_id = project_details[0];
+    this.projectId = project_details[6];
+    this.user_type = project_details[2];
+    console.log("project...........", project_details[6]);
+
+
+    if (project_details != null) {
+      
+      const data = project_details[6];
+      console.log(data);
+      const parse=data.parse[0]
+      console.log(parse);
+      
+
+
+      this.project_id = parse.project_id;
+      this.ename = parse.ename;
+      this.eid = parse.eid;
+      this.emp_access = parse.emp_access;
+      this.projectid_count = parse.projectid_count;
+      this.parse = parse.parse;
+      this.serial_number = parse.serial_number;
+      this.milestone_name = parse.milestone_name;
+      this.capture_per = parse.capture_per;
+      this.direct_amount = parse.direct_amount;
+      this.del_flg = parse.del_flg;
+      this.milestone_exp_date = parse.milestone_exp_date;
+      this.confirm_flg = parse.confirm_flg;
+      this.paid_flg = parse.paid_flg;
+      this.confirm_flg = parse.confirm_flg;
+      this.rcre_user_id = parse.rcre_user_id;
+      this.confirmed_date = parse.confirmed_date;
+      this.paid_date = parse.paid_date;
+      this.lchg_user_id = parse.lchg_user_id;
+      this.rcre_time = parse.rcre_time;
+      this.lchg_time = parse.lchg_time;
+      this.paid_date = parse.paid_date;
+
+
+    }
   }
-}
 
-goToLastPage() {
-  this.currentPage = this.totalPages;
-  // Load data for the last page
-}
+
+
+
+
+
+
+
+
+
 
 }

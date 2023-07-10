@@ -1,4 +1,4 @@
-console.log("Request entered");
+console.log("Request-1 entered");
 
 var express = require('express');
 var router = express.Router();
@@ -6,37 +6,28 @@ var nodemailer = require('nodemailer');
 var pool = require('../Database/dbconfig');
 
 
-router.post('/requestLeave', requestLeave);
-// router.get('/applyLeave', applyLeave);
-// router.get('/markLeave', markLeave);
-// router.get('/calculateLeaves1', calculateLeaves1);
-// router.get('/calculateDays', calculateDays);
-// router.get('/calculateLeaves', calculateLeaves);
-// router.get('/markLeavesGet', markLeavesGet);
-// router.get('/adminmark', adminmark);
-// router.get('/unmarkLeave', unmarkLeave);
-// router.get('/viewEmpLeave', viewEmpLeave);
-// router.get('/unmarkLeavePage', unmarkLeavePage);
-// router.post('/markpostLeave', markpostLeave);
-// router.post('/unmarkLeavePost', unmarkLeavePost);
-// router.get('/empspecficLeaveBalance', empspecficLeaveBalance);
+router.post('/applyLeave', applyLeave);
 
 
+function applyLeave(req, res) {
 
-function requestLeave(req, res) {
-    var emp_id = req.body.user_id;
-    var emp_access = req.body.user_type;
-    var emp_name = req.body.user_name;
-
-
-
-    var leave_type = req.body.leaveType;
+    // Input from UI
+    var sessiontyp = req.body.item.sessionType;
+    console.log(sessiontyp);
+    var leave_type = req.body.item.leaveType;
     console.log(leave_type);
-    var from_date = req.body.fromDate;
-    var to_date = req.body.toDate;
-    var approver_id = req.body.applyTo;
+    var from_date = req.body.item.fromDate;
+    var to_date = req.body.item.toDate;
+    var applNorDays = req.body.item.appliedNoOfDays;
+    var reason = req.body.item.description;
 
-    var applNorDays = req.body.appliedNoOfDays;
+    // Input from user login
+    var emp_id = req.body.user_id;
+    console.log("EID: " + emp_id);
+    var emp_name = req.body.user_name;
+    console.log("ENAME: " + emp_name);
+    // var emp_access = req.body.user_type;
+
 
     var availed_leaves = req.body.availed_leaves;
     console.log("availed_leaves" + availed_leaves);
@@ -50,14 +41,10 @@ function requestLeave(req, res) {
     var borr_leaves = req.body.borr_leaves;
     console.log("borr_leaves", borr_leaves);
 
-    var sessiontyp = req.body.sessionType;
-
     var sessiontime = req.body.sessiontime;
-    var reason = req.body.description;
     var tempList = '';
     var carry_forwarded = '';
     var now = new Date();
-    // var rcretime = now;
 
     // recent adds
     var del_flg;
@@ -67,9 +54,7 @@ function requestLeave(req, res) {
     var rcre_time = now;
     var lchg_user_id;
     var lchg_time = now;
-
     var year = now.getFullYear();
-
 
     if (leave_type == "EL") {
         console.log("el");
@@ -108,10 +93,18 @@ function requestLeave(req, res) {
 
                 var rest_leaves = parseFloat(available_leaves) - parseFloat(availed_leaves);
                 console.log('rest_leaves', rest_leaves);
-                var now = new Date();
-                var rcretime = now;
-                var year = now.getFullYear();
-
+                ///
+                pool.query("SELECT reporting_mgr FROM emp_master_tbl where emp_id =$1  ", [emp_id], function (err, repotmanagerMail) {
+                    if (err) {
+                        console.error('Error with table query', err);
+                    }
+                    else {
+                        rowData2 = repotmanagerMail.rows;
+                        approver_id = rowData2[0].reporting_mgr;
+                        console.log('Approver ID: ', approver_id);
+                    }
+                })
+                ///
                 pool.query("select * from LEAVES where del_flg = $1 and emp_id =$2  and  ((from_date <= ($3) and to_date >= ($3)) or (from_date <= ($4) and to_date >= ($4))) and rej_flg= $5 and year=$6", ['N', emp_id, from_date, to_date, 'N', year], function (err, leaveOverlapList) {
                     if (err) {
                         console.error('Error with table query', err);
@@ -122,9 +115,10 @@ function requestLeave(req, res) {
                     }
 
                     if (leaveOverlapList_count == 0) {
-
-                        pool.query("INSERT INTO leaves(leave_type, from_date,to_date, del_flg,availed_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, reason,approver_id, leave_id,emp_id,app_flg,rej_flg,year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)", [leave_type, from_date, to_date, 'N', availed_leaves, emp_id, rcretime, emp_id, rcretime, reason, approver_id, leave_id, emp_id, 'N', 'N', year], function (err, done) {
+                        console.log(approver_id + " ================");
+                        pool.query("INSERT INTO leaves(leave_type, from_date,to_date, del_flg, availed_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, reason,approver_id, leave_id,emp_id,app_flg,rej_flg,year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)", [leave_type, from_date, to_date, 'N', applNorDays, emp_id, rcre_time, emp_id, rcre_time, reason, approver_id, leave_id, emp_id, 'P', 'N', year], function (err, done) {
                             if (err) throw err;
+                            console.log("Data Inserted to leaves table");
                         });
 
 
@@ -145,8 +139,9 @@ function requestLeave(req, res) {
                                 console.log('availed_leaves_master value', availed_leaves_master);
                             }
 
+                            console.log("0");
                             if (leaveMasterList_count == 0) {
-
+                                console.log("1");
                                 pool.query("SELECT * from emp_info_tbl where emp_id =$1 and del_flg=$2", [emp_id, 'N'], function (err, done) {
                                     if (err) {
                                         console.error('Error with table query', err);
@@ -154,7 +149,7 @@ function requestLeave(req, res) {
                                     else {
                                         carry_forwarded = 0;
                                     }
-
+                                    console.log("3");
                                     console.log('carry_forwarded value', carry_forwarded);
 
                                     pool.query("select * from leave_config where del_flg = $1 and leave_type = $2 and year=$3", ['N', leave_type, year], function (err, leaveConfigList) {
@@ -166,7 +161,8 @@ function requestLeave(req, res) {
                                             console.log('credited_leaves value', credited_leaves);
                                         }
 
-                                        pool.query("INSERT INTO leave_master(emp_id, leave_type,del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year, quaterly_leave) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [emp_id, leave_type, 'N', availed_leaves, carry_forwarded, credited_leaves, emp_id, rcretime, emp_id, rcretime, year, borr_leaves], function (err, done) {
+
+                                        pool.query("INSERT INTO leave_master (emp_id, leave_type, del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year, quaterly_leave) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [emp_id, leave_type, 'N', availed_leaves, carry_forwarded, credited_leaves, emp_id, rcre_time, emp_id, rcre_time, year, borr_leaves], function (err, done) {
                                             if (err) throw err;
                                         });
                                     });
@@ -179,7 +175,7 @@ function requestLeave(req, res) {
                                 total_leaves = parseFloat(availed_leaves_master) + parseFloat(availed_leaves);
                                 console.log('total_leaves value', total_leaves);
 
-                                pool.query("update leave_master set availed_leaves = $1 , lchg_user_id = $2, lchg_time =$3 ,quaterly_leave =$6 where year = $4 and emp_id = $5 and leave_type = $7 ", [total_leaves, emp_id, rcretime, year, emp_id, borr_leaves, leave_type], function (err, done) {
+                                pool.query("update leave_master set availed_leaves = $1 , lchg_user_id = $2, lchg_time =$3 ,quaterly_leave =$6 where year = $4 and emp_id = $5 and leave_type = $7 ", [total_leaves, emp_id, rcre_time, year, emp_id, borr_leaves, leave_type], function (err, done) {
                                     if (err) throw err;
                                 });
                             }
@@ -189,20 +185,34 @@ function requestLeave(req, res) {
                                     console.error('Error with table query', err);
                                 }
                                 else {
+                                    console.log("2  pick emp_email");
                                     employee_email = empResult.rows['0'].emp_email;
-                                    console.log('employee_email', employee_email);
+                                    console.log('employee_email: ', employee_email);
                                 }
 
-                                pool.query("SELECT comm_code_desc from common_code_tbl where code_id='HR' and comm_code_id='HR'", function (err, hrMailList) {
+                                pool.query("SELECT comm_code_desc from common_code_tbl where code_id='EMAL' and comm_code_id='HR'", function (err, hrMailList) {
                                     if (err) {
                                         console.error('Error with table query', err);
                                     }
                                     else {
+                                        console.log("4  pick HR_email");
                                         var hrEmail = hrMailList.rows['0'].comm_code_desc;
-
                                         tempList = hrEmail + ',' + employee_email;
-                                        console.log('tempList', tempList);
+                                        console.log('tempList: ', tempList);
                                     }
+
+
+                                    pool.query("SELECT comm_code_desc from common_code_tbl where code_id='EMAL' and comm_code_id='INFO'", function (err, cmpyMailList) {
+                                        if (err) {
+                                            console.error('Error with table query', err);
+                                        }
+                                        else {
+                                            console.log("5  pick Company Email");
+                                            cmpyEmail = cmpyMailList.rows['0'].comm_code_desc;
+                                            console.log('Company Email: ', cmpyEmail);
+                                        }
+
+                                    })
 
 
                                     pool.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [approver_id], function (err, managerMail) {
@@ -210,30 +220,33 @@ function requestLeave(req, res) {
                                             console.error('Error with table query', err);
                                         }
                                         else {
+                                            console.log("6  pick Manager Email");
                                             rowData1 = managerMail.rows;
                                             managerMailId = rowData1[0].emp_email;
-                                            console.log('managerMailId', managerMailId);
+                                            console.log('ManagerMailId: ', managerMailId);
                                         }
 
-                                        var smtpTransport = nodemailer.createTransport('SMTP', {
+
+
+                                        console.log("Ready to send mail");
+                                        const transporter = nodemailer.createTransport({
                                             service: 'gmail',
-                                            auth:
-                                            {
-                                                user: 'amber@nurture.co.in',
-                                                pass: 'nurture@123'
+                                            auth: {
+                                                user: 'mohammadsab@minorks.com',
+                                                pass: '9591788719'
                                             }
                                         });
 
-                                        var session = req.body.session;
-                                        var sessiontime = req.body.sessiontime;
-                                        var leave_type = "Sick Leave";
+                                        if (leave_type == "EL") {
+                                            var leave_type1 = "Annual Leave";
+                                        }
 
-                                        if (session == "FD") {
-                                            var session = "FULL DAY";
+                                        if (sessiontyp == "FD") {
+                                            var session1 = "FULL DAY";
                                             var sessiontime = "Session 1 - Session 2";
                                         }
                                         else {
-                                            var session = "HALF DAY";
+                                            var session1 = "HALF DAY";
 
                                             if (sessiontime == "S1S2") {
                                                 var sessiontime = "Session 1";
@@ -244,16 +257,16 @@ function requestLeave(req, res) {
                                         }
 
                                         var mailOptions = {
+                                            from: cmpyEmail,
                                             to: managerMailId,
                                             cc: tempList,
-                                            from: 'amber@nurture.co.in',
                                             subject: 'Leave Requested',
                                             html: '<img src="https://www.theplanner.co.uk/sites/default/files/Web_Submitted_shutterstock_434614015.jpg" height="85"><br><br>' +
                                                 '<h3> Submitted Leave Application Details for Managers Approval<br><br>' +
                                                 '<table style="border: 10px solid black;"> ' +
                                                 '<tr style="border: 10px solid black;"> ' +
                                                 '<th style="border: 10px solid black;">Leave Type</th> ' +
-                                                '<th style="border: 10px solid black;">' + leave_type + '</th>' +
+                                                '<th style="border: 10px solid black;">' + leave_type1 + '</th>' +
                                                 '</tr>' +
 
                                                 '<tr style="border: 10px solid black;"> ' +
@@ -280,7 +293,7 @@ function requestLeave(req, res) {
 
                                                 '<tr style="border: 10px solid black;"> ' +
                                                 '<th style="border: 10px solid black;"> Number of days </td> ' +
-                                                '<th style="border: 10px solid black;">' + availed_leaves + '</td> ' +
+                                                '<th style="border: 10px solid black;">' + applNorDays + '</td> ' +
                                                 '</tr>' +
 
                                                 '<tr style="border: 10px solid black;"> ' +
@@ -290,7 +303,7 @@ function requestLeave(req, res) {
 
                                                 '<tr style="border: 10px solid black;"> ' +
                                                 '<th style="border: 10px solid black;"> Session Type </td> ' +
-                                                '<th style="border: 10px solid black;">' + session + '</td> ' +
+                                                '<th style="border: 10px solid black;">' + session1 + '</td> ' +
                                                 '</tr>' +
 
                                                 '<tr style="border: 10px solid black;"> ' +
@@ -302,10 +315,16 @@ function requestLeave(req, res) {
                                                 'URL: http://amber.nurture.co.in <br><br><br>' +
                                                 '- Regards,<br><br>Amber</h3>'
                                         };
+                                        console.log(mailOptions, "mailll");
 
-
-                                        smtpTransport.sendMail(mailOptions, function (err) {
+                                        transporter.sendMail(mailOptions, function (error, info) {
+                                            if (error) {
+                                                console.error('Error sending email', error);
+                                            } else {
+                                                console.log('Email sent:', info.response);
+                                            }
                                         });
+
 
                                     });
 
@@ -334,30 +353,21 @@ function requestLeave(req, res) {
 
 
                         success = 'Leave request submitted successfully';
-                        res.render('requestModule/applyLeave', {
-                            emp_id: emp_id,
-                            emp_name: emp_name,
-                            emp_access: emp_access,
-                            no_of_leaves: rest_leaves,
-                            emp_data_app: emp_data_app,
-                            holidayData: holidayData,
-                            holiday_list: holiday_list,
-                            holiday_count: holiday_count,
-                            success: success
-                        });
+
+                        res.json({ message: "Leave request submitted successfully" })
                     }
                     else {
-                        req.flash('error', "Leave dates overlap please recheck")
-                        res.redirect(req.get('referer'));
+                        res.json({ message: "Leave dates overlap please recheck" });
                     }
                 });
             });
         });
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     if ((leave_type != "EL") && (leave_type != "RL")) {
-        console.log("it's not el and not rl"); 
+        console.log("it's not el and not rl");
         pool.query("SELECT day_type,sel_date,description,year FROM holidays where del_flg ='N' and day_type in ('H') order by sel_date asc", function (err, holidayList) {
             if (err) {
                 console.error('Error with table query', err);
@@ -382,11 +392,24 @@ function requestLeave(req, res) {
                     console.log('leave_id', leave_id);
                 }
 
- 
+                ///
+                pool.query("SELECT reporting_mgr FROM emp_master_tbl where emp_id =$1  ", [emp_id], function (err, repotmanagerMail) {
+                    if (err) {
+                        console.error('Error with table query', err);
+                    }
+                    else {
+                        rowData2 = repotmanagerMail.rows;
+                        approver_id = rowData2[0].reporting_mgr;
+                        console.log('Approver ID: ', approver_id);
+                    }
+                })
+                ///
+
                 var rest_leaves = parseFloat(available_leaves) - parseFloat(availed_leaves);
                 console.log(available_leaves);
                 console.log(availed_leaves);
                 console.log('rest_leaves', rest_leaves);
+
                 var now = new Date();
                 var rcretime = now;
                 var year = now.getFullYear();
@@ -401,16 +424,18 @@ function requestLeave(req, res) {
                         leaveOverlapList_count = leaveOverlapList.rowCount;
                         console.log('leaveOverlapList_count value', leaveOverlapList_count);
                     }
+                    
                     console.log("leaveOverlapList_countkkkkkkkkkkkkkkkkkkkk" + leaveOverlapList_count);
 
                     if (leaveOverlapList_count == 0) {
 
                         pool.query("INSERT INTO leaves(leave_type, from_date, to_date, del_flg,availed_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, reason,approver_id, leave_id, emp_id, app_flg, rej_flg, year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)",
-                            [leave_type, from_date, to_date, 'N', availed_leaves, emp_id, rcretime, emp_id, rcretime, reason, approver_id, leave_id, emp_id, 'N', 'N', year], function (err, done) {
+                            [leave_type, from_date, to_date, 'N', applNorDays, emp_id, rcretime, emp_id, rcretime, reason, approver_id, leave_id, emp_id, 'P', 'N', year], function (err, done) {
                                 if (err) throw err;
+                                console.log("Inserted into leaves table!!!!!!!!!!!!!");
                             });
                         res.json({
-                            message: "inserted to leaves", notification: "redirect to leaves",
+                            message: "Leave request submitted successfully", notification: "redirect to leaves",
                             Data: {
                                 leave_type,
                                 from_date,
@@ -453,8 +478,6 @@ function requestLeave(req, res) {
 
                             if (leaveMasterList_count == 0) {
 
-                                console.log("if entereddddddddd");
-
                                 pool.query("SELECT * from emp_info_tbl where emp_id =$1 and del_flg=$2", [emp_id, 'N'], function (err, done) {
                                     if (err) {
                                         console.error('Error with table query', err);
@@ -471,7 +494,7 @@ function requestLeave(req, res) {
                                             console.error('Error with table query', err);
                                         }
                                         else {
-                                            credited_leaves = leaveConfigList.allocated_leaves;
+                                            credited_leaves = leaveConfigList.rows[0].allocated_leaves;
                                             console.log(":: 3 ::");
                                             console.log('credited_leaves value', credited_leaves);
                                         }
@@ -479,7 +502,7 @@ function requestLeave(req, res) {
                                         pool.query("INSERT INTO leave_master(emp_id, leave_type,del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [emp_id, leave_type, 'N', availed_leaves, carry_forwarded, credited_leaves, emp_id, rcretime, emp_id, rcretime, year], function (err, done) {
                                             if (err) throw err;
                                         });
-                                        console.log("Inserted into leave_master!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                        console.log("Inserted into leave_master!!!!!!!!!!!!!");
                                         //     res.json({
                                         //         message: "success", notification: "redirect to viewpage1",
                                         //         Data: {
@@ -510,28 +533,39 @@ function requestLeave(req, res) {
                                 });
                             }
 
-                            // I hard coded here......
-                            pool.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", ['1257'], function (err, empResult) {
+                            pool.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [emp_id], function (err, empResult) {
                                 if (err) {
                                     console.error('Error with table query', err);
                                 }
                                 else {
-                                    console.log(":: 2 ::");
-                                    console.log(empResult.emp_email+" taking emp email");
-                                    employee_email = empResult.emp_email;
-                                    console.log('employee_email', employee_email);
+                                    console.log("2  pick emp_email");
+                                    employee_email = empResult.rows['0'].emp_email;
+                                    console.log('employee_email: ', employee_email);
                                 }
 
-                                pool.query("SELECT comm_code_desc from common_code_tbl where code_id='HR' and comm_code_id='HR'", function (err, hrMailList) {
+                                pool.query("SELECT comm_code_desc from common_code_tbl where code_id='EMAL' and comm_code_id='HR'", function (err, hrMailList) {
                                     if (err) {
                                         console.error('Error with table query', err);
                                     }
                                     else {
-                                        var hrEmail = hrMailList.comm_code_desc;
-
+                                        console.log("4  pick HR_email");
+                                        var hrEmail = hrMailList.rows['0'].comm_code_desc;
                                         tempList = hrEmail + ',' + employee_email;
-                                        console.log('tempList', tempList);
+                                        console.log('tempList: ', tempList);
                                     }
+
+
+                                    pool.query("SELECT comm_code_desc from common_code_tbl where code_id='EMAL' and comm_code_id='INFO'", function (err, cmpyMailList) {
+                                        if (err) {
+                                            console.error('Error with table query', err);
+                                        }
+                                        else {
+                                            console.log("5  pick Company Email");
+                                            cmpyEmail = cmpyMailList.rows['0'].comm_code_desc;
+                                            console.log('Company Email: ', cmpyEmail);
+                                        }
+
+                                    })
 
 
                                     pool.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [approver_id], function (err, managerMail) {
@@ -539,11 +573,15 @@ function requestLeave(req, res) {
                                             console.error('Error with table query', err);
                                         }
                                         else {
+                                            console.log("6  pick Manager Email");
                                             rowData1 = managerMail.rows;
-                                            managerMailId = managerMail.emp_email;
-                                            console.log('managerMailId', managerMailId);
+                                            managerMailId = rowData1[0].emp_email;
+                                            console.log('managerMailId: ', managerMailId);
                                         }
 
+
+
+                                        console.log("Ready to send mail");
                                         const transporter = nodemailer.createTransport({
                                             service: 'gmail',
                                             auth: {
@@ -551,15 +589,14 @@ function requestLeave(req, res) {
                                                 pass: '9591788719'
                                             }
                                         });
-                                        
-                                        // var session = req.body.session;
-                                        // console.log("session is :"+session);
-                                        // var sessiontime = req.body.sessiontime;
 
                                         if (leave_type == "SL") {
-                                        var leave_type1 = "Sick leave";
+                                            var leave_type1 = "Sick Leave";
                                         }
-                                        
+                                        if (leave_type == "ML") {
+                                            var leave_type1 = "Maternity Leave";
+                                        }
+
                                         if (sessiontyp == "FD") {
                                             var session1 = "FULL DAY";
                                             var sessiontime = "Session 1 - Session 2";
@@ -576,8 +613,8 @@ function requestLeave(req, res) {
                                         }
 
                                         var mailOptions = {
-                                            from: 'mohammadsab@minorks.com',
-                                            to: 'yeshwanth@minorks.com',
+                                            from: cmpyEmail,
+                                            to: managerMailId,
                                             cc: tempList,
                                             subject: 'Leave Requested',
                                             html: '<img src="https://www.theplanner.co.uk/sites/default/files/Web_Submitted_shutterstock_434614015.jpg" height="85"><br><br>' +
@@ -673,23 +710,10 @@ function requestLeave(req, res) {
 
 
                         success = 'Leave request submitted successfully';
-                        // res.json({ message: "Leave request submitted successfully" })
-                        // res.render('requestModule/applyLeave', {
-                        //     emp_id: emp_id,
-                        //     emp_name: emp_name,
-                        //     emp_access: emp_access,
-                        //     no_of_leaves: rest_leaves,
-                        //     emp_data_app: emp_data_app,
-                        //     holidayData: holidayData,
-                        //     holiday_list: holiday_list,
-                        //     holiday_count: holiday_count,
-                        //     success: success
-                        // });
+
                     }
                     else {
                         res.json({ message: "Leave dates overlap please recheck" })
-                        // req.flash('error', "Leave dates overlap please recheck")
-                        // res.redirect(req.get('referer'));
                     }
                 });
             });
@@ -698,7 +722,7 @@ function requestLeave(req, res) {
 
 
 
-///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
 
     if (leave_type == "RL") {
         console.log("is rl");
@@ -1653,8 +1677,17 @@ function requestLeave(req, res) {
 //     });
 // }
 
+
+
+
+
+
+
+
 // function applyLeave(req, res) {
-//     var emp_id = req.body.user_id;
+//     // var emp_id = req.body.user_id;
+//     var emp_id = "222";
+//     console.log(emp_id);
 //     var emp_access = req.body.user_type;
 //     var emp_name = req.body.user_name;
 //     var current_date = new Date();
@@ -1740,19 +1773,20 @@ function requestLeave(req, res) {
 //                                         }
 
 
-//                                         res.render('requestModule/applyLeave', {
-//                                             eid: req.body.user_id,
-//                                             ename: req.body.user_name,
-//                                             emp_access: emp_access,
-//                                             no_of_leaves: no_of_leaves,
-//                                             emp_data_app: emp_data_app,
-//                                             holidayData: holidayData,
-//                                             leaveConfigData: leaveConfigData,
-//                                             holiday_list: holiday_list,
-//                                             holiday_count: holiday_count,
-//                                             open_list: open_list,
-//                                             open_count: open_count
-//                                         });
+//                                         // res.render('requestModule/applyLeave', {
+//                                         //     eid: req.body.user_id,
+//                                         //     ename: req.body.user_name,
+//                                         //     emp_access: emp_access,
+//                                         //     no_of_leaves: no_of_leaves,
+//                                         //     emp_data_app: emp_data_app,
+//                                         //     holidayData: holidayData,
+//                                         //     leaveConfigData: leaveConfigData,
+//                                         //     holiday_list: holiday_list,
+//                                         //     holiday_count: holiday_count,
+//                                         //     open_list: open_list,
+//                                         //     open_count: open_count
+//                                         // });
+//                                         res.json({message:"Got Male! "})
 //                                     });
 //                                 });
 
@@ -1981,19 +2015,20 @@ function requestLeave(req, res) {
 //                                             var open_list = openList.rows;
 //                                             var open_count = openList.rowCount;
 //                                         }
-//                                         res.render('requestModule/applyLeave', {
-//                                             eid: req.body.user_id,
-//                                             ename: req.body.user_name,
-//                                             emp_access: emp_access,
-//                                             no_of_leaves: no_of_leaves,
-//                                             emp_data_app: emp_data_app,
-//                                             holidayData: holidayData,
-//                                             leaveConfigData: leaveConfigData,
-//                                             holiday_list: holiday_list,
-//                                             holiday_count: holiday_count,
-//                                             open_list: open_list,
-//                                             open_count: open_count
-//                                         });
+//                                         // res.render('requestModule/applyLeave', {
+//                                         //     eid: req.body.user_id,
+//                                         //     ename: req.body.user_name,
+//                                         //     emp_access: emp_access,
+//                                         //     no_of_leaves: no_of_leaves,
+//                                         //     emp_data_app: emp_data_app,
+//                                         //     holidayData: holidayData,
+//                                         //     leaveConfigData: leaveConfigData,
+//                                         //     holiday_list: holiday_list,
+//                                         //     holiday_count: holiday_count,
+//                                         //     open_list: open_list,
+//                                         //     open_count: open_count
+//                                         // });
+//                                         res.json({message:"got it!!!!!!!!!!"})
 //                                     });
 //                                 });
 

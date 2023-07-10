@@ -77,6 +77,13 @@ export class ForgetPasswordService {
           this.router.navigate(['/'])
           
         }
+        else if(response.message=='redierct to add Personal Details'){
+        this.loginserivce.setNotification(response.notification)
+          this.router.navigate(['/personalDetails'])
+          
+        }
+
+        
         
 
         

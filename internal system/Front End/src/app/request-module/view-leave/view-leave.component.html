@@ -5,10 +5,7 @@
     <div class="container" class="tablecontainer" class="viewData">
         <div class="table-content">
             <div class="contentleft">
-                <h1 class="titleViewPage" >View Leave</h1>
-                <label class="contentleft">Search:</label>
-                <input type="text" name="employeeName" formControlName="employeeName" class="searchData"
-                    placeholder="EmployeeName">
+                <h1 class="titleViewPage">View Leave</h1>
             </div><br>
             <span>Show</span>
             <select class="show-entries" (click)="onItemsPerPageChange()">
@@ -21,24 +18,30 @@
                 <thead>
                     <tr>
                         <th>Leave Type</th>
-                        <th>From Date<br>(YYYY-MM-DD)</th>
-                        <th>To Date<br>(YYYY-MM-DD)</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
                         <th>Reason</th>
                         <th>Approver</th>
-                        <th>NoOfDays</th>
+                        <th>Num of Days</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr
-                        *ngFor="let viewLeave of viewLeave|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
-                        <td>{{ viewLeave.leaveType }}</td>
-                        <td>{{viewLeave.fromDate}}</td>
-                        <td>{{ viewLeave.toDate }}</td>
+                        *ngFor="let viewLeave of rowData|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                        <td>{{ viewLeave.cocd }}</td>
+                        <td>{{ viewLeave.from_date | date:'yyyy-MM-dd' }}</td>
+                        <td>{{ viewLeave.to_date | date:'yyyy-MM-dd' }}</td>
                         <td>{{ viewLeave.reason }}</td>
-                        <td>{{ viewLeave.approver}}</td>
-                        <td>{{ viewLeave.noOfDays}}</td>
-                        <td>{{ viewLeave.status }}</td>
+                        <td>{{ viewLeave.emp}}</td>
+                        <td>{{ viewLeave.availed_leaves}}</td>
+
+                        <td [ngSwitch]="viewLeave.app_flg">
+                            <span *ngSwitchCase="'Y'">Approved</span>
+                            <span *ngSwitchCase="'N'">Rejected</span>
+                            <span *ngSwitchCase="'P'">Pending</span>
+                        </td>
+
                     </tr>
                 </tbody>
             </table>
