@@ -894,8 +894,6 @@ router.post('/login', (req, res) => {
                                 }
                             })
 
-                            return res.json({ message: "redirect to login", notification: "incorrect password" });
-
                         }
 
                     }
