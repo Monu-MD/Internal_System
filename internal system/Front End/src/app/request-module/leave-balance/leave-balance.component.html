@@ -1,44 +1,80 @@
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
-<div class="container">
-    <h1 class="title"> Leave Balance </h1>
-    <div class="content">
-        <form [formGroup]="leaveBalanceForm" (ngSubmit)="submit(leaveBalanceForm.value)">
-            <div class="user-details">
-                <div class="input-box">
-                    <label class="details">EmployeeName</label>
-                    <input type="text" name="employeeName" formControlName="employeeName">
+
+<head>
+    <title>Leave Balance Form</title>
+</head>
+
+<body>
+    <form [formGroup]="leaveBalanceForm" (ngSubmit)="submit(leaveBalanceForm.value)">
+        <div class="">
+            <div class="table-content">
+                <div class="content">
+                    <hr class="white-line">
+                    <h4 class="title">Leave Balance - <b id="">{{year}}</b></h4>
+                    <hr class="white-line">
+
+                    <div class="row" [ngSwitch]="user_access">
+                        <div class="col-md-5">
+                            <div class="form-group" *ngSwitchCase="'A1'">
+                                <label for="empid" style="color:#f8f9fa;margin-left: 30px">Employee Name <span
+                                        style="color:red;font-size: 10pt">*</span></label>
+                                <input type="text" name="empname" formControlName="empname">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group select-wrapper">
+                                <label for="leaveType" class="details" style="color:#f8f9fa;margin-left: 30px">Leave
+                                    Type </label>
+                                <select id="leaveType" class="form-control" formControlName="leaveType">
+                                    <option value="">--Select--</option>
+                                    <option value="EL">Annual</option>
+                                    <option value="SL">Sick</option>
+                                    <option value="ML">Maternity</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="available_leaves" style="color:#f8f9fa;margin-left: 30px">Total Available
+                                    Leaves</label>
+                                <input type="text" style="margin-left:30px;width:348px" id="available_leaves"
+                                    formControlName="available_leaves" readonly class="form-control"
+                                    placeholder="Total Available Leaves">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" id="quaterly_show">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="quaterly" style="color:#f8f9fa;margin-left: 30px">Availed Leaves
+                                    </label>
+                                <input type="text" style="margin-left:30px;width:348px" id="aviledleaves"
+                                    formControlName="aviledleaves" readonly class="form-control"
+                                    placeholder="Availed Leaves ">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-
-
-                <div class="input-box">
-                    <label for="leaveType" class="details">Leave Type </label>
-                    <select id="leaveType" class="form-control" formControlName="leaveType">
-                        <option value="">--Select--</option>
-                        <option value="annual">Annual</option>
-                        <option value="sick">Sick</option>
-                        <option value="maternity">Maternity</option>
-                    </select>
-                    <pre></pre>
-                </div>
-
-
-                <div class="input-box">
-                    <label class="details">Total Available Leaves</label>
-                    <input type="number" name="availableLeaves" formControlName="availableLeaves">
-                </div>
-
-
-
-                <div class="input-box">
-                    <label class="details">Quaterly Leave Balance</label>
-                    <input type="number" name="quaterlyLeave" formControlName="quaterlyLeave">
-                </div>
+                <script>
+                    // Get current year and update the HTML element
+                    var currentYearElement = document.getElementById("current-year");
+                    var currentYear = new Date().getFullYear();
+                    currentYearElement.innerHTML = currentYear;
+                </script>
             </div>
+        </div>
+    </form>
+</body>
 
-        </form>
-    </div>
-</div>
+
 <app-footer></app-footer>

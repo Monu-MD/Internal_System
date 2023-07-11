@@ -1,41 +1,45 @@
+
+
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
-<div class="container">
-    <div class="title"> View NON IT Asset Allocation</div>
-    <div class="content">
-        <form  [formGroup]="viewNonItAssetDetailsForm" (ngSubmit)="submit(viewNonItAssetDetailsForm.value)">
-            <div class="user-details">
-                <div class="input-box">
-                    <label class="details">Asset ID</label>
-                    <input type="number" name="id" formControlName="assetId" placeholder="Asset ID">
-                </div>
-            </div>
-            <div class="user-details">
-                <div class="input-box">
-                    <label class="details">Particulars</label>
-                    <input type="text" name="particulars" formControlName="particulars" placeholder="Particulars">
-                </div>
-            </div>
-            <div class="user-details">
-                <div class="input-box">
-                    <label class="details">Quantity in No.s</label>
-                    <input type="text" name="quantity" formControlName="quantity" placeholder="Quantity">
-                </div>
-            </div>
-            <div class="user-details">
-                <div class="input-box">
-                    <label class="details">Remarks</label>
-                    <input type="text" name="remarks" formControlName="remarks" placeholder="Remarks">
-                </div>
-            </div>
-            <div class="button-group">
-                <button type="submit" class="button">Submit</button>
-                <button type="reset" class="button">Cancel</button>
-            </div>
-            <br>
-        </form>
-    </div>
-</div>
-<app-footer></app-footer>
 
+
+ <!-- <div class="container">
+    <div class="content">
+        <div class="user-details">
+            <div class="input-box">
+                <label class="details">Asset ID</label>
+                <input type="text" [(ngModel)]="searchAssetId" placeholder="Enter Asset ID">       
+            </div>
+        </div>
+        <div class="button-group">
+            <button (click)="search()" class="button">Search</button>
+            <button type="reset" class="button">Clear</button>
+        </div>
+    </div>
+</div>  -->
+
+
+<div class="view-details" >
+    <h2>View IT Details</h2>
+    <p>Asset ID : {{ asset_id }}</p>
+    <p>Product : {{ product }}</p>
+    <p>Make : {{ make }}</p>
+    <p>SerialNo : {{ serial_no }}</p>
+    <p>Model : {{ model }}</p>
+    <p>HostName : {{ host_name }}</p>
+    <p>Ip Address : {{ ip_addr }}</p>
+    <p>Os : {{ os }}</p>
+    <p>Os_Type : {{ os_type }}</p>
+    <p>Software : {{ software }}</p>
+    <p>ram : {{ ram }}</p>
+    <p>Processor : {{ processor }}</p>
+    <p>Hard Disk : {{ hard_disk }}</p>
+    <p>Accessories : {{ accessories }}</p>
+    <p>Window Product Key : {{ window_product_key }}</p>
+</div>
+
+
+
+<app-footer></app-footer>

@@ -34,7 +34,7 @@
                         <td>{{ viewLeave.to_date | date:'yyyy-MM-dd' }}</td>
                         <td>{{ viewLeave.reason }}</td>
                         <td>{{ viewLeave.emp}}</td>
-                        <td>{{ viewLeave.availed_leaves}}</td>
+                        <td style="padding-left: 56px;">{{ viewLeave.availed_leaves}}</td>
 
                         <td [ngSwitch]="viewLeave.app_flg">
                             <span *ngSwitchCase="'Y'">Approved</span>

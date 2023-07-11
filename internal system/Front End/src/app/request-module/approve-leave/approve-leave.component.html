@@ -15,7 +15,11 @@
                 <select class="show-entries" (click)="onItemsPerPageChange()">
                     <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
                 </select>
-                <span>entries</span>
+                <span>entries</span> <br>
+
+                <div class="notification" [ngClass]="{'success': isSuccess, 'error': isError}">
+                    {{ message }}
+                </div>
 
                 <hr>
                 <table>
@@ -36,16 +40,19 @@
                             *ngFor="let row of rowData|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
                             <td>{{ row.emp }}</td>
                             <td>{{row.cocd}}</td>
-                            <td>{{ row.from_date | date:'yyyy-MM-dd'  }}</td>
+                            <td>{{ row.from_date | date:'yyyy-MM-dd' }}</td>
                             <td>{{ row.to_date | date:'yyyy-MM-dd' }}</td>
-                            <td>{{ row.availed_leaves}}</td>
+                            <td style="padding-left: 56px;">{{ row.availed_leaves}}</td>
                             <td>{{ row.reason}}</td>
-                            <div style="    margin-right: -32px;">
-                                <button class="button green-button">Approve</button>
-                                <button class="button red-button">Reject</button>
-                            </div>
+                            <td>
+                                <div style="margin-right: -32px;">
+                                    <button class="button green-button" (click)="approveButtonClicked(row)">Approve</button>
+                                    <button class="button red-button" (click)="rejectButtonClicked(row)">Reject</button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
+                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                 </table>
                 <br>
             </form>

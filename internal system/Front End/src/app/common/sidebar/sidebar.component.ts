@@ -80,7 +80,7 @@ export class SidebarComponent {
       if (this.user_type=='A1') {
         this.router.navigate(['searchmodify'])
       } else {
-        
+        this.loginservice.setViewAproval('viewData')
         this.router.navigate(['empDetailview'])
       }
     }
@@ -93,7 +93,7 @@ export class SidebarComponent {
     }
 
     if (item == 'hol') {
-      this.router.navigate(['addHolidays'])
+      this.router.navigate(['viewHolidays'])
     }
     if (item == 'inv') {
       this.router.navigate(['chooseinvoice'])

@@ -33,7 +33,7 @@
                 </div>
                 <label class="widge-lable">Employee Documents</label>
                 <div class="widge-tags" *ngIf="docPendingCount > 0">
-                    {{ docPendingCount }} <a href="">Yet To Be Approved</a>
+                    {{ docPendingCount }} <a >Yet To Be Approved</a>
                 </div>
                 <div class="widge-tags" *ngIf="docPendingCount <= 0">
                     No documents pending
@@ -53,7 +53,9 @@
                 </div>
                 <label class="widge-lable">Employee Details</label>
                 <div class="widge-tags" *ngIf="emp_main > 0">
-                    <a routerLink="/personalDetails">Yet To Be Approved</a> {{ pending_empPer }}
+
+                    <a (click)="apprvalData()">Yet To Be Approved</a> {{ pending_empPer }}
+
                 </div>
                 <div class="widge-tags" *ngIf="emp_main <= 0">
                     No employee details pending
@@ -180,4 +182,6 @@
 
 
 </body>
+
 <app-footer></app-footer>
+

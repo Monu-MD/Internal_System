@@ -129,10 +129,11 @@ function applyLeave(req, res) {
                             else {
                                 leaveMasterList_count = leaveMasterList.rowCount;
                                 if (leaveMasterList_count != 0) {
-                                    availed_leaves_master = leaveMasterList.rows[0].availed_leaves;
+                                    ///
+                                    var availed_leaves_master = leaveMasterList.rows[0].availed_leaves;
                                 }
                                 else {
-                                    availed_leaves_master = 0;
+                                    var availed_leaves_master = 0;
                                 }
 
                                 console.log('leaveMasterList_count value', leaveMasterList_count);
@@ -151,6 +152,8 @@ function applyLeave(req, res) {
                                     }
                                     console.log("3");
                                     console.log('carry_forwarded value', carry_forwarded);
+                                   ///////////////////////////////////
+
 
                                     pool.query("select * from leave_config where del_flg = $1 and leave_type = $2 and year=$3", ['N', leave_type, year], function (err, leaveConfigList) {
                                         if (err) {
@@ -162,7 +165,7 @@ function applyLeave(req, res) {
                                         }
 
 
-                                        pool.query("INSERT INTO leave_master (emp_id, leave_type, del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year, quaterly_leave) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [emp_id, leave_type, 'N', availed_leaves, carry_forwarded, credited_leaves, emp_id, rcre_time, emp_id, rcre_time, year, borr_leaves], function (err, done) {
+                                        pool.query("INSERT INTO leave_master (emp_id, leave_type, del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year, quaterly_leave) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [emp_id, leave_type, 'N', availed_leaves_master, carry_forwarded, credited_leaves, emp_id, rcre_time, emp_id, rcre_time, year, borr_leaves], function (err, done) {
                                             if (err) throw err;
                                         });
                                     });
@@ -172,10 +175,10 @@ function applyLeave(req, res) {
                             else {
 
                                 console.log('please do it');
-                                total_leaves = parseFloat(availed_leaves_master) + parseFloat(availed_leaves);
-                                console.log('total_leaves value', total_leaves);
+                                // total_leaves = parseFloat(availed_leaves_master) + parseFloat(availed_leaves);
+                                // console.log('total_leaves value', total_leaves);
 
-                                pool.query("update leave_master set availed_leaves = $1 , lchg_user_id = $2, lchg_time =$3 ,quaterly_leave =$6 where year = $4 and emp_id = $5 and leave_type = $7 ", [total_leaves, emp_id, rcre_time, year, emp_id, borr_leaves, leave_type], function (err, done) {
+                                pool.query("update leave_master set availed_leaves = $1 , lchg_user_id = $2, lchg_time =$3 ,quaterly_leave =$6 where year = $4 and emp_id = $5 and leave_type = $7 ", [availed_leaves_master, emp_id, rcre_time, year, emp_id, borr_leaves, leave_type], function (err, done) {
                                     if (err) throw err;
                                 });
                             }
@@ -237,6 +240,7 @@ function applyLeave(req, res) {
                                             }
                                         });
 
+                                        
                                         if (leave_type == "EL") {
                                             var leave_type1 = "Annual Leave";
                                         }
@@ -466,10 +470,10 @@ function applyLeave(req, res) {
                             else {
                                 leaveMasterList_count = leaveMasterList.rowCount;
                                 if (leaveMasterList_count != 0) {
-                                    availed_leaves_master = leaveMasterList.availed_leaves;
+                                    var availed_leaves_master = leaveMasterList.availed_leaves;
                                 }
                                 else {
-                                    availed_leaves_master = 0;
+                                    var availed_leaves_master = 0;
                                 }
 
                                 console.log('leaveMasterList_count value is:', leaveMasterList_count);
@@ -499,7 +503,7 @@ function applyLeave(req, res) {
                                             console.log('credited_leaves value', credited_leaves);
                                         }
 
-                                        pool.query("INSERT INTO leave_master(emp_id, leave_type,del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [emp_id, leave_type, 'N', availed_leaves, carry_forwarded, credited_leaves, emp_id, rcretime, emp_id, rcretime, year], function (err, done) {
+                                        pool.query("INSERT INTO leave_master(emp_id, leave_type,del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [emp_id, leave_type, 'N', availed_leaves_master, carry_forwarded, credited_leaves, emp_id, rcretime, emp_id, rcretime, year], function (err, done) {
                                             if (err) throw err;
                                         });
                                         console.log("Inserted into leave_master!!!!!!!!!!!!!");
@@ -525,10 +529,10 @@ function applyLeave(req, res) {
                             }
                             else {
                                 console.log('please do it');
-                                total_leaves = parseFloat(availed_leaves_master) + parseFloat(availed_leaves);
-                                console.log('total_leaves value', total_leaves);
+                                // total_leaves = parseFloat(availed_leaves_master) + parseFloat(availed_leaves);
+                                // console.log('total_leaves value', total_leaves);
 
-                                pool.query("update leave_master set availed_leaves = $1 , lchg_user_id = $2, lchg_time =$3 where year = $4 and emp_id = $5 and leave_type = $6 ", [total_leaves, emp_id, rcretime, year, emp_id, leave_type], function (err, done) {
+                                pool.query("update leave_master set availed_leaves = $1 , lchg_user_id = $2, lchg_time =$3 where year = $4 and emp_id = $5 and leave_type = $6 ", [availed_leaves_master, emp_id, rcretime, year, emp_id, leave_type], function (err, done) {
                                     if (err) throw err;
                                 });
                             }
