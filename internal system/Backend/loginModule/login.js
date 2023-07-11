@@ -758,6 +758,87 @@ function fetchUserDetails(user_id, callback) {
                                     }
                                     else {
 
+                                        fetchUserDetails(user_id, function (err, userDetails) {
+                                            if (err) {
+                                                console.error(err);
+                                                // Handle the error case
+                                                return;
+                                            }
+                                            // Access the userDetails object here
+                                            const detail = userDetails;
+                                           
+                                            pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'BLG' order by comm_code_id asc", function (err, result) {
+                                                comm_code_blood = result.rows;
+                                                comm_code_blood_count = result.rowCount;
+                        
+                                                // to fetch shirt size
+                                                pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'SHR' order by comm_code_id asc", function (err, result) {
+                                                    comm_code_shirt = result.rows;
+                                                    comm_code_shirt_count = result.rowCount;
+                        
+                                                    // to fetch state group
+                                                    pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'STA' order by comm_code_id asc", function (err, result) {
+                                                        comm_code_state = result.rows;
+                                                        comm_code_state_count = result.rowCount;
+                        
+                                                        // to fetch maritial status
+                                                        pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'MAR' order by comm_code_id asc", function (err, result) {
+                                                            comm_code_maritalstatus = result.rows;
+                                                            comm_code_maritalstatus_count = result.rowCount;
+                        
+                                                            pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'DSG' order by comm_code_id asc", function (err, result) {
+                        
+                                                                comm_code_dsg = result.rows;
+                                                                comm_code_dsg_count = res.rowCount
+                        
+                                                                pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'PCR' order by comm_code_id asc", function (err, result) {
+                        
+                                                                    comm_code_curr = result.rows
+                                                                    comm_code_cur_count = res.rowCount
+                        
+                                                                    pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'ACC' order by comm_code_id asc", function (err, result) {
+                                                                        comm_code_class = result.rows
+                                                                        comm_code_class_count = res.rowCount
+                        
+                                                                        pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'RPT' order by comm_code_id asc", function (err, result) {
+                                                                            comm_code_rpt = result.rows
+                                                                            comm_code_rpt_count = res.rowCount
+                        
+                                                                            const cocd = {
+                                                                              
+                                                                                comm_code_blood: comm_code_blood,
+                                                                                comm_code_blood_count: comm_code_blood_count,
+                                                                                comm_code_shirt: comm_code_shirt,
+                                                                                comm_code_shirt_count: comm_code_shirt_count,
+                                                                                comm_code_state: comm_code_state,
+                                                                                comm_code_state_count: comm_code_state_count,
+                                                                                comm_code_maritalstatus: comm_code_maritalstatus,
+                                                                                comm_code_maritalstatus_count: comm_code_maritalstatus_count,
+                                                                                comm_code_curr: comm_code_curr,
+                                                                                comm_code_cur_count: comm_code_cur_count,
+                                                                                comm_code_class: comm_code_class,
+                                                                                comm_code_class_count: comm_code_class_count,
+                                                                                comm_code_rpt: comm_code_rpt,
+                                                                                comm_code_rpt_count: comm_code_rpt_count,
+                                                                                comm_code_dsg: comm_code_dsg,
+                                                                                comm_code_dsg_count: comm_code_dsg_count
+                        
+                                                                            }
+                                                                          
+                                                                  
+                                                                            res.json({ message: "redirect to dashboard", notification: "login Successfull", Data: detail,cocd: cocd })
+                                                                        })
+                        
+                                                                    })
+                                                                })
+                        
+                                                            });
+                                                        });
+                                                    });
+                                                });
+                                            });
+                                        });
+
                                         pool.query("UPDATE users SET login_allowed=$1,login_attempts=$2 WHERE LOWER(user_id)=LOWER($3)", ['N', attempts, user.username]);
 
                                         res.json({ message: "redirect to login", notification: "Your Account is locked. Please Contact administration" })

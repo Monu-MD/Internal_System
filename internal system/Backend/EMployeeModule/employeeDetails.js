@@ -537,76 +537,76 @@ router.post('/viewempdet', (req, res) => {
 																			//Setting Values for State List
 
 																			// pool.query("select comm_code_desc from common_code_tbl where code_id='STA' and comm_code_id=$1", [state1], function (err, resultset) {
-																			// state1 = resultset.rows['0'].comm_code_desc;
+																			// 	state1 = resultset.rows['0'].comm_code_desc;
 
-																			pool.query("select comm_code_desc from common_code_tbl where code_id='PCR' and comm_code_id=$1", [salary_curr], function (err, resultset) {
-																				salary_curr_desc = resultset.rows['0'].comm_code_desc;
+																				pool.query("select comm_code_desc from common_code_tbl where code_id='PCR' and comm_code_id=$1", [salary_curr], function (err, resultset) {
+																					salary_curr_desc = resultset.rows['0'].comm_code_desc;
 
-																				res.json({
-																					message: "redirect to employee details view", data: {
-																						enFlg: enFlg,
-																						cflag: cflag,
-																						emp_access: emp_access,
-																						ename: empName,
-																						eid: empid,
-																						empid: empid,
-																						empName: empName,
-																						email: email,
-																						empAccess: empAccess,
-																						jDate: jDate,
-																						desig: desig,
-																						empClass: empClass,
-																						salary: salary,
-																						salary_curr: salary_curr,
-																						salary_curr_desc: salary_curr_desc,
-																						pid: pid,
-																						rptMan: rptMan,
-																						rptMan_desc: rptMan_desc,
-																						preem: preem,
-																						probPeriod: probPeriod,
-																						preExpyear: preExpyear,
-																						preExpmonth: preExpmonth,
-																						preEmp: preEmp,
-																						preEmp2: preEmp2,
-																						preEmp3: preEmp3,
-																						preEmp4: preEmp4,
-																						preEmp5: preEmp5,
-																						gender: gender,
-																						dob: dob,
-																						bgroup: bgroup,
-																						shirt: shirt,
-																						commAdd: commAdd,
-																						state: state,
-																						city: city,
-																						pincode: pincode,
-																						resAdd: resAdd,
-																						state1: state1,
-																						city1: city1,
-																						pincode1: pincode1,
-																						mobNum: mobNum,
-																						telNum: telNum,
-																						econNum: econNum,
-																						emerPer: emerPer,
-																						fathersName: fathersName,
-																						mothersName: mothersName,
-																						maritalstatus: maritalstatus,
-																						spouseName: spouseName,
-																						panNum: panNum,
-																						passNum: passNum,
-																						aadhaarNum: aadhaarNum,
-																						dlNum: dlNum,
-																						uan: uan,
-																						nameinBank: nameinBank,
-																						bankName: bankName,
-																						branchName: branchName,
-																						acctNum: acctNum,
-																						ifscCode: ifscCode
-																						//closing bracket of render
-																					}
+																					res.json({
+																						message: "redirect to employee details view", data: {
+																							enFlg: enFlg,
+																							cflag: cflag,
+																							emp_access: emp_access,
+																							ename: empName,
+																							eid: empid,
+																							empid: empid,
+																							empName: empName,
+																							email: email,
+																							empAccess: empAccess,
+																							jDate: jDate,
+																							desig: desig,
+																							empClass: empClass,
+																							salary: salary,
+																							salary_curr: salary_curr,
+																							salary_curr_desc: salary_curr_desc,
+																							pid: pid,
+																							rptMan: rptMan,
+																							rptMan_desc: rptMan_desc,
+																							preem: preem,
+																							probPeriod: probPeriod,
+																							preExpyear: preExpyear,
+																							preExpmonth: preExpmonth,
+																							preEmp: preEmp,
+																							preEmp2: preEmp2,
+																							preEmp3: preEmp3,
+																							preEmp4: preEmp4,
+																							preEmp5: preEmp5,
+																							gender: gender,
+																							dob: dob,
+																							bgroup: bgroup,
+																							shirt: shirt,
+																							commAdd: commAdd,
+																							state: state,
+																							city: city,
+																							pincode: pincode,
+																							resAdd: resAdd,
+																							state1: state1,
+																							city1: city1,
+																							pincode1: pincode1,
+																							mobNum: mobNum,
+																							telNum: telNum,
+																							econNum: econNum,
+																							emerPer: emerPer,
+																							fathersName: fathersName,
+																							mothersName: mothersName,
+																							maritalstatus: maritalstatus,
+																							spouseName: spouseName,
+																							panNum: panNum,
+																							passNum: passNum,
+																							aadhaarNum: aadhaarNum,
+																							dlNum: dlNum,
+																							uan: uan,
+																							nameinBank: nameinBank,
+																							bankName: bankName,
+																							branchName: branchName,
+																							acctNum: acctNum,
+																							ifscCode: ifscCode
+																							//closing bracket of render
+																						}
+																					});
+																					//closing bracket of query1
 																				});
-																				//closing bracket of query1
-																			});
-																			//closing bracket of query2
+																				//closing bracket of query2
 																			// });
 																		});
 																	});
@@ -2322,9 +2322,6 @@ router.post('/verifyDetails', (req, res) => {
 
 /////////////////////////////// End of Employee Admin Module /////////////////////////////////////////////////
 
-/////////////////////////////// start of Employee User Module /////////////////////////////////////////////////
-
-//////////////////////////////////////////// Adding Employee Details ////////////////////////////////
 
 
 

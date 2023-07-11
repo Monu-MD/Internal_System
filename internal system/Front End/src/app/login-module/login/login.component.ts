@@ -61,6 +61,8 @@ export class LoginComponent {
 
           this.service.setEmp_master_Tbl(response.Data.emp_details)
           this.service.setLeaveMaster(response.Data.leave_master)
+          this.service.cocd=response.cocd;
+
 
           this.notification = response.notification
           this.router.navigate(['/dashboard'])
