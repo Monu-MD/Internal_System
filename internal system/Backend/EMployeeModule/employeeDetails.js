@@ -362,7 +362,6 @@ router.post('/viewempdet', (req, res) => {
 
 	var empId = req.body.Item.employeeId;
 	console.log(empId);
-	console.log("enter");
 
 	pool.query("SELECT user_type from users where user_id = $1", [user_id], function (err, result) {
 		const user_type = result.rows['0'].user_type;
@@ -452,7 +451,7 @@ router.post('/viewempdet', (req, res) => {
 											//query 2 to fetch personal details
 											pool.query("select gender,dob,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,phone1,phone2,father_name,mother_name,martial_status,spouse_name,pan_number,passport_num,aadhaar_num,license_num,blood_group,shirt_size,emergency_num,emergency_con_person,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code from emp_info_tbl where LOWER(emp_id)=LOWER($1)", [empId], function (err, result) {
 												if (err) throw err;
-												console.log(result.rows,"enterrrr");
+												console.log(result.rows);
 												var gender = result.rows['0'].gender;
 												var dob = result.rows['0'].dob;
 												var dob = jDate// dateFormat(dob, "yyyy-mm-dd");
