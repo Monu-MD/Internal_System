@@ -23,6 +23,7 @@ export class PersonalDetailsComponent {
   comm_code_state: any;
   comm_code_maritalstatus: any
   isSameAsCurrentAddress: any;
+  adressAreSame:boolean=false;
   cocd: any;
   emp_data: any;
   modifypersonal: boolean = false;
@@ -113,7 +114,12 @@ export class PersonalDetailsComponent {
     const state1 = data.state1;
     const marital_status = data.maritalStatus;
 
-
+    if(this.adressAreSame){
+      data.state1=data.state;
+      data.city1=data.city;
+      data.pinCode1=data.pinCode;
+      data.permanentAddress=data.communicationAddress;
+    }
 
     for (let i = 0; i < this.comm_code_blood.length; i++) {
       if (this.comm_code_blood[i].comm_code_desc === bloodGroup) {
@@ -174,6 +180,8 @@ export class PersonalDetailsComponent {
     }
      else {
       //////////////////////// while employee modfiy its details/////////////////////////
+      
+      
       console.log("modify personal Details ");
       
       // this.http.post('http://localhost:4000/capture/addempper', data).subscribe(
@@ -204,6 +212,7 @@ export class PersonalDetailsComponent {
     this.isSameAsCurrentAddress = isChecked;
 
     if (isChecked) {
+      this.adressAreSame=true;
       const currentAddress = this.Personal_Details.get('communicationAddress')?.value;
       const currentState = this.Personal_Details.get('state')?.value;
       const currentCity = this.Personal_Details.get('city')?.value;
