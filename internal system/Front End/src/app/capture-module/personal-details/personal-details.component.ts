@@ -23,6 +23,7 @@ export class PersonalDetailsComponent {
   comm_code_state: any;
   comm_code_maritalstatus: any
   isSameAsCurrentAddress: any;
+  adressAreSame: boolean = false;
   cocd: any;
   emp_data: any;
   modifypersonal: boolean = false;
@@ -114,7 +115,6 @@ export class PersonalDetailsComponent {
     const marital_status = data.maritalStatus;
 
 
-
     for (let i = 0; i < this.comm_code_blood.length; i++) {
       if (this.comm_code_blood[i].comm_code_desc === bloodGroup) {
         data.bloodGroup = this.comm_code_blood[i].comm_code_id;
@@ -134,6 +134,13 @@ export class PersonalDetailsComponent {
         break;
       }
     }
+    if (this.adressAreSame) {
+      data.state1 = data.state;
+      data.city1 = data.city;
+      data.pinCode1 = data.pinCode;
+      data.permanentAddress = data.communicationAddress;
+    }
+
     for (let i = 0; i < this.comm_code_state.length; i++) {
       if (this.comm_code_state[i].comm_code_desc === state1) {
         data.state1 = this.comm_code_state[i].comm_code_id;
@@ -150,7 +157,7 @@ export class PersonalDetailsComponent {
 
     if (this.modifypersonal === false) {
 
-      /////////////when wmployeee rigister him self /////////////////////////////////////
+      ///////////when wmployeee rigister him self /////////////////////////////////////
 
       this.http.post('http://localhost:4000/capture/addempper', data).subscribe(
         (response: any) => {
@@ -172,29 +179,31 @@ export class PersonalDetailsComponent {
         }
       );
     }
-     else {
+    else {
       //////////////////////// while employee modfiy its details/////////////////////////
+
+
       console.log("modify personal Details ");
-      
-      // this.http.post('http://localhost:4000/capture/addempper', data).subscribe(
-      //   (response: any) => {
 
-      //     console.log(response.message);
-      //     if (response.message == 'redirect to login page') {
-      //       // console.log("professional entry");
-      //       this.loginservice.setNotification(response.notification)
-      //       this.router.navigate(['/'])
+      this.http.post('http://localhost:4000/employeeDetails/addmodempdetper', data).subscribe(
+        (response: any) => {
 
-      //     }
+          console.log(response.message);
+          if (response.message == 'redirect to login page') {
+            // console.log("professional entry");
+            this.loginservice.setNotification(response.notification)
+            this.router.navigate(['/'])
+
+          }
 
 
-      //   },
-      //   (error: any) => {
-      //     console.error('API Error:', error);
-      //     // Handle error cases and navigate accordingly
-      //     // this.router.navigate(['/error']);
-      //   }
-      // );
+        },
+        (error: any) => {
+          console.error('API Error:', error);
+          // Handle error cases and navigate accordingly
+          // this.router.navigate(['/error']);
+        }
+      );
     }
 
   }
@@ -204,6 +213,7 @@ export class PersonalDetailsComponent {
     this.isSameAsCurrentAddress = isChecked;
 
     if (isChecked) {
+      this.adressAreSame = true;
       const currentAddress = this.Personal_Details.get('communicationAddress')?.value;
       const currentState = this.Personal_Details.get('state')?.value;
       const currentCity = this.Personal_Details.get('city')?.value;
