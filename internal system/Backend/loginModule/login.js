@@ -221,7 +221,7 @@ function fetchUserDetails(user_id, callback) {
         }
         userDetails.user_details = result.rows[0];
 
-        pool.query('SELECT * FROM data_emp_info_tbl_temp WHERE emp_id = $1', [user_id], function (err, result) {
+        pool.query('SELECT * FROM data_emp_info_tbl_temp join emp_master_tbl on data_emp_info_tbl_temp.emp_id =emp_master_tbl.emp_id where data_emp_info_tbl_temp.emp_id=$1 ', [user_id], function (err, result) {
             if (err) {
                 callback(err, null);
                 return;
@@ -257,445 +257,514 @@ function fetchUserDetails(user_id, callback) {
                         }
                         userDetails.leave_master = result.rows;
 
+                        
 
-                        callback(null, userDetails);
+                            callback(null, userDetails);
+                    
+                    });
                     });
                 });
             });
         });
-    });
-}
+    }
 
 
-/ /////////////////////////////////////////////////LOG IN API //////////////////////////////////////////////////////////////
-
-
-
-router.post('/forgotpwd', (req, res) => {
-    var userid = req.body.empid;
-    console.log('userid', userid);
-    var ranpass = generatePassword(4, false);
-    console.log('ranpass', ranpass);
-    finalpass = userid + "@" + ranpass;
-    console.log('finalpass', finalpass);
+        / /////////////////////////////////////////////////LOG IN API //////////////////////////////////////////////////////////////
 
 
 
-    getUserByuser_idpwd1(userid, function (err, user) {
+        router.post('/forgotpwd', (req, res) => {
+            var userid = req.body.empid;
+            console.log('userid', userid);
+            var ranpass = generatePassword(4, false);
+            console.log('ranpass', ranpass);
+            finalpass = userid + "@" + ranpass;
+            console.log('finalpass', finalpass);
 
 
-        if (err) throw err;
-        if (user.rowCount == 0) {
 
-            res.json({ notification: "Employee does not exist", message: "redirect to forget page" });
-        }
-        else {
-            pool.query("select emp_email,emp_name from emp_master_tbl where LOWER(emp_id)=LOWER($1)", [userid], function (err, resultset) {
+            getUserByuser_idpwd1(userid, function (err, user) {
+
+
                 if (err) throw err;
-                var email = resultset.rows['0'].emp_email;
-                var employee_name = resultset.rows['0'].emp_name;
-                console.log('email', email);
+                if (user.rowCount == 0) {
 
-                const transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                    auth: {
-                        user: 'mohammadsab@minorks.com',
-                        pass: '9591788719'
-                    }
-                });
-
-                pool.query("update users set reset_flg='Y' where user_id=$1 ", [userid], function (err, done) {
-                    // ,client_ip='',session_id='' --> it is not present in db
-                    if (err) throw err;
-                });
-                const mailOptions = {
-                    from: 'mohammadsab@minorks.com',
-                    to: email,
-                    // subject: 'Test Email',
-
-                    subject: 'Forgot Password',
-                    html: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyvnOH41NjMz_1n8KlR4I388BASwPfRMNx44Es9Ru17aen8HTLqQ" height="95"><br><br>' +
-                        '<h3>Dear ' + employee_name + ',<br><br>' +
-                        '<p>Please reset your Password with following details</p><br>' +
-                        '<table style="border: 10px solid black;"> ' +
-                        '<tr style="border: 10px solid black;"> ' +
-                        '<th style="border: 10px solid black;">User Id</th> ' +
-                        '<th style="border: 10px solid black;">' + userid + '</th>' +
-                        '</tr>' +
-
-                        '<tr style="border: 10px solid black;"> ' +
-                        '<th style="border: 10px solid black;">New Password</td> ' +
-                        '<th style="border: 10px solid black;">' + finalpass + '</td> ' +
-                        '</tr>' +
-                        '</table> ' +
-                        '<br><br>' +
-                        'Kindly do not share your password with anyone else.<br><br>' +
-                        'URL: http://amber.nurture.co.in <br><br><br>' +
-                        '- Regards,<br><br>Amber</h3>'
-                    // text: 'This is a test email sent from Node.js using Nodemailer.'
-                };
-
-                transporter.sendMail(mailOptions, function (error, info) {
-                    if (error) {
-                        console.error('Error sending email', error);
-                    } else {
-                        console.log('Email sent:', info.response);
-                    }
-
-
-                });
-
-                bcrypt.hash(finalpass, 10, function (err, hash) {
-
-                    hashpassword = finalpass;
-                    hashpassword = hash;
-
-                    pool.query("update users set password=$1 where user_id=$2 ", [hash, userid], function (err, done) {
-                        //  ,client_ip='',session_id='' ---> these column is not in db
+                    res.json({ notification: "Employee does not exist", message: "redirect to forget page" });
+                }
+                else {
+                    pool.query("select emp_email,emp_name from emp_master_tbl where LOWER(emp_id)=LOWER($1)", [userid], function (err, resultset) {
                         if (err) throw err;
+                        var email = resultset.rows['0'].emp_email;
+                        var employee_name = resultset.rows['0'].emp_name;
+                        console.log('email', email);
 
-                        res.json({ notofication: 'New Password generated successfully and mailed to your registered mail id', message: "redirect to login" });
+                        const transporter = nodemailer.createTransport({
+                            service: 'gmail',
+                            auth: {
+                                user: 'mohammadsab@minorks.com',
+                                pass: '9591788719'
+                            }
+                        });
 
-                    });
-                });
-            });
+                        pool.query("update users set reset_flg='Y' where user_id=$1 ", [userid], function (err, done) {
+                            // ,client_ip='',session_id='' --> it is not present in db
+                            if (err) throw err;
+                        });
+                        const mailOptions = {
+                            from: 'mohammadsab@minorks.com',
+                            to: email,
+                            // subject: 'Test Email',
 
+                            subject: 'Forgot Password',
+                            html: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyvnOH41NjMz_1n8KlR4I388BASwPfRMNx44Es9Ru17aen8HTLqQ" height="95"><br><br>' +
+                                '<h3>Dear ' + employee_name + ',<br><br>' +
+                                '<p>Please reset your Password with following details</p><br>' +
+                                '<table style="border: 10px solid black;"> ' +
+                                '<tr style="border: 10px solid black;"> ' +
+                                '<th style="border: 10px solid black;">User Id</th> ' +
+                                '<th style="border: 10px solid black;">' + userid + '</th>' +
+                                '</tr>' +
 
-        }
+                                '<tr style="border: 10px solid black;"> ' +
+                                '<th style="border: 10px solid black;">New Password</td> ' +
+                                '<th style="border: 10px solid black;">' + finalpass + '</td> ' +
+                                '</tr>' +
+                                '</table> ' +
+                                '<br><br>' +
+                                'Kindly do not share your password with anyone else.<br><br>' +
+                                'URL: http://amber.nurture.co.in <br><br><br>' +
+                                '- Regards,<br><br>Amber</h3>'
+                            // text: 'This is a test email sent from Node.js using Nodemailer.'
+                        };
 
-    });
-
-
-});
-
-
-
-////////////////////////////////////////////// PROFILE PHOTO ///////////////////////////////////////////////
-const storage = multer.diskStorage({
-    destination: './uploads',
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
-
-const upload = multer({ storage });
-
-// API endpoint for file upload
-router.post('/upload-profile', upload.single('profile'), (req, res) => {
-    const file = req.file;
-    console.log(req.body.user_id);
-    const user_id = req.body.user_id
-
-    if (!file) {
-        return res.status(400).json({ error: 'No file uploaded' });
-    }
-
-    // Store the file details in the database
-    const query = 'INSERT INTO profiles (filename, mimetype, path,user_name) VALUES ($1, $2, $3,$4)';
-    const values = [file.filename, file.mimetype, file.path, user_id];
-
-    pool.query(query, values, (err, result) => {
-        if (err) {
-            console.error('Error storing profile:', err);
-            res.status(500).json({ error: 'Failed to store profile' });
-        } else {
-            res.json({ message: 'Profile picture uploaded successfully' });
-        }
-    });
-});
-
-
-//////////////////// for password change / reset/forget /////////////////////////////////////////////////////
-
-router.get('/generateOtp', (req, res) => {
-    const empid = req.query.employeeId;
-    console.log("emp_id", empid);
-
-    pool.query("SELECT emp_email, emp_name FROM emp_master_tbl WHERE emp_id=$1", [empid], function (err, result) {
-        if (err) {
-            console.error('Error with table query', err);
-        } else {
-            var emp_cnt = result.rowCount;
-            console.log("emp_cnt", emp_cnt);
-
-            if (emp_cnt > 0) {
-                var emp_email = result.rows[0].emp_email;
-                console.log("emp_email", emp_email);
-                var emp_name = result.rows[0].emp_name;
-                console.log("emp_name", emp_name);
-                var notification = "OTP SENT";
-                console.log("err_display", notification);
-
-                var ranpass = generatePassword(4, false);
-
-                pool.query("UPDATE users SET otp=$2 WHERE user_id=$1", [empid, ranpass], function (err, result) {
+                        transporter.sendMail(mailOptions, function (error, info) {
+                            if (error) {
+                                console.error('Error sending email', error);
+                            } else {
+                                console.log('Email sent:', info.response);
+                            }
 
 
-                    const transporter = nodemailer.createTransport({
-                        service: 'gmail',
-                        auth: {
-                            user: 'mohammadsab@minorks.com',
-                            pass: '9591788719'
-                        }
-                    });
+                        });
 
+                        bcrypt.hash(finalpass, 10, function (err, hash) {
 
+                            hashpassword = finalpass;
+                            hashpassword = hash;
 
-                    const mailOptions = {
-                        from: 'mohammadsab@minorks.com',
-                        to: emp_email,
-                        // subject: 'Test Email',
-                        subject: 'One Time password for Password Reset',
-                        html: '<img src="http://www.smartvision.ae/portals/0/OTP-sms-service.jpg" height="85"><br><br>' +
-                            '<h3>Dear <b>' + emp_name + '</b>,<br><br>' +
-                            'You are receiving this mail because you (or someone else) has attempted to change your password in <b>Amber</b>.<br>' +
-                            'Please go through the below details to change your password : <br><br>' +
-                            '<table style="border: 10px solid black;"><tr style="border: 10px solid black;"><th style="border: 10px solid black;">User Id</th><th style="border: 10px solid black;">' + empid + '</th></tr><tr style="border: 10px solid black;"><td style="border: 10px solid black;"> Otp </td><td style="border: 10px solid black;">' + ranpass + '</td></tr></table><br><br>' +
-                            'URL: http://localhost:4200/forgotPassword <br><br>' +
-                            'Contact HR for any clarifications.<br>' +
-                            'Kindly do not share your otp with anyone else.<br><br><br><br>' +
-                            '- Regards,<br><br>Amber</h3>'
-                        // text: 'This is a test email sent from Node.js using Nodemailer.'
-                    };
-                    console.log(mailOptions, "mailll");
-                    transporter.sendMail(mailOptions, function (error, info) {
-                        if (error) {
-                            console.error('Error sending email', error);
-                        } else {
-                            console.log('Email sent:', info.response);
-                        }
+                            pool.query("update users set password=$1 where user_id=$2 ", [hash, userid], function (err, done) {
+                                //  ,client_ip='',session_id='' ---> these column is not in db
+                                if (err) throw err;
 
+                                res.json({ notofication: 'New Password generated successfully and mailed to your registered mail id', message: "redirect to login" });
 
-                    });
-                });
-            } else {
-                var notification = "Employee Id Does not Exist";
-                console.log("err_display", notification);
-                res.json({ key: notification });
-            }
-        }
-    });
-});
-
-
-
-router.get('/validateOtp', (req, res) => {
-    const empId = req.query.employeeId;
-    console.log('emp_id', empId);
-
-    const otp = req.query.otp;
-    console.log('otp', otp);
-
-    pool.query('SELECT otp FROM users WHERE user_id = $1', [empId], (err, result) => {
-        if (err) {
-            console.error('Error with table query', err);
-            res.status(500).json({ error: 'Internal Server Error' });
-        } else {
-            const empCount = result.rowCount;
-            console.log('empCount', empCount);
-
-            if (empCount > 0) {
-                const tblOtp = result.rows[0].otp;
-                console.log('tblOtp', tblOtp);
-
-                if (tblOtp !== otp) {
-                    const displayErr = 'Invalid Otp';
-                    console.log('displayErr', displayErr);
-                    res.json({ key: displayErr });
-                } else {
-                    console.log('OTP verified, sending email');
-                    message = forgotSendMail(empId);
-                    message.then((message) => {
-                        console.log(message); // Handle the resolved value of the promise
-                        res.json(message);
-                    }).catch((error) => {
-                        console.error('Error with forgotSendMail', error);
-                        res.status(500).json({ error: 'Internal Server Error' });
-                    });
-                    // console.log(message);
-                    // res.json(message);
-                }
-            } else {
-                const displayErr = 'Employee Id Does not Exist';
-                console.log('displayErr', displayErr);
-                res.json({ message: 'redirect to forget page', notification: 'Employee Id Does not Exist' });
-            }
-        }
-    });
-});
-
-
-
-
-
-
-
-/// update pwd//
-
-
-
-router.post('/updatepwd', (req, res) => {
-    var userid = req.body.empid;
-    var oldpasscode = req.body.oldpass;
-    var newpasscode = req.body.newpass;
-    var conpasscode = req.body.conpass;
-    var error1 = "";
-    var pwdarr = [];
-
-    pool.query("SELECT user_name,password,user_id,user_type FROM users WHERE user_id=$1", [userid], function (err, result) {
-        rowCount = result.rowCount;
-        console.log(rowCount);
-        pwd = result.rows[0];
-        console.log(pwd);
-        if (err) throw err;
-        if (rowCount == 0) {
-
-
-            res.json({
-                Notification: "Employee Id and Password doesn't match",
-                message: "redirect to reset page"
-            });
-        }
-        else {
-
-            comparePassword(oldpasscode, pwd.password, function (err, isMatch) {
-
-                if (err) {
-
-                    res.json({
-                        Notification: "Employee Id and Password doesn't match",
-                        message: "redirect to reset page"
-                    });
-                }
-
-                if (!isMatch) {
-
-                    res.json({
-                        Notification: 'Incorrect Old Password',
-                        message: "redirect to reset page"
-                    });
-
-                }
-                if (isMatch) {
-
-                    comparePasswordpwd(newpasscode, pwd.password, function (err, isMatch) {
-
-                        if (err) throw err;
-                        if (isMatch) {
-                            res.json({
-                                notification: 'New Password cannot be same as Old Password',
-                                message: "redirect to reset page"
                             });
-                        }
-                        else {
-                            bcrypt.genSalt(10, function (err, salt) {
-                                bcrypt.hash(newpasscode, salt, function (err, hash) {
-                                    var storepass = newpasscode;
-                                    var storepass = hash;
-                                    pool.query('UPDATE users SET password=$1, login_allowed=$2, reset_flg=$3 WHERE user_id=$4', [storepass, 'Y', 'N', userid], function (err, result1) {
-                                        // ,client_ip,session_id --> these field not exist in table u need create
-                                        if (err) {
-                                            console.log(err);
-                                        }
-                                        else {
-                                            console.log("reseted flag");
+                        });
+                    });
 
-                                            res.json({
-                                                message: "redierct to login",
-                                                notification: "pasword updated successfully"
-                                            })
-                                        }
 
+                }
+
+            });
+
+
+        });
+
+
+
+    ////////////////////////////////////////////// PROFILE PHOTO ///////////////////////////////////////////////
+    const storage = multer.diskStorage({
+        destination: './uploads',
+        filename: (req, file, cb) => {
+            cb(null, Date.now() + '-' + file.originalname);
+        }
+    });
+
+    const upload = multer({ storage });
+
+    // API endpoint for file upload
+    router.post('/upload-profile', upload.single('profile'), (req, res) => {
+        const file = req.file;
+        console.log(req.body.user_id);
+        const user_id = req.body.user_id
+
+        if (!file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        // Store the file details in the database
+        const query = 'INSERT INTO profiles (filename, mimetype, path,user_name) VALUES ($1, $2, $3,$4)';
+        const values = [file.filename, file.mimetype, file.path, user_id];
+
+        pool.query(query, values, (err, result) => {
+            if (err) {
+                console.error('Error storing profile:', err);
+                res.status(500).json({ error: 'Failed to store profile' });
+            } else {
+                res.json({ message: 'Profile picture uploaded successfully' });
+            }
+        });
+    });
+
+
+    //////////////////// for password change / reset/forget /////////////////////////////////////////////////////
+
+    router.get('/generateOtp', (req, res) => {
+        const empid = req.query.employeeId;
+        console.log("emp_id", empid);
+
+        pool.query("SELECT emp_email, emp_name FROM emp_master_tbl WHERE emp_id=$1", [empid], function (err, result) {
+            if (err) {
+                console.error('Error with table query', err);
+            } else {
+                var emp_cnt = result.rowCount;
+                console.log("emp_cnt", emp_cnt);
+
+                if (emp_cnt > 0) {
+                    var emp_email = result.rows[0].emp_email;
+                    console.log("emp_email", emp_email);
+                    var emp_name = result.rows[0].emp_name;
+                    console.log("emp_name", emp_name);
+                    var notification = "OTP SENT";
+                    console.log("err_display", notification);
+
+                    var ranpass = generatePassword(4, false);
+
+                    pool.query("UPDATE users SET otp=$2 WHERE user_id=$1", [empid, ranpass], function (err, result) {
+
+
+                        const transporter = nodemailer.createTransport({
+                            service: 'gmail',
+                            auth: {
+                                user: 'mohammadsab@minorks.com',
+                                pass: '9591788719'
+                            }
+                        });
+
+
+
+                        const mailOptions = {
+                            from: 'mohammadsab@minorks.com',
+                            to: emp_email,
+                            // subject: 'Test Email',
+                            subject: 'One Time password for Password Reset',
+                            html: '<img src="http://www.smartvision.ae/portals/0/OTP-sms-service.jpg" height="85"><br><br>' +
+                                '<h3>Dear <b>' + emp_name + '</b>,<br><br>' +
+                                'You are receiving this mail because you (or someone else) has attempted to change your password in <b>Amber</b>.<br>' +
+                                'Please go through the below details to change your password : <br><br>' +
+                                '<table style="border: 10px solid black;"><tr style="border: 10px solid black;"><th style="border: 10px solid black;">User Id</th><th style="border: 10px solid black;">' + empid + '</th></tr><tr style="border: 10px solid black;"><td style="border: 10px solid black;"> Otp </td><td style="border: 10px solid black;">' + ranpass + '</td></tr></table><br><br>' +
+                                'URL: http://localhost:4200/forgotPassword <br><br>' +
+                                'Contact HR for any clarifications.<br>' +
+                                'Kindly do not share your otp with anyone else.<br><br><br><br>' +
+                                '- Regards,<br><br>Amber</h3>'
+                            // text: 'This is a test email sent from Node.js using Nodemailer.'
+                        };
+                        console.log(mailOptions, "mailll");
+                        transporter.sendMail(mailOptions, function (error, info) {
+                            if (error) {
+                                console.error('Error sending email', error);
+                            } else {
+                                console.log('Email sent:', info.response);
+                            }
+
+
+                        });
+                    });
+                } else {
+                    var notification = "Employee Id Does not Exist";
+                    console.log("err_display", notification);
+                    res.json({ key: notification });
+                }
+            }
+        });
+    });
+
+
+
+    router.get('/validateOtp', (req, res) => {
+        const empId = req.query.employeeId;
+        console.log('emp_id', empId);
+
+        const otp = req.query.otp;
+        console.log('otp', otp);
+
+        pool.query('SELECT otp FROM users WHERE user_id = $1', [empId], (err, result) => {
+            if (err) {
+                console.error('Error with table query', err);
+                res.status(500).json({ error: 'Internal Server Error' });
+            } else {
+                const empCount = result.rowCount;
+                console.log('empCount', empCount);
+
+                if (empCount > 0) {
+                    const tblOtp = result.rows[0].otp;
+                    console.log('tblOtp', tblOtp);
+
+                    if (tblOtp !== otp) {
+                        const displayErr = 'Invalid Otp';
+                        console.log('displayErr', displayErr);
+                        res.json({ key: displayErr });
+                    } else {
+                        console.log('OTP verified, sending email');
+                        message = forgotSendMail(empId);
+                        message.then((message) => {
+                            console.log(message); // Handle the resolved value of the promise
+                            res.json(message);
+                        }).catch((error) => {
+                            console.error('Error with forgotSendMail', error);
+                            res.status(500).json({ error: 'Internal Server Error' });
+                        });
+                        // console.log(message);
+                        // res.json(message);
+                    }
+                } else {
+                    const displayErr = 'Employee Id Does not Exist';
+                    console.log('displayErr', displayErr);
+                    res.json({ message: 'redirect to forget page', notification: 'Employee Id Does not Exist' });
+                }
+            }
+        });
+    });
+
+
+
+
+
+
+
+    /// update pwd//
+
+
+
+    router.post('/updatepwd', (req, res) => {
+        var userid = req.body.empid;
+        var oldpasscode = req.body.oldpass;
+        var newpasscode = req.body.newpass;
+        var conpasscode = req.body.conpass;
+        var error1 = "";
+        var pwdarr = [];
+
+        pool.query("SELECT user_name,password,user_id,user_type FROM users WHERE user_id=$1", [userid], function (err, result) {
+            rowCount = result.rowCount;
+            console.log(rowCount);
+            pwd = result.rows[0];
+            console.log(pwd);
+            if (err) throw err;
+            if (rowCount == 0) {
+
+
+                res.json({
+                    Notification: "Employee Id and Password doesn't match",
+                    message: "redirect to reset page"
+                });
+            }
+            else {
+
+                comparePassword(oldpasscode, pwd.password, function (err, isMatch) {
+
+                    if (err) {
+
+                        res.json({
+                            Notification: "Employee Id and Password doesn't match",
+                            message: "redirect to reset page"
+                        });
+                    }
+
+                    if (!isMatch) {
+
+                        res.json({
+                            Notification: 'Incorrect Old Password',
+                            message: "redirect to reset page"
+                        });
+
+                    }
+                    if (isMatch) {
+
+                        comparePasswordpwd(newpasscode, pwd.password, function (err, isMatch) {
+
+                            if (err) throw err;
+                            if (isMatch) {
+                                res.json({
+                                    notification: 'New Password cannot be same as Old Password',
+                                    message: "redirect to reset page"
+                                });
+                            }
+                            else {
+                                bcrypt.genSalt(10, function (err, salt) {
+                                    bcrypt.hash(newpasscode, salt, function (err, hash) {
+                                        var storepass = newpasscode;
+                                        var storepass = hash;
+                                        pool.query('UPDATE users SET password=$1, login_allowed=$2, reset_flg=$3 WHERE user_id=$4', [storepass, 'Y', 'N', userid], function (err, result1) {
+                                            // ,client_ip,session_id --> these field not exist in table u need create
+                                            if (err) {
+                                                console.log(err);
+                                            }
+                                            else {
+                                                console.log("reseted flag");
+
+                                                res.json({
+                                                    message: "redierct to login",
+                                                    notification: "pasword updated successfully"
+                                                })
+                                            }
+
+                                        });
                                     });
                                 });
-                            });
-                        }
-                    });
-                }
-            });
-        }
-    })
-});
-
-
-////////////////////////////////////////////////////////////////// login Check //////////////////////////////////////////////////////////////
-router.post('/login', (req, res) => {
-    const user_id = req.body.userid;
-    const password = req.body.password;
-    console.log(typeof (user_id), "user ID");
-    if (typeof (user_id) != undefined || user_id != " ") {
-        pool.query("SELECT * from users where user_id = $1", [user_id], function (err, result) {
-
-            if (err) {
-                console.error('Error fetching photo:', err);
-                return res.status(500).json({ error: 'Error fetching photo' });
-            }
-            var row = result.rowCount;
-            var user = result.rows[0];
-            var attempts = user.login_attempts
-            console.log(user);
-            if (row > 0) {
-
-
-                comparePasswordpwd(password, user.password, function (err, isMatch) {
-                    if (err) throw err;
-                    if (isMatch) {
-                        var hu = ['AU', 'RU'];
-                        var queryres = "";
-                        var ename = "";
-                        var eid = "";
-                        var email = "";
-                        var desig = "";
-                        var unReadCount = "";
-                        var docPendingCount = 0;
-                        var now = new Date();
-                        module.exports.usertype = "";
-                        module.exports.users = "";
-                        module.exports.usercount = "";
-                        module.exports.lastlogin = "";
-                        module.exports.role = "";
-                        module.exports.userid = "";
-                        module.exports.reportcounts = "";
-                        module.exports.downloadcounts = "";
-                        module.exports.datecheck = "";
-                        module.exports.sessiontimeout = "";
-                        module.exports.activeuser = "";
-                        module.exports.user_email = "";
-                        module.exports.username = "";
-                        module.exports.email = "";
-                        module.exports.listofrecords = "";
-                        module.exports.profilepic = "";
-                        module.exports.reminderlist = "";
-                        module.exports.reminderlist_count = "";
-                        module.exports.reminderlist_past = "";
-
-                        var emp_access = user.user_type;
-                        pool.query("SELECT reset_flg FROM users where user_id=$1", [user_id], function (err, flg) {
-                            if (err) {
-                                console.error('Error with table query', err)
                             }
-                            var check = flg.rows['0'].reset_flg;
-                            if (check == 'Y') {
-                                res.json({
-                                    message: "redirect to reset",
-                                    notification: "Please Change The Default Password and Proceed",
-                                    data: user
+                        });
+                    }
+                });
+            }
+        })
+    });
+
+
+    ////////////////////////////////////////////////////////////////// login Check //////////////////////////////////////////////////////////////
+    router.post('/login', (req, res) => {
+        const user_id = req.body.userid;
+        const password = req.body.password;
+        console.log(typeof (user_id), "user ID");
+        if (typeof (user_id) != undefined || user_id != " ") {
+            pool.query("SELECT * from users where user_id = $1", [user_id], function (err, result) {
+
+                if (err) {
+                    console.error('Error fetching photo:', err);
+                    return res.status(500).json({ error: 'Error fetching photo' });
+                }
+                var row = result.rowCount;
+                var user = result.rows[0];
+                var attempts = user.login_attempts
+                console.log(user);
+                if (row > 0) {
+
+
+                    comparePasswordpwd(password, user.password, function (err, isMatch) {
+                        if (err) throw err;
+                        if (isMatch) {
+                            var hu = ['AU', 'RU'];
+                            var queryres = "";
+                            var ename = "";
+                            var eid = "";
+                            var email = "";
+                            var desig = "";
+                            var unReadCount = "";
+                            var docPendingCount = 0;
+                            var now = new Date();
+                            module.exports.usertype = "";
+                            module.exports.users = "";
+                            module.exports.usercount = "";
+                            module.exports.lastlogin = "";
+                            module.exports.role = "";
+                            module.exports.userid = "";
+                            module.exports.reportcounts = "";
+                            module.exports.downloadcounts = "";
+                            module.exports.datecheck = "";
+                            module.exports.sessiontimeout = "";
+                            module.exports.activeuser = "";
+                            module.exports.user_email = "";
+                            module.exports.username = "";
+                            module.exports.email = "";
+                            module.exports.listofrecords = "";
+                            module.exports.profilepic = "";
+                            module.exports.reminderlist = "";
+                            module.exports.reminderlist_count = "";
+                            module.exports.reminderlist_past = "";
+
+                            var emp_access = user.user_type;
+                            pool.query("SELECT reset_flg FROM users where user_id=$1", [user_id], function (err, flg) {
+                                if (err) {
+                                    console.error('Error with table query', err)
+                                }
+                                var check = flg.rows['0'].reset_flg;
+                                if (check == 'Y') {
+                                    res.json({
+                                        message: "redirect to reset",
+                                        notification: "Please Change The Default Password and Proceed",
+                                        data: user
+                                    })
+
+                                }
+                            })
+
+                            if (emp_access === 'A1') {
+                                pool.query('SELECT * FROM users WHERE user_id = $1', [user_id], function (err, result) {
+                                    if (err) {
+                                        callback(err, null);
+                                        return;
+                                    }
+                                    const userDetails = result.rows[0];
+
+                                    res.redirect(`/employeeDetails/admindashboard?userId=${user_id}&userType=${emp_access}`);
+
                                 })
 
                             }
-                        })
+                            else {
+                                pool.query("SELECT login_check,LOWER(user_id),user_type,expiry_date from users where LOWER(user_id) = LOWER($1) and (expiry_date>=$2 and login_allowed=$3) and(del_flag=$4)", [user_id, now, 'Y', 'N'], function (err, result) {
+                                    if (err) throw err;
 
-                        if (emp_access === 'A1') {
-                            pool.query('SELECT * FROM users WHERE user_id = $1', [user_id], function (err, result) {
-                                if (err) {
-                                    callback(err, null);
-                                    return;
-                                }
-                                const userDetails = result.rows[0];
-                                
-                                res.redirect(`/employeeDetails/admindashboard?userId=${user_id}&userType=${emp_access}`);
+                                    if (result.rows['0'] != null) {
+                                        console.log("within case check");
+                                        logincheck = result.rows['0'].login_check;
+                                        if (logincheck == "N") {
+                                            userid = result.rows['0'].user_id;
+                                            queryres = result.rows['0'].user_type;
+                                            datecheck = result.rows['0'].expiry_date;
+                                            console.log('user_type', queryres);
+                                            attempts = 0;
 
-                            })
+                                            pool.query("UPDATE users SET login_attempts=$1,login_check=$2,reset_flg='N' where LOWER(user_id)=LOWER($3)", [attempts, 'Y', user_id]);
+                                            console.log("after update");
+                                            fetchUserDetails(user_id, function (err, userDetails) {
+                                                if (err) {
+                                                    console.error(err);
+                                                    // Handle the error case
+                                                    return;
+                                                }
+                                                // Access the userDetails object here
+                                                const detail = userDetails;
+                                                // Now you can use the `detail` variable to access the user details
+                                                res.json({ message: "redirect to dashboard", notification: "login Successfull", Data: detail })
+                                            });
+
+                                        }
+
+
+
+                                        else {
+                                            fetchUserDetails(user_id, function (err, userDetails) {
+                                                if (err) {
+                                                    console.error(err);
+                                                    // Handle the error case
+                                                    return;
+                                                }
+                                                // Access the userDetails object here
+                                                const detail = userDetails;
+                                                // Now you can use the `detail` variable to access the user details
+                                                res.json({ message: "redirect to dashboard", notification: "login Successfull", Data: detail })
+                                            });
+
+
+                                        }
+                                    }
+                                    else if (attempts < 4) {
+
+                                        attempts++;
+                                        console.log(attempts);
+                                        console.log();
+                                        pool.query("UPDATE users SET login_attempts=$1 WHERE LOWER(user_id)=LOWER($2)", [attempts, user.user_id]);
+                                        return res.json({ notification: 'Wrong Passcode. Please try again. ' + (4 - attempts) + ' attempts remaining.', message: "redirect to login" });
+                                    }
+                                    else {
+
+                                        pool.query("UPDATE users SET login_allowed=$1,login_attempts=$2 WHERE LOWER(user_id)=LOWER($3)", ['N', attempts, user.username]);
+
+                                        res.json({ message: "redirect to login", notification: "Your Account is locked. Please Contact administration" })
+                                    }
+                                })
+
+                            }
 
                         }
                         else {
@@ -831,50 +900,47 @@ router.post('/login', (req, res) => {
                                 }
                             })
 
+                            return res.json({ message: "redirect to login", notification: "incorrect password" });
+
                         }
 
-                    }
-                    else {
-                        return res.json({ message: "redirect to login", notification: "incorrect password" });
-                    }
-
-                });
-            } else {
-                return res.json({ message: "redirect to login", notification: "please Enter User ID and Password" });
-            }
+                    });
+                } else {
+                    return res.json({ message: "redirect to login", notification: "please Enter User ID and Password" });
+                }
 
 
-        });
-    } else {
-        res.json({ message: "redirect to login", notification: "User ID does not  exist" })
-    }
-})
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////// LOG OUT //////////////////////////////////////////////////////////////////////////////////
-
-
-router.get('/logout', (req, res) => {
-    const user_id = req.query.user_id;
-
-    // console.log('user_type',req.user.rows['0'].user_type)
-    // console.log('emp_name',req.user.rows['0'].user_name)
-
-    pool.query("UPDATE users SET login_check=$1,client_ip='',session_id='' where user_id=$2", ['N', user_id],
-        function (err, result) {
-            if (err) throw err;
-
-
-            res.json({ message: "redirect to login", notification: "You are successfully Logged Out" })
-
+            });
+        } else {
+            res.json({ message: "redirect to login", notification: "User ID does not  exist" })
         }
-    );
+    })
 
 
-});
 
 
-module.exports = router;
+
+    //////////////////////////////////////////////////////////////////////// LOG OUT //////////////////////////////////////////////////////////////////////////////////
+
+
+    router.get('/logout', (req, res) => {
+        const user_id = req.query.user_id;
+
+        // console.log('user_type',req.user.rows['0'].user_type)
+        // console.log('emp_name',req.user.rows['0'].user_name)
+
+        pool.query("UPDATE users SET login_check=$1,client_ip='',session_id='' where user_id=$2", ['N', user_id],
+            function (err, result) {
+                if (err) throw err;
+
+
+                res.json({ message: "redirect to login", notification: "You are successfully Logged Out" })
+
+            }
+        );
+
+
+    });
+
+
+    module.exports = router;
