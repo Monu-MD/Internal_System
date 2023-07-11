@@ -452,7 +452,7 @@ router.post('/viewempdet', (req, res) => {
 											//query 2 to fetch personal details
 											pool.query("select gender,dob,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,phone1,phone2,father_name,mother_name,martial_status,spouse_name,pan_number,passport_num,aadhaar_num,license_num,blood_group,shirt_size,emergency_num,emergency_con_person,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code from emp_info_tbl where LOWER(emp_id)=LOWER($1)", [empId], function (err, result) {
 												if (err) throw err;
-												console.log(result.rows,"enterrrr");
+												console.log(result.rows, "enterrrr");
 												var gender = result.rows['0'].gender;
 												var dob = result.rows['0'].dob;
 												var dob = jDate// dateFormat(dob, "yyyy-mm-dd");
@@ -537,7 +537,7 @@ router.post('/viewempdet', (req, res) => {
 																			//Setting Values for State List
 
 																			// pool.query("select comm_code_desc from common_code_tbl where code_id='STA' and comm_code_id=$1", [state1], function (err, resultset) {
-																			// state1 = resultset.rows['0'].comm_code_desc;
+																			// 	state1 = resultset.rows['0'].comm_code_desc;
 
 																			pool.query("select comm_code_desc from common_code_tbl where code_id='PCR' and comm_code_id=$1", [salary_curr], function (err, resultset) {
 																				salary_curr_desc = resultset.rows['0'].comm_code_desc;
@@ -975,11 +975,11 @@ router.post('/addempper', (req, res) => {
 	var aadhaarNum = req.body.adharCardNumber;
 	var dlNum = req.body.drivingLicenceNumber;
 	var uan = req.body.uanNumber;
-	var nameinBank = "";
-	var bankName = "";
-	var branchName = "";
-	var acctNum = "";
-	var ifscCode = "";
+	var nameinBank = req.body.name;
+	var bankName = req.body.bankname;
+	var branchName = req.body.branchname;
+	var acctNum = req.body.accountnum;
+	var ifscCode = req.body.ifsccode;
 	var entity_cre_flg = "N";
 
 	pool.query("SELECT * from data_emp_master_tbl_temp e where LOWER(e.emp_id) = LOWER($1)", [empid], function (err, resultset) {
@@ -2322,12 +2322,70 @@ router.post('/verifyDetails', (req, res) => {
 
 /////////////////////////////// End of Employee Admin Module /////////////////////////////////////////////////
 
-/////////////////////////////// start of Employee User Module /////////////////////////////////////////////////
-
-//////////////////////////////////////////// Adding Employee Details ////////////////////////////////
 
 
+router.post('/addmodempdetper', addmodempdetper);
+function addmodempdetper(req, res) {
+	const currentDate = new Date();
+	const year = currentDate.getFullYear();
+	const month = currentDate.getMonth() + 1;
+	const day = currentDate.getDate();
+	const now = year + '-' + month + '-' + day;
 
+
+	var rcreuserid = "ADMIN";
+	var rcretime = now;
+	var lchguserid = "ADMIN";
+	var lchgtime = now;
+	var empid = req.body.employeeId;
+	var empName = req.body.employeeName;
+	var gender = req.body.gender;
+	var dob = req.body.dateOfBirth;
+	var bgroup = req.body.bloodGroup;
+	var shirt = req.body.tShirtSize;
+	var commAdd = req.body.communicationAddress;
+	var state = req.body.state;
+	var city = req.body.city;
+	var pincode = req.body.pinCode;
+	var resAdd = req.body.parmanentAddress;
+	var state1 = req.body.state1;
+	var city1 = req.body.city1;
+	var pincode1 = req.body.pinCode1;
+	var mobNum = req.body.mobileNumber;
+	var telNum = req.body.telNum;
+	var econNum = req.body.emergencyContactNumber;
+	var emerPer = req.body.emergencyContactPerson;
+	var fathersName = req.body.fatherName;
+	var mothersName = req.body.motherName;
+	var maritalstatus = req.body.maritalStatus;
+	var spouseName = req.body.spouseName;
+	var panNum = req.body.panNumber;
+	var passNum = req.body.passportNumber;
+	var aadhaarNum = req.body.adharCardNumber;
+	var dlNum = req.body.drivingLicenceNumber;
+	var uan = req.body.uanNumber;
+	var nameinBank = req.body.name;
+	var bankName = req.body.bankname;
+	var branchName = req.body.branchname;
+	var acctNum = req.body.accountnum;
+	var ifscCode = req.body.ifsccode;
+	var entity_cre_flg = "Y";
+
+	pool.query(
+		"UPDATE emp_info_tbl SET emp_name=$2, gender=$3, dob=$4, blood_group=$5, shirt_size=$6, comm_addr1=$7, state=$8, city=$9, pincode=$10, comm_addr2=$11, state1=$12, city1=$13, pincode1=$14, martial_status=$15, phone1=$16, phone2=$17, emergency_num=$18, emergency_con_person=$19, father_name=$20, mother_name=$21, spouse_name=$22, pan_number=$23, passport_num=$24, license_num=$25, aadhaar_num=$26, uan_num=$27, name_in_bank=$28, bank_name=$29, branch_name=$30, account_num=$31, ifsc_code=$32, del_flg=$33, entity_cre_flg=$34, rcre_user_id=$35, rcre_time=$36, lchg_user_id=$37, lchg_time=$38 WHERE emp_id=$1",
+		[
+		  empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime
+		],
+		function (err, done) {
+		  if (err) throw err;
+		  res.json({
+			message: "redirect to modifypersonalpage",
+			notification: "Employee Personal Details has been modified successfully, Verification Pending By Admin."
+		  });
+		}
+	);
+
+};
 
 
 
