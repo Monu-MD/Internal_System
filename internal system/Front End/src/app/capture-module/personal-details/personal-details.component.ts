@@ -141,7 +141,7 @@ export class PersonalDetailsComponent {
 console.log(data);
 
 
-    this.http.post('http://localhost:4000/capture/addempper', data).subscribe(
+    this.http.post('http://local-host:4000/capture/addempper', data).subscribe(
       (response: any) => {
 
         console.log(response.message);
