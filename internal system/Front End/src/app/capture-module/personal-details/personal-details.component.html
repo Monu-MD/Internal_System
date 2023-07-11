@@ -173,10 +173,6 @@
                             <label class="details">UAN Number</label>
                             <input type="text" name="uanNumber" [ngModel]="emp_data.uan_num"  formControlName="uanNumber">
                         </div>
-
-
-
-
                     </div>
                 </form>
             </div>
@@ -189,25 +185,25 @@
 
                         <div class="input-box">
                             <label>Name As per Bank</label>
-                            <input type="text" placeholder="Enter your name" name="name" formControlName="name" />
+                            <input type="text" placeholder="Enter your name" [ngModel]="emp_data.nameinBank" name="name" formControlName="name" />
                         </div>
                         <div class="input-box">
                             <label>Bank Name</label>
-                            <input type="text" placeholder="Bank name" name="bankname" formControlName="bankname" />
+                            <input type="text" placeholder="Bank name" name="bankname" [ngModel]="emp_data.bankName"   formControlName="bankname" />
                         </div>
                         <div class="input-box">
                             <label>Branch Name </label>
-                            <input type="text" placeholder="Branch name" name="branchname"
+                            <input type="text" placeholder="Branch name" [ngModel]="emp_data.branchName" name="branchname"
                                 formControlName="branchname" />
                         </div>
                         <div class="input-box">
                             <label> Account Number</label>
-                            <input type="text" placeholder="Account name" name="accountnum"
+                            <input type="text" placeholder="Account name"[ngModel]="emp_data.acctNum"  name="accountnum"
                                 formControlName="accountnum" />
                         </div>
                         <div class="input-box">
                             <label>IFSC Code</label>
-                            <input type="text" placeholder="IFSC Code" name="ifsccode" formControlName="ifsccode" />
+                            <input type="text" placeholder="IFSC Code" [ngModel]="emp_data.ifscCode" name="ifsccode" formControlName="ifsccode" />
                         </div>
 
                     </div>
