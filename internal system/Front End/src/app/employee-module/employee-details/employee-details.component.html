@@ -101,6 +101,7 @@
     <p>Probation Period: {{ PROBPERIOD }}</p>
 
 
+
     <p>Previous Experience: {{ PREEM }}</p>
     <p>Previous Experience In (Years And Months): {{ PREEXPYEAR }}{{ PREEXPMONTH }}</p>
     <p>Last Employment In Chronological Order: {{ PREEMP }}</p>
@@ -155,19 +156,23 @@
         <button type="button" class="btn btn-danger" (click)="openRejectInput()">Reject</button>
         <span style="margin: 0 10px;"></span>
         <button type="button" class="btn btn-warning" (click)="openDeleteInput()">Delete</button>
-    
+
         <div *ngIf="showRejectInput" class="input-group mb-3" style="margin-top: 18px;">
-          <input type="text" class="form-control" [(ngModel)]="rejectionReason" placeholder="Enter rejection reason" aria-label="Rejection reason">
-          <button class="btn btn-outline-secondary" (click)="rejectProfile()" type="button" id="rejectButton">Submit</button>
+          <input type="text" class="form-control" [(ngModel)]="rejectionReason" placeholder="Enter rejection reason"
+            aria-label="Rejection reason">
+          <button class="btn btn-outline-secondary" (click)="rejectProfile()" type="button"
+            id="rejectButton">Submit</button>
         </div>
-    
+
         <div *ngIf="showDeleteInput" class="input-group mb-3">
-          <input type="text" class="form-control" [(ngModel)]="deleteReason" placeholder="Enter delete reason" aria-label="Delete reason">
-          <button class="btn btn-outline-secondary" (click)="deleteProfile()" type="button" id="deleteButton">Submit</button>
+          <input type="text" class="form-control" [(ngModel)]="deleteReason" placeholder="Enter delete reason"
+            aria-label="Delete reason">
+          <button class="btn btn-outline-secondary" (click)="deleteProfile()" type="button"
+            id="deleteButton">Submit</button>
         </div>
       </div>
     </div>
-    
+
   </div>
   <app-footer></app-footer>
 </div>
