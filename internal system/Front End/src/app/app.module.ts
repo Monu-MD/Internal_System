@@ -272,13 +272,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     TravelComponent,
     TravelFAQDetailsComponent,
     ViewTravelApprQueueComponent,
+    EmployeeDetailsComponent,
 
 
     // TopBar 
     TopbarComponent,
      DashboardComponent,
      EmployeeDetailsComponent,
+
     AdminDashboardComponent,
+
 
 
 
