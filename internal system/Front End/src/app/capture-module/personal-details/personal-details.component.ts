@@ -13,18 +13,19 @@ import { LoginServiceService } from 'src/app/services/login-service.service';
   styleUrls: ['./personal-details.component.css']
 })
 export class PersonalDetailsComponent {
+  approvalData: any;
   gender = '';
   user_type: any;
   user_id: any;
-  approvalData: any;
 
   comm_code_blood: any;
-
   comm_code_shirt: any;
   comm_code_state: any;
   comm_code_maritalstatus: any
   isSameAsCurrentAddress: any;
   cocd: any;
+  emp_data: any;
+  modifypersonal: boolean = false;
 
 
   constructor(private router: Router,
@@ -37,13 +38,20 @@ export class PersonalDetailsComponent {
     this.user_id = data[0];
     this.user_type = data[2]
     this.approvalData = data[8];
+    this.emp_data = data[4];
     this.cocd = data[10];
     console.log(this.cocd);
-    this.user_id = this.cocd.empid;
+    // this.user_id = this.cocd.empid;
     this.comm_code_blood = this.cocd.comm_code_blood;
     this.comm_code_shirt = this.cocd.comm_code_shirt;
     this.comm_code_state = this.cocd.comm_code_state;
     this.comm_code_maritalstatus = this.cocd.comm_code_maritalstatus;
+
+    console.log(this.user_id);
+
+    if (this.emp_data != undefined) {
+      this.modifypersonal = true
+    }
 
   }
 
@@ -103,7 +111,7 @@ export class PersonalDetailsComponent {
     const shirt = data.tShirtSize;
     const state = data.state;
     const state1 = data.state1;
-    const marital_status=data.maritalStatus;
+    const marital_status = data.maritalStatus;
 
 
 
@@ -138,28 +146,57 @@ export class PersonalDetailsComponent {
         break;
       }
     }
-console.log(data);
+    console.log(data);
+
+    if (this.modifypersonal === false) {
+
+      /////////////when wmployeee rigister him self /////////////////////////////////////
+
+      this.http.post('http://localhost:4000/capture/addempper', data).subscribe(
+        (response: any) => {
+
+          console.log(response.message);
+          if (response.message == 'redirect to login page') {
+            // console.log("professional entry");
+            this.loginservice.setNotification(response.notification)
+            this.router.navigate(['/'])
+
+          }
 
 
-    this.http.post('http://localhost:4000/capture/addempper', data).subscribe(
-      (response: any) => {
-
-        console.log(response.message);
-        if (response.message == 'redirect to login page') {
-          // console.log("professional entry");
-          this.loginservice.setNotification(response.notification)
-          this.router.navigate(['/'])
-
+        },
+        (error: any) => {
+          console.error('API Error:', error);
+          // Handle error cases and navigate accordingly
+          // this.router.navigate(['/error']);
         }
+      );
+    }
+     else {
+      //////////////////////// while employee modfiy its details/////////////////////////
+      console.log("modify personal Details ");
+      
+      // this.http.post('http://localhost:4000/capture/addempper', data).subscribe(
+      //   (response: any) => {
+
+      //     console.log(response.message);
+      //     if (response.message == 'redirect to login page') {
+      //       // console.log("professional entry");
+      //       this.loginservice.setNotification(response.notification)
+      //       this.router.navigate(['/'])
+
+      //     }
 
 
-      },
-      (error: any) => {
-        console.error('API Error:', error);
-        // Handle error cases and navigate accordingly
-        // this.router.navigate(['/error']);
-      }
-    );
+      //   },
+      //   (error: any) => {
+      //     console.error('API Error:', error);
+      //     // Handle error cases and navigate accordingly
+      //     // this.router.navigate(['/error']);
+      //   }
+      // );
+    }
+
   }
 
   onCheckboxChange(event: any) {

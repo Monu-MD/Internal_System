@@ -400,8 +400,11 @@ router.post('/viewempdet', (req, res) => {
 								if (rcount_master == rcount_info) {
 
 									//query 1 to fetch professional details
-									pool.query("select emp_id,emp_name,emp_email,emp_access,joining_date,designation,salary,reporting_mgr,prev_expr_year,prev_expr_month,prev_empr,prev_empr2,prev_empr3,prev_empr4,prev_empr5,emp_prob,pre_emp_flg,emp_classification,salary_curr from emp_master_tbl where LOWER(emp_id)=LOWER($1)", [empId], function (err, resultset) {
+
+									pool.query('select * from emp_master_tbl where emp_id=$1', [empId], function (err, resultset) {
 										if (err) throw err;
+										console.log(resultset.rows);
+							
 										var empid = resultset.rows['0'].emp_id;
 										var empName = resultset.rows['0'].emp_name;
 										var email = resultset.rows['0'].emp_email;
@@ -531,19 +534,19 @@ router.post('/viewempdet', (req, res) => {
 
 																			//Setting Values for State List
 
-																			pool.query("select comm_code_desc from common_code_tbl where code_id='STA' and comm_code_id=$1", [state1], function (err, resultset) {
-																				state1 = resultset.rows['0'].comm_code_desc;
+																			// pool.query("select comm_code_desc from common_code_tbl where code_id='STA' and comm_code_id=$1", [state1], function (err, resultset) {
+																			// 	state1 = resultset.rows['0'].comm_code_desc;
 
-																				pool.query("select comm_code_desc from common_code_tbl where code_id='CURR' and comm_code_id=$1", [salary_curr], function (err, resultset) {
+																				pool.query("select comm_code_desc from common_code_tbl where code_id='PCR' and comm_code_id=$1", [salary_curr], function (err, resultset) {
 																					salary_curr_desc = resultset.rows['0'].comm_code_desc;
 
 																					res.json({
-																						message: "redirect to employee details view", Data: {
+																						message: "redirect to employee details view", data: {
 																							enFlg: enFlg,
 																							cflag: cflag,
 																							emp_access: emp_access,
-																							ename: req.user.rows['0'].user_name,
-																							eid: req.user.rows['0'].user_id,
+																							ename: empName,
+																							eid: empid,
 																							empid: empid,
 																							empName: empName,
 																							email: email,
@@ -602,7 +605,7 @@ router.post('/viewempdet', (req, res) => {
 																					//closing bracket of query1
 																				});
 																				//closing bracket of query2
-																			});
+																			// });
 																		});
 																	});
 																});
@@ -2280,9 +2283,6 @@ router.post('/verifyDetails', (req, res) => {
 
 /////////////////////////////// End of Employee Admin Module /////////////////////////////////////////////////
 
-/////////////////////////////// start of Employee User Module /////////////////////////////////////////////////
-
-//////////////////////////////////////////// Adding Employee Details ////////////////////////////////
 
 
 
