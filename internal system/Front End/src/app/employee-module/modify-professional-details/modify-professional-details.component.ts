@@ -49,7 +49,7 @@ export class ModifyProfessionalDetailsComponent {
 
         console.log(response.message, "response");
         console.log(response.data);
-        if (response.message == 'redirect to employee detail view') {
+        if (response.message == 'redirect to employee details view') {
           // this.empDetservice.setData(response.data)
           this.loginSerivce.setEmp_master_Tbl(response.data)
           this.router.navigate(['/empProfessional'])

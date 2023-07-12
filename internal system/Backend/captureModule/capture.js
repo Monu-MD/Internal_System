@@ -399,11 +399,11 @@ router.post('/addempper', (req, res) => {
     var aadhaarNum = req.body.adharCardNumber;
     var dlNum = req.body.drivingLicenceNumber;
     var uan = req.body.uanNumber;
-    var nameinBank = "";
-    var bankName = "";
-    var branchName = "";
-    var acctNum = "";
-    var ifscCode = "";
+    var nameinBank = req.body.name;
+    var bankName =req.body.bankname;
+    var branchName = req.body.branchname;
+    var acctNum = req.body.accountnum;
+    var ifscCode = req.body.ifsccode;
     var entity_cre_flg = "N";
 
 

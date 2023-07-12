@@ -47,12 +47,14 @@ export class SearchEmployeeDetailsComponent {
 
         console.log(response.message, "response");
         console.log(response.data);
-        if (response.message == 'redirect to employee detail view') {
+        if (response.message == 'redirect to employee details view') {
           // this.empDetservice.setData(response.data)
+          console.log("check1");
           this.loginSerivce.setViewAproval('viewData')
+          console.log("check2");
           this.loginSerivce.setEmp_master_Tbl(response.data)
+          console.log("check3");
           this.router.navigate(['/empDetailview'])
-
         }
       },
       (error: any) => {

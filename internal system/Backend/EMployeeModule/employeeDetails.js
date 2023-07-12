@@ -539,67 +539,68 @@ router.post('/viewempdet', (req, res) => {
 
 																			pool.query("select comm_code_desc from common_code_tbl where code_id='PCR' and comm_code_id=$1", [salary_curr], function (err, resultset) {
 																				salary_curr_desc = resultset.rows['0'].comm_code_desc;
+																				console.log("check1");
 
 																				res.json({
-																					message: "redirect to employee details view", data: {
+																					message: 'redirect to employee details view', data: {
 																						enFlg: enFlg,
 																						cflag: cflag,
 																						emp_access: emp_access,
-																						ename: empName,
-																						eid: empid,
+																						// ename: req.user.rows['0'].user_name,
+																						// eid: req.user.rows['0'].user_id,
 																						empid: empid,
-																						empName: empName,
-																						email: email,
-																						empAccess: empAccess,
-																						jDate: jDate,
-																						desig: desig,
-																						empClass: empClass,
+																						emp_name: empName,
+																						emp_email: email,
+																						emp_access: empAccess,
+																						joining_date: jDate,
+																						designation: desig,
+																						emp_classification: empClass,
 																						salary: salary,
-																						salary_curr: salary_curr,
-																						salary_curr_desc: salary_curr_desc,
-																						pid: pid,
-																						rptMan: rptMan,
-																						rptMan_desc: rptMan_desc,
+																						// salary_curr: salary_curr,
+																						// salary_curr_desc: salary_curr_desc,
+																						project_id: pid,
+																						reporting_mgr: rptMan,
+																						rptman_desc: rptMan_desc,
 																						preem: preem,
-																						probPeriod: probPeriod,
-																						preExpyear: preExpyear,
-																						preExpmonth: preExpmonth,
-																						preEmp: preEmp,
-																						preEmp2: preEmp2,
-																						preEmp3: preEmp3,
-																						preEmp4: preEmp4,
-																						preEmp5: preEmp5,
+																						emp_prob: probPeriod,
+																						prev_expr_year: preExpyear,
+																						prev_expr_month: preExpmonth,
+																						prev_empr: preEmp,
+																						prev_empr2: preEmp2,
+																						prev_empr3: preEmp3,
+																						prev_empr4: preEmp4,
+																						prev_empr5: preEmp5,
 																						gender: gender,
 																						dob: dob,
-																						bgroup: bgroup,
-																						shirt: shirt,
-																						commAdd: commAdd,
+																						blood_group: bgroup,
+																						shirt_size: shirt,
+																						com_addr1: commAdd,
 																						state: state,
 																						city: city,
 																						pincode: pincode,
-																						resAdd: resAdd,
+																						comm_addr2: resAdd,
 																						state1: state1,
 																						city1: city1,
 																						pincode1: pincode1,
-																						mobNum: mobNum,
-																						telNum: telNum,
-																						econNum: econNum,
-																						emerPer: emerPer,
-																						fathersName: fathersName,
-																						mothersName: mothersName,
-																						maritalstatus: maritalstatus,
-																						spouseName: spouseName,
-																						panNum: panNum,
-																						passNum: passNum,
-																						aadhaarNum: aadhaarNum,
-																						dlNum: dlNum,
-																						uan: uan,
-																						nameinBank: nameinBank,
-																						bankName: bankName,
-																						branchName: branchName,
-																						acctNum: acctNum,
-																						ifscCode: ifscCode
-																						//closing bracket of render
+																						phone1: mobNum,
+																						phone2: telNum,
+																						emergency_num: econNum,
+																						emergency_con_person: emerPer,
+																						father_name: fathersName,
+																						mother_name: mothersName,
+																						martial_status: maritalstatus,
+																						spouse_name: spouseName,
+																						pan_number: panNum,
+																						passport_num: passNum,
+																						aadhaar_num: aadhaarNum,
+																						license_num: dlNum,
+																						uan_num: uan,
+																						name_in_bank: nameinBank,
+																						bank_name: bankName,
+																						branch_name: branchName,
+																						account_num: acctNum,
+																						ifsc_code: ifscCode
+																						//closing bracket of query1
 																					}
 																				});
 																				//closing bracket of query1
@@ -619,38 +620,6 @@ router.post('/viewempdet', (req, res) => {
 									//closing of if loop
 								}
 								else {
-
-									var gender = "";
-									var dob = "";
-									var bgroup = "";
-									var shirt = "";
-									var commAdd = "";
-									var state = "";
-									var city = "";
-									var pincode = "";
-									var resAdd = "";
-									var state1 = "";
-									var city1 = "";
-									var pincode1 = "";
-									var mobNum = "";
-									var telNum = "";
-									var econNum = "";
-									var emerPer = "";
-									var fathersName = "";
-									var mothersName = "";
-									var maritalstatus = "";
-									var spouseName = "";
-									var panNum = "";
-									var passNum = "";
-									var aadhaarNum = "";
-									var dlNum = "";
-									var uan = "";
-									var nameinBank = "";
-									var bankName = "";
-									var branchName = "";
-									var acctNum = "";
-									var ifscCode = "";
-
 									//query 1 to fetch professional details
 									pool.query("select emp_id,emp_name,emp_email,emp_access,joining_date,designation,salary,reporting_mgr,prev_expr_year,prev_expr_month,prev_empr,prev_empr2,prev_empr3,prev_empr4,prev_empr5,emp_prob,pre_emp_flg,emp_classification from emp_master_tbl where LOWER(emp_id)=LOWER($1)", [empId], function (err, resultset) {
 										// ,salary_curr--> it is not present in db
@@ -678,7 +647,7 @@ router.post('/viewempdet', (req, res) => {
 											var preEmp5 = resultset.rows['0'].prev_empr5;
 
 
-											console.log("entered");
+
 
 											var gender = result.rows['0'].gender;
 											var dob = result.rows['0'].dob;
@@ -763,9 +732,9 @@ router.post('/viewempdet', (req, res) => {
 																// setting values for previous experience
 																if (preem == "Y") { preem = "YES"; }
 																if (preem == "N") { preem = "NO"; }
-
+																console.log("check2");
 																res.json({
-																	message: 'redirect to employee detail view', data: {
+																	message: 'redirect to employee details view', data: {
 																		enFlg: enFlg,
 																		cflag: cflag,
 																		emp_access: emp_access,
@@ -1165,42 +1134,42 @@ function addempdet(req, res) {
 								to: email,
 								subject: 'Register',
 								html: `
- <style>
-body {
- font-family: Arial, sans-serif;
- font-size: 14px;
- line-height: 1.4;
- color: #333333;
-}
+								<style>
+								body {
+								font-family: Arial, sans-serif;
+								font-size: 14px;
+								line-height: 1.4;
+								color: #333333;
+								}
 
-a {
- color: white;
- text-decoration: none;
-}
- </style>
- 
- Dear ${empname},<br>
- <img href="http://www.minorks.com/images/logo_white.png"></img><br><br>
- We are delighted to welcome you to our company! As a new member, we kindly request you to complete your account registration process to gain access to our systems and resources.<br>
- 
- To finalize your registration and create your unique User ID, please follow the steps below:<br>
- 
- 1. Click on the registration link provided below:<br>
-<a href="http://localhost:4200/register">Click Here For Register</a><br>
- 
- 2. You will be directed to the registration page where you can begin the process.<br>
- 
- 3. Enter your personal details accurately and ensure all required fields are completed.<br>
- 
- 4. Once you have provided your personal details wait for Admin Aproval.<br>
- 
-<h4 style="color:blue"> Your User ID: ${empid}</h4><br><br>
- 
- If you have any questions or need further assistance, please feel free to reach out to our HR department.<br>
- 
- Best regards,<br>
-Minorks Technology (HR)
-`
+								a {
+								color: white;
+								text-decoration: none;
+								}
+								</style>
+								
+								Dear ${empname},<br>
+								<img href="http://www.minorks.com/images/logo_white.png"></img><br><br>
+								We are delighted to welcome you to our company! As a new member, we kindly request you to complete your account registration process to gain access to our systems and resources.<br>
+								
+								To finalize your registration and create your unique User ID, please follow the steps below:<br>
+								
+								1. Click on the registration link provided below:<br>
+								<a href="http://localhost:4200/register">Click Here For Register</a><br>
+								
+								2. You will be directed to the registration page where you can begin the process.<br>
+								
+								3. Enter your personal details accurately and ensure all required fields are completed.<br>
+								
+								4. Once you have provided your personal details wait for Admin Aproval.<br>
+								
+								<h4 style="color:blue"> Your User ID: ${empid}</h4><br><br>
+								
+								If you have any questions or need further assistance, please feel free to reach out to our HR department.<br>
+								
+								Best regards,<br>
+								Minorks Technology (HR)
+								`
 							};
 
 
@@ -1232,7 +1201,8 @@ Minorks Technology (HR)
 							pool.query("insert into e_docket_tbl(emp_id,pan_flg,aadhar_flg,sslc_flg,preuniv_flg,degree_flg,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empid, pan_flg, aadhar_flg, sslc_flg, preuniv_flg, degree_flg, del_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
 								// req.flash('success', "User successfully added and an E-mail has been sent to " + email + " with further instructions.")
 								// res.redirect(req.get('referer'));
-								console.log("edocket inserted");
+
+
 								res.json({ message: "redirect to refer", notification: "User successfully added and an E-mail has been sent to " + email + " with further instructions." })
 
 
@@ -1244,7 +1214,15 @@ Minorks Technology (HR)
 			else {
 				// req.flash('error', "Employee Details Already Added for this Employee:" + empname)
 				// res.redirect(req.get('referer'));
-				res.json({ message: "redirect to refer", notification: "Employee Details Already Added for this Employee:" + empname })
+				pool.query(
+					"UPDATE emp_master_tbl SET emp_name=$2, emp_access=$3, emp_email=$4, joining_date=$5, designation=$6, salary=$7, reporting_mgr=$8, prev_expr_year=$9, prev_expr_month=$10, prev_empr=$11, prev_empr2=$12, prev_empr3=$13, prev_empr4=$14, prev_empr5=$15, emp_prob=$16, lchg_user_id=$17, lchg_time=$18, emp_classification=$19, salary_curr=$20 WHERE emp_id=$1",
+					[empid, empname, empaccess, email, jDate, desig, salary, rptman, preExpyear, preExpmonth, preEmp, preEmp2, preEmp3, preEmp4, preEmp5, probPeriod, lchguserid, lchgtime, empClass, sal_curr],
+					function (err, done) {
+						if (err) throw err;
+						res.json({ message: "redirect to refer", notification: "Employee Details Added for this Employee:" + empname })
+					}
+				);
+
 			}
 
 		});
@@ -2107,7 +2085,7 @@ router.post('/verifyDetails', (req, res) => {
 											hashpassword = finalpass;
 											hashpassword = hash;
 											console.log("bycript enterd");
-											pool.query('update users set password=$1', [hash], function (err, result) {
+											pool.query('update users set password=$1 where user_id=$2', [hash, emp_id], function (err, result) {
 												if (err) throw error;
 
 												console.log("password updated");
@@ -2220,7 +2198,7 @@ router.post('/verifyDetails', (req, res) => {
 				}
 			}
 
-			var test1 = req.body.test1;
+			var test1 = req.body.test;
 			if (test1 != "") {
 				if (test1 == "Reject Profile") {
 
@@ -2266,9 +2244,10 @@ router.post('/verifyDetails', (req, res) => {
 				}
 			}
 
-			var test2 = req.body.test2;
+			var test2 = req.body.test;
 			if (test2 != "") {
 				if (test2 == "Delete Profile") {
+					console.log("delete enter");
 					const transporter = nodemailer.createTransport({
 						service: 'gmail',
 						auth: {
@@ -2283,7 +2262,7 @@ router.post('/verifyDetails', (req, res) => {
 						// subject: 'Test Email',
 						subject: 'Deletion of your Personal Details Added/Modified.',
 						html: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhnWZ-CQDkryjFGSvC7gHqaoaJyZFp4vGSfuPYR-nrz5IcC09ayQ" height="85"><br><br>' +
-							'<h3> Dear <b>' + empName + '</b>,<br><br>' +
+							'<h3> Dear <b>' + emp_name + '</b>,<br><br>' +
 							'You are receiving this mail because HR has deleted the Added/Modified Employee Personal Details.<br>' +
 							'Please make a new entry by Adding/Modifying the Personal Details.<br><br>' +
 							'Deletion Reason :<u>' + deleteReason + '</u>.<br><br>' +
@@ -2372,20 +2351,121 @@ function addmodempdetper(req, res) {
 	pool.query(
 		"UPDATE emp_info_tbl SET emp_name=$2, gender=$3, dob=$4, blood_group=$5, shirt_size=$6, comm_addr1=$7, state=$8, city=$9, pincode=$10, comm_addr2=$11, state1=$12, city1=$13, pincode1=$14, martial_status=$15, phone1=$16, phone2=$17, emergency_num=$18, emergency_con_person=$19, father_name=$20, mother_name=$21, spouse_name=$22, pan_number=$23, passport_num=$24, license_num=$25, aadhaar_num=$26, uan_num=$27, name_in_bank=$28, bank_name=$29, branch_name=$30, account_num=$31, ifsc_code=$32, del_flg=$33, entity_cre_flg=$34, rcre_user_id=$35, rcre_time=$36, lchg_user_id=$37, lchg_time=$38 WHERE emp_id=$1",
 		[
-		  empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime
+			empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime
 		],
 		function (err, done) {
-		  if (err) throw err;
-		  res.json({
-			message: "redirect to modifypersonalpage",
-			notification: "Employee Personal Details has been modified successfully, Verification Pending By Admin."
-		  });
+			if (err) throw err;
+			res.json({
+				message: "redirect to modifypersonalpage",
+				notification: "Employee Personal Details has been modified successfully, Verification Pending By Admin."
+			});
 		}
 	);
 
 };
 
+router.post('/addmodempdet', addmodempdet);
+function addmodempdet(req, res) {
+	var now = new Date();
+	var rcreuserid = req.user.rows['0'].user_id;
+	var rcretime = now;
+	var lchguserid = req.user.rows['0'].user_id;
+	var lchgtime = now;
+	var empid = req.body.empid;
+	var empName = req.body.empName;
+	var email = req.body.email;
+	var empAccess = req.body.empAccess;
+	var jDate = req.body.jDate;
+	var desig = req.body.desig;
+	var empClass = req.body.empClass;
+	var salary = req.body.salary;
+	var sal_curr = req.body.sal_curr;
+	var rptMan = req.body.rptMan;
+	var probPeriod = req.body.probPeriod;
+	var preem = req.body.preem;
+	if (preem == "Y") {
+		var preExpyear = req.body.preExpyear;
+		var preExpmonth = req.body.preExpmonth;
+		var preEmp = req.body.preEmp;
+		var preEmp2 = req.body.preEmp2;
+		var preEmp3 = req.body.preEmp3;
+		var preEmp4 = req.body.preEmp4;
+		var preEmp5 = req.body.preEmp5;
+	}
+	else {
+		var preExpyear = "0";
+		var preExpmonth = "0";
+		var preEmp = "";
+		var preEmp2 = "";
+		var preEmp3 = "";
+		var preEmp4 = "";
+		var preEmp5 = "";
+	}
 
+	var entity_cre_flg = "Y";
+
+	pdbconnect.query("select * from emp_master_tbl_hist where emp_id = $1", [empid], function (err, done) {
+		var hist_count = done.rowCount;
+
+
+		if (hist_count == "1") {
+
+			pdbconnect.query("delete from emp_master_tbl_hist where emp_id = $1", [empid], function (err, done) {
+				if (err) throw err;
+			});
+
+			pdbconnect.query("insert into emp_master_tbl_hist select * from emp_master_tbl where emp_id=$1 ", [empid], function (err, result) {
+				if (err) throw err;
+			});
+		}
+		else {
+
+			pdbconnect.query("insert into emp_master_tbl_hist select * from emp_master_tbl where emp_id=$1 ", [empid], function (err, result) {
+				if (err) throw err;
+			});
+		}
+
+
+		pdbconnect.query("UPDATE emp_master_tbl set emp_name=$2,emp_email=$3,emp_access=$4,joining_date=$5,designation=$6,salary=$7,reporting_mgr=$8,emp_prob=$9,prev_expr_year=$10,prev_expr_month=$11,prev_empr=$12,prev_empr2=$13,prev_empr3=$14,prev_empr4=$15,prev_empr5=$16,del_flg=$17,rcre_user_id=$18,rcre_time=$19,lchg_user_id=$20,lchg_time=$21,entity_cre_flg=$22,pre_emp_flg=$23,emp_classification=$24,salary_curr=$25 where emp_id=$1", [empid, empName, email, empAccess, jDate, desig, salary, rptMan, probPeriod, preExpyear, preExpmonth, preEmp, preEmp2, preEmp3, preEmp4, preEmp5, 'N', rcreuserid, rcretime, lchguserid, lchgtime, entity_cre_flg, preem, empClass, sal_curr], function (err, done) {
+			if (err) throw err;
+
+			pdbconnect.query("UPDATE users set user_type=$2 where user_id=$1", [empid, empAccess], function (err, done) {
+				if (err) throw err;
+
+				// Added after new request
+
+				var smtpTransport = nodemailer.createTransport('SMTP', {
+					service: 'gmail',
+					auth:
+					{
+						user: 'amber@nurture.co.in',
+						pass: 'nurture@123'
+					}
+				});
+
+				var mailOptions = {
+					to: email,
+					from: 'amber@nurture.co.in',
+					subject: 'Modification made on your Professional Details',
+					html: '<h3><p> Dear <b> ' + empName + ' </b> , <br><br>' +
+						'You are receiving this mail because HR has modified your Professional details.<br>' +
+						'Please go through the details and cross check from your end<br>' +
+						'In case of any clarifications/concerns feel free to contact HR.<br>' +
+						'URL: http://amber.nurture.co.in <br><br><br><br><br>' +
+						'- Regards,<br><br>Amber</h3>'
+
+				};
+
+				smtpTransport.sendMail(mailOptions, function (err) {
+				});
+			});
+		});
+	});
+
+	req.flash('success', "Employee Professional Details has been Modified sucessfully for the Employee Id :" + empid + ".")
+	res.redirect('/employeeModule/employeeDetails/employeeDetailsModify');
+
+}
 
 
 
