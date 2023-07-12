@@ -11,7 +11,7 @@ import { LoginServiceService } from 'src/app/services/login-service.service';
   styleUrls: ['./emp-professional-details.component.css']
 })
 export class EmpProfessionalDetailsComponent {
-
+  emp_data:any;
   user_type: any;
   cocd: any;
   comm_code_curr: any;
@@ -25,7 +25,7 @@ export class EmpProfessionalDetailsComponent {
 
     const user = this.loginSerivce.getData();
     this.user_type = user[2];
-
+    this.emp_data=user[4]
     const data = this.loginSerivce.getData();
     this.cocd = data[10];
     console.log(this.cocd);

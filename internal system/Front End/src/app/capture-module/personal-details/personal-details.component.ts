@@ -42,7 +42,7 @@ export class PersonalDetailsComponent {
     this.emp_data = data[4];
     this.cocd = data[10];
     console.log(this.cocd);
-    // this.user_id = this.cocd.empid;
+    this.user_id = this.cocd.empid;
     this.comm_code_blood = this.cocd.comm_code_blood;
     this.comm_code_shirt = this.cocd.comm_code_shirt;
     this.comm_code_state = this.cocd.comm_code_state;
