@@ -39,13 +39,13 @@ export class ForgetPasswordService {
 
     this.http.get('http://localhost:4000/validateOtp', { params }).subscribe(
       (response: any) => {
-        console.log(response.message);
-        console.log(response.notification);
-        this.loginserivce.setNotification(response.notification)
-        this.employeeid=response.id;
+    
+        console.log(response);
+
         
         // Handle the response accordingly
         if(response.message=='redirect to reset page'){
+          this.loginserivce.setData(response)
           this.router.navigate(['/changePassword'])
         }
       },
@@ -62,13 +62,12 @@ export class ForgetPasswordService {
     this.http.post('http://localhost:4000/updatepwd', data).subscribe(
       
       (response: any) => {
+        console.log(response,"in forget service");
+        
         
           console.log(response.message);
-        console.log(response.notification);
-
-       
-
-        if(response.message=='redirect to reset page'){
+          if(response.message=='redirect to reset page'){
+          console.log(response.notification);
           this.router.navigate(['/changePassword'])
           
         }
@@ -77,11 +76,7 @@ export class ForgetPasswordService {
           this.router.navigate(['/'])
           
         }
-        else if(response.message=='redierct to add Personal Details'){
-        this.loginserivce.setNotification(response.notification)
-          this.router.navigate(['/personalDetails'])
-          
-        }
+       
 
         
         

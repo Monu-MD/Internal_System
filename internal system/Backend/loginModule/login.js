@@ -25,7 +25,105 @@ const { request } = require('http');
 const { Pool } = require('pg');
 const { error } = require('console');
 
-//////////////////////////// /////////// FunctionS///////////////////////////////////////////////////////////////////////
+// //////////////////////////// /////////// FunctionS///////////////////////////////////////////////////////////////////////
+function fetchCommonCodes() {
+    return new Promise((resolve, reject) => {
+        pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'BLG' ORDER BY comm_code_id ASC", (err, result) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            const comm_code_blood = result.rows;
+            const comm_code_blood_count = result.rowCount;
+
+            pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'SHR' ORDER BY comm_code_id ASC", (err, result) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                const comm_code_shirt = result.rows;
+                const comm_code_shirt_count = result.rowCount;
+
+                pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'STA' ORDER BY comm_code_id ASC", (err, result) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    const comm_code_state = result.rows;
+                    const comm_code_state_count = result.rowCount;
+
+                    pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'MAR' ORDER BY comm_code_id ASC", (err, result) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        const comm_code_maritalstatus = result.rows;
+                        const comm_code_maritalstatus_count = result.rowCount;
+
+                        pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'DSG' ORDER BY comm_code_id ASC", (err, result) => {
+                            if (err) {
+                                reject(err);
+                                return;
+                            }
+                            const comm_code_dsg = result.rows;
+                            const comm_code_dsg_count = result.rowCount;
+
+                            pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'PCR' ORDER BY comm_code_id ASC", (err, result) => {
+                                if (err) {
+                                    reject(err);
+                                    return;
+                                }
+                                const comm_code_curr = result.rows;
+                                const comm_code_cur_count = result.rowCount;
+
+                                pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'ACC' ORDER BY comm_code_id ASC", (err, result) => {
+                                    if (err) {
+                                        reject(err);
+                                        return;
+                                    }
+                                    const comm_code_class = result.rows;
+                                    const comm_code_class_count = result.rowCount;
+
+                                    pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'RPT' ORDER BY comm_code_id ASC", (err, result) => {
+                                        if (err) {
+                                            reject(err);
+                                            return;
+                                        }
+                                        const comm_code_rpt = result.rows;
+                                        const comm_code_rpt_count = result.rowCount;
+
+                                        const cocd = {
+                                            comm_code_blood,
+                                            comm_code_blood_count,
+                                            comm_code_shirt,
+                                            comm_code_shirt_count,
+                                            comm_code_state,
+                                            comm_code_state_count,
+                                            comm_code_maritalstatus,
+                                            comm_code_maritalstatus_count,
+                                            comm_code_curr,
+                                            comm_code_cur_count,
+                                            comm_code_class,
+                                            comm_code_class_count,
+                                            comm_code_rpt,
+                                            comm_code_rpt_count,
+                                            comm_code_dsg,
+                                            comm_code_dsg_count
+                                        };
+
+                                        resolve(cocd);
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+}
+
+
 const getUserByuser_id = function (user_id, callback) {
 
 
@@ -181,7 +279,7 @@ function forgotSendMail(empId) {
                                                             console.error('Error with table query', err);
                                                             reject({ error: 'Internal Server Error' });
                                                         } else {
-                                                            resolve({ message: 'redirect to reset page', notification: 'OTP verified, mail sent', id: userId });
+                                                            resolve({ message: 'redirect to reset page', notification: 'OTP verified, mail sent', user_id: userId });
                                                         }
                                                     });
                                                 }
@@ -219,7 +317,7 @@ function fetchUserDetails(user_id, callback) {
         }
         userDetails.user_details = result.rows[0];
 
-        pool.query('SELECT * FROM data_emp_info_tbl_temp WHERE emp_id = $1', [user_id], function (err, result) {
+        pool.query('SELECT * FROM data_emp_info_tbl_temp join emp_master_tbl on data_emp_info_tbl_temp.emp_id =emp_master_tbl.emp_id where data_emp_info_tbl_temp.emp_id=$1 ', [user_id], function (err, result) {
             if (err) {
                 callback(err, null);
                 return;
@@ -256,7 +354,9 @@ function fetchUserDetails(user_id, callback) {
                         userDetails.leave_master = result.rows;
 
 
+
                         callback(null, userDetails);
+
                     });
                 });
             });
@@ -599,7 +699,7 @@ router.post('/updatepwd', (req, res) => {
                                             console.log("reseted flag");
 
                                             res.json({
-                                                message: "redierct to add Personal Details",
+                                                message: "redierct to login",
                                                 notification: "pasword updated successfully"
                                             })
                                         }
@@ -690,7 +790,7 @@ router.post('/login', (req, res) => {
                                     return;
                                 }
                                 const userDetails = result.rows[0];
-                                
+
                                 res.redirect(`/employeeDetails/admindashboard?userId=${user_id}&userType=${emp_access}`);
 
                             })
@@ -720,14 +820,20 @@ router.post('/login', (req, res) => {
                                             }
                                             // Access the userDetails object here
                                             const detail = userDetails;
-                                            // Now you can use the `detail` variable to access the user details
-                                            res.json({ message: "redirect to dashboard", notification: "login Successfull", Data: detail })
+                                           
+                                            fetchCommonCodes()
+                                                .then((cocd) => {
+                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
+                                                })
+                                                .catch((error) => {
+                                                    console.error('Error fetching common codes', error);
+                                                    // Handle the error as needed
+                                                });
+
+
                                         });
 
                                     }
-
-                                  
-                                  
                                     else {
                                         fetchUserDetails(user_id, function (err, userDetails) {
                                             if (err) {
@@ -737,8 +843,16 @@ router.post('/login', (req, res) => {
                                             }
                                             // Access the userDetails object here
                                             const detail = userDetails;
-                                            // Now you can use the `detail` variable to access the user details
-                                            res.json({ message: "redirect to dashboard", notification: "login Successfull", Data: detail })
+                                          
+                                            fetchCommonCodes()
+                                                .then((cocd) => {
+                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
+                                                })
+                                                .catch((error) => {
+                                                    console.error('Error fetching common codes', error);
+                                                    // Handle the error as needed
+                                                });
+
                                         });
 
 
@@ -753,6 +867,26 @@ router.post('/login', (req, res) => {
                                     return res.json({ notification: 'Wrong Passcode. Please try again. ' + (4 - attempts) + ' attempts remaining.', message: "redirect to login" });
                                 }
                                 else {
+
+                                    fetchUserDetails(user_id, function (err, userDetails) {
+                                        if (err) {
+                                            console.error(err);
+                                            // Handle the error case
+                                            return;
+                                        }
+                                        // Access the userDetails object here
+                                        const detail = userDetails;
+
+                                        fetchCommonCodes()
+                                        .then((cocd) => {
+                                            res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
+                                        })
+                                        .catch((error) => {
+                                            console.error('Error fetching common codes', error);
+                                            // Handle the error as needed
+                                        });
+
+                                    });
 
                                     pool.query("UPDATE users SET login_allowed=$1,login_attempts=$2 WHERE LOWER(user_id)=LOWER($3)", ['N', attempts, user.username]);
 

@@ -11,8 +11,13 @@ import { LoginServiceService } from 'src/app/services/login-service.service';
   styleUrls: ['./emp-professional-details.component.css']
 })
 export class EmpProfessionalDetailsComponent {
-
+  emp_data:any;
   user_type: any;
+  cocd: any;
+  comm_code_curr: any;
+  comm_code_class: any;
+  comm_code_rpt: any;
+  comm_code_dsg: any;
   constructor(private empdet: AddemployeeserviceService, private router: Router,
     private http: HttpClient,
     private loginSerivce: LoginServiceService) {
@@ -20,6 +25,17 @@ export class EmpProfessionalDetailsComponent {
 
     const user = this.loginSerivce.getData();
     this.user_type = user[2];
+    this.emp_data=user[4]
+    const data = this.loginSerivce.getData();
+    this.cocd = data[10];
+    console.log(this.cocd);
+
+    this.comm_code_curr = this.cocd.comm_code_curr;
+    this.comm_code_class = this.cocd.comm_code_class;
+    this.comm_code_rpt = this.cocd.comm_code_rpt;
+    this.comm_code_dsg = this.cocd.comm_code_dsg;
+
+
 
   }
   probation_Period = '';
@@ -60,6 +76,41 @@ export class EmpProfessionalDetailsComponent {
     }
   }
   addProfile(data: any): void {
+    const curr = data.sal_curr;
+    const empclas = data.emp_acess;
+    const rptmgr=data.rptMgr;
+    const designation=data.designation
+
+    for (let i = 0; i < this.comm_code_curr.length; i++) {
+      if (this.comm_code_curr[i].comm_code_desc === curr) {
+        data.sal_curr = this.comm_code_curr[i].comm_code_id;
+
+        break;
+      }
+    }
+    for (let i = 0; i < this.comm_code_dsg.length; i++) {
+      if (this.comm_code_dsg[i].comm_code_desc === designation) {
+        data.designation = this.comm_code_dsg[i].comm_code_id;
+
+        break;
+      }
+    }
+    for (let i = 0; i < this.comm_code_rpt.length; i++) {
+      if (this.comm_code_rpt[i].comm_code_desc === rptmgr) {
+        data.rptMgr = this.comm_code_rpt[i].comm_code_id;
+
+        break;
+      }
+    }
+    for (let i = 0; i < this.comm_code_class.length; i++) {
+      if (this.comm_code_class[i].comm_code_desc === empclas) {
+        data.emp_acess = this.comm_code_class[i].comm_code_id;
+
+        break;
+      }
+    }
+    console.log(data);
+    
     this.http.post('http://localhost:4000/employeeDetails/addempdet', data).subscribe(
       (response: any) => {
 

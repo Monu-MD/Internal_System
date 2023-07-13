@@ -1,7 +1,9 @@
+<app-headder></app-headder>
 
+<app-sidebar></app-sidebar>
 
 <body class="body">
-    
+
     <div class="widge-container">
         <div class="item">
             <div class="wiedge-card">
@@ -31,7 +33,7 @@
                 </div>
                 <label class="widge-lable">Employee Documents</label>
                 <div class="widge-tags" *ngIf="docPendingCount > 0">
-                    {{ docPendingCount }} <a href="">Yet To Be Approved</a>
+                    {{ docPendingCount }} <a >Yet To Be Approved</a>
                 </div>
                 <div class="widge-tags" *ngIf="docPendingCount <= 0">
                     No documents pending
@@ -51,7 +53,9 @@
                 </div>
                 <label class="widge-lable">Employee Details</label>
                 <div class="widge-tags" *ngIf="emp_main > 0">
-                    <a href="">Yet To Be Approved</a> {{ pending_empPer }}
+
+                    <a (click)="apprvalData()">Yet To Be Approved</a> {{ pending_empPer }}
+
                 </div>
                 <div class="widge-tags" *ngIf="emp_main <= 0">
                     No employee details pending
@@ -127,8 +131,9 @@
         <div class="item">
             <div class="wiedge-card">
                 <div class="widge-icon">
-                    <i class="fa-sharp fa-solid fa-coins fa-bounce " *ngIf="appraisal_main>0" style="overflow: auto"></i>
-                    <i class="fa-sharp fa-solid fa-coins  "*ngIf="appraisal_main<=0" style="overflow: auto"></i>
+                    <i class="fa-sharp fa-solid fa-coins fa-bounce " *ngIf="appraisal_main>0"
+                        style="overflow: auto"></i>
+                    <i class="fa-sharp fa-solid fa-coins  " *ngIf="appraisal_main<=0" style="overflow: auto"></i>
 
                 </div>
                 <label class="widge-lable">Appraisal</label>
@@ -146,7 +151,7 @@
             <div class="wiedge-card">
                 <div class="widge-icon">
                     <i class="fa-sharp fa-solid fa-wifi" style="color: #3dc318; overflow: auto"></i>
-                    
+
                 </div>
                 <label class="widge-lable">Online User</label>
                 <div class="widge-tags">
@@ -158,17 +163,17 @@
             <div class="wiedge-card">
                 <div class="widge-icon">
                     <i class="fa-sharp fa-solid fa-code-pull-request fa-spin fa-spin-reverse"
-                        style="color: #8f7070; overflow: auto;"  *ngIf="claimPendngHrCount>0"></i>
-                        <i class="fa-sharp fa-solid fa-code-pull-request "
-                        style="color: #8f7070; overflow: auto;" *ngIf="claimPendngHrCount<=0"></i>
+                        style="color: #8f7070; overflow: auto;" *ngIf="claimPendngHrCount>0"></i>
+                    <i class="fa-sharp fa-solid fa-code-pull-request " style="color: #8f7070; overflow: auto;"
+                        *ngIf="claimPendngHrCount<=0"></i>
                 </div>
                 <label class="widge-lable">Claim Request</label>
                 <div class="widge-tags" *ngIf="claimPendngHrCount>0">
                     <a href="">Yet To Be Approved :</a>{{claimPendngCount}}<br>
                     <a href="">Yet To Be Approved :</a>{{claimPendngHrCount}} <br>
                 </div>
-                <div class="widge-tags"  *ngIf="claimPendngHrCount<=0">
-                  No Approval Pending
+                <div class="widge-tags" *ngIf="claimPendngHrCount<=0">
+                    No Approval Pending
                 </div>
             </div>
         </div>
@@ -177,4 +182,6 @@
 
 
 </body>
+
+<app-footer></app-footer>
 
