@@ -68,11 +68,11 @@ function additasset(req, res) {
 
 
 
-    pool.query("INSERT INTO asset_it_master_tbl(asset_id,product,make,model,serial_no,host_name,os,os_type,software,ram,processor,hard_disk,accessories,window_product_key,ip_addr,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)", [code1, product, make, model, serial_no, host_name, os, os_type, software, ram, processor, hard_disk, accessories, window_product_key, ip_addr, 'N', rcre_user_id, rcre_time, lchg_user_id, lchg_time], function (err, done) {
+    pool.query("INSERT INTO asset_it_master_tbl(asset_id,product,make,model,serial_no,host_name,os,os_type,software,ram,processor,hard_disk,accessories,window_product_key,ip_addr,del_flg,app_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [code1, product, make, model, serial_no, host_name, os, os_type, software, ram, processor, hard_disk, accessories, window_product_key, ip_addr, 'N', 'Y', rcre_user_id, rcre_time, lchg_user_id, lchg_time], function (err, done) {
       if (err) throw err;
 
       res.json({
-        message: "redirect to referer",
+        message: "redirect to view page",
         notification: "success Asset Details for Added Successfully"
       })
 
@@ -89,31 +89,30 @@ function additasset(req, res) {
 
 router.get('/assetViewDetails', function (req, res) {
 
-  var id = "";
-  var ptype = "";
-  var make = "";
-  var model = "";
-  var sno = "";
-  var hname = "";
-  var os = "";
-  var ost = "";
-  var sw = "";
-  var ram = "";
-  var procr = "";
-  var hrd = "";
-  var accs = "";
-  var wpkey = "";
-  var ipadd = "";
+  // var id = "";
+  // var ptype = "";
+  // var make = "";
+  // var model = "";
+  // var sno = "";
+  // var hname = "";
+  // var os = "";
+  // var ost = "";
+  // var sw = "";
+  // var ram = "";
+  // var procr = "";
+  // var hrd = "";
+  // var accs = "";
+  // var wpkey = "";
+  // var ipadd = "";
 
 
-  var emp_id = req.body.user_id;
-  var emp_access = req.body.user_type;
-  console.log(emp_access);
-  console.log(emp_id);
+  // var emp_id = req.body.user_id;
+  // var emp_access = req.body.user_type;
+  // console.log(emp_access);
+  // console.log(emp_id);
 
-  var my_id = req.body.user_id;
-  var my_name = req.body.user_name;
-
+  // var my_id = req.body.user_id;
+  // var my_name = req.body.user_name;
 
   pool.query("SELECT  * from asset_it_master_tbl where del_flg = 'N' order by serial_no asc", function (err, result) {
 
@@ -121,20 +120,26 @@ router.get('/assetViewDetails', function (req, res) {
       console.error('Error with table query', err);
     }
     else {
-      var result = result.rows;
+      var resultData = result.rows;
+      console.log(resultData, '---------');
 
-      console.log(result);
     }
-
 
     res.json({
       message: "redirect to viewItAsset",
-      data: result
-    })
+      data: resultData
+
+    });
 
 
   });
 });
+
+
+
+
+
+
 /////////////////////////////////////////////////  view it asset by id //////////////////////////////////////////////////////
 
 router.get('/assetViewDetail', function (req, res) {
@@ -208,59 +213,59 @@ function assetmoddet(req, res) {
 
 
 
-router.get('/assetmodView', assetmodView);
+router.post('/assetmodView', assetmodView);
 
 function assetmodView(req, res) {
   // console.log(req,"=============");
 
   // var asset_id = req.parms.asset_id;
-  var asset_id = req.body.asset_id;
-  console.log(req.body.asset_id);
+  var asset_id = req.body.userinfo.asset_id;
+  console.log(asset_id);
   var emp_id = req.query.user_id;
   var emp_access = req.query.user_type;
-
   var my_id = req.query.user_id;
   var my_name = req.query.user_name;
 
   pool.query("SELECT asset_id,product,make,model,serial_no,host_name,os,os_type,software,ram,processor,hard_disk,accessories,window_product_key,ip_addr from asset_it_master_tbl where upper(asset_id) = upper($1)", [asset_id], function (err, resultset) {
-    console.log(resultset, "result");
+    // console.log(resultset, "result");
 
     if (err) throw err;
 
-    var asset_id = resultset.rows[0].asset_id;
-    console.log(asset_id, "==========");
-    var product = resultset.rows[0].product;
-    var make = resultset.rows[0].make;
-    var model = resultset.rows[0].model;
-    var serial_no = resultset.rows[0].serial_no;
-    var host_name = resultset.rows[0].host_name;
-    var os = resultset.rows[0].os;
-    var os_type = resultset.rows[0].os_type;
-    var software = resultset.rows[0].software;
-    var ram = resultset.rows[0].ram;
-    var processor = resultset.rows[0].processor;
-    var hard_disk = resultset.rows[0].hard_disk;
-    var accessories = resultset.rows[0].accessories;
-    var window_product_key = resultset.rows[0].window_product_key;
-    var ip_addr = resultset.rows[0].ip_addr;
+    // var asset_id = resultset.rows[0].asset_id;
+    // console.log(asset_id, "==========");
+    var rowdata = resultset.rows;
+    // var product = rowdata[0].product;
+    // console.log(product);
+    var make = rowdata[0].make;
+    console.log(make);
+    var model = rowdata[0].model;
+    var serial_no = rowdata[0].serial_no;
+    var host_name = rowdata[0].host_name;
+    var os = rowdata[0].os;
+    var os_type = rowdata[0].os_type;
+    var software = rowdata[0].software;
+    var ram = rowdata[0].ram;
+    var processor = rowdata[0].processor;
+    var hard_disk = rowdata[0].hard_disk;
+    var accessories = rowdata[0].accessories;
+    var window_product_key = rowdata[0].window_product_key;
+    var ip_addr = rowdata[0].ip_addr;
+
 
     console.log("make", make);
     console.log("serial_no", serial_no);
     console.log("asset_id", asset_id);
 
 
-    res.json({
+    // var make ;
+    // var serial_no ;
+    res.send({
       data: {
 
-        // asset : asset,
-        //asset_id_count :asset_id_count,
-        // assetid:assetid,
-        //ptype:ptype,
-        asset_id: asset_id,
-        product: product,
-        make: make,
+        // product: product,
         model: model,
-        serial_no: serial_no,
+        make: make,
+        serial_no: make,
         host_name: host_name,
         os: os,
         os_type: os_type,
@@ -280,7 +285,7 @@ function assetmodView(req, res) {
 
 }
 
-
+// //////////////////////////////////////////////////////////////////////////
 
 router.get('/asset/:assetId', (req, res) => {
   const assetId = req.params.assetId;
@@ -306,6 +311,50 @@ router.get('/asset/:assetId', (req, res) => {
   );
 });
 
+//////////////////////////////////////////delete it  asset id//////////////////////////////////////
+
+router.get('/assetDelete/:asset_id', assetDelete);
+function assetDelete(req, res) {
+
+  var emp_id = req.body.user_id;
+  var emp_access = req.body.user_type;
+
+  var my_id = req.body.user_id;
+  var my_name = req.body.user_name;
+
+  var asset_id = req.params.asset_id;
+  console.log("asset_id", asset_id);
+
+
+  pool.query("UPDATE asset_it_master_tbl set del_flg = $1 where asset_id = $2 ", ['Y', asset_id], function (err, done) {
+    if (err) {
+      console.error('Error with table query', err);
+    }
+    else {
+
+      //               console.log('111111111111111111111111111');
+    }
+
+    pool.query("SELECT * FROM asset_it_master_tbl where del_flg='N' ", function (err, result) {
+      if (err) {
+        console.error('Error with table query', err);
+      }
+      else {
+        rowData = result.rows;
+      }
+
+      success = 'assetItDetails entry removed successfully';
+      res.json({
+        message: "redirect to viewAssetAlloc",
+        data: {
+          rowData: rowData,
+          result: result
+        }
+      });
+    })
+  });
+
+}
 
 
 ///////////////////////////////////////////////// add non it asset details //////////////////////////////////////////////////////
@@ -346,11 +395,11 @@ function assetnItasset(req, res) {
     console.log("code1", code1);
 
 
-    pool.query("INSERT INTO asset_nit_master_tbl(asset_nid,particulr,quant,rmks,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time)values($1,$2,$3,$4,$5,$6,$7,$8,$9)", [code1, particulr, quant, rmks, 'N', rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+    pool.query("INSERT INTO asset_nit_master_tbl(asset_id,particulr,quant,rmks,del_flg,app_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)", [code1, particulr, quant, rmks, 'N', 'Y', rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
       if (err) throw err;
 
       res.json({
-        message: "redirect to referer",
+        message: "redirect to view page",
         notification: "success Asset Details for Added Successfully"
       })
 
@@ -382,7 +431,7 @@ function assetnmoddet(req, res) {
 
   console.log();
 
-  pool.query("UPDATE asset_nit_master_tbl set particulr=$1,quant=$2,rmks=$3,del_flg=$4,lchg_user_id=$5,lchg_time=$6 where asset_nid =$7", [particulr, quant, rmks, 'N', lchguserid, lchgtime, asset_nid], function (err, done) {
+  pool.query("UPDATE asset_nit_master_tbl set particulr=$1,quant=$2,rmks=$3,del_flg=$4,lchg_user_id=$5,lchg_time=$6 where asset_id =$7", [particulr, quant, rmks, 'N', lchguserid, lchgtime, asset_nid], function (err, done) {
     if (err) throw err;
     res.json({
       message: "redirect to referer",
@@ -409,22 +458,32 @@ router.get('/assetnItViewDetails', function (req, res) {
   var my_id = req.query.user_id;
   var my_name = req.query.user_name;
 
-  pool.query("SELECT * from asset_nit_master_tbl where del_flg = 'N' order by asset_nid asc", function (err, result) {
+  pool.query("SELECT * from asset_nit_master_tbl where del_flg = 'N' order by asset_id asc", function (err, result) {
 
     if (err) {
       console.error('Error with table query', err);
     }
     else {
-      var result = result.rows;
+      var resultData = result.rows;
+      console.log(resultData, '---------');
+      var nonItAssetCount = 0;
 
-      console.log(result);
+
+      for (var i = 0; i < resultData.length; i++) {
+        var assetId = resultData[i].asset_nid;
+
+        // Check if the asset ID exists
+        if (assetId) {
+          nonItAssetCount++;
+        }
+      }
     }
 
     res.json({
       message: "redirect to viewNonItAsset",
-      data: result
-    })
-
+      data: resultData,
+      nonItAssetCount: nonItAssetCount
+    });
   });
 });
 
@@ -433,9 +492,9 @@ router.get('/assetnItViewDetails', function (req, res) {
 
 
 router.get('/nonAssetViewDetail', function (req, res) {
-  var asset_nid = req.query.asset_nid;
+  var asset_id = req.query.asset_nid;
 
-  pool.query("SELECT * FROM asset_nit_master_tbl WHERE asset_nid = $1", [asset_nid], function (err, result) {
+  pool.query("SELECT * FROM asset_nit_master_tbl WHERE asset_id = $1", [asset_id], function (err, result) {
     if (err) {
       console.error('Error with table query', err);
       res.status(500).json({ error: 'An error occurred while fetching the data.' });
@@ -446,9 +505,50 @@ router.get('/nonAssetViewDetail', function (req, res) {
   });
 });
 
+////////////////////////////////////////////////delete by Non IT asset///////////////////////////////////////////////////////////////////
+
+router.get('/assetDelete/:asset_id', assetDelete);
+function assetDelete(req, res) {
+
+  var emp_id = req.body.user_id;
+  var emp_access = req.body.user_type;
+
+  var my_id = req.body.user_id;
+  var my_name = req.body.user_name;
+
+  var asset_id = req.params.asset_id;
+  console.log("asset_id", asset_id);
 
 
+  pool.query("UPDATE asset_nit_master_tbl set del_flg = $1 where asset_id = $2 ", ['Y', asset_id], function (err, done) {
+    if (err) {
+      console.error('Error with table query', err);
+    }
+    else {
 
+      //               console.log('111111111111111111111111111');
+    }
+
+    pool.query("SELECT * FROM asset_nit_master_tbl where del_flg='N' ", function (err, result) {
+      if (err) {
+        console.error('Error with table query', err);
+      }
+      else {
+        rowData = result.rows;
+      }
+
+      success = 'assetNonItDetails entry removed successfully';
+      res.json({
+        message: "redirect to viewNonAsset",
+        data: {
+          rowData: rowData,
+          result: result
+        }
+      });
+    })
+  });
+
+}
 ///////////////////////////////////////////////////add it allocation details ////////////////////////////////////////////////////////////////////
 
 router.post('/assetaddAlloc', assetaddAlloc);
@@ -473,60 +573,169 @@ function assetaddAlloc(req, res) {
   var my_name = req.body.user_name;
 
 
-  pool.query("SELECT * from asset_alloc_master_tbl WHERE  asset_id = $1", [asset_id], function (err, result) {
+  pool.query("SELECT * from asset_it_master_tbl WHERE asset_id = $1", [asset_id], function (err, result) {
     if (err) throw err;
     var rcount = result.rowCount;
-    console.log("rcount", rcount);
-    console.log("empid", empId);
-    console.log("asset_id", asset_id);
+    console.log("IT rcount", rcount);
+
     if (rcount != 0) {
-      var del_flg = result.rows[0].del_flg;
-      console.log(del_flg, '--------');
-      if (del_flg == 'Y') {
 
-        // pool.query("INSERT INTO asset_alloc_master_tbl(asset_id,emp_id,emp_name,allocdate,rdate,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)", [asset_id, empId, emp_name, allocdate, rdate, 'N',rcre_user_id, rcre_time,lchg_user_id, lchg_time], function (err, done) {
-        //   if (err) throw err;                                                                                                                                                                   
-        pool.query("update asset_alloc_master_tbl set emp_id=$1,emp_name=$2,allocdate=$3,rdate=$4,del_flg='N' where asset_id =$5", [empId, emp_name, allocdate, rdate, asset_id], function (err, done) {
+      // var app_flg = result.rows[0].app_flg;
+      var app_flg = result.rows[0].app_flg.trim();
+      console.log(app_flg, 'IT App_flg ');
 
-          pool.query("INSERT INTO asset_alloc_hist_tbl(asset_id,emp_id,emp_name,allocdate,rdate,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)", [asset_id, empId, emp_name, allocdate, rdate, 'N', rcre_user_id, rcre_time, lchg_user_id, lchg_time], function (err, done) {
-            if (err) throw err;
+      if (app_flg === 'Y') {
+        console.log("Chekkkkkkk");
+        // Take count of alloc master tbl
 
-            res.json({
-              notification: "success Asset Details for Added Successfully"
+        pool.query("SELECT * from asset_alloc_master_tbl WHERE asset_id = $1", [asset_id], function (err, result1) {
+          if (err) throw err;
+
+          var rcount1 = result1.rowCount;
+          console.log("Allocate count", rcount1);
+
+          if (rcount1 == 0) {
+            // Insert New
+            pool.query("INSERT INTO asset_alloc_master_tbl(asset_id,emp_id,emp_name,allocdate,rdate,del_flg,status,rcre_user_id,rcre_time,lchg_user_id,lchg_time,asset_type)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [asset_id, empId, emp_name, allocdate, rdate, 'N', 'Allocated', rcre_user_id, rcre_time, lchg_user_id, lchg_time, 'IT'], function (err, done) {
+
+              pool.query("INSERT INTO asset_alloc_hist_tbl(asset_id,emp_id,emp_name,allocdate,rdate,del_flg,status,rcre_user_id,rcre_time,lchg_user_id,lchg_time,asset_type)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [asset_id, empId, emp_name, allocdate, rdate, 'N', 'Allocated', rcre_user_id, rcre_time, lchg_user_id, lchg_time, 'IT'], function (err, done) {
+                if (err) throw err;
+
+
+                pool.query("update asset_it_master_tbl set app_flg='N' where asset_id=$1", [asset_id], function (err, done) {
+                  if (err) throw err;
+
+                  res.json({
+                    notification: "IT Asset Allocated Successfully"
+                  })
+
+                })
+
+
+              });
+
             })
+          }
+          else {
+            // Update old
+            pool.query("update asset_alloc_master_tbl set emp_id=$1,emp_name=$2,allocdate=$3,rdate=$4,del_flg='N',status='Allocated', asset_type='IT' where asset_id =$5", [empId, emp_name, allocdate, rdate, asset_id], function (err, done) {
 
-          });
+              pool.query("INSERT INTO asset_alloc_hist_tbl(asset_id,emp_id,emp_name,allocdate,rdate,del_flg,status,rcre_user_id,rcre_time,lchg_user_id,lchg_time,asset_type)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [asset_id, empId, emp_name, allocdate, rdate, 'N', 'Allocated', rcre_user_id, rcre_time, lchg_user_id, lchg_time, 'NON IT'], function (err, done) {
+                if (err) throw err;
 
-        })
+                pool.query("update asset_it_master_tbl set app_flg='N' where asset_id=$1", [asset_id], function (err, done) {
+                  if (err) throw err;
+
+                  res.json({
+                    notification: "IT Asset Allocated Successfully"
+                  })
+
+                })
+
+              });
+
+            })
+          }
+        });
+
       }
       else {
         res.json({
-          notification: "Record already Exists"
+          message: "ASSET ALREADY IN USE!!!"
         })
 
       }
+
     }
     else {
-      pool.query("INSERT INTO asset_alloc_master_tbl(asset_id,emp_id,emp_name,allocdate,rdate,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)", [asset_id, empId, emp_name, allocdate, rdate, 'N', rcre_user_id, rcre_time, lchg_user_id, lchg_time], function (err, done) {
+      // For Non IT
+      pool.query("SELECT * from asset_nit_master_tbl WHERE asset_id = $1", [asset_id], function (err, result) {
         if (err) throw err;
 
-        pool.query("INSERT INTO asset_alloc_hist_tbl(asset_id,emp_id,emp_name,allocdate,rdate,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)", [asset_id, empId, emp_name, allocdate, rdate, 'N', rcre_user_id, rcre_time, lchg_user_id, lchg_time], function (err, done) {
-          if (err) throw err;
+        var rowdata = result.rowCount;
+        console.log("Non IT rowcount: " + rowdata);
 
-          res.json({
-            notification: "success Asset Details for Added Successfully"
-          })
+        if (rowdata != 0) {
 
-        });
+          var app_flg1 = result.rows[0].app_flg.trim();
+          console.log(app_flg1, 'Non IT App_flg ');
 
-      });
+          if (app_flg1 === 'Y') {
+            console.log("Chekk 2");
+            // Take count of alloc master tbl
 
+            pool.query("SELECT * from asset_alloc_master_tbl WHERE asset_id = $1", [asset_id], function (err, result1) {
+              if (err) throw err;
+
+              var rcount1 = result1.rowCount;
+              console.log("Allocate count", rcount1);
+
+              if (rcount1 == 0) {
+                // Insert New
+                pool.query("INSERT INTO asset_alloc_master_tbl(asset_id,emp_id,emp_name,allocdate,rdate,del_flg,status,rcre_user_id,rcre_time,lchg_user_id,lchg_time,asset_type)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [asset_id, empId, emp_name, allocdate, rdate, 'N', 'Allocated', rcre_user_id, rcre_time, lchg_user_id, lchg_time, 'NON IT'], function (err, done) {
+
+                  pool.query("INSERT INTO asset_alloc_hist_tbl(asset_id,emp_id,emp_name,allocdate,rdate,del_flg,status,rcre_user_id,rcre_time,lchg_user_id,lchg_time,asset_type)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [asset_id, empId, emp_name, allocdate, rdate, 'N', 'Allocated', rcre_user_id, rcre_time, lchg_user_id, lchg_time, 'NON IT'], function (err, done) {
+                    if (err) throw err;
+
+
+                    pool.query("update asset_nit_master_tbl set app_flg='N' where asset_id=$1", [asset_id], function (err, done) {
+                      if (err) throw err;
+
+                      res.json({
+                        notification: "NON IT Asset Allocated Successfully"
+                      })
+
+                    })
+
+
+                  });
+
+                })
+              }
+              else {
+                // Update old
+                pool.query("update asset_alloc_master_tbl set emp_id=$1,emp_name=$2,allocdate=$3,rdate=$4,del_flg='N',status='Allocated', asset_type='NON IT' where asset_id =$5", [empId, emp_name, allocdate, rdate, asset_id], function (err, done) {
+
+                  pool.query("INSERT INTO asset_alloc_hist_tbl(asset_id,emp_id,emp_name,allocdate,rdate,del_flg,status,rcre_user_id,rcre_time,lchg_user_id,lchg_time,asset_type)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [asset_id, empId, emp_name, allocdate, rdate, 'N', 'Allocated', rcre_user_id, rcre_time, lchg_user_id, lchg_time, 'NON IT'], function (err, done) {
+                    if (err) throw err;
+
+                    pool.query("update asset_nit_master_tbl set app_flg='N' where asset_id=$1", [asset_id], function (err, done) {
+                      if (err) throw err;
+
+                      res.json({
+                        notification: "NON IT Asset Allocated Successfully"
+                      })
+
+                    })
+
+                  });
+
+                })
+              }
+            });
+
+          }
+          else {
+            res.json({
+              message: "ASSET ALREADY IN USE!!!"
+            })
+
+          }
+
+        }
+        else {
+          res.json({ notification: "Asset Not Exist Pls contact the Admin!!" })
+          console.log("Asset Not Exist Pls contact the Admin");
+        }
+
+      })
 
     }
   });
 }
-
 //////////////////////////////////////////////////delete it allocation details////////////////////////
+
+
 function removeAsset(req, res) {
 
   var emp_id = req.body.user_id;
@@ -539,7 +748,7 @@ function removeAsset(req, res) {
   console.log("asset_id", asset_id);
 
 
-  pool.query("UPDATE asset_alloc_master_tbl set del_flg = $1 where asset_id = $2 ", ['Y', asset_id], function (err, done) {
+  pool.query("UPDATE asset_alloc_master_tbl set del_flg = $1,status = $2 where asset_id = $3 ", ['Y', 'DeAllocated', asset_id], function (err, done) {
     if (err) {
       console.error('Error with table query', err);
     }
@@ -547,7 +756,7 @@ function removeAsset(req, res) {
 
       //               console.log('111111111111111111111111111');
     }
-    pool.query("UPDATE asset_alloc_hist_tbl set del_flg = $1 where asset_id = $2 ", ['Y', asset_id], function (err, done) {
+    pool.query("UPDATE asset_alloc_hist_tbl set del_flg = $1, status= $2 where asset_id = $3 ", ['Y', 'DeAllocated', asset_id], function (err, done) {
       if (err) {
         console.error('Error with table query', err);
       }
@@ -556,24 +765,59 @@ function removeAsset(req, res) {
         //               console.log('111111111111111111111111111');
       }
 
-      pool.query("SELECT * FROM asset_alloc_master_tbl where del_flg =$1 ", ['N'], function (err, result) {
-        if (err) {
-          console.error('Error with table query', err);
+      //To check Asset IT or Non IT+++++++
+      pool.query("SELECT * from asset_it_master_tbl WHERE asset_id = $1", [asset_id], function (err, result) {
+        if (err) throw err;
+        var rcount = result.rowCount;
+        console.log("IT rcount", rcount);
+
+        if (rcount != 0) {
+
+          pool.query("UPDATE asset_it_master_tbl set app_flg = 'Y' ", function (err, done) {
+            if (err) {
+              console.error('Error with table query', err);
+            }
+            else {
+              console.log("Updated to IT Master");
+            }
+
+
+          });
         }
         else {
-          rowData = result.rows;
+          pool.query("UPDATE asset_it_master_tbl set app_flg = 'Y' ", function (err, done) {
+            if (err) {
+              console.error('Error with table query', err);
+            }
+            else {
+              console.log("Updated to NON I Master");
+            }
+
+
+          });
         }
 
-        success = 'assetAlloc entry removed successfully';
-        res.json({
-          message: "redirect to viewAssetAlloc",
-          data: {
-            rowData: rowData,
-            result: result
+
+
+        pool.query("SELECT * FROM asset_alloc_master_tbl where del_flg='N' ", function (err, result) {
+          if (err) {
+            console.error('Error with table query', err);
+          }
+          else {
+            rowData = result.rows;
           }
 
+          success = 'assetAlloc entry removed successfully';
+          res.json({
+            message: "redirect to viewAssetAlloc",
+            data: {
+              rowData: rowData,
+              result: result
+            }
+
+          });
         });
-      })
+      });
     });
   });
 
@@ -625,7 +869,7 @@ function assetmodAlloc(req, res) {
 router.get('/assetItAllocViewDetails', function (req, res) {
 
 
-  pool.query("SELECT * from asset_alloc_master_tbl where del_flg = 'N' order by asset_id asc", function (err, result) {
+  pool.query("SELECT * from asset_alloc_master_tbl  order by asset_id asc", function (err, result) {
 
     if (err) {
       console.error('Error with table query', err);
@@ -644,30 +888,29 @@ router.get('/assetItAllocViewDetails', function (req, res) {
   });
 });
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////view allocated history deatails /////////////////////////////////////////////////////////////
+
+router.get('/assetItHistoryAllocViewDetails', function (req, res) {
 
 
+  pool.query("SELECT * from asset_alloc_hist_tbl order by allocdate desc", function (err, result) {
 
+    if (err) {
+      console.error('Error with table query', err);
+    }
+    else {
+      var result = result.rows;
 
+      console.log(result);
+    }
 
+    res.json({
+      message: "redirect to viewItAllocationAsset",
+      data: result
+    })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  });
+});
 
 
 

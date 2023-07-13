@@ -23,14 +23,22 @@
                             <th>Particular</th>
                             <th>Quantity</th>
                             <th>Remarks</th> 
+                            <th>Description</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let row of filteredData">
-                            <td>{{ row.asset_nid }}</td>
+                            <td>{{ row.asset_id }}</td>
                             <td>{{ row.particulr }}</td>
                             <td>{{ row.quant}}</td>
-                            <td>{{ row.rmks}}</td>   
+                            <td>{{ row.rmks}}</td> 
+                            <td [ngSwitch]="row.app_flg">
+                                <span *ngSwitchCase="'Y'">Available</span>
+                                <span *ngSwitchCase="'N'">Not Available</span>
+                            </td> 
+                            <td><button class="button" class="listbutton" (click)="deleteAsset(row)">Delete</button>
+                            </td> 
                     </tbody>
                 </table>
             </div>

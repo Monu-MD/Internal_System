@@ -22,8 +22,6 @@ router.delete('/:leave_id', deleteLeaves);
 
 
 
-
-
 // router.get('/holidays', holidays);
 // router.get('/viewWorkingDays', viewWorkingDays);
 // router.get('/removeWorkingDays', removeWorkingDays);
@@ -294,13 +292,13 @@ function removeHolidays(req, res) {
      ///////////////
      var leaveTypeId=req.body.leave_type;
      var nod=req.body.allocated_leaves;
-     var cnod=req.body.carry_fwd;
+     var desc=req.body.description;
      var configyears=req.body.year;
  
      console.log("configyears", configyears);
      console.log(leaveTypeId);
      console.log(nod);
-     console.log(cnod);
+     console.log(desc);
      console.log(configyears);
  
  
@@ -330,7 +328,7 @@ function removeHolidays(req, res) {
  
              if (leave_cnt == "0") {
  
-                 pool.query("INSERT INTO leave_config(leave_type, del_flg ,allocated_leaves, rcre_user_id , rcre_time ,lchg_user_id,lchg_time,carry_fwd,year,leave_id) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)", [leaveTypeId, 'N', nod, emp_id, rcretime, emp_id, rcretime, cnod, configyears,leave_id], function (err, done) {
+                 pool.query("INSERT INTO leave_config(leave_type, del_flg ,allocated_leaves, rcre_user_id , rcre_time ,lchg_user_id,lchg_time,description,year,leave_id) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)", [leaveTypeId, 'N', nod, emp_id, rcretime, emp_id, rcretime, desc, configyears,leave_id], function (err, done) {
                      if (err) throw err;
                  });
  
@@ -345,7 +343,7 @@ function removeHolidays(req, res) {
                      data: {
                           leaveTypeId:leaveTypeId,
                           nod:nod,
-                          cnod:cnod,
+                          desc:desc,
                           configyears:configyears
                      }
                  })

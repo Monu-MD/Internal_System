@@ -11,11 +11,15 @@ import{AssetServiceService} from 'src/app/services/asset-service.service'
   styleUrls: ['./view-it-allocation-deatil.component.css']
 })
 export class ViewItAllocationDeatilComponent {
-
-  constructor(private http: HttpClient, private assetServiceService:AssetServiceService) { }
-
+ 
+  constructor(private http: HttpClient, private assetServiceService:AssetServiceService,private loginService:LoginServiceService) {
+    const user=this.loginService.getData();
+    this.user_type=user[2];
+    console.log(this.user_type);
+   }
+   user_type:any;
   assetData:any;
-  viewNonItAssetForm: any;
+  ViewItAllocationDetail: any;
   rowData: any[] = [];
   filteredData: any[] = [];
   dataLoaded: boolean = false;
@@ -24,9 +28,13 @@ export class ViewItAllocationDeatilComponent {
   totalPages: number = 15;
   totalItems: number = 10;
   itemsPerPageOptions: number[] = [10, 25, 50, 100];
-
   assetId: any;
 
+
+
+
+
+  
 
   onItemsPerPageChange(event: any) {
     const value = event.target.value;
@@ -35,7 +43,7 @@ export class ViewItAllocationDeatilComponent {
   }
 
   ngOnInit() {
-  this. viewNonItAssetForm = new FormGroup({
+  this. ViewItAllocationDetail = new FormGroup({
     assetId: new FormControl('', [Validators.required])
   });
     this.fetchData();
@@ -60,20 +68,19 @@ export class ViewItAllocationDeatilComponent {
     );
   }
 
-
-  deleteHoliday(row: any) {
+  deleteAsset(row: any) {
     this.http.get(`http://localhost:4000/assetDetails/removeAsset/${row.asset_id}`).subscribe(
       (response: any) => {
-                console.log('Data deleted successfully:', response);
-                 // Remove the deleted item from rowData array it will reloaded 
-                this.rowData = this.rowData.filter(item => item.asset_id !== row.asset_id);
-              },
-              (error: any) => {
-                console.error('Error:', error);
-              }  
+        console.log('Data deleted successfully:', response);
+       
+        this.rowData = this.rowData.filter((item) => item.asset_id !== row.asset_id);
+        this.filteredData = this.filteredData.filter((item) => item.asset_id !== row.asset_id);
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
     );
-   
-    }
+  }
   
 
   filterData(assetId: string) {
@@ -86,8 +93,8 @@ export class ViewItAllocationDeatilComponent {
   
   
   onSubmit() {
-    if (this. viewNonItAssetForm.valid) {
-      const assetId= this. viewNonItAssetForm.value.assetId;
+    if (this. ViewItAllocationDetail.valid) {
+      const assetId= this. ViewItAllocationDetail.value.assetId;
       this.filterData(assetId);
       
     } 
@@ -125,7 +132,6 @@ export class ViewItAllocationDeatilComponent {
     this.filteredData = this.rowData.slice(startIndex, endIndex);
   
   }
-
 
 
 }

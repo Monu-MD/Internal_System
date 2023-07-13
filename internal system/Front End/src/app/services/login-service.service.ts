@@ -12,7 +12,6 @@ export class LoginServiceService {
   data: any;
   phtotUrl: any;
   notification: any;
- 
   asset:any;
   emp_data: any;
   leave_master: any;
@@ -63,7 +62,8 @@ export class LoginServiceService {
     this.leave_master,
     this.project_data,
     this.adminDashboard,
-           this.asset]
+   this.asset
+  ]
   }
 
 

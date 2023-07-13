@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { FormControl,FormGroup,Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-non-it-asset-details',
   templateUrl: './add-non-it-asset-details.component.html',
   styleUrls: ['./add-non-it-asset-details.component.css']
 })
 export class AddNonItAssetDetailsComponent {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private router : Router) { }
 
   addNonItAssetDetailsForm=new FormGroup<any>({
     particulr: new FormControl('', [Validators.required]),
@@ -30,7 +31,9 @@ export class AddNonItAssetDetailsComponent {
      console.log("enterd");
      
         console.log('Data posted successfully:', response);
-       
+        if(response.message == "redirect to view page"){
+          this.router.navigateByUrl("/ViewNonItAssetDetail");
+        }
   
       },
       (error: any) => {

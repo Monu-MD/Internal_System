@@ -209,7 +209,7 @@
                         <li><a routerLink="/viewHolidays">List Of Holidays</a></li>
                         <li><a routerLink="/configLeave">Configure Details</a></li>
                         <li><a routerLink="/modifyLeave">Modify Leaves Details</a></li>
-                        <li><a routerLink="/removeLeave">Remove Leaves Details</a></li>
+                        <!-- <li><a routerLink="/removeLeave">Remove Leaves Details</a></li> -->
                         <li><a routerLink="/ListLeave">View Leaves Details</a></li>
                     </ul>
                 </div>
@@ -247,16 +247,16 @@
             <div [ngSwitch]="user_type">
                 <div *ngSwitchCase="'L3'">
                     <ul>
-                        <li><a href="" routerLink="/ViewItAllocationDetail">View IT Allocation Detail</a></li>
+                        <li><a href="" routerLink="/ViewItAllocationDetail">View Allocation Detail</a></li>
                     </ul>
                 </div>
 
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
-                        <li><a href="" routerLink="/ITAssetAllocation">Add IT Allocation Details</a></li>
-                        <li><a href="" routerLink="/ModifyItAllocationDetails">Modify IT Allocation Details</a></li>
-                        <!-- <li><a href="" routerLink="/ViewItAllocationDetails">View IT Allocation Details</a></li> -->
-                        <li><a href="" routerLink="/ViewItAllocationDetail">View IT Allocation Detail</a></li>
+                        <li><a href="" routerLink="/ITAssetAllocation">Add Allocation Details</a></li>
+                        <li><a href="" routerLink="/ModifyItAllocationDetails">Modify Allocation Details</a></li>
+                        <li><a href="" routerLink="/ViewItAllocationDetails">View Allocation History</a></li>
+                        <li><a href="" routerLink="/ViewItAllocationDetail">View Allocation Details</a></li>
                         <li><a href="" routerLink="/">FAQ</a></li>
                     </ul>
                 </div>

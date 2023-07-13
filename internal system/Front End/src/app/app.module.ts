@@ -51,7 +51,7 @@ import { ViewItAssetDetailsComponent } from './asset-mangement-system-module/vie
 import { ViewNonItAssetDetailsComponent } from './asset-mangement-system-module/view-non-it-asset-details/view-non-it-asset-details.component';
 import { ViewItAllocationDetailsComponent } from './asset-mangement-system-module/view-it-allocation-details/view-it-allocation-details.component';
 import { ViewItAssetDetailComponent } from './asset-mangement-system-module/view-it-asset-detail/view-it-asset-detail.component'
-import { ViewNonItAssetDetailComponent } from './view-non-it-asset-detail/view-non-it-asset-detail.component'
+import { ViewNonItAssetDetailComponent } from './asset-mangement-system-module/view-non-it-asset-detail/view-non-it-asset-detail.component'
 import { ViewItAllocationDeatilComponent } from './asset-mangement-system-module/view-it-allocation-deatil/view-it-allocation-deatil.component'
 
 import { BankDetailsComponent } from '../app/employee-module/BankDetails/bank-details/bank-details.component';

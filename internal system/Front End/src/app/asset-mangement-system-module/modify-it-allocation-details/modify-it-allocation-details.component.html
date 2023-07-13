@@ -2,7 +2,7 @@
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
 <div class="container">
-    <h1 class="title">Modify IT Asset Allocation</h1>
+    <h1 class="title">Modify Asset Allocation</h1>
     <div class="content">
         <form [formGroup]="modifyItAssetAllocationForm" (ngSubmit)="onSubmit(modifyItAssetAllocationForm.value)">
 
@@ -11,8 +11,6 @@
                     <label class="details">Asset ID</label>
                     <input type="text" name="asset_id" formControlName="asset_id" placeholder="Asset ID">
                 </div>
-
-
 
                 <div class="input-box">
                     <label class="details">Employee ID</label>

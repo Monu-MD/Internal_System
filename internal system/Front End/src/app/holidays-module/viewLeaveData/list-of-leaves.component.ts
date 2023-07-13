@@ -56,7 +56,9 @@ fetchData() {
                 this.rowData.push({ type: 'SL', value: item.value });
               }
             }
-          } else {
+          }
+          
+          else {
             console.error('Invalid response data format');
           }
       
@@ -88,7 +90,6 @@ deleteHoliday(row: any) {
   );
  
   }
-
 
   onSubmit(item:any){
     console.log(item);
@@ -128,6 +129,7 @@ updatePageData() {
   var startIndex = (this.currentPage - 1) * this.itemsPerPage;
   var endIndex = startIndex + this.itemsPerPage;
   this.rowData= this.rowData.slice(startIndex, endIndex);
-
 }
+
+
 }

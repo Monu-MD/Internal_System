@@ -99,7 +99,7 @@ import { EmpPersonalDetailsComponent } from './employee-module/emp-personal-deta
 import { EmpProfessionalDetailsComponent } from './employee-module/emp-professional-details/emp-professional-details.component';
 import { EmployeeDetailsComponent } from './employee-module/employee-details/employee-details.component';
 import { ViewItAssetDetailComponent } from './asset-mangement-system-module/view-it-asset-detail/view-it-asset-detail.component'
-import { ViewNonItAssetDetailComponent } from './view-non-it-asset-detail/view-non-it-asset-detail.component';
+import { ViewNonItAssetDetailComponent } from './asset-mangement-system-module/view-non-it-asset-detail/view-non-it-asset-detail.component';
 import { ViewItAllocationDeatilComponent } from './asset-mangement-system-module/view-it-allocation-deatil/view-it-allocation-deatil.component'
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component'
 
