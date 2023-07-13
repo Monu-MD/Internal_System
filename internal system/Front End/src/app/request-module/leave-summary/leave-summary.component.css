@@ -6,7 +6,9 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     margin-top: 131px;
     margin-bottom: 164px;
+    position: revert;
   }
+
   .header {
     font-size: 24px;
     color: #030303;
@@ -19,7 +21,7 @@
   }
   
   .question-header {
-    position: relative;
+    position: revert;
     background-color: #070707;
     color: #f5f5f5;
     padding: 15px;

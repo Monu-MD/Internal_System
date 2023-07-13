@@ -1,6 +1,7 @@
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
+
 <div class="container">
     <h1 class="title">Apply Leave</h1>
     <div class="content">
@@ -8,7 +9,7 @@
             <div class="user-details">
                 <div class="input-box">
                     <label for="sessionType" class="details">Session Type</label>
-                    <select id="sessionType" class="form-control" formControlName="sessionType">
+                    <select id="sessionType" class="form-control" formControlName="sessionType" required>
                         <option value="">--Select--</option>
                         <option value="FD">Full Day</option>
                         <option value="HD">Half Day</option>
@@ -16,10 +17,19 @@
                     <pre></pre>
                 </div>
 
+                <div class="input-box" *ngIf="addLeaveForm.get('sessionType')?.value === 'HD'">
+                    <label for="sessionSelection" class="details">Session Selection</label>
+                    <select id="sessionSelection" class="form-control" formControlName="sessions" required>
+                      <option value="">--Select--</option>
+                      <option value="s1">Session 1</option>
+                      <option value="s2">Session 2</option>
+                    </select> 
+                    <pre></pre>
+                  </div>
 
                 <div class="input-box">
                     <label for="leaveType" class="details">Leave Type </label>
-                    <select id="leaveType" class="form-control" formControlName="leaveType">
+                    <select id="leaveType" class="form-control" formControlName="leaveType" required>
                         <option value="">--Select--</option>
                         <option value="EL">Annual</option>
                         <option value="SL">Sick</option>
@@ -33,21 +43,21 @@
 
                 <div class="input-box">
                     <label class="details">From Date</label>
-                    <input type="date" name="fromDate" formControlName="fromDate">
+                    <input type="date" name="fromDate" formControlName="fromDate" required>
                 </div>
                 <div class="input-box">
                     <label class="details">To Date</label>
-                    <input type="date" name="toDate" formControlName="toDate">
+                    <input type="date" name="toDate" formControlName="toDate" required>
                 </div>
 
                 <div class="input-box">
                     <label class="details">Applied Number of Days</label>
-                    <input type="number" name="numDays" formControlName="appliedNoOfDays">
+                    <input type="number" name="numDays" formControlName="appliedNoOfDays" required>
                 </div>
 
                 <div class="input-box">
                     <label for="description" class="details">Reason</label>
-                    <textarea id="description" class="form-control" formControlName="description"></textarea>
+                    <textarea id="description" class="form-control" formControlName="description" required></textarea>
                 </div>
 
 

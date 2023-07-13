@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginServiceService } from 'src/app/services/login-service.service';
 @Component({
@@ -8,31 +8,57 @@ import { LoginServiceService } from 'src/app/services/login-service.service';
   templateUrl: './apply-leave.component.html',
   styleUrls: ['./apply-leave.component.css']
 })
-export class ApplyLeaveComponent {
+export class ApplyLeaveComponent implements OnInit{
 
-  addLeaveForm = new FormGroup<any>({
-    sessionType: new FormControl('', [Validators.required]),
-    leaveType: new FormControl('', [Validators.required]),
-    fromDate: new FormControl('', [Validators.required]),
-    toDate: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required]),
-    mangername: new FormControl('', [Validators.required]),
-    appliedNoOfDays: new FormControl('', [Validators.required]),
-    availableLeaves: new FormControl('', [Validators.required]),
-    availedLevs: new FormControl('', [Validators.required]),
-  })
+  addLeaveForm!: FormGroup;
+
+  // addLeaveForm = new FormGroup<any>({
+  //   sessionType: new FormControl('', [Validators.required]),
+  //   sessions: new FormControl('', [Validators.required]),
+  //   leaveType: new FormControl('', [Validators.required]),
+  //   fromDate: new FormControl('', [Validators.required]),
+  //   toDate: new FormControl('', [Validators.required]),
+  //   description: new FormControl('', [Validators.required]),
+  //   mangername: new FormControl('', [Validators.required]),
+  //   appliedNoOfDays: new FormControl('', [Validators.required]),
+  //   availableLeaves: new FormControl('', [Validators.required]),
+  //   availedLevs: new FormControl('', [Validators.required]),
+  // })
 
   user_id: any;
   user_type: any;
   user_name: any;
+  
   constructor(private http: HttpClient,
-    private router: Router, private loginservice: LoginServiceService) {
+    private router: Router, private loginservice: LoginServiceService,private formBuilder: FormBuilder) {
     const user = this.loginservice.getData();
     this.user_id = user[0];
     this.user_name = user[1];
     this.user_type = user[2];
   }
 
+  ngOnInit() {
+    this.initializeForm();
+  }
+
+  initializeForm() {
+    this.addLeaveForm = this.formBuilder.group({
+      sessionType: ['', Validators.required],
+      sessions: [''],
+      leaveType: ['', Validators.required],
+      fromDate: ['', Validators.required],
+      toDate: ['', Validators.required],
+      appliedNoOfDays: [null, [Validators.required, this.notNullValidator]],
+      description: ['', Validators.required],
+    });
+  }
+
+  notNullValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    if (control.value === null) {
+      return { notNull: true };
+    }
+    return null;
+  }
 
   submit(item: any) {
     console.log(item);
