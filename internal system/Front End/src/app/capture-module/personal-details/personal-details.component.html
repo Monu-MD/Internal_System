@@ -1,3 +1,7 @@
+<app-headder *ngIf="modifypersonal"></app-headder>
+<app-topbar *ngIf="modifypersonal"></app-topbar>
+<app-sidebar *ngIf="modifypersonal"></app-sidebar>
+
 <body *ngIf="user_type!=='A1'">
     <div class="allighn">
         <div class="container">
@@ -10,35 +14,37 @@
                     <div class="user-details">
                         <div class="input-box">
                             <label class="details">Employee ID</label>
-                            <input type="text" name="employeeId" [ngModel]="user_id" [readOnly]="true"
+                            <input type="text" name="employeeId" [ngModel]="user_id" 
                                 formControlName="employeeId" required>
                         </div>
 
                         <div class="input-box">
                             <label class="details">Employee Name</label>
-                            <input type="text" name="employeeName" formControlName="employeeName">
+                            <input type="text" name="employeeName" [ngModel]="emp_data?.emp_name" 
+                                formControlName="employeeName">
                         </div>
+
                         <div>
-                            <div style="    display: flex;
-                        flex-wrap: wrap;
-                        justify-content: space-between;
-                        margin: -2px 113px -1px 9px;">
+                            <div
+                                style="display: flex; flex-wrap: wrap; justify-content: space-between; margin: -2px 113px -1px 9px;">
                                 <div class="radioButton">
                                     <h1 class="radioButtontitle">Gender</h1>
                                     <label>Male</label>
-                                    <input type="radio" formControlName="gender" name="gender" value="M">
+                                    <input type="radio" [ngModel]="emp_data?.gender" [readOnly]="true"
+                                        formControlName="gender" name="gender" value="M">
                                     <label>Female</label>
-                                    <input type="radio" formControlName="gender" name="gender" value="F">
-
+                                    <input type="radio" [ngModel]="emp_data?.gender" [readOnly]="true"
+                                        formControlName="gender" name="gender" value="F">
                                 </div>
                             </div>
                         </div>
+
                         <div class="input-box">
                             <label class="details">Date of Birth</label>
                             <input type="date" name="dateOfBirth" formControlName="dateOfBirth">
                         </div>
 
-                        <!-- blod group  -->
+                        <!-- blood group -->
                         <div class="input-box">
                             <label class="details">Blood Group</label>
                             <select name="bloodGroup" formControlName="bloodGroup">
@@ -46,6 +52,7 @@
                                 <option *ngFor="let data of comm_code_blood">{{data.comm_code_desc}}</option>
                             </select>
                         </div>
+
                         <div class="input-box">
                             <label class="details">T-Shirt Size</label>
                             <select name="tShirtSize" formControlName="tShirtSize">
@@ -56,7 +63,8 @@
 
                         <div class="input-box">
                             <label class="details">Communication Address</label>
-                            <input type="text" name="communicationAddress" formControlName="communicationAddress">
+                            <input type="text" name="communicationAddress" [ngModel]="emp_data?.comm_addr1"
+                                formControlName="communicationAddress">
                         </div>
 
                         <div class="input-box">
@@ -70,12 +78,12 @@
 
                         <div class="input-box">
                             <label class="details">City</label>
-                            <input type="text" name="city" formControlName="city">
+                            <input type="text" [ngModel]="emp_data?.city" name="city" formControlName="city">
                         </div>
 
                         <div class="input-box">
                             <label class="details">Pin Code</label>
-                            <input type="text" name="pinCode" formControlName="pinCode">
+                            <input type="text" name="pinCode" [ngModel]="emp_data?.pincode" formControlName="pinCode">
                         </div>
 
                         <label class="checkbox">
@@ -110,32 +118,41 @@
                             <input type="text" name="pinCode1" formControlName="pinCode1"
                                 [disabled]="isSameAsCurrentAddress">
                         </div>
+
                         <div class="input-box">
                             <label class="details">Mobile number</label>
-                            <input type="text" name="mobileNumber" formControlName="mobileNumber">
+                            <input type="text" [ngModel]="emp_data?.phone1" name="mobileNumber"
+                                formControlName="mobileNumber">
                         </div>
 
                         <div class="input-box">
                             <label class="details">Altranative Contact Number</label>
-                            <input type="text" name="altranativeContactNumber"
+                            <input type="text" name="altranativeContactNumber" [ngModel]="emp_data?.phone2"
                                 formControlName="altranativeContactNumber">
                         </div>
+
                         <div class="input-box">
                             <label class="details">Emergency Contact Number</label>
                             <input type="text" name="emergencyContactNumber" formControlName="emergencyContactNumber">
                         </div>
+
                         <div class="input-box">
                             <label class="details">Emergency Contact Person</label>
                             <input type="text" name="emergencyContactPerson" formControlName="emergencyContactPerson">
                         </div>
+
                         <div class="input-box">
                             <label class="details">Father Name</label>
-                            <input type="text" name="fatherName" formControlName="fatherName">
+                            <input type="text" [ngModel]="emp_data?.father_name" name="fatherName"
+                                formControlName="fatherName">
                         </div>
+
                         <div class="input-box">
                             <label class="details">Mother Name</label>
-                            <input type="text" name="motherName" formControlName="motherName">
+                            <input type="text" name="motherName" [ngModel]="emp_data?.mother_name"
+                                formControlName="motherName">
                         </div>
+
                         <div class="input-box">
                             <label class="details">Marital Status </label>
                             <select name="maritalStatus" formControlName="maritalStatus">
@@ -143,33 +160,43 @@
                                 <option *ngFor="let data of comm_code_maritalstatus" [value]="data.comm_code_desc">{{
                                     data.comm_code_desc }}</option>
                             </select>
-
                         </div>
+
                         <div class="input-box">
                             <label class="details">Spouse Name</label>
-                            <input type="text" name="spouseName" formControlName="spouseName">
-                        </div>
-                        <div class="input-box">
-                            <label class="details">Pan Number</label>
-                            <input type="text" name="panNumber" formControlName="panNumber">
-                        </div>
-                        <div class="input-box">
-                            <label class="details">Passport Number</label>
-                            <input type="text" name="passportNumber" formControlName="passportNumber">
-                        </div>
-                        <div class="input-box">
-                            <label class="details">Adhar Card Number</label>
-                            <input type="text" name="adharCardNumber" formControlName="adharCardNumber">
-                        </div>
-                        <div class="input-box">
-                            <label class="details">Driving Licence Number</label>
-                            <input type="text" name="drivingLicenceNumber" formControlName="drivingLicenceNumber">
-                        </div>
-                        <div class="input-box">
-                            <label class="details">UAN Number</label>
-                            <input type="text" name="uanNumber" formControlName="uanNumber">
+                            <input type="text" [ngModel]="emp_data?.spouse_name" name="spouseName"
+                                formControlName="spouseName">
                         </div>
 
+                        <div class="input-box">
+                            <label class="details">Pan Number</label>
+                            <input type="text" name="panNumber" [ngModel]="emp_data?.pan_number"
+                                formControlName="panNumber">
+                        </div>
+
+                        <div class="input-box">
+                            <label class="details">Passport Number</label>
+                            <input type="text" name="passportNumber" [ngModel]="emp_data?.passport_num"
+                                formControlName="passportNumber">
+                        </div>
+
+                        <div class="input-box">
+                            <label class="details">Adhar Card Number</label>
+                            <input type="text" name="adharCardNumber" [ngModel]="emp_data?.aadhaar_num"
+                                formControlName="adharCardNumber">
+                        </div>
+
+                        <div class="input-box">
+                            <label class="details">Driving Licence Number</label>
+                            <input type="text" name="drivingLicenceNumber" [ngModel]="emp_data?.license_num"
+                                formControlName="drivingLicenceNumber">
+                        </div>
+
+                        <div class="input-box">
+                            <label class="details">UAN Number</label>
+                            <input type="text" name="uanNumber" [ngModel]="emp_data?.uan_num"
+                                formControlName="uanNumber">
+                        </div>
 
 
 
@@ -182,7 +209,6 @@
             <div class="content">
                 <form [formGroup]="Personal_Details" (ngSubmit)="personalDetails(Personal_Details.value)">
                     <div class="user-details">
-
                         <div class="input-box">
                             <label>Name As per Bank</label>
                             <input type="text" placeholder="Enter your name" name="name" formControlName="name" />
@@ -205,10 +231,7 @@
                             <label>IFSC Code</label>
                             <input type="text" placeholder="IFSC Code" name="ifsccode" formControlName="ifsccode" />
                         </div>
-
                     </div>
-
-
                     <div>
                         <button class="button">Add Details</button>
                         <button class="button" type="reset">Clear</button>

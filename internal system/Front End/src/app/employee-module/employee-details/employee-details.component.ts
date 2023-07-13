@@ -80,10 +80,12 @@ export class EmployeeDetailsComponent {
   BRANCHNAME: any;
   ACCTNUM: any;
   IFSCCODE: any;
+
   notification: any;
   constructor(private loginservice: LoginServiceService, private empDet: EmpdetaislService, private router: Router, private approvalservice: ApprvalServicesService, private http: HttpClient,) {
     this.showRejectInput = false;
     this.rejectionReason = '';
+
 
     this.showDeleteInput = false;
     this.deleteReason = '';
@@ -99,12 +101,12 @@ export class EmployeeDetailsComponent {
     if (this.viewaproval === "viewData") {
 
       console.log("emp", emp_details[4]);
-      if (emp_details[0] != null) {
+      if (emp_details[4] != null) {
 
 
         const data = emp_details[4];
 
-        this.EMPID = data.emp_id;
+        this.EMPID = data.empid;
         this.EMPNAME = data.emp_name;
         this.email = data.emp_email;
         this.EMPACCESS = data.emp_access;
@@ -128,6 +130,10 @@ export class EmployeeDetailsComponent {
         this.PREEMP4 = data.prev_empr4;
         this.PREEMP5 = data.prev_empr5;
         this.enFlg = data.entity_cre_flg;
+
+
+
+
         this.GENDER = data.gender;
         this.DOB = data.dob;
         this.BGROUP = data.blood_group;
@@ -158,6 +164,13 @@ export class EmployeeDetailsComponent {
         this.BRANCHNAME = data.branch_name;
         this.ACCTNUM = data.account_num;
         this.IFSCCODE = data.ifsc_code;
+
+
+
+
+
+
+
       }
     }
     else if (this.viewaproval === "aprovalView") {

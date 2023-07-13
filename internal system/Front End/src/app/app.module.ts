@@ -54,7 +54,6 @@ import { ViewItAssetDetailComponent } from './asset-mangement-system-module/view
 import { ViewNonItAssetDetailComponent } from './view-non-it-asset-detail/view-non-it-asset-detail.component'
 import { ViewItAllocationDeatilComponent } from './asset-mangement-system-module/view-it-allocation-deatil/view-it-allocation-deatil.component'
 
-import { BankDetailsComponent } from '../app/employee-module/BankDetails/bank-details/bank-details.component';
 import { ModifyPersonalDetailsComponent } from '../app/employee-module/modify-personal-details/modify-personal-details.component';
 import { ModifyProfessionalDetailsComponent } from '../app/employee-module/modify-professional-details/modify-professional-details.component';
 import { SearchEmployeeDetailsComponent } from '../app/employee-module/search-employee-details/search-employee-details.component';
@@ -135,7 +134,6 @@ import { ViewTravelApprQueueComponent } from './Travel-module/view-travel-appr-q
 
 import { TopbarComponent } from './common/topbar/topbar.component';
 import { DashboardComponent } from './login-module/dashboard/dashboard.component';
-import { EmpPersonalDetailsComponent } from './employee-module/emp-personal-details/emp-personal-details.component';
 import { EmpProfessionalDetailsComponent } from './employee-module/emp-professional-details/emp-professional-details.component';
 import { EmployeeDetailsComponent } from './employee-module/employee-details/employee-details.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
@@ -177,7 +175,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     ViewAppraisalDataComponent,
     AprDoappraisalComponent,
     ReimbusmentReqDetailsComponent,
-    EmpPersonalDetailsComponent,
+
     EmpProfessionalDetailsComponent,
     
 
@@ -260,7 +258,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     ComposeMessageComponent,
     InboxMessageComponent,
 
-    BankDetailsComponent,
+
 
     ForgotpasswordComponent,
     ChangePasswordComponent,
@@ -272,13 +270,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     TravelComponent,
     TravelFAQDetailsComponent,
     ViewTravelApprQueueComponent,
+    EmployeeDetailsComponent,
 
 
     // TopBar 
     TopbarComponent,
      DashboardComponent,
      EmployeeDetailsComponent,
+
     AdminDashboardComponent,
+
 
 
 

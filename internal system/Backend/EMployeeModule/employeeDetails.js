@@ -101,7 +101,7 @@ router.get('/employeeDetailsView', function (req, res) {
 		const emp_access = result.rows['0'].user_type;
 
 		// if (emp_access != "A1") {
-		// 	res.json({ message: "redirect ot dashboard" });
+		// res.json({ message: "redirect ot dashboard" });
 		// }
 		// else {
 
@@ -362,6 +362,7 @@ router.post('/viewempdet', (req, res) => {
 
 	var empId = req.body.Item.employeeId;
 	console.log(empId);
+	console.log("enter");
 
 	pool.query("SELECT user_type from users where user_id = $1", [user_id], function (err, result) {
 		const user_type = result.rows['0'].user_type;
@@ -400,8 +401,11 @@ router.post('/viewempdet', (req, res) => {
 								if (rcount_master == rcount_info) {
 
 									//query 1 to fetch professional details
-									pool.query("select emp_id,emp_name,emp_email,emp_access,joining_date,designation,salary,reporting_mgr,prev_expr_year,prev_expr_month,prev_empr,prev_empr2,prev_empr3,prev_empr4,prev_empr5,emp_prob,pre_emp_flg,emp_classification,salary_curr from emp_master_tbl where LOWER(emp_id)=LOWER($1)", [empId], function (err, resultset) {
+
+									pool.query('select * from emp_master_tbl where emp_id=$1', [empId], function (err, resultset) {
 										if (err) throw err;
+										console.log(resultset.rows);
+
 										var empid = resultset.rows['0'].emp_id;
 										var empName = resultset.rows['0'].emp_name;
 										var email = resultset.rows['0'].emp_email;
@@ -448,6 +452,7 @@ router.post('/viewempdet', (req, res) => {
 											//query 2 to fetch personal details
 											pool.query("select gender,dob,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,phone1,phone2,father_name,mother_name,martial_status,spouse_name,pan_number,passport_num,aadhaar_num,license_num,blood_group,shirt_size,emergency_num,emergency_con_person,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code from emp_info_tbl where LOWER(emp_id)=LOWER($1)", [empId], function (err, result) {
 												if (err) throw err;
+												console.log(result.rows, "enterrrr");
 												var gender = result.rows['0'].gender;
 												var dob = result.rows['0'].dob;
 												var dob = jDate// dateFormat(dob, "yyyy-mm-dd");
@@ -531,78 +536,78 @@ router.post('/viewempdet', (req, res) => {
 
 																			//Setting Values for State List
 
-																			pool.query("select comm_code_desc from common_code_tbl where code_id='STA' and comm_code_id=$1", [state1], function (err, resultset) {
-																				state1 = resultset.rows['0'].comm_code_desc;
+																			// pool.query("select comm_code_desc from common_code_tbl where code_id='STA' and comm_code_id=$1", [state1], function (err, resultset) {
 
-																				pool.query("select comm_code_desc from common_code_tbl where code_id='CURR' and comm_code_id=$1", [salary_curr], function (err, resultset) {
-																					salary_curr_desc = resultset.rows['0'].comm_code_desc;
+																			pool.query("select comm_code_desc from common_code_tbl where code_id='PCR' and comm_code_id=$1", [salary_curr], function (err, resultset) {
+																				salary_curr_desc = resultset.rows['0'].comm_code_desc;
+																				console.log("check1");
 
-																					res.json({
-																						message: "redirect to employee details view", Data: {
-																							enFlg: enFlg,
-																							cflag: cflag,
-																							emp_access: emp_access,
-																							ename: req.user.rows['0'].user_name,
-																							eid: req.user.rows['0'].user_id,
-																							empid: empid,
-																							empName: empName,
-																							email: email,
-																							empAccess: empAccess,
-																							jDate: jDate,
-																							desig: desig,
-																							empClass: empClass,
-																							salary: salary,
-																							salary_curr: salary_curr,
-																							salary_curr_desc: salary_curr_desc,
-																							pid: pid,
-																							rptMan: rptMan,
-																							rptMan_desc: rptMan_desc,
-																							preem: preem,
-																							probPeriod: probPeriod,
-																							preExpyear: preExpyear,
-																							preExpmonth: preExpmonth,
-																							preEmp: preEmp,
-																							preEmp2: preEmp2,
-																							preEmp3: preEmp3,
-																							preEmp4: preEmp4,
-																							preEmp5: preEmp5,
-																							gender: gender,
-																							dob: dob,
-																							bgroup: bgroup,
-																							shirt: shirt,
-																							commAdd: commAdd,
-																							state: state,
-																							city: city,
-																							pincode: pincode,
-																							resAdd: resAdd,
-																							state1: state1,
-																							city1: city1,
-																							pincode1: pincode1,
-																							mobNum: mobNum,
-																							telNum: telNum,
-																							econNum: econNum,
-																							emerPer: emerPer,
-																							fathersName: fathersName,
-																							mothersName: mothersName,
-																							maritalstatus: maritalstatus,
-																							spouseName: spouseName,
-																							panNum: panNum,
-																							passNum: passNum,
-																							aadhaarNum: aadhaarNum,
-																							dlNum: dlNum,
-																							uan: uan,
-																							nameinBank: nameinBank,
-																							bankName: bankName,
-																							branchName: branchName,
-																							acctNum: acctNum,
-																							ifscCode: ifscCode
-																							//closing bracket of render
-																						}
-																					});
-																					//closing bracket of query1
+																				res.json({
+																					message: 'redirect to employee details view', data: {
+																						enFlg: enFlg,
+																						cflag: cflag,
+																						emp_access: emp_access,
+																						// ename: req.user.rows['0'].user_name,
+																						// eid: req.user.rows['0'].user_id,
+																						empid: empid,
+																						emp_name: empName,
+																						emp_email: email,
+																						emp_access: empAccess,
+																						joining_date: jDate,
+																						designation: desig,
+																						emp_classification: empClass,
+																						salary: salary,
+																						// salary_curr: salary_curr,
+																						// salary_curr_desc: salary_curr_desc,
+																						project_id: pid,
+																						reporting_mgr: rptMan,
+																						rptman_desc: rptMan_desc,
+																						preem: preem,
+																						emp_prob: probPeriod,
+																						prev_expr_year: preExpyear,
+																						prev_expr_month: preExpmonth,
+																						prev_empr: preEmp,
+																						prev_empr2: preEmp2,
+																						prev_empr3: preEmp3,
+																						prev_empr4: preEmp4,
+																						prev_empr5: preEmp5,
+																						gender: gender,
+																						dob: dob,
+																						blood_group: bgroup,
+																						shirt_size: shirt,
+																						com_addr1: commAdd,
+																						state: state,
+																						city: city,
+																						pincode: pincode,
+																						comm_addr2: resAdd,
+																						state1: state1,
+																						city1: city1,
+																						pincode1: pincode1,
+																						phone1: mobNum,
+																						phone2: telNum,
+																						emergency_num: econNum,
+																						emergency_con_person: emerPer,
+																						father_name: fathersName,
+																						mother_name: mothersName,
+																						martial_status: maritalstatus,
+																						spouse_name: spouseName,
+																						pan_number: panNum,
+																						passport_num: passNum,
+																						aadhaar_num: aadhaarNum,
+																						license_num: dlNum,
+																						uan_num: uan,
+																						name_in_bank: nameinBank,
+																						bank_name: bankName,
+																						branch_name: branchName,
+																						account_num: acctNum,
+																						ifsc_code: ifscCode
+																						//closing bracket of query1
+																					}
 																				});
-																				//closing bracket of query2
+																				//closing bracket of query1
 																			});
+																			//closing bracket of query2
+																			// });
 																		});
 																	});
 																});
@@ -616,176 +621,181 @@ router.post('/viewempdet', (req, res) => {
 									//closing of if loop
 								}
 								else {
-
-									var gender = "";
-									var dob = "";
-									var bgroup = "";
-									var shirt = "";
-									var commAdd = "";
-									var state = "";
-									var city = "";
-									var pincode = "";
-									var resAdd = "";
-									var state1 = "";
-									var city1 = "";
-									var pincode1 = "";
-									var mobNum = "";
-									var telNum = "";
-									var econNum = "";
-									var emerPer = "";
-									var fathersName = "";
-									var mothersName = "";
-									var maritalstatus = "";
-									var spouseName = "";
-									var panNum = "";
-									var passNum = "";
-									var aadhaarNum = "";
-									var dlNum = "";
-									var uan = "";
-									var nameinBank = "";
-									var bankName = "";
-									var branchName = "";
-									var acctNum = "";
-									var ifscCode = "";
-
 									//query 1 to fetch professional details
 									pool.query("select emp_id,emp_name,emp_email,emp_access,joining_date,designation,salary,reporting_mgr,prev_expr_year,prev_expr_month,prev_empr,prev_empr2,prev_empr3,prev_empr4,prev_empr5,emp_prob,pre_emp_flg,emp_classification from emp_master_tbl where LOWER(emp_id)=LOWER($1)", [empId], function (err, resultset) {
-										// ,salary_curr--> it is not present in db 
-
-
-										if (err) throw err;
-										var empid = resultset.rows['0'].emp_id;
-										var empName = resultset.rows['0'].emp_name;
-										var email = resultset.rows['0'].emp_email;
-										var empAccess = resultset.rows['0'].emp_access;
-										var jDate = resultset.rows['0'].joining_date;
-										var jDate = jDate //dateFormat(jDate, "yyyy-mm-dd");
-										var desig = resultset.rows['0'].designation;
-										var empClass = resultset.rows['0'].emp_classification;
-										var salary = resultset.rows['0'].salary;
-										// var salary_curr = resultset.rows['0'].salary_curr;
-										var rptMan = resultset.rows['0'].reporting_mgr;
-										var probPeriod = resultset.rows['0'].emp_prob;
-										var preem = resultset.rows['0'].pre_emp_flg;
-										var preExpyear = resultset.rows['0'].prev_expr_year;
-										var preExpmonth = resultset.rows['0'].prev_expr_month;
-										var preEmp = resultset.rows['0'].prev_empr;
-										var preEmp2 = resultset.rows['0'].prev_empr2;
-										var preEmp3 = resultset.rows['0'].prev_empr3;
-										var preEmp4 = resultset.rows['0'].prev_empr4;
-										var preEmp5 = resultset.rows['0'].prev_empr5;
-
-										pool.query("select * from project_alloc_tbl where emp_id = $1", [empid], function (err, resultset) {
+										// ,salary_curr--> it is not present in db
+										pool.query("select gender,dob,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,phone1,phone2,father_name,mother_name,martial_status,spouse_name,pan_number,passport_num,aadhaar_num,license_num,blood_group,shirt_size,emergency_num,emergency_con_person,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code from data_emp_info_tbl_temp where LOWER(emp_id)=LOWER($1)", [empId], function (err, result) {
 											if (err) throw err;
-											pidcount = resultset.rowCount;
-											if (pidcount > 1) {
-												var pid = "MULTIPLE";
+											var empid = resultset.rows['0'].emp_id;
+											var empName = resultset.rows['0'].emp_name;
+											var email = resultset.rows['0'].emp_email;
+											var empAccess = resultset.rows['0'].emp_access;
+											var jDate = resultset.rows['0'].joining_date;
+											var jDate = jDate //dateFormat(jDate, "yyyy-mm-dd");
+											var desig = resultset.rows['0'].designation;
+											var empClass = resultset.rows['0'].emp_classification;
+											var salary = resultset.rows['0'].salary;
+											// var salary_curr = resultset.rows['0'].salary_curr;
+											var rptMan = resultset.rows['0'].reporting_mgr;
+											var probPeriod = resultset.rows['0'].emp_prob;
+											var preem = resultset.rows['0'].pre_emp_flg;
+											var preExpyear = resultset.rows['0'].prev_expr_year;
+											var preExpmonth = resultset.rows['0'].prev_expr_month;
+											var preEmp = resultset.rows['0'].prev_empr;
+											var preEmp2 = resultset.rows['0'].prev_empr2;
+											var preEmp3 = resultset.rows['0'].prev_empr3;
+											var preEmp4 = resultset.rows['0'].prev_empr4;
+											var preEmp5 = resultset.rows['0'].prev_empr5;
 
-											}
 
-											if (pidcount == 1) {
-												pool.query("select project_id from project_alloc_tbl where emp_id = $1", [empid], function (err, resultset) {
-													if (err) throw err;
-													pid = resultset.rows['0'].project_id;
-												});
-											}
 
-											if (pidcount == 0) {
-												var pid = "Not Allocated";
-											}
 
-											//Setting Values for designation List
+											var gender = result.rows['0'].gender;
+											var dob = result.rows['0'].dob;
+											var dob = jDate// dateFormat(dob, "yyyy-mm-dd");
+											var bgroup = result.rows['0'].blood_group;
+											var shirt = result.rows['0'].shirt_size;
+											var commAdd = result.rows['0'].comm_addr1;
+											var state = result.rows['0'].state;
+											var city = result.rows['0'].city;
+											var pincode = result.rows['0'].pincode;
+											var resAdd = result.rows['0'].comm_addr2;
+											var state1 = result.rows['0'].state1;
+											var city1 = result.rows['0'].city1;
+											var pincode1 = result.rows['0'].pincode1;
+											var mobNum = result.rows['0'].phone1;
+											var telNum = result.rows['0'].phone2;
+											var econNum = result.rows['0'].emergency_num;
+											var emerPer = result.rows['0'].emergency_con_person;
+											var fathersName = result.rows['0'].father_name;
+											var mothersName = result.rows['0'].mother_name;
+											var maritalstatus = result.rows['0'].martial_status;
+											var spouseName = result.rows['0'].spouse_name;
+											var panNum = result.rows['0'].pan_number;
+											var passNum = result.rows['0'].passport_num;
+											var aadhaarNum = result.rows['0'].aadhaar_num;
+											var dlNum = result.rows['0'].license_num;
+											var uan = result.rows['0'].uan_num;
+											var nameinBank = result.rows['0'].name_in_bank;
+											var bankName = result.rows['0'].bank_name;
+											var branchName = result.rows['0'].branch_name;
+											var acctNum = result.rows['0'].account_num;
+											var ifscCode = result.rows['0'].ifsc_code;
 
-											pool.query("select comm_code_desc from common_code_tbl where code_id='ACC' and comm_code_id=$1", [empAccess], function (err, resultset) {
-												empAccess = resultset.rows['0'].comm_code_desc;
 
-												pool.query("select emp_name from emp_master_tbl where emp_id=$1", [rptMan], function (err, resultset) {
 
-													rptMan_desc = resultset.rows['0'].emp_name;
+											pool.query("select * from project_alloc_tbl where emp_id = $1", [empid], function (err, resultset) {
+												if (err) throw err;
+												pidcount = resultset.rowCount;
+												if (pidcount > 1) {
+													var pid = "MULTIPLE";
 
-													//Setting Values for designation List
+												}
 
-													pool.query("select comm_code_desc from common_code_tbl where code_id='DSG' and comm_code_id=$1", [desig], function (err, resultset) {
-														desig = resultset.rows['0'].comm_code_desc;
+												if (pidcount == 1) {
+													pool.query("select project_id from project_alloc_tbl where emp_id = $1", [empid], function (err, resultset) {
+														if (err) throw err;
+														pid = resultset.rows['0'].project_id;
+													});
+												}
 
-														pool.query("select comm_code_desc from common_code_tbl where code_id='CURR' and comm_code_id=$1", [desig], function (err, resultset) {
-															// salary_curr_desc = resultset.rows['0'].comm_code_desc;
+												if (pidcount == 0) {
+													var pid = "Not Allocated";
+												}
 
-															//Setting Values for Gender List
+												//Setting Values for designation List
 
-															if (gender == "M") { gender = "MALE"; }
-															if (gender == "F") { gender = "FEMALE"; }
+												pool.query("select comm_code_desc from common_code_tbl where code_id='ACC' and comm_code_id=$1", [empAccess], function (err, resultset) {
+													empAccess = resultset.rows['0'].comm_code_desc;
 
-															//Setting Values for Gender List
+													pool.query("select emp_name from emp_master_tbl where emp_id=$1", [rptMan], function (err, resultset) {
 
-															if (probPeriod == "Y") { probPeriod = "YES"; }
-															if (probPeriod == "N") { probPeriod = "NO"; }
+														rptMan_desc = resultset.rows['0'].emp_name;
 
-															// setting values for previous experience
-															if (preem == "Y") { preem = "YES"; }
-															if (preem == "N") { preem = "NO"; }
+														//Setting Values for designation List
 
-															res.json({
-																message: 'redirect to employee detail view', data: {
-																	enFlg: enFlg,
-																	cflag: cflag,
-																	emp_access: emp_access,
-																	// ename: req.user.rows['0'].user_name,
-																	// eid: req.user.rows['0'].user_id,
-																	empid: empid,
-																	emp_name: empName,
-																	emp_email: email,
-																	emp_access: empAccess,
-																	joining_date: jDate,
-																	designation: desig,
-																	emp_classification: empClass,
-																	salary: salary,
-																	// salary_curr: salary_curr,
-																	// salary_curr_desc: salary_curr_desc,
-																	project_id: pid,
-																	reporting_mgr: rptMan,
-																	rptman_desc: rptMan_desc,
-																	preem: preem,
-																	emp_prob: probPeriod,
-																	prev_expr_year: preExpyear,
-																	prev_expr_month: preExpmonth,
-																	prev_empr: preEmp,
-																	prev_empr2: preEmp2,
-																	prev_empr3: preEmp3,
-																	prev_empr4: preEmp4,
-																	prev_empr5: preEmp5,
-																	gender: gender,
-																	dob: dob,
-																	blood_group: bgroup,
-																	shirt_size: shirt,
-																	com_addr1: commAdd,
-																	state: state,
-																	city: city,
-																	pincode: pincode,
-																	comm_addr2: resAdd,
-																	state1: state1,
-																	city1: city1,
-																	pincode1: pincode1,
-																	phone1: mobNum,
-																	phone2: telNum,
-																	emergency_num: econNum,
-																	emergency_con_person: emerPer,
-																	father_name: fathersName,
-																	mother_name: mothersName,
-																	martial_status: maritalstatus,
-																	spouse_name: spouseName,
-																	pan_number: panNum,
-																	passport_num: passNum,
-																	aadhaar_num: aadhaarNum,
-																	license_num: dlNum,
-																	uan_num: uan,
-																	name_in_bank: nameinBank,
-																	bank_name: bankName,
-																	branch_name: branchName,
-																	account_num: acctNum,
-																	ifsc_code: ifscCode
-																	//closing bracket of query1
-																}
+														pool.query("select comm_code_desc from common_code_tbl where code_id='DSG' and comm_code_id=$1", [desig], function (err, resultset) {
+															desig = resultset.rows['0'].comm_code_desc;
+
+															pool.query("select comm_code_desc from common_code_tbl where code_id='CURR' and comm_code_id=$1", [desig], function (err, resultset) {
+																// salary_curr_desc = resultset.rows['0'].comm_code_desc;
+
+																//Setting Values for Gender List
+
+																if (gender == "M") { gender = "MALE"; }
+																if (gender == "F") { gender = "FEMALE"; }
+
+																//Setting Values for Gender List
+
+																if (probPeriod == "Y") { probPeriod = "YES"; }
+																if (probPeriod == "N") { probPeriod = "NO"; }
+
+																// setting values for previous experience
+																if (preem == "Y") { preem = "YES"; }
+																if (preem == "N") { preem = "NO"; }
+																console.log("check2");
+																res.json({
+																	message: 'redirect to employee details view', data: {
+																		enFlg: enFlg,
+																		cflag: cflag,
+																		emp_access: emp_access,
+																		// ename: req.user.rows['0'].user_name,
+																		// eid: req.user.rows['0'].user_id,
+																		empid: empid,
+																		emp_name: empName,
+																		emp_email: email,
+																		emp_access: empAccess,
+																		joining_date: jDate,
+																		designation: desig,
+																		emp_classification: empClass,
+																		salary: salary,
+																		// salary_curr: salary_curr,
+																		// salary_curr_desc: salary_curr_desc,
+																		project_id: pid,
+																		reporting_mgr: rptMan,
+																		rptman_desc: rptMan_desc,
+																		preem: preem,
+																		emp_prob: probPeriod,
+																		prev_expr_year: preExpyear,
+																		prev_expr_month: preExpmonth,
+																		prev_empr: preEmp,
+																		prev_empr2: preEmp2,
+																		prev_empr3: preEmp3,
+																		prev_empr4: preEmp4,
+																		prev_empr5: preEmp5,
+																		gender: gender,
+																		dob: dob,
+																		blood_group: bgroup,
+																		shirt_size: shirt,
+																		com_addr1: commAdd,
+																		state: state,
+																		city: city,
+																		pincode: pincode,
+																		comm_addr2: resAdd,
+																		state1: state1,
+																		city1: city1,
+																		pincode1: pincode1,
+																		phone1: mobNum,
+																		phone2: telNum,
+																		emergency_num: econNum,
+																		emergency_con_person: emerPer,
+																		father_name: fathersName,
+																		mother_name: mothersName,
+																		martial_status: maritalstatus,
+																		spouse_name: spouseName,
+																		pan_number: panNum,
+																		passport_num: passNum,
+																		aadhaar_num: aadhaarNum,
+																		license_num: dlNum,
+																		uan_num: uan,
+																		name_in_bank: nameinBank,
+																		bank_name: bankName,
+																		branch_name: branchName,
+																		account_num: acctNum,
+																		ifsc_code: ifscCode
+																		//closing bracket of query1
+																	}
+																});
 															});
 														});
 													});
@@ -807,7 +817,7 @@ router.post('/viewempdet', (req, res) => {
 		else {
 			res.json({ message: "redirect to serchmodify", notification: "user Dont have access" })
 		}
-		//closing of function	
+		//closing of function
 	});
 
 });
@@ -933,11 +943,11 @@ router.post('/addempper', (req, res) => {
 	var aadhaarNum = req.body.adharCardNumber;
 	var dlNum = req.body.drivingLicenceNumber;
 	var uan = req.body.uanNumber;
-	var nameinBank = "";
-	var bankName = "";
-	var branchName = "";
-	var acctNum = "";
-	var ifscCode = "";
+	var nameinBank = req.body.name;
+	var bankName = req.body.bankname;
+	var branchName = req.body.branchname;
+	var acctNum = req.body.accountnum;
+	var ifscCode = req.body.ifsccode;
 	var entity_cre_flg = "N";
 
 	pool.query("SELECT * from data_emp_master_tbl_temp e where LOWER(e.emp_id) = LOWER($1)", [empid], function (err, resultset) {
@@ -1125,41 +1135,41 @@ function addempdet(req, res) {
 								to: email,
 								subject: 'Register',
 								html: `
-								  <style>
-									body {
-									  font-family: Arial, sans-serif;
-									  font-size: 14px;
-									  line-height: 1.4;
-									  color: #333333;
-									}
-									
-									a {
-									  color: white;
-									  text-decoration: none;
-									}
-								  </style>
-							  
-								  Dear ${empname},<br>
-							  <img href="http://www.minorks.com/images/logo_white.png"></img><br><br>
-								  We are delighted to welcome you to our company! As a new member, we kindly request you to complete your account registration process to gain access to our systems and resources.<br>
-							  
-								  To finalize your registration and create your unique User ID, please follow the steps below:<br>
-							  
-								  1. Click on the registration link provided below:<br>
-									 <a href="http://localhost:4200/register">Click Here For Register</a><br>
-							  
-								  2. You will be directed to the registration page where you can begin the process.<br>
-							  
-								  3. Enter your personal details accurately and ensure all required fields are completed.<br>
-							  
-								  4. Once you have provided your personal details wait for Admin Aproval.<br>
-							  
-								 <h4 style="color:blue"> Your User ID: ${empid}</h4><br><br>
-							  
-								  If you have any questions or need further assistance, please feel free to reach out to our HR department.<br>
-							  
-								  Best regards,<br>
-									Minorks Technology (HR)
+								<style>
+								body {
+								font-family: Arial, sans-serif;
+								font-size: 14px;
+								line-height: 1.4;
+								color: #333333;
+								}
+
+								a {
+								color: white;
+								text-decoration: none;
+								}
+								</style>
+								
+								Dear ${empname},<br>
+								<img href="http://www.minorks.com/images/logo_white.png"></img><br><br>
+								We are delighted to welcome you to our company! As a new member, we kindly request you to complete your account registration process to gain access to our systems and resources.<br>
+								
+								To finalize your registration and create your unique User ID, please follow the steps below:<br>
+								
+								1. Click on the registration link provided below:<br>
+								<a href="http://localhost:4200/register">Click Here For Register</a><br>
+								
+								2. You will be directed to the registration page where you can begin the process.<br>
+								
+								3. Enter your personal details accurately and ensure all required fields are completed.<br>
+								
+								4. Once you have provided your personal details wait for Admin Aproval.<br>
+								
+								<h4 style="color:blue"> Your User ID: ${empid}</h4><br><br>
+								
+								If you have any questions or need further assistance, please feel free to reach out to our HR department.<br>
+								
+								Best regards,<br>
+								Minorks Technology (HR)
 								`
 							};
 
@@ -1178,9 +1188,9 @@ function addempdet(req, res) {
 
 							// bcrypt.hash(finalpass, 10, function (err, hash) {
 
-							// 	hashpassword = finalpass;
-							// 	hashpassword = hash;
-							// 	console.log("bycript enterd");
+							// hashpassword = finalpass;
+							// hashpassword = hash;
+							// console.log("bycript enterd");
 							// });
 
 							pool.query("INSERT INTO users(user_name,user_id,user_type,expiry_date,login_allowed,login_attempts,del_flag,login_check,reset_flg,session_id,client_ip) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empname, empid, empaccess, '01-01-2099', 'Y', '0', 'N', 'N', 'Y', '', ''], function (err, done) {
@@ -1192,7 +1202,8 @@ function addempdet(req, res) {
 							pool.query("insert into e_docket_tbl(emp_id,pan_flg,aadhar_flg,sslc_flg,preuniv_flg,degree_flg,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empid, pan_flg, aadhar_flg, sslc_flg, preuniv_flg, degree_flg, del_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
 								// req.flash('success', "User successfully added and an E-mail has been sent to " + email + " with further instructions.")
 								// res.redirect(req.get('referer'));
-								console.log("edocket inserted");
+
+
 								res.json({ message: "redirect to refer", notification: "User successfully added and an E-mail has been sent to " + email + " with further instructions." })
 
 
@@ -1204,7 +1215,15 @@ function addempdet(req, res) {
 			else {
 				// req.flash('error', "Employee Details Already Added for this Employee:" + empname)
 				// res.redirect(req.get('referer'));
-				res.json({ message: "redirect to refer", notification: "Employee Details Already Added for this Employee:" + empname })
+				pool.query(
+					"UPDATE emp_master_tbl SET emp_name=$2, emp_access=$3, emp_email=$4, joining_date=$5, designation=$6, salary=$7, reporting_mgr=$8, prev_expr_year=$9, prev_expr_month=$10, prev_empr=$11, prev_empr2=$12, prev_empr3=$13, prev_empr4=$14, prev_empr5=$15, emp_prob=$16, lchg_user_id=$17, lchg_time=$18, emp_classification=$19, salary_curr=$20 WHERE emp_id=$1",
+					[empid, empname, empaccess, email, jDate, desig, salary, rptman, preExpyear, preExpmonth, preEmp, preEmp2, preEmp3, preEmp4, preEmp5, probPeriod, lchguserid, lchgtime, empClass, sal_curr],
+					function (err, done) {
+						if (err) throw err;
+						res.json({ message: "redirect to refer", notification: "Employee Details Added for this Employee:" + empname })
+					}
+				);
+
 			}
 
 		});
@@ -1221,7 +1240,7 @@ router.get('/admindashboard', function (req, res) {
 	console.log(emp_id);
 	var emp_access = req.query.userType;
 	var emp_details = ''
-	
+
 
 	var now = new Date();
 	var docPendingCount = 0; //Added by arun 21-07-2017 16:15
@@ -1348,7 +1367,7 @@ router.get('/admindashboard', function (req, res) {
 
 													// added for invoice module from srikanth on 05-10-2017 10:22 AM
 
-													// invoice due	
+													// invoice due
 													pool.query("select * from project_master_tbl p,milestone_proj_tbl m,emp_master_tbl e,emp_master_tbl s where p.project_id = m.project_id and e.emp_id = p.delivery_mgr and s.emp_id = p.project_mgr and m.confirm_flg='N' and m.paid_flg='N' and m.del_flg='N' and p.del_flg='N' order by m.milestone_exp_date asc", function (err, getdata) {
 														if (err) {
 															console.error('Error with table query', err);
@@ -1615,44 +1634,44 @@ router.get('/admindashboard', function (req, res) {
 																							pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'BLG' order by comm_code_id asc", function (err, result) {
 																								comm_code_blood = result.rows;
 																								comm_code_blood_count = result.rowCount;
-																		
+
 																								// to fetch shirt size
 																								pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'SHR' order by comm_code_id asc", function (err, result) {
 																									comm_code_shirt = result.rows;
 																									comm_code_shirt_count = result.rowCount;
-																		
+
 																									// to fetch state group
 																									pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'STA' order by comm_code_id asc", function (err, result) {
 																										comm_code_state = result.rows;
 																										comm_code_state_count = result.rowCount;
-																		
+
 																										// to fetch maritial status
 																										pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'MAR' order by comm_code_id asc", function (err, result) {
 																											comm_code_maritalstatus = result.rows;
 																											comm_code_maritalstatus_count = result.rowCount;
-																		
+
 																											pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'DSG' order by comm_code_id asc", function (err, result) {
-																		
+
 																												comm_code_dsg = result.rows;
 																												comm_code_dsg_count = res.rowCount
-																		
+
 																												pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'PCR' order by comm_code_id asc", function (err, result) {
-																		
+
 																													comm_code_curr = result.rows
 																													comm_code_cur_count = res.rowCount
-																		
+
 																													pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'ACC' order by comm_code_id asc", function (err, result) {
 																														comm_code_class = result.rows
 																														comm_code_class_count = res.rowCount
-																		
+
 																														pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'RPT' order by comm_code_id asc", function (err, result) {
 																															comm_code_rpt = result.rows
 																															comm_code_rpt_count = res.rowCount
 
-																															
-																		
+
+
 																															var cocd = {
-																															
+
 																																comm_code_blood: comm_code_blood,
 																																comm_code_blood_count: comm_code_blood_count,
 																																comm_code_shirt: comm_code_shirt,
@@ -1667,14 +1686,14 @@ router.get('/admindashboard', function (req, res) {
 																																comm_code_class_count: comm_code_class_count,
 																																comm_code_rpt: comm_code_rpt,
 																																comm_code_rpt_count: comm_code_rpt_count,
-																																comm_code_dsg:comm_code_dsg,
-																																comm_code_dsg_count:comm_code_dsg_count
-																		
+																																comm_code_dsg: comm_code_dsg,
+																																comm_code_dsg_count: comm_code_dsg_count
+
 																															}
 																															res.json({
-																																message: 'redirect to admin dashboard', userData: emp_details,cocd:cocd, Data: {
+																																message: 'redirect to admin dashboard', userData: emp_details, cocd: cocd, Data: {
 																																	// ename: req.query.user_name,
-								
+
 																																	eid: req.query.user_id,
 																																	emp_access: req.query.user_type,
 																																	unReadCount: unReadCount,
@@ -1684,7 +1703,7 @@ router.get('/admindashboard', function (req, res) {
 																																	bdayData: bdayData,
 																																	currentDate: now,
 																																	pending_empProf: pending_empProf,    //added by srikanth
-																																	pending_empPer: pending_empPer,	//added by srikanth
+																																	pending_empPer: pending_empPer, //added by srikanth
 																																	showFlg: showFlg, // added by srikanth
 																																	pending_invoiceDue: pending_invoiceDue, // added by srikanth
 																																	pending_invoiceRaise: pending_invoiceRaise, // added by srikanth
@@ -1708,20 +1727,20 @@ router.get('/admindashboard', function (req, res) {
 																																	leave_to_approve: leave_to_approve,
 																																	total_leave_count: total_leave_count
 																																}
-																															
-																															
+
+
+																															})
+
 																														})
-																		
 																													})
-																												})
-																		
+
+																												});
 																											});
 																										});
 																									});
 																								});
-																							});
-																		
-																							
+
+
 																							});
 																						});
 																					});
@@ -2067,7 +2086,7 @@ router.post('/verifyDetails', (req, res) => {
 											hashpassword = finalpass;
 											hashpassword = hash;
 											console.log("bycript enterd");
-											pool.query('update users set password=$1', [hash], function (err, result) {
+											pool.query('update users set password=$1 where user_id=$2', [hash, emp_id], function (err, result) {
 												if (err) throw error;
 
 												console.log("password updated");
@@ -2180,7 +2199,7 @@ router.post('/verifyDetails', (req, res) => {
 				}
 			}
 
-			var test1 = req.body.test1;
+			var test1 = req.body.test;
 			if (test1 != "") {
 				if (test1 == "Reject Profile") {
 
@@ -2226,9 +2245,10 @@ router.post('/verifyDetails', (req, res) => {
 				}
 			}
 
-			var test2 = req.body.test2;
+			var test2 = req.body.test;
 			if (test2 != "") {
 				if (test2 == "Delete Profile") {
+					console.log("delete enter");
 					const transporter = nodemailer.createTransport({
 						service: 'gmail',
 						auth: {
@@ -2243,7 +2263,7 @@ router.post('/verifyDetails', (req, res) => {
 						// subject: 'Test Email',
 						subject: 'Deletion of your Personal Details Added/Modified.',
 						html: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhnWZ-CQDkryjFGSvC7gHqaoaJyZFp4vGSfuPYR-nrz5IcC09ayQ" height="85"><br><br>' +
-							'<h3> Dear <b>' + empName + '</b>,<br><br>' +
+							'<h3> Dear <b>' + emp_name + '</b>,<br><br>' +
 							'You are receiving this mail because HR has deleted the Added/Modified Employee Personal Details.<br>' +
 							'Please make a new entry by Adding/Modifying the Personal Details.<br><br>' +
 							'Deletion Reason :<u>' + deleteReason + '</u>.<br><br>' +
@@ -2280,14 +2300,173 @@ router.post('/verifyDetails', (req, res) => {
 
 /////////////////////////////// End of Employee Admin Module /////////////////////////////////////////////////
 
-/////////////////////////////// start of Employee User Module /////////////////////////////////////////////////
-
-//////////////////////////////////////////// Adding Employee Details ////////////////////////////////
 
 
+router.post('/addmodempdetper', addmodempdetper);
+function addmodempdetper(req, res) {
+	const currentDate = new Date();
+	const year = currentDate.getFullYear();
+	const month = currentDate.getMonth() + 1;
+	const day = currentDate.getDate();
+	const now = year + '-' + month + '-' + day;
 
 
+	var rcreuserid = "ADMIN";
+	var rcretime = now;
+	var lchguserid = "ADMIN";
+	var lchgtime = now;
+	var empid = req.body.employeeId;
+	var empName = req.body.employeeName;
+	var gender = req.body.gender;
+	var dob = req.body.dateOfBirth;
+	var bgroup = req.body.bloodGroup;
+	var shirt = req.body.tShirtSize;
+	var commAdd = req.body.communicationAddress;
+	var state = req.body.state;
+	var city = req.body.city;
+	var pincode = req.body.pinCode;
+	var resAdd = req.body.parmanentAddress;
+	var state1 = req.body.state1;
+	var city1 = req.body.city1;
+	var pincode1 = req.body.pinCode1;
+	var mobNum = req.body.mobileNumber;
+	var telNum = req.body.telNum;
+	var econNum = req.body.emergencyContactNumber;
+	var emerPer = req.body.emergencyContactPerson;
+	var fathersName = req.body.fatherName;
+	var mothersName = req.body.motherName;
+	var maritalstatus = req.body.maritalStatus;
+	var spouseName = req.body.spouseName;
+	var panNum = req.body.panNumber;
+	var passNum = req.body.passportNumber;
+	var aadhaarNum = req.body.adharCardNumber;
+	var dlNum = req.body.drivingLicenceNumber;
+	var uan = req.body.uanNumber;
+	var nameinBank = req.body.name;
+	var bankName = req.body.bankname;
+	var branchName = req.body.branchname;
+	var acctNum = req.body.accountnum;
+	var ifscCode = req.body.ifsccode;
+	var entity_cre_flg = "Y";
 
+	pool.query(
+		"UPDATE emp_info_tbl SET emp_name=$2, gender=$3, dob=$4, blood_group=$5, shirt_size=$6, comm_addr1=$7, state=$8, city=$9, pincode=$10, comm_addr2=$11, state1=$12, city1=$13, pincode1=$14, martial_status=$15, phone1=$16, phone2=$17, emergency_num=$18, emergency_con_person=$19, father_name=$20, mother_name=$21, spouse_name=$22, pan_number=$23, passport_num=$24, license_num=$25, aadhaar_num=$26, uan_num=$27, name_in_bank=$28, bank_name=$29, branch_name=$30, account_num=$31, ifsc_code=$32, del_flg=$33, entity_cre_flg=$34, rcre_user_id=$35, rcre_time=$36, lchg_user_id=$37, lchg_time=$38 WHERE emp_id=$1",
+		[
+			empid, empName, gender, dob, bgroup, shirt, commAdd, state, city, pincode, resAdd, state1, city1, pincode1, maritalstatus, mobNum, telNum, econNum, emerPer, fathersName, mothersName, spouseName, panNum, passNum, dlNum, aadhaarNum, uan, nameinBank, bankName, branchName, acctNum, ifscCode, 'N', entity_cre_flg, rcreuserid, rcretime, lchguserid, lchgtime
+		],
+		function (err, done) {
+			if (err) throw err;
+			res.json({
+				message: "redirect to modifypersonalpage",
+				notification: "Employee Personal Details has been modified successfully, Verification Pending By Admin."
+			});
+		}
+	);
+
+};
+
+router.post('/addmodempdet', addmodempdet);
+function addmodempdet(req, res) {
+	var now = new Date();
+	var rcreuserid = req.user.rows['0'].user_id;
+	var rcretime = now;
+	var lchguserid = req.user.rows['0'].user_id;
+	var lchgtime = now;
+	var empid = req.body.empid;
+	var empName = req.body.empName;
+	var email = req.body.email;
+	var empAccess = req.body.empAccess;
+	var jDate = req.body.jDate;
+	var desig = req.body.desig;
+	var empClass = req.body.empClass;
+	var salary = req.body.salary;
+	var sal_curr = req.body.sal_curr;
+	var rptMan = req.body.rptMan;
+	var probPeriod = req.body.probPeriod;
+	var preem = req.body.preem;
+	if (preem == "Y") {
+		var preExpyear = req.body.preExpyear;
+		var preExpmonth = req.body.preExpmonth;
+		var preEmp = req.body.preEmp;
+		var preEmp2 = req.body.preEmp2;
+		var preEmp3 = req.body.preEmp3;
+		var preEmp4 = req.body.preEmp4;
+		var preEmp5 = req.body.preEmp5;
+	}
+	else {
+		var preExpyear = "0";
+		var preExpmonth = "0";
+		var preEmp = "";
+		var preEmp2 = "";
+		var preEmp3 = "";
+		var preEmp4 = "";
+		var preEmp5 = "";
+	}
+
+	var entity_cre_flg = "Y";
+
+	pdbconnect.query("select * from emp_master_tbl_hist where emp_id = $1", [empid], function (err, done) {
+		var hist_count = done.rowCount;
+
+
+		if (hist_count == "1") {
+
+			pdbconnect.query("delete from emp_master_tbl_hist where emp_id = $1", [empid], function (err, done) {
+				if (err) throw err;
+			});
+
+			pdbconnect.query("insert into emp_master_tbl_hist select * from emp_master_tbl where emp_id=$1 ", [empid], function (err, result) {
+				if (err) throw err;
+			});
+		}
+		else {
+
+			pdbconnect.query("insert into emp_master_tbl_hist select * from emp_master_tbl where emp_id=$1 ", [empid], function (err, result) {
+				if (err) throw err;
+			});
+		}
+
+
+		pdbconnect.query("UPDATE emp_master_tbl set emp_name=$2,emp_email=$3,emp_access=$4,joining_date=$5,designation=$6,salary=$7,reporting_mgr=$8,emp_prob=$9,prev_expr_year=$10,prev_expr_month=$11,prev_empr=$12,prev_empr2=$13,prev_empr3=$14,prev_empr4=$15,prev_empr5=$16,del_flg=$17,rcre_user_id=$18,rcre_time=$19,lchg_user_id=$20,lchg_time=$21,entity_cre_flg=$22,pre_emp_flg=$23,emp_classification=$24,salary_curr=$25 where emp_id=$1", [empid, empName, email, empAccess, jDate, desig, salary, rptMan, probPeriod, preExpyear, preExpmonth, preEmp, preEmp2, preEmp3, preEmp4, preEmp5, 'N', rcreuserid, rcretime, lchguserid, lchgtime, entity_cre_flg, preem, empClass, sal_curr], function (err, done) {
+			if (err) throw err;
+
+			pdbconnect.query("UPDATE users set user_type=$2 where user_id=$1", [empid, empAccess], function (err, done) {
+				if (err) throw err;
+
+				// Added after new request
+
+				var smtpTransport = nodemailer.createTransport('SMTP', {
+					service: 'gmail',
+					auth:
+					{
+						user: 'amber@nurture.co.in',
+						pass: 'nurture@123'
+					}
+				});
+
+				var mailOptions = {
+					to: email,
+					from: 'amber@nurture.co.in',
+					subject: 'Modification made on your Professional Details',
+					html: '<h3><p> Dear <b> ' + empName + ' </b> , <br><br>' +
+						'You are receiving this mail because HR has modified your Professional details.<br>' +
+						'Please go through the details and cross check from your end<br>' +
+						'In case of any clarifications/concerns feel free to contact HR.<br>' +
+						'URL: http://amber.nurture.co.in <br><br><br><br><br>' +
+						'- Regards,<br><br>Amber</h3>'
+
+				};
+
+				smtpTransport.sendMail(mailOptions, function (err) {
+				});
+			});
+		});
+	});
+
+	req.flash('success', "Employee Professional Details has been Modified sucessfully for the Employee Id :" + empid + ".")
+	res.redirect('/employeeModule/employeeDetails/employeeDetailsModify');
+
+}
 
 
 
