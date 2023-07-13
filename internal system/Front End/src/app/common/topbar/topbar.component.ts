@@ -42,7 +42,7 @@ export class TopbarComponent {
           this.data = "rmb"
         }
         //emplloyee
-        if (this.currentRoute == "/bankdetails"||this.currentRoute=="/empDetailview" || this.currentRoute == "/modifypersonal" || this.currentRoute == "/modifyprofessional" || this.currentRoute == "/searchmodify" || this.currentRoute == "/empProfessional" || this.currentRoute == "/emppersonal") {
+        if (this.currentRoute=="/empDetailview" || this.currentRoute == "/modifypersonal" || this.currentRoute == "/modifyprofessional" || this.currentRoute == "/searchmodify" || this.currentRoute == "/empProfessional" || this.currentRoute == "/emppersonal") {
           this.data = "emp"
         }
         //apraisal

@@ -17,14 +17,23 @@ export class LoginServiceService {
   leave_master: any;
   project_data: any;
   adminDashboard: any;
+  approvalData: any[] = [];
+  viewAproval: any;
+  cocd:any[]=[]
 
-
+  setViewAproval(value: any) {
+    this.viewAproval = value;
+    console.log(this.viewAproval);
+    
+  }
   constructor(private http: HttpClient, private router: Router) { }
 
 
 
 
   setData(value: any): void {
+ 
+    
     this.ename = value.user_name;
     this.eid = value.user_id;
     this.emp_access = value.user_type
@@ -54,16 +63,21 @@ export class LoginServiceService {
   }
 
   getData(): any {
-    return [this.eid,
-    this.ename,
-    this.emp_access,
-    this.notification,
-    this.emp_data,
-    this.leave_master,
-    this.project_data,
-    this.adminDashboard,
-   this.asset
-  ]
+    return [
+      this.eid,
+      this.ename,
+      this.emp_access,
+      this.notification,
+      this.emp_data,
+      this.leave_master,
+      this.project_data,
+      this.adminDashboard,
+      this.approvalData,
+      this.viewAproval,
+      this.cocd,
+      this.asset
+    ]
+
   }
 
 

@@ -1,68 +1,85 @@
-
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
+
 <body>
     <div class="allighn">
         <div class="container">
 
             <div class="title">Add Employee Profile</div>
             <div class="content">
-                <form class="#" [formGroup]="add_Employee_Profile" (ngSubmit)="addEmployeeProfile(add_Employee_Profile.value)">
+                <form class="#" [formGroup]="add_Employee_Profile"
+                    (ngSubmit)="addEmployeeProfile(add_Employee_Profile.value)">
 
 
                     <div class="user-details">
                         <div class="input-box">
                             <label class="details">Re-creation User Id</label>
-                            <input type="text"  name="rcreusedid" formControlName="rcreusedid" required>
+                            <input type="text" name="rcreusedid"  [ngModel]="emp_data?.empid" formControlName="rcreusedid" required>
                         </div>
 
-                    
+
                         <div class="input-box">
                             <label class="details">Employee ID</label>
-                            <input type="text"  name="employeeId" formControlName="employeeId" required>
+                            <input type="text" name="employeeId"  [ngModel]="emp_data?.empid" formControlName="employeeId" required>
                         </div>
 
                         <div class="input-box">
                             <label class="details">Employee Name</label>
-                            <input type="text"  name="employeeName" formControlName="employeeName">
+                            <input type="text" name="employeeName" [ngModel]="emp_data?.emp_name" formControlName="employeeName">
                         </div>
                         <div class="input-box">
                             <label class="details">Employee Access</label>
-                            <input type="text"  name="emp_acess" formControlName="emp_acess">
+
+                            <select name="emp_acess" [ngModel]="emp_data?.emp_access " formControlName="emp_acess">
+                                <!-- Options for the state dropdown -->
+                                <option *ngFor="let data of comm_code_class" [value]="data.comm_code_desc">{{
+                                    data.comm_code_desc }}</option>
+                            </select>
                         </div>
-                        
+
                         <div class="input-box">
                             <label class="details">Email Id</label>
-                            <input type="email" name="email_ID" formControlName="email_ID">
+                            <input type="email" name="email_ID" [ngModel]="emp_data?.emp_email" formControlName="email_ID">
                         </div>
                         <div class="input-box">
                             <label class="details">Designation</label>
-                            <input type="text" name="designation" formControlName="designation">
+
+                            <select name="designation" [ngModel]="emp_data?.designation" formControlName="designation">
+                                <!-- Options for the state dropdown -->
+                                <option *ngFor="let data of comm_code_dsg" [value]="data.comm_code_desc">{{
+                                    data.comm_code_desc }}</option>
+                            </select>
                         </div>
                         <div class="input-box">
                             <label class="details">Project ID</label>
-                            <input type="text" name="pid" formControlName="pid">
+                            <input type="text" name="pid"  [ngModel]="emp_data?.project_id" formControlName="pid">
                         </div>
                         <div class="input-box">
                             <label class="details">Salary</label>
-                            <input type="text" name="Salary" formControlName="Salary">
+                            <input type="text" name="Salary"  [ngModel]="emp_data?.salary" formControlName="Salary">
                         </div>
                         <div class="input-box">
                             <label class="details">Reporting Manager</label>
-                            <input type="text" name="rptMgr" formControlName="rptMgr">
+
+                                <input type="text" name="rptMgr" [ngModel]="emp_data?.reporting_mgr"  formControlName="rptMgr">
                         </div>
                         <div class="input-box">
                             <label class="details">Employee Class</label>
-                            <input type="text" name="empClass" formControlName="empClass">
+                            <input type="text" name="empClass"  [ngModel]="emp_data?.emp_classification" formControlName="empClass">
                         </div>
                         <div class="input-box">
                             <label class="details">Salary Currency</label>
-                            <input type="text" name="sal_curr" formControlName="sal_curr">
+
+                            <select name="sal_curr"  formControlName="sal_curr">
+                                <!-- Options for the state dropdown -->
+                                <option *ngFor="let data of comm_code_curr" [value]="data.comm_code_desc">{{
+                                    data.comm_code_desc }}</option>
+                            </select>
                         </div>
                         <div class="input-box">
                             <label class="details">Joining Date</label>
-                            <input type="date"  name="joiningDate" formControlName="joiningDate">
+                            <input type="date" name="joiningDate"  [ngModel]="emp_data?.joining_date" formControlName="joiningDate">
                         </div>
 
                     </div>
@@ -73,10 +90,10 @@
                         <div class="radioButton">
                             <h1 class="radioButtontitle">Probation Period</h1>
                             <label>Yes</label>
-                            <input type="radio" [(ngModel)]="probation_Period" formControlName="probation_Period"
+                            <input type="radio" [(ngModel)]="probation_Period"  formControlName="probation_Period"
                                 name="probation_Period" value="Y">
                             <label>No</label>
-                            <input type="radio" [(ngModel)]="probation_Period" formControlName="probation_Period"
+                            <input type="radio" [(ngModel)]="probation_Period"  formControlName="probation_Period"
                                 name="probation_Period" value="N">
                         </div>
 
@@ -84,10 +101,10 @@
                         <div class="radioButton">
                             <h1 class="radioButtontitle">Previuos Experience </h1>
                             <label>Yes</label>
-                            <input [(ngModel)]="previous_Experience" type="radio" formControlName="previous_Experience"
+                            <input [(ngModel)]="previous_Experience" type="radio" [ngModel]="emp_data?.preem" formControlName="previous_Experience"
                                 name="previous_Experience" value="Y">
                             <label>No</label>
-                            <input [(ngModel)]="previous_Experience" type="radio" formControlName="previous_Experience"
+                            <input [(ngModel)]="previous_Experience" type="radio"  [ngModel]="emp_data?.preem" formControlName="previous_Experience"
                                 name="previous_Experience" value="N">
 
                         </div>
@@ -99,41 +116,41 @@
                         <div class="input-box">
                             <label class="details">
                                 <label for="">Previous Experience In (Years And Months)</label>
-                                <input type="number" name="years" min="0" max="50" step="1"> Years
-                                <input type="number" name="months" min="0" max="11" step="1"> Months
+                                <input type="number" name="years" [ngModel]="emp_data?.prev_expr_year" min="0" max="50" step="1"> Years
+                                <input type="number" name="months"  [ngModel]="emp_data?.prev_expr_month"min="0" max="11" step="1"> Months
                             </label>
                         </div>
                         <div class="input-box">
                             <label class="details">Previous Employment In Chronological Order</label>
 
                             <label class="details">previous Employer One</label>
-                            <input type="text" name="previous_Employer_One " placeholder="previous Employer One"
+                            <input type="text" name="previous_Employer_One " [ngModel]="emp_data?.prev_empr"  placeholder="previous Employer One"
                                 formControlName="previous_Employer_One"> <br>
                         </div>
                         <div class="input-box">
                             <label class="details">previous Employer Two</label>
-                            <input type="text" name="previous_Employer_Two" placeholder="previous Employer Two"
+                            <input type="text" name="previous_Employer_Two" [ngModel]="emp_data?.prev_empr2" placeholder="previous Employer Two"
                                 formControlName="previous_Employer_Two"><br>
                         </div>
 
                         <div class="input-box">
                             <label class="details">previous Employer Three</label>
-                            <input type="text" name="previous_Employer_Three" placeholder="previous Employer Three"
+                            <input type="text" name="previous_Employer_Three"[ngModel]="emp_data?.prev_empr3" placeholder="previous Employer Three"
                                 formControlName="previous_Employer_Three"><br>
                         </div>
                         <div class="input-box">
                             <label class="details">previous Employer Four</label>
-                            <input type="text" name="previous_Employer_Four" placeholder="previous Employer Four"
+                            <input type="text" name="previous_Employer_Four"[ngModel]="emp_data?.prev_empr4" placeholder="previous Employer Four"
                                 formControlName="previous_Employer_Four"><br>
                         </div>
                         <div class="input-box">
                             <label class="details">previous Employer Five</label>
-                            <input type="text" name="previous_Employer_Five" placeholder="previous Employer Five"
+                            <input type="text" name="previous_Employer_Five"[ngModel]="emp_data?.prev_empr5" placeholder="previous Employer Five"
                                 formControlName="previous_Employer_Five"><br>
                         </div>
                     </div>
                     <div>
-                        <button class="button" >Add Details</button>
+                        <button class="button">Add Details</button>
                         <button class="button" type="reset">Clear</button>
                     </div>
 

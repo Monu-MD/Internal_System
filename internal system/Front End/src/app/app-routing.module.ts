@@ -26,7 +26,7 @@ import { RejectedAppraisalComponent } from './appraisal-module/rejected-appraisa
 import { ViewAppraisalDataComponent } from './appraisal-module/view-appraisal-data/view-appraisal-data.component';
 import { ViewappraisalComponent } from './appraisal-module/viewappraisal/viewappraisal.component';
 //bank details
-import { BankDetailsComponent } from './employee-module/BankDetails/bank-details/bank-details.component';
+
 import { ModifyPersonalDetailsComponent } from './employee-module/modify-personal-details/modify-personal-details.component';
 import { ModifyProfessionalDetailsComponent } from './employee-module/modify-professional-details/modify-professional-details.component';
 import { SearchEmployeeDetailsComponent } from './employee-module/search-employee-details/search-employee-details.component';
@@ -95,7 +95,6 @@ import { ViewHolidaysComponent } from './request-module/view-holidays/view-holid
 import { ViewLeaveComponent } from './request-module/view-leave/view-leave.component';
 import { CommonCodeDetailsDeleteComponent } from './common-code-module/common-code-details-delete/common-code-details-delete.component';
 import { ReimbusmentReqDetailsComponent } from './reimbusment-mdule/reimbusment-req-details/reimbusment-req-details.component';
-import { EmpPersonalDetailsComponent } from './employee-module/emp-personal-details/emp-personal-details.component';
 import { EmpProfessionalDetailsComponent } from './employee-module/emp-professional-details/emp-professional-details.component';
 import { EmployeeDetailsComponent } from './employee-module/employee-details/employee-details.component';
 import { ViewItAssetDetailComponent } from './asset-mangement-system-module/view-it-asset-detail/view-it-asset-detail.component'
@@ -138,12 +137,11 @@ const routes: Routes = [
 {path:'reportleavedetails',component:ReportLeaveDetailsValueComponent},
 
 //emp module
-{path:'bankdetails',component:BankDetailsComponent},
+
 {path:'modifypersonal',component:ModifyPersonalDetailsComponent},
 {path:'modifyprofessional',component:ModifyProfessionalDetailsComponent},
 {path:'searchmodify',component:SearchEmployeeDetailsComponent},
 {path:'empProfessional',component:EmpProfessionalDetailsComponent},
-{path:'emppersonal',component:EmpPersonalDetailsComponent},
 {path:"empDetailview",component:EmployeeDetailsComponent},
 
 //invoice

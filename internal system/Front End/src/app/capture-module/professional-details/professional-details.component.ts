@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import{FormGroup,ReactiveFormsModule,FormControl,FormControlDirective,Validators} from '@angular/forms';
 import{AddemployeeserviceService} from '../../services/addemployeeservice.service'
 import { Router } from '@angular/router';
+import { LoginServiceService } from 'src/app/services/login-service.service';
 
 @Component({
   selector: 'app-professional-details',
@@ -9,9 +10,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./professional-details.component.css']
 })
 export class ProfessionalDetailsComponent {
+  cocd: any;
+ 
   
 
-  constructor(private empdet:AddemployeeserviceService,private router:Router){}
+  constructor(private empdet:AddemployeeserviceService,private router:Router,private loginservice:LoginServiceService){}
   probation_Period = '';
   previous_Experience = '';
   professional_Details = new FormGroup<any>({
@@ -36,6 +39,9 @@ export class ProfessionalDetailsComponent {
   ProfessionalDeatils(item: any) {
     console.log(item);
     this.empdet.insert(item);
+   
+
+
     if(item!=null){
       this.router.navigate(['dashboard'])
     }
