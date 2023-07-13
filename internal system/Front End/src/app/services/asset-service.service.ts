@@ -1,17 +1,28 @@
 import { Injectable } from '@angular/core';
+import { __values } from 'tslib';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssetServiceService {
 
-  
+
   filteredData: any;
-  setFilterData(value :any){
-    this.filteredData=value;
+  rowData: any;
+
+  setRowData(value: any) {
+    this.rowData = value;
   }
-getData(){
-  return[this.filteredData]
-}
+
+  getRowData() {
+    return [this.rowData]
+  }
+
+  setFilterData(value: any) {
+    this.filteredData = value;
+  }
+  getData() {
+    return [this.filteredData]
+  }
   constructor() { }
 }

@@ -20,7 +20,7 @@
                             <th>Leave Type</th>
                             <th>Allocated Year</th>
                             <th>NoOfDays Allocated</th>
-                            <th>Carry Forward NoOfDays</th>
+                            <th>Description</th>
                             <th>Delete</th>
                             <th>Modify</th>
                         </tr>
@@ -30,7 +30,7 @@
                             <td>{{ row.leave_type }}</td>
                             <td>{{ row.year}}</td>
                             <td>{{ row.allocated_leaves}}</td>
-                            <td>{{ row.carry_fwd   }}</td>
+                            <td>{{ row.description}}</td>
                             <td><button class="button" class="listbutton" (click)="deleteHoliday(row)" >Delete</button></td>
                             <td><button class="button" class="listbutton" routerLink="/modifyLeave">Modify</button></td>
                         </tr>

@@ -17,7 +17,7 @@ leaveForm=new FormGroup<any>({
 
     leave_type: new FormControl('', [Validators.required]),
     allocated_leaves: new FormControl('', [Validators.required]),
-    carry_fwd: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required]),
     year: new FormControl('', [Validators.required])
 
   })
@@ -26,7 +26,7 @@ leaveForm=new FormGroup<any>({
     const postData = {
       leave_type: item.leave_type,
       allocated_leaves: item.allocated_leaves,
-      carry_fwd: item.carry_fwd,
+      description: item.description,
       year: item.year
     };
 

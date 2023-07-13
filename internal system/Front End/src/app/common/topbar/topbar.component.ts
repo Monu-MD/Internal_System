@@ -28,6 +28,7 @@ export class TopbarComponent {
     this.user_type=user[2];
     console.log(this.user_type);
     
+    
 
     //// to enable and disable //
     

@@ -16,7 +16,6 @@ user_type:any;
     this.user_type=user[2];
     console.log(this.user_type);
     
-
   }
 
   viewHolidaysForm:any;

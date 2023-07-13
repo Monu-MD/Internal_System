@@ -12,9 +12,10 @@
           <label class="details">Leave Type</label>
           <select id="leave_type" class="form-control" formControlName="leave_type">
             <option value="">--Select--</option>
-            <option value="annual">Annual</option>
-            <option value="sick">Sick</option>
-            <option value="maternity">Maternity</option>
+            <option value="EL">Annual</option>
+            <option value="SL">Sick</option>
+            <option value="ML">Maternity</option>
+            <option value="RL">Restricted</option>
           </select>
           <pre></pre>
         </div>
@@ -38,13 +39,10 @@
           <input type="number" id="allocated_leaves" class="form-control" formControlName="allocated_leaves">
         </div>
 
-
-
-
-        <div class="input-box">
-          <label for="carryForwardDays" class="details">Carry Forward Number of Days </label>
-          <input type="number" id="carry_fwd" class="form-control" formControlName="carry_fwd">
-        </div>
+          <div class="input-box">
+              <label for="description">Description</label>
+              <textarea id="description" class="form-control" formControlName="description"></textarea>
+          </div> 
 
         <div>
           <button class="button">Submit</button>

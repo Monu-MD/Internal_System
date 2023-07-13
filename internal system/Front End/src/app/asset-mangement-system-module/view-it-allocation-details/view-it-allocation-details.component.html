@@ -1,43 +1,65 @@
 <app-headder></app-headder>
-<app-sidebar></app-sidebar>
 <app-topbar></app-topbar>
-
-<div class="container">
-    <h1 class="title">View IT Asset Allocation</h1>
-    <div class="content">
-        <form [formGroup]="viewItAssetAllocationForm" (ngSubmit)="submit(viewItAssetAllocationForm.value)">
-            <div class="user-details">
-                <div class="input-box">
-                    <label class="details">Asset ID</label>
-                    <input type="number" name="assetId" formControlName="assetId" placeholder="Asset ID">
-                </div>
-
-
-                <div class="input-box">
-                    <label class="details">Employee ID</label>
-                    <input type="number" name="id" formControlName="employeeId" placeholder="Employee ID">
-                </div>
-
-
-
-                <div class="input-box">
-                    <label class="details">Allocation Date</label>
-                    <input type="date" name="allocationDate" formControlName="allocationDate">
-                </div>
-
-
-                <div class="input-box">
-                    <label class="details">Return Date</label>
-                    <input type="date" name="allocationDate" formControlName="returnDate">
-                </div>
-
-                
+<app-sidebar></app-sidebar>
+<form [formGroup] = "viewNonItAssetForm" (ngSubmit)="onSubmit()" >
+    <div class="container" class="tablecontainer" class="viewData">
+        <div class="table-content">
+            <div class="contentleft">
+                <h1 class="titleViewPage">View Allocated History</h1>
+                <label class="contentleft">Search:</label>
+            <input type="text"  name="assetId" formControlName="assetId" class="searchData" placeholder="Search Asset Id" >
+             <button  style="color: aliceblue; background-color: azure; border: 1px white;"></button>
+        </div><br>
+            <span>Show</span>
+        <select class="show-entries" (change)="onItemsPerPageChange($event)">
+            <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+          </select>
+        <span>entries</span>
+            <hr>
+            <div *ngIf="dataLoaded">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asset Id</th>
+                            <th>Employee Id</th>
+                            <th>Employee Name</th>
+                            <th>Allocated Date</th> 
+                            <th>Return Date</th>
+                            <th>Status</th>   
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of filteredData">
+                            <td>{{ row.asset_id }}</td>
+                            <td>{{ row.emp_id }}</td>
+                            <td>{{ row.emp_name}}</td>
+                            <td>{{ row.allocdate}}</td>   
+                            <td>{{ row.rdate}}</td>
+                            <td>{{row.status}}</td>
+                    </tbody>
+                </table>
             </div>
-            <div class="button-group">
-                <button type="submit" class="button">Submit</button>
-                <button type="reset" class="button">Clear</button>
+          
+            <div *ngIf="!dataLoaded">
+                <p>Loading data...</p>
             </div>
-        </form>
+    
+            <div>
+                <button (click)="goToFirstPage()" class="listbutton">First</button>
+                <button (click)="goToPreviousPage()"  class="listbutton">Previous</button>
+                <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                <button (click)="goToNextPage()" class="listbutton">Next</button>
+                <button (click)="goToLastPage()" class="listbutton">Last</button>
+            </div>  
+        </div>
     </div>
-</div>
-<app-footer></app-footer>
+</form>
+  <app-footer></app-footer>
+ 
+  
+  
+  
+  
+  
+  
+  

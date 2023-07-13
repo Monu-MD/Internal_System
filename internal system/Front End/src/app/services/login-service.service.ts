@@ -12,7 +12,6 @@ export class LoginServiceService {
   data: any;
   phtotUrl: any;
   notification: any;
- 
   asset:any;
   emp_data: any;
   leave_master: any;
@@ -78,6 +77,7 @@ export class LoginServiceService {
       this.cocd,
       this.asset
     ]
+
   }
 
 

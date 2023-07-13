@@ -62,6 +62,18 @@ export class ViewNonItAssetDetailComponent {
     );
   }
 
+  deleteAsset(row: any) {
+    this.http.get(`http://localhost:4000/assetDetails/assetDelete/${row.asset_id}`).subscribe(
+      (response: any) => {
+        console.log('Data deleted successfully:', response);
+        this.rowData = this.rowData.filter((item) => item.asset_id !== row.asset_id);
+        this.filteredData = this.filteredData.filter((item) => item.asset_id !== row.asset_id);
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
+  }
 
 filterData(assetId: string) {
   this.filteredData = this.rowData.filter(row =>
