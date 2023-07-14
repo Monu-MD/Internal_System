@@ -8,6 +8,7 @@ var pool = require('../Database/dbconfig');
 
 router.post('/applyLeave', applyLeave);
 router.post('/markpostLeave', markpostLeave);
+router.post('/unmarkLeavePost', unmarkLeavePost);
 
 
 function applyLeave(req, res) {
@@ -32,17 +33,17 @@ function applyLeave(req, res) {
     // var emp_access = req.body.user_type;
 
 
-    var availed_leaves = req.body.availed_leaves;
-    console.log("availed_leaves" + availed_leaves);
+    // var availed_leaves = req.body.availed_leaves;
+    // console.log("availed_leaves" + availed_leaves);
 
-    var available_leaves = req.body.available_leaves;
-    console.log("available_leaves" + available_leaves);
+    // var available_leaves = req.body.available_leaves;
+    // console.log("available_leaves" + available_leaves);
 
-    var quater_leaves = req.body.quater_leaves;
-    console.log("quater_leaves", quater_leaves);
+    // var quater_leaves = req.body.quater_leaves;
+    // console.log("quater_leaves", quater_leaves);
 
-    var borr_leaves = req.body.borr_leaves;
-    console.log("borr_leaves", borr_leaves);
+    // var borr_leaves = req.body.borr_leaves;
+    // console.log("borr_leaves", borr_leaves);
 
     var sessiontime = req.body.sessions;
     var tempList = '';
@@ -62,14 +63,14 @@ function applyLeave(req, res) {
     if (leave_type == "EL") {
         console.log("el");
 
-        if (borr_leaves == "0") {
-            var borr_leaves = parseFloat(quater_leaves) - parseFloat(availed_leaves);
-            console.log("borr_leaves", borr_leaves);
-        }
-        else {
-            var borr_leaves = borr_leaves * -1;
-            console.log("borr_leaves", borr_leaves);
-        }
+        // if (borr_leaves == "0") {
+        //     var borr_leaves = parseFloat(quater_leaves) - parseFloat(availed_leaves);
+        //     console.log("borr_leaves", borr_leaves);
+        // }
+        // else {
+        //     var borr_leaves = borr_leaves * -1;
+        //     console.log("borr_leaves", borr_leaves);
+        // }
 
         pool.query("SELECT day_type,sel_date,description,year FROM holidays where del_flg ='N' and day_type in ('H') order by sel_date asc", function (err, holidayList) {
             if (err) {
@@ -168,7 +169,7 @@ function applyLeave(req, res) {
                                         }
 
 
-                                        pool.query("INSERT INTO leave_master (emp_id, leave_type, del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year, quaterly_leave) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [emp_id, leave_type, 'N', availed_leaves_master, carry_forwarded, credited_leaves, emp_id, rcre_time, emp_id, rcre_time, year, borr_leaves], function (err, done) {
+                                        pool.query("INSERT INTO leave_master (emp_id, leave_type, del_flg,availed_leaves,carry_forwarded,credited_leaves, rcre_user_id, rcre_time, lchg_user_id, lchg_time, year, quaterly_leave) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)", [emp_id, leave_type, 'N', '0', carry_forwarded, credited_leaves, emp_id, rcre_time, emp_id, rcre_time, year, '0'], function (err, done) {
                                             if (err) throw err;
                                         });
                                     });
@@ -181,7 +182,7 @@ function applyLeave(req, res) {
                                 // total_leaves = parseFloat(availed_leaves_master) + parseFloat(availed_leaves);
                                 // console.log('total_leaves value', total_leaves);
 
-                                pool.query("update leave_master set availed_leaves = $1 , lchg_user_id = $2, lchg_time =$3 ,quaterly_leave =$6 where year = $4 and emp_id = $5 and leave_type = $7 ", [availed_leaves_master, emp_id, rcre_time, year, emp_id, borr_leaves, leave_type], function (err, done) {
+                                pool.query("update leave_master set availed_leaves = $1 , lchg_user_id = $2, lchg_time =$3 ,quaterly_leave =$6 where year = $4 and emp_id = $5 and leave_type = $7 ", [availed_leaves_master, emp_id, rcre_time, year, emp_id, '0', leave_type], function (err, done) {
                                     if (err) throw err;
                                 });
                             }
@@ -413,10 +414,10 @@ function applyLeave(req, res) {
                 })
                 ///
 
-                var rest_leaves = parseFloat(available_leaves) - parseFloat(availed_leaves);
-                console.log(available_leaves);
-                console.log(availed_leaves);
-                console.log('rest_leaves', rest_leaves);
+                // var rest_leaves = parseFloat(available_leaves) - parseFloat(availed_leaves);
+                // console.log(available_leaves);
+                // console.log(availed_leaves);
+                // console.log('rest_leaves', rest_leaves);
 
                 var now = new Date();
                 var rcretime = now;
@@ -433,7 +434,7 @@ function applyLeave(req, res) {
                         console.log('leaveOverlapList_count value', leaveOverlapList_count);
                     }
 
-                    console.log("leaveOverlapList_countkkkkkkkkkkkkkkkkkkkk" + leaveOverlapList_count);
+                    console.log("leaveOverlapList_countkkkkkkkkkk" + leaveOverlapList_count);
 
                     if (leaveOverlapList_count == 0) {
 
@@ -444,25 +445,24 @@ function applyLeave(req, res) {
                             });
                         res.json({
                             message: "Leave request submitted successfully", notification: "redirect to leaves",
-                            Data: {
-                                leave_type,
-                                from_date,
-                                to_date,
-                                del_flg,
-                                availed_leaves,
-                                rcre_user_id,
-                                rcre_time,
-                                lchg_user_id,
-                                lchg_time,
-                                reason,
-                                approver_id,
-                                leave_id,
-                                emp_id,
-                                app_flg,
-                                rej_flg,
-                                year
-
-                            }
+                            // Data: {
+                            //     leave_type,
+                            //     from_date,
+                            //     to_date,
+                            //     del_flg,
+                            //     availed_leaves,
+                            //     rcre_user_id,
+                            //     rcre_time,
+                            //     lchg_user_id,
+                            //     lchg_time,
+                            //     reason,
+                            //     approver_id,
+                            //     leave_id,
+                            //     emp_id,
+                            //     app_flg,
+                            //     rej_flg,
+                            //     year
+                            // }
                         })
 
 
@@ -474,7 +474,8 @@ function applyLeave(req, res) {
                             else {
                                 leaveMasterList_count = leaveMasterList.rowCount;
                                 if (leaveMasterList_count != 0) {
-                                    var availed_leaves_master = leaveMasterList.availed_leaves;
+                                    var availed_leaves_master = leaveMasterList.rows[0].availed_leaves;
+                                    console.log("Last used leaves:-- "+ availed_leaves_master);
                                 }
                                 else {
                                     var availed_leaves_master = 0;
@@ -511,22 +512,7 @@ function applyLeave(req, res) {
                                             if (err) throw err;
                                         });
                                         console.log("Inserted into leave_master!!!!!!!!!!!!!");
-                                        //     res.json({
-                                        //         message: "success", notification: "redirect to viewpage1",
-                                        //         Data: {
-                                        //             emp_id,
-                                        //             leave_type,
-                                        //             availed_leaves,
-                                        //             carry_forwarded,
-                                        //             credited_leaves,
-                                        //             rcre_user_id,
-                                        //             rcre_time,
-                                        //             lchg_user_id,
-                                        //             lchg_time,
-                                        //             year
-                                        //         }
-
-                                        // })
+                                       
                                     });
 
                                 });
@@ -2657,6 +2643,207 @@ function markpostLeave(req, res) {
 };
 
 
+
+
+function unmarkLeavePost(req, res) {
+    var eid = req.user.rows[0].user_id;
+    var emp_access = req.user.rows[0].user_type;
+    var ename = req.user.rows[0].user_name;
+    var emp_id = req.body.employee_id;
+    var emp_name = req.body.empName;
+    var leave_id = req.body.leave_id;
+    var leaves = req.body.leaves;
+    var reason = req.body.desc;
+    var leave_type = req.body.leave_type;
+    var tempList = '';
+    var now = new Date();
+    var year = now.getFullYear();
+    var lchgtime = now;
+
+    pdbconnect.query("UPDATE leaves set del_flg = $1, lchg_user_id = $2 , lchg_time = $3 where leave_id = $4 ", ['Y', emp_id, lchgtime, leave_id], function (err, done) {
+            if (err) {
+                    console.error('Error with table query', err);
+            }
+
+            pdbconnect.query("SELECT * from leave_master where emp_id =$1 and del_flg=$2 and leave_type = $3 and year = $4", [emp_id, 'N', leave_type, year], function (err, done) {
+                    if (err) {
+                            console.error('Error with table query', err);
+                    }
+                    else {
+                            no_of_leaves = done.rows['0'].availed_leaves;
+                            var quater_leave = done.rows['0'].quaterly_leave;
+                    }
+
+                    rest_leaves = parseFloat(no_of_leaves) - parseFloat(leaves);
+
+                    if (parseFloat(quater_leave) < 0) {
+                            var quater_leave = parseFloat(quater_leave) + parseFloat(leaves);
+                            console.log("less than 0", quater_leave);
+                    }
+                    else {
+                            var quater_leave = parseFloat(quater_leave) + parseFloat(leaves);
+                            console.log("greater than 0", quater_leave);
+                    }
+
+
+                    pdbconnect.query("UPDATE leave_master set availed_leaves = $1,quaterly_leave=$5 where emp_id = $2 and leave_type = $3 and year = $4", [rest_leaves, emp_id, leave_type, year, quater_leave], function (err, done) {
+                            if (err) {
+                                    console.error('Error with table query', err);
+                            }
+                            else {
+                                    //               console.log('111111111111111111111111111');
+                            }
+
+                            pdbconnect.query("SELECT  comm_code_desc cocd ,emp_name emp,* from leaves l, emp_master_tbl emp,  common_code_tbl cocd  where l.del_flg= 'N' and l.emp_id =$1 and l.approver_id = emp.emp_id and cocd.comm_code_id = l.leave_type and cocd.code_id ='LTYP' and cocd.del_flg ='N'", [emp_id], function (err, leavesList) {
+                                    if (err) {
+                                            console.error('Error with table query', err);
+                                    }
+                                    else {
+                                            leaveData = leavesList.rows;
+                                            //console.log('rowData value',rowData);
+                                            //console.log('rowData value1',done.rows['0']);
+                                    }
+
+                                    pdbconnect.query("SELECT * FROM leaves where leave_id =$1", [leave_id], function (err, leaveDataID) {
+                                            if (err) {
+                                                    console.error('Error with table query', err);
+                                            }
+                                            else {
+                                                    rowData2 = leaveDataID.rows;
+                                                    managerID = leaveDataID.rows[0].approver_id;
+                                                    from_date = leaveDataID.rows[0].from_date;
+                                                    var from_date = dateFormat(from_date, "yyyy-mm-dd");
+                                                    to_date = leaveDataID.rows[0].to_date;
+                                                    var to_date = dateFormat(to_date, "yyyy-mm-dd");
+                                                    availed_leaves = leaveDataID.rows[0].availed_leaves;
+                                                    accepted_flg = leaveDataID.rows[0].app_flg;
+                                                    console.log('managerID', managerID);
+                                                    console.log('accepted_flg', accepted_flg);
+
+                                                    if (accepted_flg == 'Y') {
+                                                            pdbconnect.query("SELECT reporting_mgr FROM emp_master_tbl where emp_id =$1", [emp_id], function (err, repMgr) {
+                                                                    if (err) {
+                                                                            console.error('Error with table query', err);
+                                                                    }
+                                                                    else {
+                                                                            var repMgr_id = repMgr.rows['0'].reporting_mgr;
+                                                                            console.log('repMgr_id', repMgr_id);
+                                                                    }
+
+                                                                    pdbconnect.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1", [repMgr_id], function (err, repMgrEmail) {
+                                                                            if (err) {
+                                                                                    console.error('Error with table query', err);
+                                                                            }
+                                                                            else {
+                                                                                    var repMgrEmail_id = repMgrEmail.rows['0'].emp_email;
+                                                                                    console.log('repMgrEmail_id', repMgrEmail_id);
+                                                                            }
+                                                                    });
+                                                            });
+                                                    }
+                                            }
+
+                                            pdbconnect.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [emp_id], function (err, empResult) {
+                                                    if (err) {
+                                                            console.error('Error with table query', err);
+                                                    }
+                                                    else {
+                                                            employee_email = empResult.rows['0'].emp_email;
+                                                            console.log('employee_email', employee_email);
+                                                    }
+
+                                                    pdbconnect.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [managerID], function (err, managerMail) {
+                                                            if (err) {
+                                                                    console.error('Error with table query', err);
+                                                            }
+                                                            else {
+                                                                    rowData1 = managerMail.rows;
+                                                                    managerMailId = rowData1[0].emp_email;
+                                                                    console.log('managerMailId', managerMailId);
+                                                            }
+
+
+                                                            pdbconnect.query("SELECT comm_code_desc from common_code_tbl where code_id='HR' and comm_code_id='HR'", function (err, hrMailList) {
+                                                                    if (err) {
+                                                                            console.error('Error with table query', err);
+                                                                    }
+                                                                    else {
+                                                                            var hrMailList = hrMailList.rows[0].comm_code_desc;
+                                                                    }
+
+                                                                    tempList1 = employee_email;
+                                                                    tempList2 = hrMailList + ',' + managerMailId;
+
+                                                                    var smtpTransport = nodemailer.createTransport('SMTP', {
+                                                                            service: 'gmail',
+                                                                            auth:
+                                                                            {
+                                                                                    user: 'amber@nurture.co.in',
+                                                                                    pass: 'nurture@123'
+                                                                            }
+                                                                    });
+
+                                                                    var mailOptions = {
+                                                                            to: tempList1,
+                                                                            cc: tempList2,
+                                                                            from: 'amber@nurture.co.in',
+                                                                            subject: 'Leave cancel notification',
+                                                                            html: '<img src="http://econitynepal.com/wp-content/uploads/2016/04/cancellation-of-registration.jpg" height="85"><br><br>' +
+                                                                                    '<h3>HR has cancelled the Leave for following<br><br>' +
+                                                                                    '<table style="border: 10px solid black;"> ' +
+                                                                                    '<tr style="border: 10px solid black;"> ' +
+                                                                                    '<th style="border: 10px solid black;">Leave Type</th> ' +
+                                                                                    '<th style="border: 10px solid black;">' + leave_type + '</th>' +
+                                                                                    '</tr>' +
+
+                                                                                    '<tr style="border: 10px solid black;"> ' +
+                                                                                    '<th style="border: 10px solid black;"> Employee Name </td> ' +
+                                                                                    '<th style="border: 10px solid black;">' + emp_name + '</td> ' +
+                                                                                    '</tr>' +
+
+                                                                                    '<tr style="border: 10px solid black;"> ' +
+                                                                                    '<th style="border: 10px solid black;">Employee ID</th> ' +
+                                                                                    '<th style="border: 10px solid black;">' + emp_id + '</th>' +
+
+                                                                                    '</tr>' +
+
+                                                                                    '<tr style="border: 10px solid black;"> ' +
+                                                                                    '<th style="border: 10px solid black;"> From Date </td> ' +
+                                                                                    '<th style="border: 10px solid black;">' + from_date + '</td> ' +
+                                                                                    '</tr>' +
+
+                                                                                    '<tr style="border: 10px solid black;"> ' +
+                                                                                    '<th style="border: 10px solid black;">To Date</th> ' +
+                                                                                    '<th style="border: 10px solid black;">' + to_date + '</th>' +
+
+                                                                                    '</tr>' +
+
+                                                                                    '<tr style="border: 10px solid black;"> ' +
+                                                                                    '<th style="border: 10px solid black;"> Number of days </td> ' +
+                                                                                    '<th style="border: 10px solid black;">' + availed_leaves + '</td> ' +
+                                                                                    '</tr>' +
+                                                                                    '</table> ' +
+                                                                                    '<br><br>' +
+                                                                                    'URL: http://amber.nurture.co.in <br><br>' +
+                                                                                    'You are marked in CC because you are the Reporting Manager for the Employee <br><br><br>' +
+                                                                                    '- Regards,<br><br>MD</h3>'
+                                                                    };
+
+
+                                                                    smtpTransport.sendMail(mailOptions, function (err) {
+                                                                    });
+                                                            });
+                                                            req.flash('success', "Leave cancelled for the Employee Id :" + emp_id + " with Employee Name :" + emp_name + ".")
+                                                            res.redirect('/requestModule/applyLeave/unmarkLeave');
+
+                                                    });
+                                            });
+                                    });
+                            });
+                    });
+            });
+    });
+}
 
 
 // ///////////////////////////////////////////////////////////////////////////////
