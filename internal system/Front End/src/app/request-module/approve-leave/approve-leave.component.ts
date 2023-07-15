@@ -42,6 +42,7 @@ export class ApproveLeaveComponent {
   }
 
   submit(item: any) {
+    
   }
 
   ngOnInit() {

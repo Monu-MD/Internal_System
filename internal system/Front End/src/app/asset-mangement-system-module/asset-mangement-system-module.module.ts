@@ -51,4 +51,11 @@ import { ViewItAllocationDeatilComponent } from './view-it-allocation-deatil/vie
     CommonModule
   ]
 })
-export class AssetMangementSystemModuleModule { }
+export class AssetMangementSystemModuleModule {
+
+
+
+
+
+  
+ }

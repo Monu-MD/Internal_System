@@ -201,7 +201,7 @@ function applyLeave(req, res) {
                                         console.log("4  pick HR_email");
                                         var hrEmail = hrMailList.rows['0'].comm_code_desc;
                                         tempList = hrEmail + ',' + employee_email;
-                                        console.log('tempList: ', tempList);
+                                        console.log('tempList:', tempList);
                                     }
 
 
@@ -600,7 +600,6 @@ function applyLeave(req, res) {
                                         if (leave_type == "ML") {
                                             var leave_type1 = "Maternity Leave";
                                         }
-
                                         if (sessiontyp == "FD") {
                                             var session1 = "FULL DAY";
                                             var sessiontime = "Session 1 - Session 2";
