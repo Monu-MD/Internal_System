@@ -1,9 +1,8 @@
+<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
-
-
-
 <div class="allighn">
     <div class="container">
 
@@ -14,15 +13,30 @@
             <form [formGroup]="Project_Allocation" class="#" (ngSubmit)="projectAllocation(Project_Allocation.value)">
                 <div class="user-details">
                     <div class="input-box">
+                        <span class="btn-text">Select Employee</span>
+                        <span class="checkbox">
+                            <i class="fa-solid fa-check check-icon"></i>
+                        </span>
+                        <span class="item-text" *ngFor="let data of empname" value="data.emp_id">{{
+                            data.emp_name }}</span>
+
+                    </div>
+                    <div class="input-box">
                         <label class="Details"> Project Id </label>
                         <input type="text" placeholder="Enter Your project Id" name="projectid"
                             formControlName="projectid" />
+                        <!-- <select name="projectid" formControlName="projectid">
+                                <option *ngFor="let data of cocdcust" [value]="data.customer_id">{{
+                                    data.customer_name }}</option>
+                            </select> -->
                     </div>
 
                     <div class="input-box">
                         <label class="Details"> Project Reporting Manager </label>
-                        <input type="text" placeholder="Project Reporting Manager" name="projectReportingManager"
-                            formControlName="projectReportingManager" />
+                        <select name="projectReportingManager" formControlName="projectReportingManager">
+                            <option *ngFor="let data of manager" [value]="data.emp_id">{{
+                                data.emp_name }}</option>
+                        </select>
                     </div>
                     <div class="input-box">
                         <label class="details">Project Allocation</label>

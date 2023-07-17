@@ -820,10 +820,10 @@ router.post('/login', (req, res) => {
                                             }
                                             // Access the userDetails object here
                                             const detail = userDetails;
-                                           
+
                                             fetchCommonCodes()
                                                 .then((cocd) => {
-                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
+                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
                                                 })
                                                 .catch((error) => {
                                                     console.error('Error fetching common codes', error);
@@ -843,10 +843,10 @@ router.post('/login', (req, res) => {
                                             }
                                             // Access the userDetails object here
                                             const detail = userDetails;
-                                          
+
                                             fetchCommonCodes()
                                                 .then((cocd) => {
-                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
+                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
                                                 })
                                                 .catch((error) => {
                                                     console.error('Error fetching common codes', error);
@@ -878,13 +878,13 @@ router.post('/login', (req, res) => {
                                         const detail = userDetails;
 
                                         fetchCommonCodes()
-                                        .then((cocd) => {
-                                            res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
-                                        })
-                                        .catch((error) => {
-                                            console.error('Error fetching common codes', error);
-                                            // Handle the error as needed
-                                        });
+                                            .then((cocd) => {
+                                                res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
+                                            })
+                                            .catch((error) => {
+                                                console.error('Error fetching common codes', error);
+                                                // Handle the error as needed
+                                            });
 
                                     });
 

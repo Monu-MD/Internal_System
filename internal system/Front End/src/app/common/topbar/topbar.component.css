@@ -31,6 +31,7 @@ text-decoration: none;
 color: white;
 font-weight: 10px;
 margin-left: 39px;
+cursor: pointer;
 }
 
 .menu li a:hover{

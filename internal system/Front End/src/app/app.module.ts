@@ -51,7 +51,6 @@ import { ViewItAssetDetailsComponent } from './asset-mangement-system-module/vie
 import { ViewNonItAssetDetailsComponent } from './asset-mangement-system-module/view-non-it-asset-details/view-non-it-asset-details.component';
 import { ViewItAllocationDetailsComponent } from './asset-mangement-system-module/view-it-allocation-details/view-it-allocation-details.component';
 import { ViewItAssetDetailComponent } from './asset-mangement-system-module/view-it-asset-detail/view-it-asset-detail.component'
-import { ViewNonItAssetDetailComponent } from './view-non-it-asset-detail/view-non-it-asset-detail.component'
 import { ViewItAllocationDeatilComponent } from './asset-mangement-system-module/view-it-allocation-deatil/view-it-allocation-deatil.component'
 
 import { ModifyPersonalDetailsComponent } from '../app/employee-module/modify-personal-details/modify-personal-details.component';
@@ -139,9 +138,8 @@ import { EmployeeDetailsComponent } from './employee-module/employee-details/emp
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
-import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBarModule
+
 
 
 @NgModule({
@@ -158,7 +156,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     ChildProjectComponent,
     CustomercreationComponent,
     CustomerModificationComponent,
-    CustomerModViewComponent,
+    // CustomerModViewComponent,
     CustomerViewComponent,
     ProjectDetialComponent,
     ProjDeallocComponent,
@@ -195,7 +193,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     ViewNonItAssetDetailsComponent,
     ViewItAllocationDetailsComponent,
     ViewItAssetDetailComponent,
-    ViewNonItAssetDetailComponent,
     ViewItAllocationDeatilComponent,
 
 
@@ -291,7 +288,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule, // Add BrowserAnimationsModule
-    MatSnackBarModule // Add MatSnackBarModule
+
     
   ],
   

@@ -1,7 +1,9 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, Event } from '@angular/router';
 import { LoginServiceService } from 'src/app/services/login-service.service';
 import { NavserviceService } from 'src/app/services/navservice.service';
+import { ProjectserviceService } from 'src/app/services/projectservice.service';
 
 @Component({
   selector: 'app-topbar',
@@ -11,26 +13,29 @@ import { NavserviceService } from 'src/app/services/navservice.service';
 export class TopbarComponent {
   data: any;
   user_type: any;
- 
+  user_id: any;
+
 
   redirect() {
 
   }
-  constructor(private service: NavserviceService,
-    private router: Router, private loginService: LoginServiceService) {
-    
+  constructor(private service: NavserviceService, private http: HttpClient,
+    private router: Router, private loginService: LoginServiceService,
+    private prjectservice: ProjectserviceService) {
+
     /// redirect data or id ///
-      this.data = this.service.returrnAns;
+    this.data = this.service.returrnAns;
     console.log("Topbar Enterd");
 
     console.log(this.service.returrnAns());
-    const user=this.loginService.getData();
-    this.user_type=user[2];
+    const user = this.loginService.getData();
+    this.user_type = user[2];
+    this.user_id = user[0];
     console.log(this.user_type);
-    
+
 
     //// to enable and disable //
-    
+
 
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
@@ -41,7 +46,7 @@ export class TopbarComponent {
           this.data = "rmb"
         }
         //emplloyee
-        if (this.currentRoute=="/empDetailview" || this.currentRoute == "/modifypersonal" || this.currentRoute == "/modifyprofessional" || this.currentRoute == "/searchmodify" || this.currentRoute == "/empProfessional" || this.currentRoute == "/emppersonal") {
+        if (this.currentRoute == "/empDetailview" || this.currentRoute == "/modifypersonal" || this.currentRoute == "/modifyprofessional" || this.currentRoute == "/searchmodify" || this.currentRoute == "/empProfessional" || this.currentRoute == "/emppersonal") {
           this.data = "emp"
         }
         //apraisal
@@ -97,15 +102,15 @@ export class TopbarComponent {
         }
 
         // /Asset
-        if (this.currentRoute == "/ItAssetDetails" || this.currentRoute == "/ModifyItAssetDetails" || this.currentRoute == "/ViewItAssetDetails"||  this.currentRoute == "/ViewItAssetDetail" ) {
+        if (this.currentRoute == "/ItAssetDetails" || this.currentRoute == "/ModifyItAssetDetails" || this.currentRoute == "/ViewItAssetDetails" || this.currentRoute == "/ViewItAssetDetail") {
           this.data = "ast"
         }
 
-        if (this.currentRoute == "/ITAssetAllocation" || this.currentRoute == "/ModifyItAllocationDetails" || this.currentRoute == "/ViewItAllocationDetails"|| this.currentRoute=="/ViewItAllocationDetail") {
+        if (this.currentRoute == "/ITAssetAllocation" || this.currentRoute == "/ModifyItAllocationDetails" || this.currentRoute == "/ViewItAllocationDetails" || this.currentRoute == "/ViewItAllocationDetail") {
           this.data = "allast"
         }
 
-        if (this.currentRoute == "/AddNonItAssetDetails" || this.currentRoute == "/ModifyNonItAssetDetails" || this.currentRoute == "/ViewNonItAssetDetails"|| this.currentRoute == "/ViewNonItAssetDetail") {
+        if (this.currentRoute == "/AddNonItAssetDetails" || this.currentRoute == "/ModifyNonItAssetDetails" || this.currentRoute == "/ViewNonItAssetDetails" || this.currentRoute == "/ViewNonItAssetDetail") {
           this.data = "nonast"
         }
       }
@@ -122,12 +127,48 @@ export class TopbarComponent {
 
 
   getUserType() {
-    const user=  this.loginService.getData();
-    this.user_type=user[2]
+    const user = this.loginService.getData();
+    this.user_type = user[2]
     console.log(this.user_type);
-    
+
   }
 
+  fetchaddProjectdetails() {
+
+    const params = new HttpParams().set('user_id', this.user_id.toString())
+
+
+    this.http.get('http://localhost:4000/projectdetails/fetchProjectAddDetails', { params })
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.prjectservice.setAddProjectdetails(response.deAddProjDet)
+          this.router.navigate(['/ProjectDetial'])
+        },
+        error => {
+          console.error(error);
+          alert('Error ');
+        }
+      );
+  }
+
+  fetchaddPjtAlldetails(){
+    const params = new HttpParams().set('user_id', this.user_id.toString())
+
+
+    this.http.get('http://localhost:4000/projectdetails/fetchaddPjtAlldetails', { params })
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.prjectservice.setfetchaddPjtAlldetails(response.fetchaddPjtAlldetails)
+          this.router.navigate(['/ProjectAllocation'])
+        },
+        error => {
+          console.error(error);
+          alert('Error ');
+        }
+      );
+  }
 
 
 }

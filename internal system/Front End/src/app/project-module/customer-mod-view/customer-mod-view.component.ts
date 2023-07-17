@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { CacheServiceService} from '../../cache-service.service';
+
 
 @Component({
   selector: 'app-customer-mod-view',
@@ -10,7 +10,7 @@ import { CacheServiceService} from '../../cache-service.service';
 export class CustomerModViewComponent implements OnInit {
   cachedData: any;
 
-  constructor(private cacheService: CacheServiceService) { }
+  constructor() { }
 
 
   customerName='';
@@ -57,13 +57,13 @@ export class CustomerModViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    const cachedData = this.cacheService.get('data');
+    const cachedData = "";
     if (cachedData) {
       this.cachedData = cachedData;
     } else {
       // fetch data from API or other source
       const data = '';
-      this.cacheService.set('data', data);
+      // this.cacheService.set('data', data);
       this.cachedData = data;
     }
 

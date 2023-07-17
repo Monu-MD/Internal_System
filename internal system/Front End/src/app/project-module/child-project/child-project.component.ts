@@ -78,13 +78,15 @@ export class ChildProjectComponent {
 
   fetchData(parpid: any) {
     const params = new HttpParams().set('parpid', parpid.toString())
+    
 
-    this.http.get('http://localhost:4000/projectModule/childproject/fetchDet', { params })
+    this.http.get('http://localhost:4000/projectdetails/fetchDet', { params })
       .subscribe(
         response => {
           console.log(response);
           this.getData(response)
-       
+         
+
         },
         error => {
           console.error(error);
@@ -92,24 +94,24 @@ export class ChildProjectComponent {
         }
       );
   }
- 
+
   key: any;
   key1: any;
   key2: any;
   key3: any;
   key4: any;
   key5: any;
-  key6:any;
+  key6: any;
   key7: any;
   key8: any;
   key9: any;
   key10: any;
   key11: any;
-  key12:any;
+  key12: any;
   key13: any;
   key14: any;
   key15: any;
-  key16:any;
+  key16: any;
 
 
 
@@ -125,10 +127,11 @@ export class ChildProjectComponent {
     this.key9 = response.key9
     this.key10 = response.key10
     this.key11 = response.key11
-    this.key12= response.key12
-    this.key13= response.key13
+    this.key12 = response.key12
+    this.key13 = response.key13
     this.key14 = response.key14
-    this.key15 = response.key15 
+    this.key15 = response.key15
+   
   }
 
   modifybtn = false;

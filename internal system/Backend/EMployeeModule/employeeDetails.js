@@ -1116,98 +1116,87 @@ function addempdet(req, res) {
 						pool.query("INSERT INTO emp_master_tbl(emp_id,emp_name,emp_access,emp_email,joining_date,designation,salary,reporting_mgr,prev_expr_year,prev_expr_month,prev_empr,prev_empr2,prev_empr3,prev_empr4,prev_empr5,emp_prob,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time,entity_cre_flg,pre_emp_flg,emp_classification,salary_curr) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)", [empid, empname, empaccess, email, jDate, desig, salary, rptman, preExpyear, preExpmonth, preEmp, preEmp2, preEmp3, preEmp4, preEmp5, probPeriod, 'N', rcreuserid, rcretime, lchguserid, lchgtime, entity_cre_flg, preem, empClass, sal_curr], function (err, done) {
 							if (err) throw err;
 
-							// var userid = empid;
-							// var ranpass = generatePassword(4, false);
-							// var finalpass = userid + "@" + ranpass;
-
-							const transporter = nodemailer.createTransport({
-								service: 'gmail',
-								auth: {
-									user: 'mohammadsab@minorks.com',
-									pass: '9591788719'
-								}
-							});
-
-
-
-							const mailOptions = {
-								from: 'mohammadsab@minorks.com',
-								to: email,
-								subject: 'Register',
-								html: `
-								<style>
-								body {
-								font-family: Arial, sans-serif;
-								font-size: 14px;
-								line-height: 1.4;
-								color: #333333;
-								}
-
-								a {
-								color: white;
-								text-decoration: none;
-								}
-								</style>
-								
-								Dear ${empname},<br>
-								<img href="http://www.minorks.com/images/logo_white.png"></img><br><br>
-								We are delighted to welcome you to our company! As a new member, we kindly request you to complete your account registration process to gain access to our systems and resources.<br>
-								
-								To finalize your registration and create your unique User ID, please follow the steps below:<br>
-								
-								1. Click on the registration link provided below:<br>
-								<a href="http://localhost:4200/register">Click Here For Register</a><br>
-								
-								2. You will be directed to the registration page where you can begin the process.<br>
-								
-								3. Enter your personal details accurately and ensure all required fields are completed.<br>
-								
-								4. Once you have provided your personal details wait for Admin Aproval.<br>
-								
-								<h4 style="color:blue"> Your User ID: ${empid}</h4><br><br>
-								
-								If you have any questions or need further assistance, please feel free to reach out to our HR department.<br>
-								
-								Best regards,<br>
-								Minorks Technology (HR)
-								`
-							};
-
-
-							console.log(mailOptions, "mailll");
-							transporter.sendMail(mailOptions, function (error, info) {
-								if (error) {
-									console.error('Error sending email', error);
-								} else {
-									console.log('Email sent:', info.response);
-								}
-
-
-							});
-
-
-							// bcrypt.hash(finalpass, 10, function (err, hash) {
-
-							// hashpassword = finalpass;
-							// hashpassword = hash;
-							// console.log("bycript enterd");
-							// });
+							
 
 							pool.query("INSERT INTO users(user_name,user_id,user_type,expiry_date,login_allowed,login_attempts,del_flag,login_check,reset_flg,session_id,client_ip) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empname, empid, empaccess, '01-01-2099', 'Y', '0', 'N', 'N', 'Y', '', ''], function (err, done) {
 								// if (err) { throw err; } else { console.log("inserted in user"); }
 								if (err) throw err
 
+								pool.query("insert into e_docket_tbl(emp_id,pan_flg,aadhar_flg,sslc_flg,preuniv_flg,degree_flg,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empid, pan_flg, aadhar_flg, sslc_flg, preuniv_flg, degree_flg, del_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+									// req.flash('success', "User successfully added and an E-mail has been sent to " + email + " with further instructions.")
+									// res.redirect(req.get('referer'));
+
+
+									res.json({ message: "redirect to refer", notification: "User successfully added and an E-mail has been sent to " + email + " with further instructions." })
+
+
+									const transporter = nodemailer.createTransport({
+										service: 'gmail',
+										auth: {
+											user: 'mohammadsab@minorks.com',
+											pass: '9591788719'
+										}
+									});
+
+
+
+									const mailOptions = {
+										from: 'mohammadsab@minorks.com',
+										to: email,
+										subject: 'Register',
+										html: `
+										<style>
+										body {
+										font-family: Arial, sans-serif;
+										font-size: 14px;
+										line-height: 1.4;
+										color: #333333;
+										}
+		
+										a {
+										color: white;
+										text-decoration: none;
+										}
+										</style>
+										
+										Dear ${empname},<br>
+										<img href="http://www.minorks.com/images/logo_white.png"></img><br><br>
+										We are delighted to welcome you to our company! As a new member, we kindly request you to complete your account registration process to gain access to our systems and resources.<br>
+										
+										To finalize your registration and create your unique User ID, please follow the steps below:<br>
+										
+										1. Click on the registration link provided below:<br>
+										<a href="http://localhost:4200/register">Click Here For Register</a><br>
+										
+										2. You will be directed to the registration page where you can begin the process.<br>
+										
+										3. Enter your personal details accurately and ensure all required fields are completed.<br>
+										
+										4. Once you have provided your personal details wait for Admin Aproval.<br>
+										
+										<h4 style="color:blue"> Your User ID: ${empid}</h4><br><br>
+										
+										If you have any questions or need further assistance, please feel free to reach out to our HR department.<br>
+										
+										Best regards,<br>
+										Minorks Technology (HR)
+										`
+									};
+
+
+									console.log(mailOptions, "mailll");
+									transporter.sendMail(mailOptions, function (error, info) {
+										if (error) {
+											console.error('Error sending email', error);
+										} else {
+											console.log('Email sent:', info.response);
+										}
+
+
+									});
+								});
 							});
 
-							pool.query("insert into e_docket_tbl(emp_id,pan_flg,aadhar_flg,sslc_flg,preuniv_flg,degree_flg,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empid, pan_flg, aadhar_flg, sslc_flg, preuniv_flg, degree_flg, del_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
-								// req.flash('success', "User successfully added and an E-mail has been sent to " + email + " with further instructions.")
-								// res.redirect(req.get('referer'));
-
-
-								res.json({ message: "redirect to refer", notification: "User successfully added and an E-mail has been sent to " + email + " with further instructions." })
-
-
-							});
 						});
 					}
 				});
