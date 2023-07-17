@@ -1,78 +1,54 @@
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
-<div class="container">
-    <h1 class="title">UnMark Leave</h1>
-    <div class="content">
-        <form [formGroup]="unMarkLeaveForm" (ngSubmit)="submit(unMarkLeaveForm.value)">
 
-            <div class="user-details">
-                <div class="input-box">
-                    <label class="details">EmployeeId</label>
-                    <input type="number" name="employeeId" formControlName="employeeId">
-                </div>
+<form>
+    <div class="container" class="tablecontainer" class="viewData">
+        <div class="table-content">
+            <div class="contentleft">
+                <h1 class="titleViewPage">UNMark Leave</h1>
+            </div><br>
+            <span>Show</span>
+            <select class="show-entries" (click)="onItemsPerPageChange()">
+                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+            </select>
+            <span>entries</span>
 
+            <hr>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Leave Type</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Reason</th>
+                        <th>Num of Days</th>
+                        <th style="padding-left: 36px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let marked of rowData|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                        <td>{{ marked.emp}}</td>
+                        <td>{{ marked.cocd }}</td>
+                        <td>{{ marked.from_date | date:'yyyy-MM-dd' }}</td>
+                        <td>{{ marked.to_date | date:'yyyy-MM-dd' }}</td>
+                        <td>{{ marked.reason }}</td>
+                        <td style="padding-left: 56px;">{{ marked.availed_leaves}}</td>
 
-
-                <div class="input-box">
-                    <label class="details">EmployeeName</label>
-                    <input type="text" name="employeeName" formControlName="employeeName">
-                </div>
-
-
-
-                <div class="input-box">
-                    <label for="leaveType" class="details">Leave Type </label>
-                    <select id="leaveType" class="form-control" formControlName="leaveType">
-                        <option value="">--Select--</option>
-                        <option value="annual">Annual</option>
-                        <option value="sick">Sick</option>
-                        <option value="maternity">Maternity</option>
-                    </select>
-                    <pre></pre>
-
-                </div>
-
-
-                <div class="input-box">
-                    <label class="details">Applied Number of Days</label>
-                    <input type="number" name="numDays" formControlName="appliedNoOfDays">
-                </div>
-
-
-                <div class="input-box">
-                    <label class="details">From Date</label>
-                    <input type="date" name="fromDate" formControlName="fromDate">
-                </div>
-
-
-
-                <div class="input-box">
-                    <label class="details">To Date</label>
-                    <input type="date" name="toDate" formControlName="toDate">
-                </div>
-
-
-
-                <div class="input-box">
-                    <label for="description" class="details">Reason</label>
-                    <textarea id="reason" class="form-control" formControlName="reason"></textarea>
-                </div>
-
-
-
-                <div class="input-box">
-                    <label for="remarks" class="details">Remarks</label>
-                    <textarea id="remarks" class="form-control" formControlName="remarks"></textarea>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button type="submit" class="button">UnMark</button>
-                <button type="reset" class="button">Back</button>
-            </div>
-
-        </form>
+                        <td [ngSwitch]="marked.app_flg">
+                                <div style="margin-right: -32px;">
+                                    <button class="button blue-button" (click)="unmark(marked)">UnMark</button>
+                                </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            </table>
+            <br>
+        </div>
     </div>
-</div>
+</form>
+
 <app-footer></app-footer>
