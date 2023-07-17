@@ -5,7 +5,7 @@
     <div class="container" class="tablecontainer" class="viewData">
         <div class="table-content">
             <div class="contentleft">
-                <h1 class="titleViewPage">View Leave</h1>
+                <h1 class="titleViewPage">Cancel Leave</h1>
             </div><br>
             <span>Show</span>
             <select class="show-entries" (click)="onItemsPerPageChange()">
@@ -23,7 +23,7 @@
                         <th>Reason</th>
                         <th>Approver</th>
                         <th>Num of Days</th>
-                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,18 +35,19 @@
                         <td>{{ viewLeave.reason }}</td>
                         <td>{{ viewLeave.emp}}</td>
                         <td style="padding-left: 56px;">{{ viewLeave.availed_leaves}}</td>
-
-                        <td [ngSwitch]="viewLeave.app_flg">
-                            <span *ngSwitchCase="'Y'">Approved</span>
-                            <span *ngSwitchCase="'N'">Rejected</span>
-                            <span *ngSwitchCase="'P'">Pending</span>
-                        </td>
+                         <td><button class="listbutton" (click)="CancelButtonClicked(viewLeave)">Cancel</button></td>
 
                     </tr>
                 </tbody>
             </table>
             <br>
 
+            <!-- <div>
+                <pagination-controls> [(page)]="currentPage"
+                    [itemsPerPage]="itemsPerPage"
+                    [totalItems]="totalItems"
+                </pagination-controls>
+            </div> -->
         </div>
     </div>
 </form>

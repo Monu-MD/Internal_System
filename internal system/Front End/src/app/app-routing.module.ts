@@ -101,7 +101,7 @@ import { ViewItAssetDetailComponent } from './asset-mangement-system-module/view
 import { ViewNonItAssetDetailComponent } from './asset-mangement-system-module/view-non-it-asset-detail/view-non-it-asset-detail.component';
 import { ViewItAllocationDeatilComponent } from './asset-mangement-system-module/view-it-allocation-deatil/view-it-allocation-deatil.component'
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component'
-
+import { CancelLeaveComponent } from './request-module/cancel-leave/cancel-leave.component';
 const routes: Routes = [
 
   {path:'admindashboard',component:AdminDashboardComponent},
@@ -194,6 +194,8 @@ const routes: Routes = [
 { path: 'unmarkLev', component: UnMarkLeaveComponent },
 { path: 'viewHol', component: ViewHolidaysComponent },
 { path: 'viewLev', component: ViewLeaveComponent },
+{path: 'viewLevCancel',component:CancelLeaveComponent},
+
 //cms
 { path: 'cmsUpload', component: CmsUploadAdminComponent },
 { path: 'magzineUpld', component: MagzineUploadAdminComponent },

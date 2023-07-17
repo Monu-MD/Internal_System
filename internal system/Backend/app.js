@@ -30,7 +30,7 @@ var markDetails = require('./MarkModule/markDetails');
 var employeeDetails = require('./EMployeeModule/employeeDetails');
 var holiday=require('./HolidayModule/holiday');
 var request = require('./RequestModule/request');
-var assetDeatails=require('./AssetModule/assetDetails');
+var assetDeatails=require('./AseetModule/assetDetails');
 var apprver = require('./RequestModule/approveLeaves');
 var viewrequest = require('./RequestModule/ViewLev');
 

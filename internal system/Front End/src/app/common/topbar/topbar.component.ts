@@ -28,7 +28,7 @@ export class TopbarComponent {
     this.user_type=user[2];
     console.log(this.user_type);
     
-    
+
 
     //// to enable and disable //
     
@@ -88,7 +88,7 @@ export class TopbarComponent {
         }
 
         //request
-        if (this.currentRoute == "/applyLev" || this.currentRoute == "/approveLev" || this.currentRoute == "/levBal" || this.currentRoute == "/levSum" || this.currentRoute == "/markLev" || this.currentRoute == "/unmarkLev" || this.currentRoute == "/viewHol" || this.currentRoute == "/viewLev") {
+        if (this.currentRoute == "/applyLev" || this.currentRoute == "/approveLev" || this.currentRoute == "/levBal" || this.currentRoute == "/levSum" || this.currentRoute == "/markLev" || this.currentRoute == "/unmarkLev" || this.currentRoute == "/viewHol" || this.currentRoute == "/viewLev" || this.currentRoute=="/viewLevCancel") {
           this.data = "req"
         }
 

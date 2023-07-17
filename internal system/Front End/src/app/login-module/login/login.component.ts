@@ -32,6 +32,8 @@ export class LoginComponent {
 
 
     console.log(item);
+    console.log(typeof(item.userid));
+    
     if (item.userid != "" || item.password != "") {
 
       this.loginData(item)
@@ -51,7 +53,6 @@ export class LoginComponent {
         if (response.message == 'redirect to admin dashboard') {
           this.service.setData(response.userData)
           this.service.setAdminDashBoard(response.Data)
-
           this.service.cocd=response.cocd;
           this.router.navigate(['/admindashboard'])
 

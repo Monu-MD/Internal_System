@@ -42,6 +42,7 @@ export class ApproveLeaveComponent {
   }
 
   submit(item: any) {
+    
   }
 
   ngOnInit() {
@@ -52,7 +53,7 @@ export class ApproveLeaveComponent {
   fetchData(user_id: any) {
     const params = new HttpParams()
       .set('user_id', user_id.toString());
-    this.http.get('http://localhost:4000/approverequest/approveView', { params })
+    this.http.get('http://localhost:4000/viewrequest/approveView', { params })
       .subscribe(
         (response: any) => {
 
