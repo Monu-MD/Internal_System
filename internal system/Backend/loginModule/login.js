@@ -721,6 +721,7 @@ router.post('/login', (req, res) => {
     const user_id = req.body.userid;
     const password = req.body.password;
     console.log(typeof (user_id), "user ID");
+    console.log(typeof (password), "type password");
     if (typeof (user_id) != undefined || user_id != " ") {
         pool.query("SELECT * from users where user_id = $1", [user_id], function (err, result) {
 
@@ -820,10 +821,10 @@ router.post('/login', (req, res) => {
                                             }
                                             // Access the userDetails object here
                                             const detail = userDetails;
-                                           
+
                                             fetchCommonCodes()
                                                 .then((cocd) => {
-                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
+                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
                                                 })
                                                 .catch((error) => {
                                                     console.error('Error fetching common codes', error);
@@ -843,10 +844,10 @@ router.post('/login', (req, res) => {
                                             }
                                             // Access the userDetails object here
                                             const detail = userDetails;
-                                          
+
                                             fetchCommonCodes()
                                                 .then((cocd) => {
-                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
+                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
                                                 })
                                                 .catch((error) => {
                                                     console.error('Error fetching common codes', error);
@@ -878,13 +879,13 @@ router.post('/login', (req, res) => {
                                         const detail = userDetails;
 
                                         fetchCommonCodes()
-                                        .then((cocd) => {
-                                            res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
-                                        })
-                                        .catch((error) => {
-                                            console.error('Error fetching common codes', error);
-                                            // Handle the error as needed
-                                        });
+                                            .then((cocd) => {
+                                                res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
+                                            })
+                                            .catch((error) => {
+                                                console.error('Error fetching common codes', error);
+                                                // Handle the error as needed
+                                            });
 
                                     });
 

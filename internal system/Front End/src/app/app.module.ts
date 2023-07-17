@@ -93,10 +93,7 @@ import { ViewHolidaysComponent } from '../app/request-module/view-holidays/view-
 import { LeaveSummaryComponent } from '../app/request-module/leave-summary/leave-summary.component';
 import { MarkLeaveComponent } from '../app/request-module/mark-leave/mark-leave.component';
 import { UnMarkLeaveComponent } from '../app/request-module/un-mark-leave/un-mark-leave.component';
-
-
-
-
+import { CancelLeaveComponent } from './request-module/cancel-leave/cancel-leave.component';
 
 
 // --------------------------------    Jadhav  ------------------------------------------- 
@@ -239,7 +236,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSn
     LeaveSummaryComponent,
     MarkLeaveComponent,
     UnMarkLeaveComponent,
-
+    CancelLeaveComponent,
 
     // Jadhav
     ReportBulkChooseComponent,

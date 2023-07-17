@@ -63,6 +63,7 @@ export class LoginServiceService {
   }
 
   getData(): any {
+
     return [
       this.eid,
       this.ename,
@@ -78,9 +79,8 @@ export class LoginServiceService {
       this.asset
     ]
 
+
   }
-
-
   forget(data: any): void {
     this.http.post('http://localhost:4000/forgotpwd', data).subscribe(
       (response: any) => {

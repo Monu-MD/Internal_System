@@ -1,33 +1,50 @@
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
-<form>
+<form [formGroup]="viewHolidaysForm" (ngSubmit)="onSubmit(viewHolidaysForm.value)">
+
     <div class="container" class="listcontainer">
         <div class="table-content">
             <div class="addbutton">
-    
-                <h1 class="titleViewPage" >View Holiday</h1>
+
+                <h1 class="titleViewPage">View Holiday</h1>
+
+                <div [ngSwitch]="user_type">
+                    <div *ngSwitchCase="'A1'">
+                        <button class="listbutton" routerLink="/addHolidays">Add Holiday</button>
+                    </div>
+                    <div *ngSwitchCase="'L3'">
+                        <!-- <button class="listbutton" routerLink="/addHolidays">Add Holiday</button> -->
+                    </div>
+
+                </div>
             </div><br>
             <hr>
-            <table>
+            <table >
+                
                 <thead>
                     <tr>
                         <th>Holiday Type</th>
                         <th>Date</th>
-                        <th>Description</th>
-                        <th>Year</th>
+                        <th>description</th> 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let holidays of holidays|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
-                        <td>{{ holidays.type }}</td>
-                        <td>{{ holidays.date }}</td>
-                        <td>{{ holidays.description }}</td>
-                        <td>{{ holidays.year }}</td>
+                    <tr *ngFor="let row of rowData">
+                        <td>{{ row.day_type }}</td>
+                        <td>{{ row.sel_date}}</td>
+                        <td>{{ row.description}}</td>
                     </tr>
                 </tbody>
-            </table> 
-                
+            </table>
+
+            <div>
+                <button (click)="goToFirstPage()"  class="listbutton">First</button>
+                <button (click)="goToPreviousPage()"  class="listbutton">Previous</button>
+                <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                <button (click)="goToNextPage()"class="listbutton">Next</button>
+                <button (click)="goToLastPage()" class="listbutton">Last</button>
+            </div>
         </div>
     </div>
 </form>

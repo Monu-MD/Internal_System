@@ -8,6 +8,7 @@ import { ViewHolidaysComponent } from './view-holidays/view-holidays.component';
 import { LeaveSummaryComponent } from './leave-summary/leave-summary.component';
 import { MarkLeaveComponent } from './mark-leave/mark-leave.component';
 import { UnMarkLeaveComponent } from './un-mark-leave/un-mark-leave.component';
+import { CancelLeaveComponent } from './cancel-leave/cancel-leave.component';
 
 
 
@@ -23,6 +24,8 @@ import { UnMarkLeaveComponent } from './un-mark-leave/un-mark-leave.component';
   
     // MarkLeaveComponent,
     // UnMarkLeaveComponent
+  
+    // CancelLeaveComponent
   ],
   imports: [
     CommonModule
