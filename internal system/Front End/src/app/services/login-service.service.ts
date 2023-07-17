@@ -78,9 +78,9 @@ export class LoginServiceService {
       this.cocd,
       this.asset
     ]
+
+
   }
-
-
   forget(data: any): void {
     this.http.post('http://localhost:4000/forgotpwd', data).subscribe(
       (response: any) => {
