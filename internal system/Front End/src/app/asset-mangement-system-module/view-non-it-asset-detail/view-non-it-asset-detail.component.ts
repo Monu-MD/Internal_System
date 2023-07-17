@@ -1,25 +1,23 @@
-
+import { Component } from '@angular/core';
+import { FormControl,FormGroup,Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Route, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { LoginServiceService } from 'src/app/services/login-service.service';
-import{AssetServiceService} from 'src/app/services/asset-service.service'
+import { Route, Router } from '@angular/router';
+
+
 @Component({
-  selector: 'app-view-it-allocation-deatil',
-  templateUrl: './view-it-allocation-deatil.component.html',
-  styleUrls: ['./view-it-allocation-deatil.component.css']
+  selector: 'app-view-non-it-asset-detail',
+  templateUrl: './view-non-it-asset-detail.component.html',
+  styleUrls: ['./view-non-it-asset-detail.component.css']
 })
-export class ViewItAllocationDeatilComponent {
- 
-  constructor(private http: HttpClient, private assetServiceService:AssetServiceService,private loginService:LoginServiceService) {
-    const user=this.loginService.getData();
-    this.user_type=user[2];
-    console.log(this.user_type);
-   }
-   user_type:any;
+
+export class ViewNonItAssetDetailComponent {
+
+  constructor(private http: HttpClient) { }
+
   assetData:any;
-  ViewItAllocationDetail: any;
+  viewNonItAssetForm: any;
   rowData: any[] = [];
   filteredData: any[] = [];
   dataLoaded: boolean = false;
@@ -28,13 +26,9 @@ export class ViewItAllocationDeatilComponent {
   totalPages: number = 15;
   totalItems: number = 10;
   itemsPerPageOptions: number[] = [10, 25, 50, 100];
+
   assetId: any;
 
-
-
-
-
-  
 
   onItemsPerPageChange(event: any) {
     const value = event.target.value;
@@ -43,21 +37,21 @@ export class ViewItAllocationDeatilComponent {
   }
 
   ngOnInit() {
-  this. ViewItAllocationDetail = new FormGroup({
+  this. viewNonItAssetForm = new FormGroup({
     assetId: new FormControl('', [Validators.required])
   });
     this.fetchData();
   }
 
   fetchData() {
-    this.http.get('http://localhost:4000/assetDetails/assetItAllocViewDetails').subscribe(
+    this.http.get('http://localhost:4000/assetDetails/assetnItViewDetails').subscribe(
       (response: any) => {
         console.log(response.data);
-        if (response.message == 'redirect to viewItAllocationAsset') {
+        if (response.message == 'redirect to viewNonItAsset') {
           this.rowData = response.data;
           this.filteredData = response.data;
           this.dataLoaded = true;
-       
+          this.updatePageData();
         } else {
           console.error('Invalid response data');
         }
@@ -69,10 +63,9 @@ export class ViewItAllocationDeatilComponent {
   }
 
   deleteAsset(row: any) {
-    this.http.get(`http://localhost:4000/assetDetails/removeAsset/${row.asset_id}`).subscribe(
+    this.http.get(`http://localhost:4000/assetDetails/assetDelete/${row.asset_id}`).subscribe(
       (response: any) => {
         console.log('Data deleted successfully:', response);
-       
         this.rowData = this.rowData.filter((item) => item.asset_id !== row.asset_id);
         this.filteredData = this.filteredData.filter((item) => item.asset_id !== row.asset_id);
       },
@@ -81,20 +74,17 @@ export class ViewItAllocationDeatilComponent {
       }
     );
   }
-  
 
-  filterData(assetId: string) {
-    this.filteredData = this.rowData.filter( row =>
-      row.asset_id && row.asset_id.includes(assetId)
-    ).slice(0, this.itemsPerPage);
-    console.log('Filtered Data:', this.filteredData);
-    this.assetServiceService.setFilterData(this.filteredData);  
-  }
-  
-  
-  onSubmit() {
-    if (this. ViewItAllocationDetail.valid) {
-      const assetId= this. ViewItAllocationDetail.value.assetId;
+filterData(assetId: string) {
+  this.filteredData = this.rowData.filter(row =>
+    row.asset_nid && row.asset_nid.includes(assetId)
+  ).slice(0, this.itemsPerPage);
+  console.log('Filtered Data:', this.filteredData);
+}
+ 
+   onSubmit() {
+    if (this. viewNonItAssetForm.valid) {
+      const assetId= this. viewNonItAssetForm.value.assetId;
       this.filterData(assetId);
       
     } 

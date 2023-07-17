@@ -1,14 +1,13 @@
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
-<form [formGroup] = "viewNonItAssetForm" (ngSubmit)="onSubmit()" >
+<form [formGroup]="viewNonItAssetForm" (ngSubmit)="onSubmit()" >
     <div class="container" class="tablecontainer" class="viewData">
         <div class="table-content">
             <div class="contentleft">
-                <h1 class="titleViewPage">View Allocated History</h1>
+                <h1 class="titleViewPage">View  Non It Details</h1>
                 <label class="contentleft">Search:</label>
-            <input type="text"  name="assetId" formControlName="assetId" class="searchData" placeholder="Search Asset Id" >
-             <button  style="color: aliceblue; background-color: azure; border: 1px white;"></button>
+            <input type="text"  name="assetId" formControlName="assetId" class="searchData" placeholder="Search Asset Id" r>
         </div><br>
             <span>Show</span>
         <select class="show-entries" (change)="onItemsPerPageChange($event)">
@@ -20,30 +19,36 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Asset Id</th>
-                            <th>Employee Id</th>
-                            <th>Employee Name</th>
-                            <th>Allocated Date</th> 
-                            <th>Return Date</th>
-                            <th>Status</th>   
+                            <th>NonIt Asset Details</th>
+                            <th>Particular</th>
+                            <th>Quantity</th>
+                            <th>Remarks</th> 
+                            <th>Description</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let row of filteredData">
                             <td>{{ row.asset_id }}</td>
-                            <td>{{ row.emp_id }}</td>
-                            <td>{{ row.emp_name}}</td>
-                            <td>{{ row.allocdate}}</td>   
-                            <td>{{ row.rdate}}</td>
-                            <td>{{row.status}}</td>
+                            <td>{{ row.particulr }}</td>
+                            <td>{{ row.quant}}</td>
+                            <td>{{ row.rmks}}</td> 
+                            <td [ngSwitch]="row.app_flg">
+                                <span *ngSwitchCase="'Y'">Available</span>
+                                <span *ngSwitchCase="'N'">Not Available</span>
+                            </td> 
+                            <td><button class="button" class="listbutton" (click)="deleteAsset(row)">Delete</button>
+                            </td> 
                     </tbody>
                 </table>
             </div>
           
+    
             <div *ngIf="!dataLoaded">
                 <p>Loading data...</p>
             </div>
-    
+          
+
             <div>
                 <button (click)="goToFirstPage()" class="listbutton">First</button>
                 <button (click)="goToPreviousPage()"  class="listbutton">Previous</button>

@@ -346,14 +346,14 @@ function fetchUserDetails(user_id, callback) {
                         return;
                     }
                     userDetails.holiday_details = result.rows;
+                     
+                    // Yash added.........
                     pool.query('SELECT * FROM leave_master where emp_id=$1', [user_id], function (err, result) {
                         if (err) {
                             callback(err, null);
                             return;
                         }
                         userDetails.leave_master = result.rows;
-
-
 
                         callback(null, userDetails);
 
@@ -721,6 +721,7 @@ router.post('/login', (req, res) => {
     const user_id = req.body.userid;
     const password = req.body.password;
     console.log(typeof (user_id), "user ID");
+    console.log(typeof (password), "type password");
     if (typeof (user_id) != undefined || user_id != " ") {
         pool.query("SELECT * from users where user_id = $1", [user_id], function (err, result) {
 

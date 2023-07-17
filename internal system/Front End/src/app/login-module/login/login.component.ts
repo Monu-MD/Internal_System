@@ -32,6 +32,8 @@ export class LoginComponent {
 
 
     console.log(item);
+    console.log(typeof(item.userid));
+    
     if (item.userid != "" || item.password != "") {
 
       this.loginData(item)

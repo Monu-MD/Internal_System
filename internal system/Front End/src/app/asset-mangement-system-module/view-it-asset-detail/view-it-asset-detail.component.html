@@ -1,33 +1,34 @@
-
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
-<form [formGroup]="viewItAssetForm" (ngSubmit)="onSubmit()" >
+<form [formGroup]="viewItAssetForm" (ngSubmit)="onSubmit()">
     <div class="container" class="tablecontainer" class="viewData">
         <div class="table-content">
             <div class="contentleft">
                 <h1 class="titleViewPage">View It Details</h1>
                 <label class="contentleft">Search:</label>
-            <input type="text"  name="searchAssetId" formControlName="searchAssetId" class="searchData" placeholder="Search Asset Id" r>
-            <button  style="color: aliceblue; background-color: azure; border: 1px white;"></button>
-        </div><br>
+                <input type="text" name="searchAssetId" formControlName="searchAssetId" class="searchData"
+                    placeholder="Search Asset Id" r>
+                <button style="color: aliceblue; background-color: azure; border: 1px white;"></button>
+            </div><br>
             <span>Show</span>
             <select class="show-entries" (change)="onItemsPerPageChange($event)">
-            <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
-          </select>
-        <span>entries</span>
+                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+            </select>
+            <span>entries</span>
             <hr>
             <div *ngIf="dataLoaded">
                 <table>
                     <thead>
                         <tr>
-                             <th>Serial No</th>
+                            <th>Serial No</th>
                             <th>Asset Id</th>
                             <th>Product</th>
-                            <th>Make</th> 
+                            <th>Make</th>
                             <th>Model</th>
-                            <th>Os Type</th>
-                            <!-- <th>Action</th> -->
+                            <th>Availabilty</th>
+                            <th>Description</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,26 +38,35 @@
                             <td>{{ row.product}}</td>
                             <td>{{ row.make}}</td>
                             <td>{{ row.model }}</td>
-                            <td>{{ row.os_type }}</td>
+                            <!-- <td>{{ row.app_flg }}</td> -->
+
+                            <td [ngSwitch]="row.app_flg">
+                                <span *ngSwitchCase="'Y'">Available</span>
+                                <span *ngSwitchCase="'N'">Not Available</span>
+                            </td>
+
                             <!-- <button class="listbutton"  (click)="filter()">Know More</button> -->
-                           <!-- <td> <a href="" style="color: rgba(11, 7, 139, 0.911);" (click)="search()"  routerLink="/ViewItAssetDetails">Know More</a></td> -->
+                            <td><a style="color:rgb(90 78 245 / 91%);; text-decoration: underline;cursor: pointer;"
+                                    (click)="filter(row)">Know More</a></td>
+                            <td ><button class="button" class="listbutton" (click)="deleteAsset(row)">Delete</button>
+                            </td>
                     </tbody>
                 </table>
             </div>
-          
-    
+
+
             <div *ngIf="!dataLoaded">
                 <p>Loading data...</p>
             </div>
-          
+
 
             <div>
                 <button (click)="goToFirstPage()" class="listbutton">First</button>
-                <button (click)="goToPreviousPage()"  class="listbutton">Previous</button>
+                <button (click)="goToPreviousPage()" class="listbutton">Previous</button>
                 <span>Page {{ currentPage }} of {{ totalPages }}</span>
                 <button (click)="goToNextPage()" class="listbutton">Next</button>
                 <button (click)="goToLastPage()" class="listbutton">Last</button>
-            </div>  
+            </div>
         </div>
     </div>
 </form>
@@ -81,12 +91,4 @@
     <p>Window Product Key: {{ assetData?.window_product_key }}</p>
 </div> -->
 
-  <app-footer></app-footer>
- 
-  
-  
-  
-  
-  
-  
-  
+<app-footer></app-footer>
