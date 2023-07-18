@@ -93,7 +93,7 @@ export class TopbarComponent {
         }
 
         //cms
-        if (this.currentRoute == "/cmsUpload" || this.currentRoute == "/magzineUpld" || this.currentRoute == "/policyupld") {
+        if (this.currentRoute == "/cmsUpload" || this.currentRoute == "/magzineUpld" || this.currentRoute == "/policyupld" || this.currentRoute=="/viewDocs" || this.currentRoute=="viewMagz" || this.currentRoute=="viewPolcy"){
           this.data = "cms"
         }
 
