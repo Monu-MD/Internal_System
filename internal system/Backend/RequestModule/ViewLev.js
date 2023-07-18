@@ -153,7 +153,7 @@ function cancelLeave(req, res) {
     }
 
     else {
-      pool.query("UPDATE leaves set del_flg = $1, lchg_user_id = $2 , lchg_time = $3 where leave_id = $4 ", ['Y', emp_id, lchgtime, leave_id], function (err, done) {
+      pool.query("UPDATE leaves set del_flg = $1, lchg_user_id = $2 , lchg_time = 3 where leave_id = $4 ", ['Y', emp_id, lchgtime, leave_id,'Y'], function (err, done) {
         if (err) {
           console.error('Error with table query', err);
         }
@@ -224,7 +224,7 @@ function cancelLeave(req, res) {
             }
 
             ////////////////////////////////my logic
-            pool.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [emp_id], function (err, empResult) {
+            pool.query("SELECT emp_email,emp_name FROM emp_master_tbl where emp_id =$2  ", [emp_id], function (err, empResult) {
               if (err) {
                 console.error('Error with table query', err);
               }
@@ -234,7 +234,7 @@ function cancelLeave(req, res) {
                 console.log('employee_email: ', employee_email);
               }
 
-              pool.query("SELECT comm_code_desc from common_code_tbl where code_id='EMAL' and comm_code_id='HR'", function (err, hrMailList) {
+              pool.query("SELECT  from code_tbl where code_id='EMAL' and comm_code_id='HR'", function (err, hrMailList) {
                 if (err) {
                   console.error('Error with table query', err);
                 }
