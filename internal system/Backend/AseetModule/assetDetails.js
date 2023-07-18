@@ -1482,14 +1482,6 @@ function assetmAllocList(req, res) {
 }
 
 
-
-
-
-router.get('/assetItAllocView', function (req, res) {
-  res.render('assetModule/assetItAllocView');
-}
-);
-
 module.exports = router;
 
 

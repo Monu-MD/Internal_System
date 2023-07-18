@@ -33,7 +33,7 @@ var request = require('./RequestModule/request');
 var assetDeatails=require('./AseetModule/assetDetails');
 var apprver = require('./RequestModule/approveLeaves');
 var viewrequest = require('./RequestModule/ViewLev');
-
+var cms=require('./cmsModule/cms')
 
 
 app.use('/capture', capture);
@@ -48,3 +48,4 @@ app.use('/request', request);
 app.use('/assetDetails',assetDeatails);
 app.use('/approverequest', apprver);
 app.use('/viewrequest', viewrequest);
+app.use('/cms',cms);
