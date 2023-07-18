@@ -95,9 +95,9 @@ function applyLeave(req, res) {
                 }
 
 
-                var rest_leaves = parseFloat(available_leaves) - parseFloat(availed_leaves);
-                console.log('rest_leaves', rest_leaves);
-                ///
+                // var rest_leaves = parseFloat(available_leaves) - parseFloat(availed_leaves);
+                // console.log('rest_leaves', rest_leaves);
+
                 pool.query("SELECT reporting_mgr FROM emp_master_tbl where emp_id =$1  ", [emp_id], function (err, repotmanagerMail) {
                     if (err) {
                         console.error('Error with table query', err);
@@ -131,7 +131,7 @@ function applyLeave(req, res) {
                                 console.error('Error with table query', err);
                             }
                             else {
-                                leaveMasterList_count = leaveMasterList.rowCount;
+                                var leaveMasterList_count = leaveMasterList.rowCount;
                                 if (leaveMasterList_count != 0) {
                                     ///
                                     var availed_leaves_master = leaveMasterList.rows[0].availed_leaves;

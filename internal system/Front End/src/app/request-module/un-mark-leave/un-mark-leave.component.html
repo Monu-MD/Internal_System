@@ -14,6 +14,10 @@
             </select>
             <span>entries</span>
 
+            <div class="notification" [ngClass]="{'success': isSuccess, 'error': isError}">
+                {{ message }}
+            </div>
+            
             <hr>
             <table>
                 <thead>

@@ -115,15 +115,14 @@ function levBalance(req, res) {
 
 function cancelLeave(req, res) {
 
-  console.log(req, "=======");
+  // console.log(req, "=======");
   var emp_id = req.body.user_id;
-  console.log(emp_id,"emp_id");
+  console.log(emp_id, "emp_id");
   var emp_access = req.body.Data.user_type;
   var emp_name = req.body.Data.user_name;
   var leave_id = req.body.Data.leave_id;
-  console.log(leave_id,"leave_id");
+  console.log(leave_id, "leave_id");
   var leaves = req.body.Data.leaves;
-  var remarks = req.body.Data.desc;
   var leave_type = req.body.Data.leave_type;
 
 
@@ -133,8 +132,6 @@ function cancelLeave(req, res) {
   var lchgtime = now;
   var tempList = '';
   var tempList1 = '';
-  var repMgr_id = '';
-  var repMgrEmail_id = '';
   var current_date = now;
   var current_date = format(current_date, "yyyy-MM-dd");
 
@@ -142,10 +139,10 @@ function cancelLeave(req, res) {
   pool.query("select from_date,to_date from leaves where emp_id=$1 and leave_id=$2 and del_flg='N'", [emp_id, leave_id], function (err, done) {
 
     var rowdata = done.rows;
-    
+
     var from_date = rowdata[0].from_date;
     var fromData = format(from_date, 'yyyy-MM-dd');
-    console.log("FromData: "+fromData);
+    console.log("FromData: " + fromData);
 
     var to_date = rowdata[0].to_date;
     var toData = format(to_date, 'yyyy-MM-dd');
@@ -153,8 +150,8 @@ function cancelLeave(req, res) {
 
     if (to_date < current_date) {
       res.json({ message: "Applied Leave cannot be cancelled since it has passed the Leave Date." })
-
     }
+
     else {
       pool.query("UPDATE leaves set del_flg = $1, lchg_user_id = $2 , lchg_time = $3 where leave_id = $4 ", ['Y', emp_id, lchgtime, leave_id], function (err, done) {
         if (err) {
@@ -184,179 +181,169 @@ function cancelLeave(req, res) {
           }
 
 
-          pool.query("UPDATE leave_master set availed_leaves = $1,quaterly_leave=$5 where emp_id = $2 and leave_type = $3 and year = $4", [rest_leaves, emp_id, leave_type, year, quater_leave], function (err, done) {
+          // pool.query("UPDATE leave_master set quaterly_leave=$1 where emp_id = $2 and leave_type = $3 and year = $4", [ quater_leave, emp_id, leave_type, year], function (err, done) {
+          //   if (err) {
+          //     console.error('Error with table query', err);
+          //   }
+          //   else {
+          //                   console.log('111111111111111111111111111');
+          //   }
+
+          pool.query("SELECT * FROM leaves where leave_id =$1", [leave_id], function (err, leaveDataID) {
             if (err) {
               console.error('Error with table query', err);
             }
             else {
-              //               console.log('111111111111111111111111111');
+              var rowData2 = leaveDataID.rows;
+              var approver_id = rowData2['0'].approver_id;
+              var availed_leaves = rowData2['0'].availed_leaves;
+              var accepted_flg = rowData2['0'].app_flg;
+              var leave_type = rowData2['0'].leave_type;
+
+              // if (accepted_flg == 'Y') {
+              //   pool.query("SELECT reporting_mgr FROM emp_master_tbl where emp_id =$1  ", [managerID], function (err, repMgr) {
+              //     if (err) {
+              //       console.error('Error with table query', err);
+              //     }
+              //     else {
+              //       repMgr_id = repMgr.rows['0'].reporting_mgr;
+              //       console.log('repMgr_id', repMgr_id);
+              //     }
+
+              //     pool.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [repMgr_id], function (err, repMgrEmail) {
+              //       if (err) {
+              //         console.error('Error with table query', err);
+              //       }
+              //       else {
+              //         repMgrEmail_id = repMgrEmail.rows['0'].emp_email;
+              //         console.log('repMgrEmail_id', repMgrEmail_id);
+              //       }
+              //     });
+              //   });
+              // }
             }
 
-            pool.query("SELECT  comm_code_desc cocd ,emp_name emp,* from leaves l, emp_master_tbl emp,  common_code_tbl cocd  where l.del_flg= 'N' and l.emp_id =$1 and l.approver_id = emp.emp_id and cocd.comm_code_id = l.leave_type and cocd.code_id ='LTYP' and cocd.del_flg ='N'", [emp_id], function (err, leavesList) {
+            ////////////////////////////////my logic
+            pool.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [emp_id], function (err, empResult) {
               if (err) {
                 console.error('Error with table query', err);
               }
               else {
-                leaveData = leavesList.rows;
-                //console.log('rowData value',rowData);
-                //console.log('rowData value1',done.rows['0']);
+                console.log("1  pick emp_email");
+                var employee_email = empResult.rows['0'].emp_email;
+                console.log('employee_email: ', employee_email);
               }
 
-              pool.query("SELECT * FROM leaves where leave_id =$1", [leave_id], function (err, leaveDataID) {
+              pool.query("SELECT comm_code_desc from common_code_tbl where code_id='EMAL' and comm_code_id='HR'", function (err, hrMailList) {
                 if (err) {
                   console.error('Error with table query', err);
                 }
                 else {
-                  rowData2 = leaveDataID.rows;
-                  managerID = rowData2['0'].approver_id;
-                  availed_leaves = rowData2['0'].availed_leaves;
-                  accepted_flg = rowData2['0'].app_flg;
-                  var leave_type = rowData2['0'].leave_type;
-
-                  if (accepted_flg == 'Y') {
-                    pool.query("SELECT reporting_mgr FROM emp_master_tbl where emp_id =$1  ", [managerID], function (err, repMgr) {
-                      if (err) {
-                        console.error('Error with table query', err);
-                      }
-                      else {
-                        repMgr_id = repMgr.rows['0'].reporting_mgr;
-                        console.log('repMgr_id', repMgr_id);
-                      }
-
-                      pool.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [repMgr_id], function (err, repMgrEmail) {
-                        if (err) {
-                          console.error('Error with table query', err);
-                        }
-                        else {
-                          repMgrEmail_id = repMgrEmail.rows['0'].emp_email;
-                          console.log('repMgrEmail_id', repMgrEmail_id);
-                        }
-                      });
-                    });
-                  }
+                  console.log("2  pick HR_email");
+                  var hrEmail = hrMailList.rows['0'].comm_code_desc;
+                  tempList = hrEmail + ',' + employee_email;
+                  console.log('tempList:', tempList);
                 }
 
 
-                console.log('repMgrEmail_id', repMgrEmail_id);
-
-                pool.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [emp_id], function (err, empResult) {
+                pool.query("SELECT comm_code_desc from common_code_tbl where code_id='EMAL' and comm_code_id='INFO'", function (err, cmpyMailList) {
                   if (err) {
                     console.error('Error with table query', err);
                   }
                   else {
-                    employee_email = empResult.rows['0'].emp_email;
-                    console.log('employee_email', employee_email);
+                    console.log("3  pick Company Email");
+                    cmpyEmail = cmpyMailList.rows['0'].comm_code_desc;
+                    console.log('Company Email: ', cmpyEmail);
                   }
 
-                  pool.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [managerID], function (err, managerMail) {
-                    if (err) {
-                      console.error('Error with table query', err);
+                })
+
+
+                pool.query("SELECT emp_email FROM emp_master_tbl where emp_id =$1  ", [approver_id], function (err, managerMail) {
+                  if (err) {
+                    console.error('Error with table query', err);
+                  }
+                  else {
+                    console.log("4  pick Manager Email");
+                    var rowData1 = managerMail.rows;
+                    var managerMailId = rowData1[0].emp_email;
+                    console.log('ManagerMailId: ', managerMailId);
+                  }
+
+
+                  console.log("Ready to send mail");
+                  const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                      user: 'mohammadsab@minorks.com',
+                      pass: '9591788719'
                     }
-                    else {
-                      rowData1 = managerMail.rows;
-                      managerMailId = rowData1[0].emp_email;
-                      console.log('managerMailId', managerMailId);
-                    }
-
-
-                    pool.query("SELECT emp_email FROM emp_master_tbl where emp_access =$1  ", ['A1'], function (err, hrMailList) {
-                      if (err) {
-                        console.error('Error with table query', err);
-                      }
-                      else {
-                        rowData = hrMailList.rows;
-                        for (var i = 0; i < rowData.length; i++) {
-                          console.log("Hr email id", rowData[i].emp_email);
-                          emailIdList = rowData[i].emp_email;
-                          if (i) {
-                            tempList = tempList + ',' + emailIdList;
-                          }
-                          else {
-                            tempList = tempList + emailIdList;
-                          }
-                        }
-
-                        tempList = tempList + ',' + employee_email;
-                        console.log('tempList', tempList);
-                      }
-
-                      tempList1 = managerMailId;
-                      tempList1 = tempList1 + ',' + repMgrEmail_id;
-                      console.log('tempList1 value', tempList1);
-
-                      var smtpTransport = nodemailer.createTransport('SMTP', {
-                        service: 'gmail',
-                        auth:
-                        {
-                          user: 'mohammadsab@minorks.com',
-                          pass: '9591788719'
-                        }
-                      });
-
-                      var mailOptions = {
-                        to: tempList1,
-                        cc: tempList,
-                        from: 'amber@nurture.co.in',
-                        subject: 'Leave cancel notification',
-                        html: '<img src="https://freepresskashmir.com/wp-content/uploads/2017/05/Cancelled_stamp_cropped_B383BBCE28349.jpg" height="85"><br><br>' +
-                          '<h3>You have Cancelled your Leave for the following <br><br>' +
-                          '<table style="border: 10px solid black;"> ' +
-                          '<tr style="border: 10px solid black;"> ' +
-                          '<th style="border: 10px solid black;">Leave Type</th> ' +
-                          '<th style="border: 10px solid black;">' + leave_type + '</th>' +
-                          '</tr>' +
-
-                          '<tr style="border: 10px solid black;"> ' +
-                          '<th style="border: 10px solid black;">Employee Id</th> ' +
-                          '<th style="border: 10px solid black;">' + emp_id + '</th>' +
-                          '</tr>' +
-
-                          '<tr style="border: 10px solid black;"> ' +
-                          '<th style="border: 10px solid black;">Employee Name</th> ' +
-                          '<th style="border: 10px solid black;">' + emp_name + '</th>' +
-                          '</tr>' +
-
-                          '<tr style="border: 10px solid black;"> ' +
-                          '<th style="border: 10px solid black;"> From Date </td> ' +
-                          '<th style="border: 10px solid black;">' + from_date + '</td> ' +
-                          '</tr>' +
-
-                          '<tr style="border: 10px solid black;"> ' +
-                          '<th style="border: 10px solid black;">To Date</th> ' +
-                          '<th style="border: 10px solid black;">' + to_date + '</th>' +
-
-                          '</tr>' +
-
-                          '<tr style="border: 10px solid black;"> ' +
-                          '<th style="border: 10px solid black;"> Number of days </td> ' +
-                          '<th style="border: 10px solid black;">' + availed_leaves + '</td> ' +
-                          '</tr>' +
-                          '</table> ' +
-                          '<br><br>' +
-                          'URL: http://amber.nurture.co.in <br><br><br>' +
-                          '- Regards,<br><br>Amber</h3>'
-                      };
-
-
-                      smtpTransport.sendMail(mailOptions, function (err) {
-                      });
-                    });
-
-                    success = 'Leave request cancelled successfully';
-
-                    res.json({
-                      emp_id: emp_id,
-                      emp_name: emp_name,
-                      emp_access: emp_access,
-                      leaveData: leaveData,
-                      success: success
-
-                    })
                   });
+
+                  var mailOptions = {
+                    from: cmpyEmail,
+                    to: managerMailId,
+                    cc: tempList,
+                    subject: 'Leave cancel notification',
+                    html: '<img src="https://freepresskashmir.com/wp-content/uploads/2017/05/Cancelled_stamp_cropped_B383BBCE28349.jpg" height="85"><br><br>' +
+                      '<h3>You have Cancelled your Leave for the following <br><br>' +
+                      '<table style="border: 10px solid black;"> ' +
+                      '<tr style="border: 10px solid black;"> ' +
+                      '<th style="border: 10px solid black;">Leave Type</th> ' +
+                      '<th style="border: 10px solid black;">' + leave_type + '</th>' +
+                      '</tr>' +
+
+                      '<tr style="border: 10px solid black;"> ' +
+                      '<th style="border: 10px solid black;">Employee Id</th> ' +
+                      '<th style="border: 10px solid black;">' + emp_id + '</th>' +
+                      '</tr>' +
+
+                      '<tr style="border: 10px solid black;"> ' +
+                      '<th style="border: 10px solid black;">Employee Name</th> ' +
+                      '<th style="border: 10px solid black;">' + emp_name + '</th>' +
+                      '</tr>' +
+
+                      '<tr style="border: 10px solid black;"> ' +
+                      '<th style="border: 10px solid black;"> From Date </td> ' +
+                      '<th style="border: 10px solid black;">' + from_date + '</td> ' +
+                      '</tr>' +
+
+                      '<tr style="border: 10px solid black;"> ' +
+                      '<th style="border: 10px solid black;">To Date</th> ' +
+                      '<th style="border: 10px solid black;">' + to_date + '</th>' +
+
+                      '</tr>' +
+
+                      '<tr style="border: 10px solid black;"> ' +
+                      '<th style="border: 10px solid black;"> Number of days </td> ' +
+                      '<th style="border: 10px solid black;">' + availed_leaves + '</td> ' +
+                      '</tr>' +
+                      '</table> ' +
+                      '<br><br>' +
+                      'URL: http://amber.nurture.co.in <br><br><br>' +
+                      '- Regards,<br><br>Amber</h3>'
+                  };
+
+
+
+                  console.log(mailOptions, "mailll");
+
+                  transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                      console.error('Error sending email', error);
+                    } else {
+                      console.log('Email sent:', info.response);
+                    }
+                  });
+
+                  success = 'Leave request cancelled successfully';
+
+                  res.json({ message: success });
                 });
               });
             });
           });
+          // });
         });
       });
     }

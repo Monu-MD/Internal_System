@@ -33,7 +33,7 @@ onItemsPerPageChange(): void {
 }
 
 
-ngOnInit() {
+ngOnInit() {  
   this.fetchData(this.user_id);
 }
 
