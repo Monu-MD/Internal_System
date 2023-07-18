@@ -245,25 +245,25 @@ function fetchUserDetails(user_id, callback) {
                 }
                 userDetails.leave_details = result.rows[0];
 
-                pool.query('SELECT * FROM holidays', function (err, result) {
-                    if (err) {
-                        callback(err, null);
-                        return;
-                    }
-                    userDetails.holiday_details = result.rows;
+                // pool.query('SELECT * FROM holidays', function (err, result) {
+                //     if (err) {
+                //         callback(err, null);
+                //         return;
+                //     }
+                //     userDetails.holiday_details = result.rows;
 
-                    // Yash added.........
-                    pool.query('SELECT * FROM leave_master where emp_id=$1', [user_id], function (err, result) {
-                        if (err) {
-                            callback(err, null);
-                            return;
-                        }
-                        userDetails.leave_master = result.rows;
+                //     // Yash added.........
+                //     pool.query('SELECT * FROM leave_master where emp_id=$1', [user_id], function (err, result) {
+                //         if (err) {
+                //             callback(err, null);
+                //             return;
+                //         }
+                //         userDetails.leave_master = result.rows;
 
-                        callback(null, userDetails);
+                callback(null, userDetails);
 
-                    });
-                });
+                // });
+                // });
             });
         });
     });
