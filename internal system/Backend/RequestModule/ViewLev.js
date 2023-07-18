@@ -9,6 +9,8 @@ const { format } = require('date-fns');
 
 
 router.get('/viewLeave', viewLeave);
+router.get('/approveView', aprroverView);
+router.get('/markedview', markedview);
 router.post('/levBalance', levBalance);
 router.post('/cancelLeave', cancelLeave);
 router.get('/cancelLeavePage', cancelLeavePage);
@@ -24,7 +26,7 @@ function viewLeave(req, res) {
       console.error('Error with table query', err);
     } else {
       leaveData = leavesList.rows;
-      console.log('leaveData value', leaveData);
+      // console.log('leaveData value', leaveData);
 
       //  console.log(leaveData[0].emp_id);
       //  console.log(leaveData[0].emp);
@@ -37,6 +39,43 @@ function viewLeave(req, res) {
 
 }
 
+function aprroverView(req, res) {
+  var emp_id = req.query.user_id;
+  console.log(emp_id + " --aprrover id");
+
+  pool.query("SELECT  comm_code_desc cocd ,emp_name emp,* from leaves l, emp_master_tbl emp, common_code_tbl cocd  where l.del_flg= 'N' and l.approver_id =$1 and l.app_flg = 'P' and l.emp_id = emp.emp_id and rej_flg = 'N' and cocd.del_flg ='N' and emp.del_flg ='N' and cocd.comm_code_id = l.leave_type and cocd.code_id ='LTYP'", [emp_id], function (err, leavesList) {
+    if (err) {
+      console.error('Error with table query', err);
+    } else {
+      leaveData = leavesList.rows;
+      console.log('leaveData value', leaveData);
+
+      //  console.log(leaveData[0].emp_id);
+      //  console.log(leaveData[0].emp);
+      //  console.log(leaveData[0].app_flg);
+    }
+
+    res.json({ message: "admin viewed", Data: leaveData });
+  })
+}
+
+function markedview(req, res) {
+
+  var emp_id = req.query.user_id;
+  console.log(emp_id);
+
+  pool.query("SELECT  comm_code_desc cocd ,emp_name emp,* from leaves l, emp_master_tbl emp, common_code_tbl cocd  where l.del_flg= 'N' and l.rcre_user_id =$1 and l.app_flg = 'P' and l.emp_id = emp.emp_id and rej_flg = 'N' and cocd.del_flg ='N' and emp.del_flg ='N' and cocd.comm_code_id = l.leave_type and cocd.code_id ='LTYP'", [emp_id], function (err, leavesList) {
+    if (err) {
+      console.error('Error with table query', err);
+    } else {
+      leaveData = leavesList.rows;
+      console.log('leaveData value', leaveData);
+    }
+
+    res.json({ Data: leaveData });
+  })
+
+}
 
 function levBalance(req, res) {
 
@@ -377,5 +416,7 @@ function cancelLeavePage(req, res) {
   });
 
 }
-// ///////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////
 module.exports = router;

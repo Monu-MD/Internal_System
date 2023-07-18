@@ -1,5 +1,7 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl,FormGroup,Validators } from '@angular/forms';
+import { LoginServiceService } from 'src/app/services/login-service.service';
 @Component({
   selector: 'app-un-mark-leave',
   templateUrl: './un-mark-leave.component.html',
@@ -7,25 +9,98 @@ import { FormControl,FormGroup,Validators } from '@angular/forms';
 })
 export class UnMarkLeaveComponent {
 
-  unMarkLeaveForm=new FormGroup<any>({
-   
-    employeeId: new FormControl('', [Validators.required]),
-    employeeName: new FormControl('', [Validators.required]),
-    leaveType:new FormControl('', [Validators.required]),
-    fromDate:new FormControl('', [Validators.required]),
-    toDate:new FormControl('', [Validators.required]),
-    applyTo:new FormControl('', [Validators.required]),
-    appliedNoOfDays:new FormControl('', [Validators.required]),
-    availableLeaves:new FormControl('', [Validators.required]),
-    leavesBorrowed:new FormControl('', [Validators.required]),
-    reason:new FormControl('', [Validators.required]),
-    remarks:new FormControl('', [Validators.required])
- })
- submit(item:any){
-    console.log(item);
-  }
 
-  get(){
-    return this.submit
-  }
+user_id: any;
+
+isSuccess: boolean = false;
+isError: boolean = false;
+message: string = '';
+
+constructor(private http: HttpClient, private loginservice: LoginServiceService) {
+  const user = this.loginservice.getData();
+  this.user_id = user[0];
+}
+
+
+// viewLeave :any;
+rowData: any[] = [];
+
+
+itemsPerPage = 10;
+currentPage = 1;
+totalItems = 0;
+
+PerPage: number = 100;
+itemsPerPageOptions: number[] = [10, 25, 50, 100];
+onItemsPerPageChange(): void {
+this.currentPage = 1;
+}
+
+
+ngOnInit() {
+this.fetchData(this.user_id);
+}
+
+fetchData(user_id: any) {
+const params = new HttpParams()
+  .set('user_id', user_id.toString());
+this.http.get('http://localhost:4000/viewrequest/markedview', { params })
+  .subscribe(
+    (response: any) => {
+
+      console.log(response.Data);
+       this.rowData = response.Data;
+
+      // console.log(this.rowData);
+    },
+    (error: any) => {
+      console.error('Error:', error);
+    }
+  );
+
+}
+
+unmark(row: any) {
+  const updatedData = { user_id: this.user_id, Data: row };
+  console.log(updatedData);
+  const notificationDuration = 3000; // Duration in milliseconds (3 seconds)
+
+  this.http.post('http://localhost:4000/approverequest/unmarkLeave', updatedData).subscribe(
+    (response) => {
+      console.log(response);
+
+      // Show success notification
+      this.isSuccess = true;
+      this.isError = false;
+      this.message = 'Request UnMarked successfully!';
+
+      // Automatically hide the success notification after the specified duration
+      setTimeout(() => {
+        this.isSuccess = false;
+        this.message = '';
+      }, notificationDuration);
+
+      // Add a class to trigger the animation for showing the notification
+      setTimeout(() => {
+        const notificationElement = document.querySelector('.notification');
+        if (notificationElement) {
+          notificationElement.classList.add('show');
+        }
+      }, 100);
+
+      this.fetchData(this.user_id);
+    },
+    (error) => {
+      console.error(error);
+
+      // Show error notification
+      this.isSuccess = false;
+      this.isError = true;
+      this.message = 'An error occurred while unmarking the request';
+
+    }
+  );
+}
+
+
 }
