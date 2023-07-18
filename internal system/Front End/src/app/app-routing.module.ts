@@ -102,9 +102,12 @@ import { ViewNonItAssetDetailComponent } from './asset-mangement-system-module/v
 import { ViewItAllocationDeatilComponent } from './asset-mangement-system-module/view-it-allocation-deatil/view-it-allocation-deatil.component'
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component'
 import { CancelLeaveComponent } from './request-module/cancel-leave/cancel-leave.component';
+import { ViewDocumentsComponent } from './cms-module/view-documents/view-documents.component';
+import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
+import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';    
 const routes: Routes = [
 
-  {path:'admindashboard',component:AdminDashboardComponent},
+  { path: 'admindashboard', component: AdminDashboardComponent },
 
   { path: '', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
@@ -114,132 +117,134 @@ const routes: Routes = [
   { path: 'personalDetails', component: PersonalDetailsComponent },
   { path: 'professionalDetails', component: ProfessionalDetailsComponent },
 
-// Abhi 
- 
-//appraisal
-{path:'addappraisal',component:AddAppraisalComponent},
-{path:'appraisalcomponent',component:AppraisalComponent} ,
-{path:'doappraisal',component:AprDoappraisalComponent},
-{path:'rejapr',component:RejectedAppraisalComponent},
-{path:'viewapldata',component:ViewAppraisalDataComponent},
-{path:'viewaprl',component:ViewappraisalComponent},
+  // Abhi 
 
-// reimbusment
+  //appraisal
+  { path: 'addappraisal', component: AddAppraisalComponent },
+  { path: 'appraisalcomponent', component: AppraisalComponent },
+  { path: 'doappraisal', component: AprDoappraisalComponent },
+  { path: 'rejapr', component: RejectedAppraisalComponent },
+  { path: 'viewapldata', component: ViewAppraisalDataComponent },
+  { path: 'viewaprl', component: ViewappraisalComponent },
 
-{path: 'initiaterem',component:InitiateRemComponent},
-{path: 'reimbusmentapprove',component:ReimburseApproveComponent}, 
-{path:"reimbusmentreqdetails",component:ReimbusmentReqDetailsComponent},
+  // reimbusment
 
-{path:'ReportChooseComponent',component:ReportBulkChooseComponent},
-{path:'Reportcompchoose',component:ReportCompChooseComponent},
-{path:'reportcomleavebal',component:ReportCompLeaveBalanceComponent},
-{path:'reportdetails',component:ReportDetailsComponent},
-{path:'reportleavedetails',component:ReportLeaveDetailsValueComponent},
+  { path: 'initiaterem', component: InitiateRemComponent },
+  { path: 'reimbusmentapprove', component: ReimburseApproveComponent },
+  { path: "reimbusmentreqdetails", component: ReimbusmentReqDetailsComponent },
 
-//emp module
+  { path: 'ReportChooseComponent', component: ReportBulkChooseComponent },
+  { path: 'Reportcompchoose', component: ReportCompChooseComponent },
+  { path: 'reportcomleavebal', component: ReportCompLeaveBalanceComponent },
+  { path: 'reportdetails', component: ReportDetailsComponent },
+  { path: 'reportleavedetails', component: ReportLeaveDetailsValueComponent },
 
-{path:'modifypersonal',component:ModifyPersonalDetailsComponent},
-{path:'modifyprofessional',component:ModifyProfessionalDetailsComponent},
-{path:'searchmodify',component:SearchEmployeeDetailsComponent},
-{path:'empProfessional',component:EmpProfessionalDetailsComponent},
-{path:"empDetailview",component:EmployeeDetailsComponent},
+  //emp module
 
-//invoice
-{ path: 'chooseinvoice', component:ChooseinvoiceDetailsComponent },
-{ path: 'generateinrreport', component:GenerateinrReportComponent },
-{ path: 'generateusdreport', component:GenerateusdReportComponent },
-{ path: 'invoiceduelist', component:InvoicedueListComponent },
-{ path: 'invoiceduetoday', component:InvoicedueTodayComponent },
-{path:'invoicefp',component:InvoiceFPComponent},
-{ path: 'invoicepay', component:InvoicePayComponent },
-{ path: 'invoiceraise', component:InvoiceRaiseComponent },
-{ path: 'invoicegenarate', component:InvoiceRegeneratechooseComponent },
-{ path: 'reportinv',component:ReportComponent },
+  { path: 'modifypersonal', component: ModifyPersonalDetailsComponent },
+  { path: 'modifyprofessional', component: ModifyProfessionalDetailsComponent },
+  { path: 'searchmodify', component: SearchEmployeeDetailsComponent },
+  { path: 'empProfessional', component: EmpProfessionalDetailsComponent },
+  { path: "empDetailview", component: EmployeeDetailsComponent },
 
-//project
-{path:'childproject',component:ChildProjectComponent},
-{path:'CustomerModView',component:CustomerModViewComponent},
-{path:'CustomerModification',component:CustomerModificationComponent},
-{path:'CustomerView',component:CustomerViewComponent},
-{path:'Customercreation',component:CustomercreationComponent},
-{path:'ProjDealloc',component:ProjDeallocComponent},
-{path:'ProjectAllocation',component:ProjectAllocationComponent},
-{path:'ProjectDetial',component:ProjectDetialComponent},
-  
-//jadhav
-{ path: 'message', component: MessageComponent },
-{ path: 'composeMessage', component: ComposeMessageComponent },
-{ path: 'inbox', component: InboxMessageComponent },
-{ path: 'sent', component: SentMessageComponent },
-//Travel
-{ path: 'apprejected', component: AppRejectedReqComponent },
-{ path: 'approvereq', component: ApproveReqComponent },
-{ path: 'canceltvldet', component: CancelTravelDetailsComponent },
-{ path: 'canceltvlque', component: CancelTravelQueueComponent },
-{ path: 'travel', component: TravelComponent },
-{ path: 'travelfaq', component: TravelFAQDetailsComponent },
-{ path: 'viewtvl', component: ViewTravelApprQueueComponent },
-//AppRenovated
-{ path: 'appDataNot', component: AppraisalDataNotApprovedComponent },
-{ path: 'cteApp', component: CreateAppDataComponent },
-{ path: 'doApp', component: DoAppraisalComponent },
-{ path: 'modapp', component: ModifyAppDataComponent },
+  //invoice
+  { path: 'chooseinvoice', component: ChooseinvoiceDetailsComponent },
+  { path: 'generateinrreport', component: GenerateinrReportComponent },
+  { path: 'generateusdreport', component: GenerateusdReportComponent },
+  { path: 'invoiceduelist', component: InvoicedueListComponent },
+  { path: 'invoiceduetoday', component: InvoicedueTodayComponent },
+  { path: 'invoicefp', component: InvoiceFPComponent },
+  { path: 'invoicepay', component: InvoicePayComponent },
+  { path: 'invoiceraise', component: InvoiceRaiseComponent },
+  { path: 'invoicegenarate', component: InvoiceRegeneratechooseComponent },
+  { path: 'reportinv', component: ReportComponent },
 
-//Request
-{ path: 'applyLev', component: ApplyLeaveComponent },
-{ path: 'approveLev', component: ApproveLeaveComponent },
-{ path: 'levBal', component: LeaveBalanceComponent },
-{ path: 'levSum', component: LeaveSummaryComponent },
-{ path: 'markLev', component: MarkLeaveComponent },
-{ path: 'unmarkLev', component: UnMarkLeaveComponent },
-{ path: 'viewHol', component: ViewHolidaysComponent },
-{ path: 'viewLev', component: ViewLeaveComponent },
-{path: 'viewLevCancel',component:CancelLeaveComponent},
+  //project
+  { path: 'childproject', component: ChildProjectComponent },
+  { path: 'CustomerModView', component: CustomerModViewComponent },
+  { path: 'CustomerModification', component: CustomerModificationComponent },
+  { path: 'CustomerView', component: CustomerViewComponent },
+  { path: 'Customercreation', component: CustomercreationComponent },
+  { path: 'ProjDealloc', component: ProjDeallocComponent },
+  { path: 'ProjectAllocation', component: ProjectAllocationComponent },
+  { path: 'ProjectDetial', component: ProjectDetialComponent },
 
-//cms
-{ path: 'cmsUpload', component: CmsUploadAdminComponent },
-{ path: 'magzineUpld', component: MagzineUploadAdminComponent },
-{ path: 'policyupld', component: PolicyUploadAdminComponent },
- 
+  //jadhav
+  { path: 'message', component: MessageComponent },
+  { path: 'composeMessage', component: ComposeMessageComponent },
+  { path: 'inbox', component: InboxMessageComponent },
+  { path: 'sent', component: SentMessageComponent },
+  //Travel
+  { path: 'apprejected', component: AppRejectedReqComponent },
+  { path: 'approvereq', component: ApproveReqComponent },
+  { path: 'canceltvldet', component: CancelTravelDetailsComponent },
+  { path: 'canceltvlque', component: CancelTravelQueueComponent },
+  { path: 'travel', component: TravelComponent },
+  { path: 'travelfaq', component: TravelFAQDetailsComponent },
+  { path: 'viewtvl', component: ViewTravelApprQueueComponent },
+  //AppRenovated
+  { path: 'appDataNot', component: AppraisalDataNotApprovedComponent },
+  { path: 'cteApp', component: CreateAppDataComponent },
+  { path: 'doApp', component: DoAppraisalComponent },
+  { path: 'modapp', component: ModifyAppDataComponent },
+
+  //Request
+  { path: 'applyLev', component: ApplyLeaveComponent },
+  { path: 'approveLev', component: ApproveLeaveComponent },
+  { path: 'levBal', component: LeaveBalanceComponent },
+  { path: 'levSum', component: LeaveSummaryComponent },
+  { path: 'markLev', component: MarkLeaveComponent },
+  { path: 'unmarkLev', component: UnMarkLeaveComponent },
+  { path: 'viewHol', component: ViewHolidaysComponent },
+  { path: 'viewLev', component: ViewLeaveComponent },
+  { path: 'viewLevCancel', component: CancelLeaveComponent },
+
+  //cms
+  { path: 'cmsUpload', component: CmsUploadAdminComponent },
+  { path: 'magzineUpld', component: MagzineUploadAdminComponent },
+  { path: 'policyupld', component: PolicyUploadAdminComponent },
+  {path:'viewDocs',component: ViewDocumentsComponent},
+  {path:'viewMagz',component:ViewMagzineComponent},
+  {path:'viewPolcy',component:ViewPolicyComponent},
 
   //mahesh
-  { path:'cocd',component:CommonCodeDetailsComponent},
-  {path:'modifycocd',component:CommonCodeDetailsModifyComponent},
-  {path:'deletecocd' ,component:CommonCodeDetailsDeleteComponent},
-  {path:'viewcocd',component:ViewCommonCodeComponent},
+  { path: 'cocd', component: CommonCodeDetailsComponent },
+  { path: 'modifycocd', component: CommonCodeDetailsModifyComponent },
+  { path: 'deletecocd', component: CommonCodeDetailsDeleteComponent },
+  { path: 'viewcocd', component: ViewCommonCodeComponent },
 
-  {path:'searchMrk',component:SearchProjectDetailsComponent},
-  {path:'mrk',component:MarkDetailsComponent },
-  {path:'recall',component:RecallmilestoneComponent},
- 
-  {path:'configLeave',component:ConfigureLeavesComponent},
-  {path:'addHolidays',component:HolidaysComponent},
-  {path:'viewHolidays',component:ListOfHolidaysComponent},
-  {path:'modifyLeave',component:ModifyLeavesComponent},
-  {path:'removeLeave',component:RemoveLeavesComponent},
-  {path:'ListLeave',component:ListOfLeavesComponent},
+  { path: 'searchMrk', component: SearchProjectDetailsComponent },
+  { path: 'mrk', component: MarkDetailsComponent },
+  { path: 'recall', component: RecallmilestoneComponent },
 
-  {path:'AssetDetails',component:AssetDetailsComponent},
+  { path: 'configLeave', component: ConfigureLeavesComponent },
+  { path: 'addHolidays', component: HolidaysComponent },
+  { path: 'viewHolidays', component: ListOfHolidaysComponent },
+  { path: 'modifyLeave', component: ModifyLeavesComponent },
+  { path: 'removeLeave', component: RemoveLeavesComponent },
+  { path: 'ListLeave', component: ListOfLeavesComponent },
 
-  {path:'ItAssetDetails',component:AddITAssetDetailsComponent},
-  {path:'ModifyItAssetDetails',component:ModifyItAssetDetailsComponent},
-  {path:'ViewItAssetDetails',component:ViewItAssetDetailsComponent},
-  {path:'ViewItAssetDetail',component:ViewItAssetDetailComponent},
+  { path: 'AssetDetails', component: AssetDetailsComponent },
+
+  { path: 'ItAssetDetails', component: AddITAssetDetailsComponent },
+  { path: 'ModifyItAssetDetails', component: ModifyItAssetDetailsComponent },
+  { path: 'ViewItAssetDetails', component: ViewItAssetDetailsComponent },
+  { path: 'ViewItAssetDetail', component: ViewItAssetDetailComponent },
 
 
-  {path:'ITAssetAllocation',component:ITAssetAllocationComponent},
-  {path:'ModifyItAllocationDetails',component:ModifyItAllocationDetailsComponent},
-  {path:'ViewItAllocationDetails',component:ViewItAllocationDetailsComponent},
-  {path:'ViewItAllocationDetail',component:ViewItAllocationDeatilComponent},
-  
-  {path:'AddNonItAssetDetails',component:AddNonItAssetDetailsComponent},
-  {path:'ModifyNonItAssetDetails',component:ModifyNonItAssetDetailsComponent},
-  {path:'ViewNonItAssetDetails',component:ViewNonItAssetDetailsComponent},
-  {path:'ViewNonItAssetDetail',component:ViewNonItAssetDetailComponent}
-  
-  
+  { path: 'ITAssetAllocation', component: ITAssetAllocationComponent },
+  { path: 'ModifyItAllocationDetails', component: ModifyItAllocationDetailsComponent },
+  { path: 'ViewItAllocationDetails', component: ViewItAllocationDetailsComponent },
+  { path: 'ViewItAllocationDetail', component: ViewItAllocationDeatilComponent },
 
-  
+  { path: 'AddNonItAssetDetails', component: AddNonItAssetDetailsComponent },
+  { path: 'ModifyNonItAssetDetails', component: ModifyNonItAssetDetailsComponent },
+  { path: 'ViewNonItAssetDetails', component: ViewNonItAssetDetailsComponent },
+  { path: 'ViewNonItAssetDetail', component: ViewNonItAssetDetailComponent }
+
+
+
+
 
 
 

@@ -77,29 +77,21 @@
     <!-- Employee module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'emp'">
-
-
             <div [ngSwitch]="user_type">
                 <div *ngSwitchCase="'L3'">
-                    <ul>
-                        
+                    <ul>   
                         <li><a href="" routerLink="/personalDetails">Modify Personal details</a></li>
                         <li><a href="" routerLink="/empDetailview">View Details</a></li>
                     </ul>
                 </div>
-
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
-
                         <li><a href="" routerLink="/modifyprofessional">Modify Professional details</a></li>
                         <li><a href="" routerLink="/searchmodify">Search Employee</a></li>
                         <li><a href="" routerLink="/empProfessional">Add Profile</a></li>
-
                     </ul>
                 </div>
             </div>
-
-
         </div>
     </nav>
 
@@ -112,7 +104,6 @@
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'req'">
             <div [ngSwitch]="user_type">
-
                 <div *ngSwitchCase="'A1'">
                     <ul>
                         <li><a href="" routerLink="/markLev">Mark Leave</a></li>
@@ -145,13 +136,16 @@
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'cms'">
             <ul>
-                <li><a href="" routerLink="/cmsUpload">CMS Upload</a></li>
-                <li><a href="" routerLink="/magzineUpld">Magzine Upload</a></li>
-                <li><a href="" routerLink="/policyupld">Policy Upload </a></li>
+                <li><a href="" routerLink="/cmsUpload">Upload Documents</a></li>
+                <li><a href="" routerLink="/viewDocs">View Documents</a></li>
+                <li><a href="" routerLink="/magzineUpld">Upload Magzine</a></li>
+                <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
+                <li><a href="" routerLink="/policyupld">Upload Policy Docs</a></li>
+                <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
+
             </ul>
         </div>
     </nav>
-
     <!-- Capture Module  -->
     <nav class="menu">
         <!-- Appraisal Module -->
@@ -179,7 +173,6 @@
             </ul>
         </div>
     </nav>
-
     <!-- Mark Module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'mrk'">
@@ -200,7 +193,6 @@
                         <li><a routerLink="/viewHolidays">List Of Holidays</a></li>
                     </ul>
                 </div>
-
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <li><a routerLink="/addHolidays">Add Holidays Details</a></li>
@@ -248,7 +240,6 @@
                         <li><a href="" routerLink="/ViewItAllocationDetail">View Allocation Detail</a></li>
                     </ul>
                 </div>
-
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <li><a href="" routerLink="/ITAssetAllocation">Add Allocation Details</a></li>
@@ -272,7 +263,6 @@
                         <li><a href="" routerLink="/ViewNonItAssetDetail">View NON IT Details</a></li>
                     </ul>
                 </div>
-
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <li><a href="" routerLink="/AddNonItAssetDetails">Add NON IT Details</a></li>
@@ -282,7 +272,6 @@
                         <li><a href="" routerLink="/">FAQ</a></li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </nav>
