@@ -78,6 +78,8 @@ export class ChildProjectComponent {
 
   fetchData(parpid: any) {
     const params = new HttpParams().set('parpid', parpid.toString())
+    console.log(parpid);
+    
 
     this.http.get('http://localhost:4000/projectModule/childproject/fetchDet', { params })
       .subscribe(
@@ -88,7 +90,7 @@ export class ChildProjectComponent {
         },
         error => {
           console.error(error);
-          alert('Error uploading profile picture.');
+          // alert('Error uploading profile picture.');
         }
       );
   }

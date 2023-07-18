@@ -75,6 +75,10 @@ export class EmpProfessionalDetailsComponent {
       this.addProfile(item)
     }
   }
+
+
+
+  
   addProfile(data: any): void {
     const curr = data.sal_curr;
     const empclas = data.emp_acess;
@@ -119,16 +123,10 @@ export class EmpProfessionalDetailsComponent {
 
 
 
-        if (response.message == 'redirect to PersonalDetails') {
-          this.router.navigate(['/empProfessional'])
-
-        }
-
       },
       (error: any) => {
         console.error('API Error:', error);
-        // Handle error cases and navigate accordingly
-        // this.router.navigate(['/error']);
+       
       }
     );
   }

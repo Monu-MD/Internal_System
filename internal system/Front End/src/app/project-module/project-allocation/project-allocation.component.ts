@@ -8,17 +8,17 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ProjectAllocationComponent {
 
-  Project_Allocation=new FormGroup<any>({
-    projectid:new FormControl(''),
-    projectReportingManager:new FormControl(''),
-    projectAllocation:new FormControl(''),
-    allocationStartDate:new FormControl(''),
-    allocationEndDate:new FormControl(''),
-    employeeLocationType:new FormControl(''),
-    employeeBillable:new FormControl(''),
+  Project_Allocation = new FormGroup<any>({
+    projectid: new FormControl(''),
+    projectReportingManager: new FormControl(''),
+    projectAllocation: new FormControl(''),
+    allocationStartDate: new FormControl(''),
+    allocationEndDate: new FormControl(''),
+    employeeLocationType: new FormControl(''),
+    employeeBillable: new FormControl(''),
   })
-  projectAllocation(item:any){
-console.log(item);
+  projectAllocation(item: any) {
+    console.log(item);
 
   }
 }

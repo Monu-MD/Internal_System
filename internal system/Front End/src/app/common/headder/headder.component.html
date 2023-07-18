@@ -12,7 +12,7 @@
             <img [src]="photoUrl" alt="User Photo">
           </div>
           <div class="profilePhoto">
-            <input type="file" placeholder="profilePhoto" (change)="onFileSelected($event)" [attr.data-file-name]="selectedFileName"  accept=".jpg,.png">
+            <input type="photo" placeholder="profilePhoto" (change)="onFileSelected($event)" [attr.data-file-name]="selectedFileName"  accept=".jpg,.png">
           </div>
 
           <div>

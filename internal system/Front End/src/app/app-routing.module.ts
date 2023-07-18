@@ -160,7 +160,7 @@ const routes: Routes = [
 {path:'childproject',component:ChildProjectComponent},
 {path:'CustomerModView',component:CustomerModViewComponent},
 {path:'CustomerModification',component:CustomerModificationComponent},
-{path:'CustomerView',component:CustomerViewComponent},
+{path:'CustomerV iew',component:CustomerViewComponent},
 {path:'Customercreation',component:CustomercreationComponent},
 {path:'ProjDealloc',component:ProjDeallocComponent},
 {path:'ProjectAllocation',component:ProjectAllocationComponent},

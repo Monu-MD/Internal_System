@@ -6,37 +6,76 @@
     <div class="container" class="tablecontainer" class="viewData">
         <div class="table-content">
             <div class="contentleft">
-                <h1 class="titleViewPage">Professional KPI</h1>
+                <h1 class="titleViewPage">Project Allocation Details Assignment</h1>
                 <label class="contentleft">Search:</label>
-                <input type="text" name="employeeName" formControlName="employeeName" class="searchData"
-                    placeholder="EmployeeName">
-            </div><br>
-            <span>Show</span>
-            <select class="show-entries" (click)="onItemsPerPageChange()">
+                <input type="text" name="pid" #pid formControlName="pid" class="searchData"
+                    placeholder="Enter Project Id">
+                <button type="button" (click)="projectview(pid.value)" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+            <p>Project Id : {{projectViewData.proj_id}} </p>
+            <p>Delivery Manager : {{projectViewData.deliverymgrname}}</p>
+            <p>Project Manager : {{projectViewData.projectmgrname}} </p>
+            <!-- <span>Show</span> -->
+            <!-- <select class="show-entries" (click)="onItemsPerPageChange()">
                 <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
             </select>
-            <span>entries</span>
+            <span>entries</span> -->
 
             <hr>
             <table>
                 <thead>
                     <tr>
-                        <th>Indicator(KPI)</th>
-                        <th>Weightage</th>
-                        <th>Role</th>
+                        <th>Employee Id</th>
+                        <th>Reporting Manager</th>
+                        <th>Employee Location</th>
+                        <th>Allocation%</th>
+                        <th>Allocation Start Date</th>
+                        <th>Allocation End Date</th>
+                        <th>Employee Billable</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let pkpi of pkpi|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
-                        <td>{{ pkpi.Indicator }}</td>
-                        <td>{{ pkpi.Weightage }}</td>
-                        <td>{{ pkpi.Role }}</td>
+                    <tr
+                        *ngFor="let projectViewData of projectViewData">
+
+                        <!-- <td>{{ pkpi.Role }}</td> -->
+                        <td>{{projectViewData.manager[0]}}</td>
+                        <td>{{projectViewData.manager.emp_name}}</td>
+                        <td>{{projectViewData.employeeLocationType}}</td>
+                        <td>{{projectViewData.Allocation}}</td>
+                        <td>{{projectViewData.allocationStartDate}}</td>
+                        <td>{{projectViewData.allocationEndDate}}</td>
+
                     </tr>
                 </tbody>
             </table>
             <br>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <br><br>
     <div class="container" class="tablecontainer" class="viewData">
@@ -53,7 +92,7 @@
             </select>
             <span>entries</span>
 
-           
+
 
 
             <hr> <br>

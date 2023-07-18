@@ -1047,7 +1047,7 @@ function addempdet(req, res) {
 
 
 
-	console.log(req.body);
+	// console.log(req.body);
 	var now = new Date();
 	var rcreuserid = req.body.rcreusedid;
 	var rcretime = now;
@@ -1119,70 +1119,6 @@ function addempdet(req, res) {
 							// var ranpass = generatePassword(4, false);
 							// var finalpass = userid + "@" + ranpass;
 
-							const transporter = nodemailer.createTransport({
-								service: 'gmail',
-								auth: {
-									user: 'mohammadsab@minorks.com',
-									pass: '9591788719'
-								}
-							});
-
-
-
-							const mailOptions = {
-								from: 'mohammadsab@minorks.com',
-								to: email,
-								subject: 'Register',
-								html: `
-								<style>
-								body {
-								font-family: Arial, sans-serif;
-								font-size: 14px;
-								line-height: 1.4;
-								color: #333333;
-								}
-
-								a {
-								color: white;
-								text-decoration: none;
-								}
-								</style>
-								
-								Dear ${empname},<br>
-								<img href="http://www.minorks.com/images/logo_white.png"></img><br><br>
-								We are delighted to welcome you to our company! As a new member, we kindly request you to complete your account registration process to gain access to our systems and resources.<br>
-								
-								To finalize your registration and create your unique User ID, please follow the steps below:<br>
-								
-								1. Click on the registration link provided below:<br>
-								<a href="http://localhost:4200/register">Click Here For Register</a><br>
-								
-								2. You will be directed to the registration page where you can begin the process.<br>
-								
-								3. Enter your personal details accurately and ensure all required fields are completed.<br>
-								
-								4. Once you have provided your personal details wait for Admin Aproval.<br>
-								
-								<h4 style="color:blue"> Your User ID: ${empid}</h4><br><br>
-								
-								If you have any questions or need further assistance, please feel free to reach out to our HR department.<br>
-								
-								Best regards,<br>
-								Minorks Technology (HR)
-								`
-							};
-
-
-							console.log(mailOptions, "mailll");
-							transporter.sendMail(mailOptions, function (error, info) {
-								if (error) {
-									console.error('Error sending email', error);
-								} else {
-									console.log('Email sent:', info.response);
-								}
-
-
-							});
 
 
 							// bcrypt.hash(finalpass, 10, function (err, hash) {
@@ -1195,18 +1131,84 @@ function addempdet(req, res) {
 							pool.query("INSERT INTO users(user_name,user_id,user_type,expiry_date,login_allowed,login_attempts,del_flag,login_check,reset_flg,session_id,client_ip) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empname, empid, empaccess, '01-01-2099', 'Y', '0', 'N', 'N', 'Y', '', ''], function (err, done) {
 								// if (err) { throw err; } else { console.log("inserted in user"); }
 								if (err) throw err
+								console.log("user data updated");
+								pool.query("insert into e_docket_tbl(emp_id,pan_flg,aadhar_flg,sslc_flg,preuniv_flg,degree_flg,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empid, pan_flg, aadhar_flg, sslc_flg, preuniv_flg, degree_flg, del_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+									if (err) throw err
 
+									const transporter = nodemailer.createTransport({
+										service: 'gmail',
+										auth: {
+											user: 'mohammadsab@minorks.com',
+											pass: '9591788719'
+										}
+									});
+
+
+
+									const mailOptions = {
+										from: 'mohammadsab@minorks.com',
+										to: email,
+										subject: 'Register',
+										html: `
+										<style>
+										body {
+										font-family: Arial, sans-serif;
+										font-size: 14px;
+										line-height: 1.4;
+										color: #333333;
+										}
+		
+										a {
+										color: white;
+										text-decoration: none;
+										}
+										</style>
+										
+										Dear ${empname},<br>
+										<img href="http://www.minorks.com/images/logo_white.png"></img><br><br>
+										We are delighted to welcome you to our company! As a new member, we kindly request you to complete your account registration process to gain access to our systems and resources.<br>
+										
+										To finalize your registration and create your unique User ID, please follow the steps below:<br>
+										
+										1. Click on the registration link provided below:<br>
+										<a href="http://localhost:4200/register">Click Here For Register</a><br>
+										
+										2. You will be directed to the registration page where you can begin the process.<br>
+										
+										3. Enter your personal details accurately and ensure all required fields are completed.<br>
+										
+										4. Once you have provided your personal details wait for Admin Aproval.<br>
+										
+										<h4 style="color:blue"> Your User ID: ${empid}</h4><br><br>
+										
+										If you have any questions or need further assistance, please feel free to reach out to our HR department.<br>
+										
+										Best regards,<br>
+										Minorks Technology (HR)
+										`
+									};
+
+
+									console.log(mailOptions, "mailll");
+									transporter.sendMail(mailOptions, function (error, info) {
+										if (error) {
+											console.error('Error sending email', error);
+										} else {
+											console.log('Email sent:', info.response);
+										}
+
+
+									});
+									// req.flash('success', "User successfully added and an E-mail has been sent to " + email + " with further instructions.")
+									// res.redirect(req.get('referer'));
+
+
+									res.json({ message: "redirect to refer", notification: "User successfully added and an E-mail has been sent to " + email + " with further instructions." })
+
+
+								});
 							});
 
-							pool.query("insert into e_docket_tbl(emp_id,pan_flg,aadhar_flg,sslc_flg,preuniv_flg,degree_flg,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empid, pan_flg, aadhar_flg, sslc_flg, preuniv_flg, degree_flg, del_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
-								// req.flash('success', "User successfully added and an E-mail has been sent to " + email + " with further instructions.")
-								// res.redirect(req.get('referer'));
-
-
-								res.json({ message: "redirect to refer", notification: "User successfully added and an E-mail has been sent to " + email + " with further instructions." })
-
-
-							});
 						});
 					}
 				});
@@ -1214,6 +1216,10 @@ function addempdet(req, res) {
 			else {
 				// req.flash('error', "Employee Details Already Added for this Employee:" + empname)
 				// res.redirect(req.get('referer'));
+
+
+
+
 				pool.query(
 					"UPDATE emp_master_tbl SET emp_name=$2, emp_access=$3, emp_email=$4, joining_date=$5, designation=$6, salary=$7, reporting_mgr=$8, prev_expr_year=$9, prev_expr_month=$10, prev_empr=$11, prev_empr2=$12, prev_empr3=$13, prev_empr4=$14, prev_empr5=$15, emp_prob=$16, lchg_user_id=$17, lchg_time=$18, emp_classification=$19, salary_curr=$20 WHERE emp_id=$1",
 					[empid, empname, empaccess, email, jDate, desig, salary, rptman, preExpyear, preExpmonth, preEmp, preEmp2, preEmp3, preEmp4, preEmp5, probPeriod, lchguserid, lchgtime, empClass, sal_curr],
@@ -1222,6 +1228,7 @@ function addempdet(req, res) {
 						res.json({ message: "redirect to refer", notification: "Employee Details Added for this Employee:" + empname })
 					}
 				);
+
 
 			}
 
@@ -2282,7 +2289,7 @@ router.post('/verifyDetails', (req, res) => {
 
 
 
-					pool.query("delete from emp_info_tbl_temp where emp_id=$1", [empid], function (err, done) {
+					pool.query("DELETE emp_master_tbl, emp_info_tbl, data_emp_info_tbl_temp, users, emp_info_tbl_hist, e_docket_tbl FROM emp_master_tbl INNER JOIN emp_info_tbl ON emp_master_tbl.emp_id = emp_info_tbl.emp_id INNER JOIN data_emp_info_tbl_temp ON emp_master_tbl.emp_id = data_emp_info_tbl_temp.emp_id INNER JOIN users ON emp_master_tbl.emp_id = users.user_id INNER JOIN emp_info_tbl_hist ON emp_master_tbl.emp_id = emp_info_tbl_hist.emp_id INNER JOIN e_docket_tbl ON emp_master_tbl.emp_id = e_docket_tbl.emp_id WHERE emp_master_tbl.emp_id = $1", [empid], function (err, done) {
 						if (err) throw err;
 
 						// req.flash('success', "Employee Personal Details has been deleted sucessfully for the Employee Id:" + empid + " and E-mail has been sent to." + email + " with further instructions.")

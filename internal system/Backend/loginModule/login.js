@@ -139,6 +139,7 @@ const comparePasswordpwd = function (candidatePassword, hash, callback) {
     console.log("comparing password while login2 ")
 
     bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
+
         if (err) throw err;
         callback(null, isMatch);
         // console.log("pwd checking3")
@@ -298,7 +299,7 @@ function forgotSendMail(empId) {
 
 function getUserByuser_idpwd1(user_id, callback) {
 
-    var query = pool.query("SELECT user_name,password,user_id,user_type FROM users WHERE user_id=$1", [user_id], function (err, result) {
+    pool.query("SELECT user_name,password,user_id,user_type FROM users WHERE user_id=$1", [user_id], function (err, result) {
 
 
         // ,client_ip,session_id ---> it is not present in db
@@ -309,7 +310,6 @@ function getUserByuser_idpwd1(user_id, callback) {
 
 function fetchUserDetails(user_id, callback) {
     const userDetails = {};
-
     pool.query('SELECT * FROM users WHERE user_id = $1', [user_id], function (err, result) {
         if (err) {
             callback(err, null);
@@ -340,25 +340,29 @@ function fetchUserDetails(user_id, callback) {
                 }
                 userDetails.leave_details = result.rows[0];
 
-                pool.query('SELECT * FROM holidays', function (err, result) {
-                    if (err) {
-                        callback(err, null);
-                        return;
-                    }
-                    userDetails.holiday_details = result.rows;
-                    pool.query('SELECT * FROM leave_master where emp_id=$1', [user_id], function (err, result) {
-                        if (err) {
-                            callback(err, null);
-                            return;
-                        }
-                        userDetails.leave_master = result.rows;
+
+                // pool.query('SELECT * FROM holidays', function (err, result) {
+                //     if (err) {
+                //         callback(err, null);
+                //         return;
+                //     }
+                //     userDetails.holiday_details = result.rows;
 
 
 
-                        callback(null, userDetails);
+                // pool.query('SELECT * FROM leave_master where emp_id=$1', [user_id], function (err, result) {
+                //     if (err) {
+                //         callback(err, null);
+                //         return;
+                //     }
+                //     userDetails.leave_master = result.rows;
 
-                    });
-                });
+
+
+                callback(null, userDetails);
+
+                // });
+
             });
         });
     });
@@ -723,7 +727,7 @@ router.post('/login', (req, res) => {
     console.log(typeof (user_id), "user ID");
     if (typeof (user_id) != undefined || user_id != " ") {
         pool.query("SELECT * from users where user_id = $1", [user_id], function (err, result) {
-
+            console.log(typeof (user_id), "=========");
             if (err) {
                 console.error('Error fetching photo:', err);
                 return res.status(500).json({ error: 'Error fetching photo' });
@@ -801,18 +805,21 @@ router.post('/login', (req, res) => {
                                 if (err) throw err;
 
                                 if (result.rows['0'] != null) {
-                                    console.log("within case check");
+                                    console.log("within case check",);
                                     logincheck = result.rows['0'].login_check;
+
                                     if (logincheck == "N") {
+
                                         userid = result.rows['0'].user_id;
                                         queryres = result.rows['0'].user_type;
                                         datecheck = result.rows['0'].expiry_date;
                                         console.log('user_type', queryres);
                                         attempts = 0;
-
                                         pool.query("UPDATE users SET login_attempts=$1,login_check=$2,reset_flg='N' where LOWER(user_id)=LOWER($3)", [attempts, 'Y', user_id]);
                                         console.log("after update");
                                         fetchUserDetails(user_id, function (err, userDetails) {
+
+                                            console.log(typeof (user_id));
                                             if (err) {
                                                 console.error(err);
                                                 // Handle the error case
@@ -820,10 +827,11 @@ router.post('/login', (req, res) => {
                                             }
                                             // Access the userDetails object here
                                             const detail = userDetails;
-                                           
+
+
                                             fetchCommonCodes()
                                                 .then((cocd) => {
-                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
+                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
                                                 })
                                                 .catch((error) => {
                                                     console.error('Error fetching common codes', error);
@@ -836,17 +844,22 @@ router.post('/login', (req, res) => {
                                     }
                                     else {
                                         fetchUserDetails(user_id, function (err, userDetails) {
+
                                             if (err) {
                                                 console.error(err);
+
                                                 // Handle the error case
                                                 return;
                                             }
                                             // Access the userDetails object here
+
+
+
                                             const detail = userDetails;
-                                          
+                                            console.log(detail);
                                             fetchCommonCodes()
                                                 .then((cocd) => {
-                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
+                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
                                                 })
                                                 .catch((error) => {
                                                     console.error('Error fetching common codes', error);
@@ -878,17 +891,17 @@ router.post('/login', (req, res) => {
                                         const detail = userDetails;
 
                                         fetchCommonCodes()
-                                        .then((cocd) => {
-                                            res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd:cocd });
-                                        })
-                                        .catch((error) => {
-                                            console.error('Error fetching common codes', error);
-                                            // Handle the error as needed
-                                        });
+                                            .then((cocd) => {
+                                                res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
+                                            })
+                                            .catch((error) => {
+                                                console.error('Error fetching common codes', error);
+                                                // Handle the error as needed
+                                            });
 
                                     });
 
-                                    pool.query("UPDATE users SET login_allowed=$1,login_attempts=$2 WHERE LOWER(user_id)=LOWER($3)", ['N', attempts, user.username]);
+                                    pool.query("UPDATE users SET login_allowed=$1,login_attempts=$2 WHERE LOWER(user_id)=LOWER($3)", ['N', attempts, user.user_i]);
 
                                     res.json({ message: "redirect to login", notification: "Your Account is locked. Please Contact administration" })
                                 }
