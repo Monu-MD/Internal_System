@@ -170,6 +170,41 @@ export class TopbarComponent {
         }
       );
   }
+  fetchaddPjtDeAlldetails(){
+    const params = new HttpParams().set('user_type', this.user_type.toString())
 
+
+    this.http.get('http://localhost:4000/projectdetails/fetchaddPjtDeAlldetails', { params })
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.prjectservice.setFetchaddPjtDeAlldetails(response.fetchaddPjtDeAlldetails)
+          this.router.navigate(['/ProjDealloc'])
+        },
+        error => {
+          console.error(error);
+          alert('Error ');
+        }
+      );
+  }
+
+
+  addProfile(){
+    const params = new HttpParams().set('user_id', this.user_id.toString())
+
+
+    this.http.get('http://localhost:4000/employeeDetails/employeeDetails', { params })
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.loginService.cocd=response.cocd
+          this.router.navigate(['/empProfessional'])
+        },
+        error => {
+          console.error(error);
+          alert('Error ');
+        }
+      );
+  }
 
 }

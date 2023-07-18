@@ -26,102 +26,7 @@ const { Pool } = require('pg');
 const { error } = require('console');
 
 // //////////////////////////// /////////// FunctionS///////////////////////////////////////////////////////////////////////
-function fetchCommonCodes() {
-    return new Promise((resolve, reject) => {
-        pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'BLG' ORDER BY comm_code_id ASC", (err, result) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            const comm_code_blood = result.rows;
-            const comm_code_blood_count = result.rowCount;
 
-            pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'SHR' ORDER BY comm_code_id ASC", (err, result) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                const comm_code_shirt = result.rows;
-                const comm_code_shirt_count = result.rowCount;
-
-                pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'STA' ORDER BY comm_code_id ASC", (err, result) => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-                    const comm_code_state = result.rows;
-                    const comm_code_state_count = result.rowCount;
-
-                    pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'MAR' ORDER BY comm_code_id ASC", (err, result) => {
-                        if (err) {
-                            reject(err);
-                            return;
-                        }
-                        const comm_code_maritalstatus = result.rows;
-                        const comm_code_maritalstatus_count = result.rowCount;
-
-                        pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'DSG' ORDER BY comm_code_id ASC", (err, result) => {
-                            if (err) {
-                                reject(err);
-                                return;
-                            }
-                            const comm_code_dsg = result.rows;
-                            const comm_code_dsg_count = result.rowCount;
-
-                            pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'PCR' ORDER BY comm_code_id ASC", (err, result) => {
-                                if (err) {
-                                    reject(err);
-                                    return;
-                                }
-                                const comm_code_curr = result.rows;
-                                const comm_code_cur_count = result.rowCount;
-
-                                pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'ACC' ORDER BY comm_code_id ASC", (err, result) => {
-                                    if (err) {
-                                        reject(err);
-                                        return;
-                                    }
-                                    const comm_code_class = result.rows;
-                                    const comm_code_class_count = result.rowCount;
-
-                                    pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'RPT' ORDER BY comm_code_id ASC", (err, result) => {
-                                        if (err) {
-                                            reject(err);
-                                            return;
-                                        }
-                                        const comm_code_rpt = result.rows;
-                                        const comm_code_rpt_count = result.rowCount;
-
-                                        const cocd = {
-                                            comm_code_blood,
-                                            comm_code_blood_count,
-                                            comm_code_shirt,
-                                            comm_code_shirt_count,
-                                            comm_code_state,
-                                            comm_code_state_count,
-                                            comm_code_maritalstatus,
-                                            comm_code_maritalstatus_count,
-                                            comm_code_curr,
-                                            comm_code_cur_count,
-                                            comm_code_class,
-                                            comm_code_class_count,
-                                            comm_code_rpt,
-                                            comm_code_rpt_count,
-                                            comm_code_dsg,
-                                            comm_code_dsg_count
-                                        };
-
-                                        resolve(cocd);
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
-}
 
 
 const getUserByuser_id = function (user_id, callback) {
@@ -346,7 +251,7 @@ function fetchUserDetails(user_id, callback) {
                         return;
                     }
                     userDetails.holiday_details = result.rows;
-                     
+
                     // Yash added.........
                     pool.query('SELECT * FROM leave_master where emp_id=$1', [user_id], function (err, result) {
                         if (err) {
@@ -822,15 +727,9 @@ router.post('/login', (req, res) => {
                                             // Access the userDetails object here
                                             const detail = userDetails;
 
-                                            fetchCommonCodes()
-                                                .then((cocd) => {
-                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
-                                                })
-                                                .catch((error) => {
-                                                    console.error('Error fetching common codes', error);
-                                                    // Handle the error as needed
-                                                });
 
+
+                                            res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail });
 
                                         });
 
@@ -845,14 +744,8 @@ router.post('/login', (req, res) => {
                                             // Access the userDetails object here
                                             const detail = userDetails;
 
-                                            fetchCommonCodes()
-                                                .then((cocd) => {
-                                                    res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
-                                                })
-                                                .catch((error) => {
-                                                    console.error('Error fetching common codes', error);
-                                                    // Handle the error as needed
-                                                });
+
+                                            res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail });
 
                                         });
 
@@ -878,14 +771,8 @@ router.post('/login', (req, res) => {
                                         // Access the userDetails object here
                                         const detail = userDetails;
 
-                                        fetchCommonCodes()
-                                            .then((cocd) => {
-                                                res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail, cocd: cocd });
-                                            })
-                                            .catch((error) => {
-                                                console.error('Error fetching common codes', error);
-                                                // Handle the error as needed
-                                            });
+
+                                        res.json({ message: "redirect to dashboard", notification: "login Successful", Data: detail });
 
                                     });
 

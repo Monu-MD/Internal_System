@@ -287,8 +287,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule, // Add BrowserAnimationsModule
-
-    
+   
   ],
   
   providers: [ApiserviceService],

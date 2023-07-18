@@ -25,8 +25,11 @@ export class ProjectserviceService {
   setfetchaddPjtAlldetails(value:any){
     this.fetchaddPjtAlldetails=value;
   }
-  getData() {
-    return [this.coustomerviewData,this.cocdProjectdetails, this.fetchaddPjtAlldetails];
+  fetchaddPjtDeAlldetails:any;
+  setFetchaddPjtDeAlldetails(value:any){
+    this.fetchaddPjtDeAlldetails=value;
   }
-
+  getData() {
+    return [this.coustomerviewData,this.cocdProjectdetails, this.fetchaddPjtAlldetails,this.fetchaddPjtDeAlldetails];
+  }
 }

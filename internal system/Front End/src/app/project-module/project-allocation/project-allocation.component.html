@@ -1,57 +1,101 @@
-<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
+
+
+
 <div class="allighn">
     <div class="container">
 
         <h1 class="title">Project Allocation Detailsassignment_ind</h1>
-        <!-- <h1 class="headding">New User to Amber can register here.</h1> -->
+
         <div class="content">
             <div></div>
             <form [formGroup]="Project_Allocation" class="#" (ngSubmit)="projectAllocation(Project_Allocation.value)">
                 <div class="user-details">
                     <div class="input-box">
-                        <span class="btn-text">Select Employee</span>
-                        <span class="checkbox">
-                            <i class="fa-solid fa-check check-icon"></i>
-                        </span>
-                        <span class="item-text" *ngFor="let data of empname" value="data.emp_id">{{
-                            data.emp_name }}</span>
+                        <div class="select-btn" (click)="toggleDropdown()">
+                            <span class="btn-text">{{ selectedItems.length > 0 ? selectedItems.length + ' Selected' :
+                                'Select Employee' }}</span>
+                            <span class="arrow-dwn" [class.open]="isDropdownOpen">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </span>
+                        </div>
 
+                        <ul class="list-items" *ngIf="isDropdownOpen">
+                            <li class="item" *ngFor="let item of items" (click)="toggleItem(item)">
+                              <span class="checkbox" [class.checked]="item.checked">
+                                <i class="fa-solid fa-check check-icon"></i>
+                              </span>
+                              <span class="item-text" [attr.data-value]="item.emp_id">{{ item.emp_name }}</span>
+                            </li>
+                          </ul>
+                          
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Number of Working Days</label>
+                        <input type="text" placeholder="Enter Number of Working Days" name="noofworkingdays"
+                            formControlName="noofworkingdays" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> Number of Working Months</label>
+                        <input type="text" placeholder="Enter Number of Working Months" name="noofworkingmonths"
+                            formControlName="noofworkingmonths" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> First Month  Days</label>
+                        <input type="text" placeholder="Enter First Month  Days" name="firstmonthdays"
+                            formControlName="firstmonthdays" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Last Month  Days</label>
+                        <input type="text" placeholder="Enter Last Month  Days" name="lastmonthdays"
+                            formControlName="lastmonthdays" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details"> First Number of  Days</label>
+                        <input type="text" placeholder="Enter First Number of  Days " name="firstnoofhdays"
+                            formControlName="firstnoofhdays" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Last Month  Days</label>
+                        <input type="text" placeholder="Enter Last Month  Days" name="lastnoofhdays"
+                            formControlName="lastnoofhdays" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Conversion Rate</label>
+                        <input type="text" placeholder="Enter Conversion Rate" name="convRate"
+                            formControlName="convRate" />
                     </div>
                     <div class="input-box">
                         <label class="Details"> Project Id </label>
                         <input type="text" placeholder="Enter Your project Id" name="projectid"
                             formControlName="projectid" />
-                        <!-- <select name="projectid" formControlName="projectid">
-                                <option *ngFor="let data of cocdcust" [value]="data.customer_id">{{
-                                    data.customer_name }}</option>
-                            </select> -->
                     </div>
-
                     <div class="input-box">
                         <label class="Details"> Project Reporting Manager </label>
-                        <select name="projectReportingManager" formControlName="projectReportingManager">
+
+                        <select placeholder="Project Reporting Manager" name="projectReportingManager"
+                        formControlName="projectReportingManager">
                             <option *ngFor="let data of manager" [value]="data.emp_id">{{
                                 data.emp_name }}</option>
                         </select>
                     </div>
+                    
                     <div class="input-box">
                         <label class="details">Project Allocation</label>
                         <select name="projectAllocation" formControlName="projectAllocation">
                             <option value=""></option>
-                            <option value="10%">10%</option>
-                            <option value="20%">20%</option>
-                            <option value="30%">30%</option>
-                            <option value="40%">40%</option>
-                            <option value="50%">50%</option>
-                            <option value="60%">60%</option>
-                            <option value="70%">70%</option>
-                            <option value="80%">80%</option>
-                            <option value="90%">90%</option>
-                            <option value="100%">100%</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                            <option value="60">60</option>
+                            <option value="70">70</option>
+                            <option value="80">80</option>
+                            <option value="90">90</option>
+                            <option value="100">100</option>
 
                         </select>
                     </div>
@@ -94,10 +138,10 @@
                                     <h1 class="radioButtontitle">Employee Billable</h1>
                                     <label>YES</label>
                                     <input type="radio" formControlName="employeeBillable" name="employeeBillable"
-                                        value="YES">
+                                        value="Y">
                                     <label>NO</label>
                                     <input type="radio" formControlName="employeeBillable" name="employeeBillable"
-                                        value="NO">
+                                        value="N">
 
                                 </div>
                             </div>
@@ -107,7 +151,7 @@
                     </div>
                 </div>
                 <div>
-                    <button class="button">Submit</button>
+                    <button class="button">Allocate</button>
                     <button class="button" type="reset">Clear</button>
                 </div>
 
