@@ -139,6 +139,13 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
 
 
+import { MatSnackBarModule } from '@angular/material/snack-bar';// Import MatSnackBarModule
+import { ViewDocumentsComponent } from './cms-module/view-documents/view-documents.component';
+import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
+import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';  
+
+
+
 
 @NgModule({
   declarations: [
@@ -275,6 +282,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
      EmployeeDetailsComponent,
 
     AdminDashboardComponent,
+      ViewDocumentsComponent,
+      ViewMagzineComponent,
+      ViewPolicyComponent,
+ 
 
 
 

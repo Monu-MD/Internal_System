@@ -9,38 +9,100 @@
             <div class="title">Upload Documents</div>
             <div class="content">
                 <form class="#" [formGroup]="cms_Admin_Upload_Documents"
-                    (ngSubmit)="cmsAdminUploadDocuments(cms_Admin_Upload_Documents.value)">
-
-
+                (ngSubmit)="onSubmit(cms_Admin_Upload_Documents.value)">
                     <div class="user-details">
+
+
+                        <div class="input-box">
+                            <label class="details"> Employee</label>
+                            <input type="text" name="user_id" placeholder="Employee Id"
+                                formControlName="user_id">
+                        </div>
+
+
                         <div class="input-box">
                             <label class="details">Document Category</label>
                             <select name="documentCategeory" formControlName="documentCategeory">
-                                <option value=""></option>
-
+                                <option value="">----Select the Document Category----</option>
+                                <option value="1">Govt. Documents</option>
+                                <option value="2">Educational</option>
+                                <option value="3">Medical </option>
+                                <option value="4">Experience</option>
+                                <option value="5">Photo</option>
+                                <option value="6">Resume</option>
+                                <option value="7">Certification</option>
+                                <option value="8">Others</option>
+                                <option value="9">Background</option>
+                                <option value="10">HR Uploads</option>
                             </select>
                         </div>
 
-                        <div class="input-box">
-                            <label class="details">Document Description Company Name</label>
+                        <div class="input-box" *ngIf="cms_Admin_Upload_Documents.get('documentCategeory')?.value ==='1'">
+                            <label class="details">Document Type</label>
+                            <select name="documenType" formControlName="documenType">
+                                <option value="">---Select the document type---</option>
+                                <option value="">PassPort</option>
+                                <option value="">Pan Card</option>
+                                <option value="">Voter Id</option>
+                                <option value="">Driving Liense</option>
+                                <option value="">Aadhar</option>
+                            </select>
+                        </div>
+                        <div class="input-box" *ngIf="cms_Admin_Upload_Documents.get('documentCategeory')?.value ==='2'">
+                            <label class="details">Document Type</label>
+                            <select name="documenType" formControlName="documenType">
+                                <option value="">---Select the document type---</option>
+                                <option value="">SSLC</option>
+                                <option value="">Pre University</option>
+                                <option value="">Semester 1</option>
+                                <option value="">Semester 2</option>
+                                <option value="">Semester 3</option>
+                                <option value="">Semester 4</option>
+                                <option value="">Semester 5</option>
+                                <option value="">Semester 6</option>
+                                <option value="">Semester 7</option>
+                                <option value="">Semester 8</option>
+                                <option value="">Degree</option>
+                                <option value="">Others</option>
+                            </select>
+                        </div>
+                        <div class="input-box"  *ngIf="cms_Admin_Upload_Documents.get('documentCategeory')?.value ==='4'">
+                            <label class="details">Company Name</label>
                             <input type="text" name="documentDescriptionCompanyName"
                                 formControlName="documentDescriptionCompanyName">
                         </div>
-                        <div class="input-box">
-                            <label class="details">Document Type</label>
-                            <select name="documenType" formControlName="documenType">
-                                <option value=""></option>
-                                <option value=""></option>
 
-                            </select>
-                        </div>
-                        <div class="input-box">
+
+                        <div class="input-box" *ngIf="cms_Admin_Upload_Documents.get('documentCategeory')?.value ==='7'">
                             <label class="details">Document Description </label>
                             <input type="text" name="documentDescription" formControlName="documentDescription">
                         </div>
+                        <div class="input-box" *ngIf="cms_Admin_Upload_Documents.get('documentCategeory')?.value ==='8'">
+                            <label class="details">Document Description </label>
+                            <input type="text" name="documentDescription" formControlName="documentDescription">
+                        </div>
+
+                        <div class="input-box" *ngIf="cms_Admin_Upload_Documents.get('documentCategeory')?.value ==='10'">
+                            <label class="details">Document Type</label>
+                            <select name="documenType" formControlName="documenType">
+                                <option value="">---Select the document type---</option>
+                                <option value="">Offer Letter</option>
+                                <option value="">Bond</option>
+                                <option value="">Appointment Letter</option>
+                                <option value="">Confirmation Letter</option>
+                                <option value="">Onsite Deloyment Docket</option>
+                                <option value="">Revision Letter</option>
+                                <option value="">Compensation Letter</option>
+                                <option value="">Exit Interview Letter </option>
+                                <option value="">Relieving Letter</option>
+                            </select>
+                        </div>
+
+
+
+
                         <div class="fileUpload">
                             <div class="details">
-
                                 <label class="details">Upload Document </label>
                             </div>
                             <input type="file" accept="image/*">

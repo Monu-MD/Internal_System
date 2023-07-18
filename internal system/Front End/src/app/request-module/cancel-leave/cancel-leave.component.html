@@ -12,6 +12,10 @@
                 <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
             </select>
             <span>entries</span>
+            
+            <div class="notification" [ngClass]="{'success': isSuccess, 'error': isError}">
+                {{ message }}
+            </div>
 
             <hr>
             <table>
@@ -27,27 +31,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr
-                        *ngFor="let viewLeave of rowData|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
-                        <td>{{ viewLeave.cocd }}</td>
-                        <td>{{ viewLeave.from_date | date:'yyyy-MM-dd' }}</td>
-                        <td>{{ viewLeave.to_date | date:'yyyy-MM-dd' }}</td>
-                        <td>{{ viewLeave.reason }}</td>
-                        <td>{{ viewLeave.emp}}</td>
-                        <td style="padding-left: 56px;">{{ viewLeave.availed_leaves}}</td>
-                         <td><button class="listbutton" (click)="CancelButtonClicked(viewLeave)">Cancel</button></td>
-
+                    <tr *ngFor="let viewLeave of rowData | slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
+                        <ng-container [ngSwitch]="viewLeave.app_flg">
+                            <td *ngSwitchCase="'P'">{{ viewLeave.cocd }}</td>
+                            <td *ngSwitchCase="'P'">{{ viewLeave.from_date | date:'yyyy-MM-dd' }}</td>
+                            <td *ngSwitchCase="'P'">{{ viewLeave.to_date | date:'yyyy-MM-dd' }}</td>
+                            <td *ngSwitchCase="'P'">{{ viewLeave.reason }}</td>
+                            <td *ngSwitchCase="'P'">{{ viewLeave.emp }}</td>
+                            <td *ngSwitchCase="'P'" style="padding-left: 56px;">{{ viewLeave.availed_leaves }}</td>
+                            <td *ngSwitchCase="'P'">
+                                <button class="listbutton" (click)="CancelButtonClicked(viewLeave)">Cancel</button>
+                            </td>
+                        </ng-container>
                     </tr>
                 </tbody>
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
             </table>
             <br>
 
-            <!-- <div>
-                <pagination-controls> [(page)]="currentPage"
-                    [itemsPerPage]="itemsPerPage"
-                    [totalItems]="totalItems"
-                </pagination-controls>
-            </div> -->
         </div>
     </div>
 </form>
