@@ -173,7 +173,7 @@ router.get('/fetchDet', (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 router.post('/addchildproject', (req, res) => {
-	console.log(req.body,"/..........");
+	console.log(req.body, "/..........");
 	var empId = req.body.user_id;
 	var eid = req.body.user_id;
 	var now = new Date();
@@ -182,7 +182,7 @@ router.post('/addchildproject', (req, res) => {
 	var lchguserid = empId;
 	var lchgtime = now;
 
-	
+
 	var parpid = req.body.item.parentProjectid;
 	console.log(parpid);
 	var paymenttype = req.body.item.paymentType;
@@ -257,7 +257,7 @@ router.post('/addchildproject', (req, res) => {
 		var countryId = result.rows[0].bill_country;
 		var cityId = result.rows[0].bill_city;
 		var pincode = result.rows[0].bill_pin_code;
-		
+
 
 
 		pool.query("SELECT chld_cnt from project_master_tbl where project_id = $1", [parpid], function (err, result) {
@@ -1562,6 +1562,173 @@ function projdeallocation(req, res) {
 		});
 	});
 };
+//////////////////////////////////////////////////// Project DeAllocation End ////////////////////////////////////////////////////////////
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////// Coustomer Modification Start //////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////// Fetching coustomer Modification Details ////////////////////////////////////////////
+router.post('/ModcustDetails', ModcustDetails);
+
+function ModcustDetails(req, res) {
+	var cid = req.body.coustomerID;
+	console.log("customer id", cid);
+
+	pool.query("select customer_name,customer_id,customer_addr1,customer_country,customer_city,client_name1,client_email1,client_contact1,client_name2,client_email2,client_contact2,remarks,gstno,pannum,customer_addr2 from customer_master_tbl where del_flg='N' and customer_id=$1", [cid], function (err, resultset) {
+		console.log(resultset.rows);
+		var rowCount=resultset.rowCount;
+		if (rowCount>0) {
+			if (err) throw err;
+		var customer_name = resultset.rows['0'].customer_name;
+		console.log(resultset.rows);
+		var customer_id = resultset.rows['0'].customer_id;
+		var customer_addr1 = resultset.rows['0'].customer_addr1;
+		var customer_country = resultset.rows['0'].customer_country;
+		var customer_city = resultset.rows['0'].customer_city;
+		var client_name1 = resultset.rows['0'].client_name1;
+		var client_email1 = resultset.rows['0'].client_email1;
+		var client_contact1 = resultset.rows['0'].client_contact1;
+		var client_name2 = resultset.rows['0'].client_name2;
+		var client_email2 = resultset.rows['0'].client_email2;
+		var client_contact2 = resultset.rows['0'].client_contact2;
+		var remarks = resultset.rows['0'].remarks;
+		var gstno = resultset.rows['0'].gstno;
+		var pannum = resultset.rows['0'].pannum;
+		var customer_addr2 = resultset.rows['0'].customer_addr2;
+
+		res.json({
+			modadta: {
+				customer_name: customer_name,
+				customer_id: customer_id,
+				customer_addr1: customer_addr1,
+				customer_country: customer_country,
+				customer_city: customer_city,
+				client_name1: client_name1,
+				client_email1: client_email1,
+				client_contact1: client_contact1,
+				client_name2: client_name2,
+				client_email2: client_email2,
+				client_contact2: client_contact2,
+				remarks: remarks,
+				gstno: gstno,
+				pannum: pannum,
+				customer_addr2: customer_addr2
+
+			}
+		});
+		} else {
+			res.json({notification:"Coustoer ID Does Not Exist"})
+		}
+		
+	});
+};
+
+////////////////////////////////////////////////////// Adding coustomer Modification Details ////////////////////////////////////////////
+
+router.post('/customerModification', customermod);
+
+function customermod(req, res) {
+	console.log(req.body);
+	console.log("111");
+	var now = new Date();
+	var rcreuserid = req.body.user_id;
+	var rcretime = now;
+	var lchguserid = req.body.user_id;
+	var lchgtime = now;
+
+	var cname = req.body.item.customerName;
+	var cid = req.body.item.customerID;
+	var clientaddr1 = req.body.item.clientAddressLine1;
+	var clientaddr2 = req.body.item.clientAddressLine2;
+	var clientname1 = req.body.item.clientName1;
+	var clientname2 = req.body.item.clientName2;
+	var cemail1 = req.body.item.clientEmialId1;
+	var cemail2 = req.body.item.clientEmialId2;
+	var clientph1 = req.body.item.clinetContactNumber1;
+	var clientph2 = req.body.item.clinetContactNumber2;
+	var gstno = req.body.item.GSTNumber;
+	var pannum = req.body.item.PANNumber;
+	var countryId = req.body.item.countryName;
+	var cityId = req.body.item.cityName;
+	var rmks = req.body.item.remarks;
+
+	console.log("userid", rcreuserid);
+	console.log("rtime", rcretime);
+	console.log("luserid", lchguserid);
+	console.log("ltime", lchgtime);
+	console.log("cname", cname);
+	console.log("cid", cid);
+	console.log("gstno", gstno);
+	console.log("pannum", pannum);
+	console.log("countryId", countryId);
+	console.log("cityId", cityId);
+	console.log("clientname1", clientname1);
+	console.log("cemail1", cemail1);
+	console.log("clientph1", clientph1);
+	console.log("clientname2", clientname2);
+	console.log("cemail2", cemail2);
+	console.log("clientph2", clientph2);
+	console.log("rmks", rmks);
+	console.log("clientaddr1", clientaddr1);
+	console.log("clientaddr2", clientaddr2);
+
+
+	pool.query("select * from customer_master_tbl_hist where customer_id=$1 ", [cid], function (err, result) {
+		var hiscount = result.rowCount;
+
+		if (hiscount == "0") {
+
+			pool.query("insert into customer_master_tbl_hist select * from customer_master_tbl where customer_id=$1 ", [cid], function (err, result) {
+			});
+
+			pool.query("delete from customer_master_tbl where customer_id=$1 ", [cid], function (err, result) {
+			});
+
+		}
+		else {
+			pool.query("delete from customer_master_tbl_hist where customer_id=$1 ", [cid], function (err, result) {
+			});
+
+			pool.query("insert into customer_master_tbl_hist select * from customer_master_tbl where customer_id=$1 ", [cid], function (err, result) {
+			});
+
+			pool.query("delete from customer_master_tbl where customer_id=$1 ", [cid], function (err, result) {
+			});
+
+		}
+
+
+		pool.query("INSERT INTO customer_master_tbl(customer_name,customer_id,customer_addr1,customer_addr2,client_name1,client_email1,client_contact1,client_name2,client_email2,client_contact2,rcre_user_id,rcre_time,lchg_user_id,lchg_time,del_flg,gstno,pannum,customer_country,customer_city,remarks) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)", [cname, cid, clientaddr1, clientaddr2, clientname1, cemail1, clientph1, clientname2, cemail2, clientph2, rcreuserid, rcretime, lchguserid, lchgtime, 'N', gstno, pannum, countryId, cityId, rmks], function (err, done) {
+
+
+			if (err) throw err;
+			var message = "Customer Details " + cname + " Modified Successfully"
+
+			res.json({
+				message: 'redirect to customermodview', ModifiedData: {
+
+					cname: cname,
+					cid: cid,
+					clientaddr1: clientaddr1,
+					countryId: countryId,
+					cityId: cityId,
+					clientname1: clientname1,
+					cemail1: cemail1,
+					clientph1: clientph1,
+					clientname2: clientname2,
+					cemail2: cemail2,
+					clientph2: clientph2,
+					rmks: rmks,
+					gstno: gstno,
+					pannum: pannum,
+					clientaddr2: clientaddr2,
+
+				}, notification: message
+			});
+		});
+	});
+}
 
 module.exports = router;

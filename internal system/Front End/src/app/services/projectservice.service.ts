@@ -10,10 +10,10 @@ export class ProjectserviceService {
   constructor(private http: HttpClient, private router: Router) {
   }
 
-  
-  cocdProjectdetails:any;
-  setAddProjectdetails(value:any){
-    this.cocdProjectdetails=value;
+
+  cocdProjectdetails: any;
+  setAddProjectdetails(value: any) {
+    this.cocdProjectdetails = value;
   }
 
   coustomerviewData: any;
@@ -21,15 +21,21 @@ export class ProjectserviceService {
     this.coustomerviewData = value; // Assuming project_details[6] contains the data object
     //
   }
-  fetchaddPjtAlldetails:any
-  setfetchaddPjtAlldetails(value:any){
-    this.fetchaddPjtAlldetails=value;
+  fetchaddPjtAlldetails: any
+  setfetchaddPjtAlldetails(value: any) {
+    this.fetchaddPjtAlldetails = value;
   }
-  fetchaddPjtDeAlldetails:any;
-  setFetchaddPjtDeAlldetails(value:any){
-    this.fetchaddPjtDeAlldetails=value;
+  fetchaddPjtDeAlldetails: any;
+  setFetchaddPjtDeAlldetails(value: any) {
+    this.fetchaddPjtDeAlldetails = value;
   }
+
+  
   getData() {
-    return [this.coustomerviewData,this.cocdProjectdetails, this.fetchaddPjtAlldetails,this.fetchaddPjtDeAlldetails];
+    return [this.coustomerviewData,
+    this.cocdProjectdetails,
+    this.fetchaddPjtAlldetails,
+    this.fetchaddPjtDeAlldetails,
+  ];
   }
 }

@@ -75,7 +75,6 @@ import { InvoiceRaiseComponent } from './invoice-module/invoice-raise/invoice-ra
 import { InvoiceRegeneratechooseComponent } from './invoice-module/invoice-regeneratechoose/invoice-regeneratechoose.component';
 import { ReportComponent } from './invoice-module/report/report.component';
 import { ChildProjectComponent } from './project-module/child-project/child-project.component';
-import { CustomerModViewComponent } from './project-module/customer-mod-view/customer-mod-view.component';
 import { CustomerModificationComponent } from './project-module/customer-modification/customer-modification.component';
 import { CustomerViewComponent } from './project-module/customer-view/customer-view.component';
 import { CustomercreationComponent } from './project-module/customercreation/customercreation.component';
@@ -161,7 +160,6 @@ const routes: Routes = [
 
   //project
   { path: 'childproject', component: ChildProjectComponent },
-  { path: 'CustomerModView', component: CustomerModViewComponent },
   { path: 'CustomerModification', component: CustomerModificationComponent },
   { path: 'CustomerView', component: CustomerViewComponent },
   { path: 'Customercreation', component: CustomercreationComponent },

@@ -18,7 +18,6 @@ import { ChildProjectComponent } from '../app/project-module/child-project/child
 import { ApiserviceService } from './apiservice.service';
 import { CustomercreationComponent } from './project-module/customercreation/customercreation.component';
 import { CustomerModificationComponent } from './project-module/customer-modification/customer-modification.component';
-import { CustomerModViewComponent } from './project-module/customer-mod-view/customer-mod-view.component';
 import { CustomerViewComponent } from './project-module/customer-view/customer-view.component';
 import { ProjectDetialComponent } from './project-module/project-detial/project-detial.component';
 import { ProjDeallocComponent } from './project-module/proj-dealloc/proj-dealloc.component';
