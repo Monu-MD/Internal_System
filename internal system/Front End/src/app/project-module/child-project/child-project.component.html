@@ -6,7 +6,10 @@
 
 <div class="allighn">
     <div class="container">
-
+        <div class="alert" *ngIf="notification">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{notification}}
+          </div>
         <h1 class="title">Select Parent Project Id</h1>
         <!-- <h1 class="headding">New User to Amber can register here.</h1> -->
         <div class="content">
@@ -40,81 +43,56 @@
             <div></div>
             <form [formGroup]="childProjectId" class="#" (ngSubmit)="child_ProjectId(childProjectId.value)">
                 <div class="user-details">
+                    
                     <div class="input-box">
                         <label class="Details"> Customer Id </label>
-                        <input type="text" placeholder="Enter Customer Id" value="{{key}}" name="customerId" formControlName="customerId" />
+                        <input type="text" placeholder="Enter Customer Id" [ngModel]="key" name="customerId" formControlName="customerId" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">  Parent Project Id </label>
+                        <input type="text" placeholder="Enter your project Id" [ngModel]="key16" name="parentProjectid" formControlName="parentProjectid" />
                     </div>
                     <div class="input-box">
                         <label class="Details"> Delivery Manager</label>
-                        <input type="text" placeholder="Enter Delivery Manager Name" value="{{key1}}" name="deliveryManager"
+                        <input type="text" placeholder="Enter Delivery Manager Name" [ngModel]="key1" name="deliveryManager"
                             formControlName="deliveryManager" />
                     </div>
                     <div class="input-box">
                         <label class="details">Payment Type</label>
-                        <select name="paymentType" formControlName="paymentType" value="{{key2}}" placeholder="Payment Type">
-                            <option value=""></option>
-                            <option value="neft">NEFT</option>
-                            <option value="rtgs">RTGS</option>
-                            <option value="cash">Cash</option>
-                            <option value="cheque">Cheque</option>
-                            <option value="DD">DD</option>
-
-                        </select>
+                        <input name="paymentType" formControlName="paymentType" [ngModel]="key2" placeholder="Payment Type" />
                     </div>
                     <div class="input-box">
                         <label class="Details"> Customer Class</label>
-                        <input type="text" placeholder="Enter Customer Class" value="{{key3}}" name="customerClass"
+                        <input type="text" placeholder="Enter Customer Class" [ngModel]="key3" name="customerClass"
                             formControlName="customerClass" />
                     </div>
                     <div class="input-box">
                         <label class="details">Project Team Size</label>
-                        <select name="projectTeamSize" formControlName="projectTeamSize" value="{{key4}}" placeholder="projectTeamSize">
-                            <option value=""></option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
+                        <input name="projectTeamSize" formControlName="projectTeamSize" [ngModel]="key4" placeholder="projectTeamSize" />
 
-                        </select>
                     </div>
                     <div class="input-box">
                         <label class="details">Project Manager</label>
-                        <select name="projectManager" formControlName="projectManager" value="{{key5}}" placeholder="projectTeamSize">
-                            <option value=""></option>
-                            <option value="">M D</option>
-                            <option value="">Mahesh</option>
-                            <option value="">Abhishek</option>
-                            <option value="">Yashewant P Jadhav</option>
-                            <option value="">Pojo</option>
+                        <input name="projectManager" formControlName="projectManager" [ngModel]="key5" placeholder="projectManager" />
 
-                        </select>
                     </div>
                     <div class="input-box">
                         <label class="Details"> Project Type</label>
-                        <input type="text" placeholder="Enter Project Type" value="{{key6}}" name="projectType"
+                        <input type="text" placeholder="Enter Project Type" [ngModel]="key6" name="projectType"
                             formControlName="projectType" />
                     </div>
                     <div class="input-box">
                         <label class="details">Project Currency</label>
-                        <select name="projectCurrency" formControlName="projectCurrency" value="{{key7}}" placeholder="project Currency">
-                            <option value=""> </option>
-                            <option value="">INR</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""> </option>
-                            <option value=""></option>
-
-                        </select>
+                        <input name="projectCurrency" formControlName="projectCurrency" [ngModel]="key7" placeholder="project Currency" />  
                     </div>
                     <div class="input-box">
                         <label class="Details">Conversation Rate</label>
-                        <input type="text" placeholder="Enter Conversation Rate"  name="conversationRate"
+                        <input type="text" placeholder="Enter Conversation Rate"  [ngModel]="key18" name="conversationRate"
                             formControlName="conversationRate" />
                     </div>
                     <div class="input-box">
                         <label class="Details">Po number</label>
-                        <input type="number" placeholder="Enter Po Number" name="poNumber" formControlName="poNumber" />
+                        <input type="number" placeholder="Enter Po Number" name="poNumber"[ngModel]="key17" formControlName="poNumber" />
                     </div>
                     <div class="input-box">
                         <label class="details">Start Date</label>
@@ -149,23 +127,23 @@
                 <div class="user-details">
                     <div class="input-box">
                         <label class="Details">Address Line 1 </label>
-                        <input type="text" placeholder="Adress Line 1" value="{{key8}}" name="addressLine1" formControlName="addressLine1" />
+                        <input type="text" placeholder="Adress Line 1" [ngModel]="key8" name="addressLine1" formControlName="addressLine1" />
                     </div>
                     <div class="input-box">
                         <label class="Details">Address Line 2 </label>
-                        <input type="text" placeholder="Adress Line 2" name="addressLine2" value="{{key2}}" formControlName="addressLine2" />
+                        <input type="text" placeholder="Adress Line 2" name="addressLine2" [ngModel]="key2" formControlName="addressLine2" />
                     </div>
                     <div class="input-box">
                         <label class="Details">Country Name </label>
-                        <input type="text" placeholder="Country Name " name="countryName " value="{{key10}}" formControlName="countryName" />
+                        <input type="text" placeholder="Country Name " name="countryName " [ngModel]="key10" formControlName="countryName" />
                     </div>
                     <div class="input-box">
                         <label class="Details">City Name </label>
-                        <input type="text" placeholder="City Name" name="cityName" value="{{key11}}" formControlName="cityName" />
+                        <input type="text" placeholder="City Name" name="cityName" [ngModel]="key11" formControlName="cityName" />
                     </div>
                     <div class="input-box">
                         <label class="Details">Pin Code /Zip Code </label>
-                        <input type="text" placeholder="Pincode / Zip Code" name="pincode" value="{{key12}}" formControlName="pincode" />
+                        <input type="text" placeholder="Pincode / Zip Code" name="pincode" [ngModel]="key12" formControlName="pincode" />
                     </div>
                 </div>
                 
@@ -190,25 +168,17 @@
                 <div class="user-details">
                     <div class="input-box">
                         <label class="Details"> Project Location</label>
-                        <input type="text" placeholder="Project Location" value="{{key13}}" name="projectLocation"
+                        <input type="text" placeholder="Project Location" [ngModel]="key13" name="projectLocation"
                             formControlName="projectLocation" />
                     </div>
                     <div class="input-box">
                         <label class="Details"> Perdiem Amount Per day</label>
-                        <input type="text" placeholder="Perdiem Amount Per day" value="{{key14}}" name="perdiemAmountPerday"
+                        <input type="text" placeholder="Perdiem Amount Per day" [ngModel]="key14" name="perdiemAmountPerday"
                             formControlName="perdiemAmountPerday" />
                     </div>
                     <div class="input-box">
                         <label class="details">Perdiem Currency</label>
-                        <select name="projectCurrency" formControlName="perdiemCurrency2" value="{{key15}}" placeholder="perdiemCurrency2">
-                            <option value=""></option>
-                            <option value="">INR</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""> </option>
-                            <option value=""></option>
-
-                        </select>
+                        <input  name="projectCurrency" formControlName="perdiemCurrency2" [ngModel]="key15" placeholder="perdiemCurrency2" />
                     </div>
 
                 </div>
@@ -268,24 +238,16 @@
                     </div>
                     <div class="input-box">
                         <label class="details">Salary Currency</label>
-                        <select name="salaryCurrancy" formControlName="salaryCurrancy" placeholder="salary Currancy">
-                            <option value=""></option>
-                            <option value="">INR</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""> </option>
-                            <option value=""></option>
-
-                        </select>
+                        <input name="salaryCurrancy" formControlName="salaryCurrancy" placeholder="salary Currancy" />
                     </div>
 
                     <div class="input-box">
-                        <label class="Details"> Rate</label>
+                        <label class="Details">Salary Rate</label>
                         <input type="text" placeholder="Rate" name="salaryRate"
                             formControlName="salaryRate" />
                     </div>
                     <div class="input-box">
-                        <label class="Details"> Converted Ammount</label>
+                        <label class="Details">Salary Converted Ammount</label>
                         <input type="text" placeholder="Converted Ammount" name="salaryConvertedAmmount"
                             formControlName="salaryConvertedAmmount" />
                     </div>
@@ -298,24 +260,16 @@
                     </div>
                     <div class="input-box">
                         <label class="details">Perdiem Currency</label>
-                        <select name="projectCurrency" formControlName="perdiemCurrency" placeholder="perdiemCurrency">
-                            <option value=""></option>
-                            <option value="">INR</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""> </option>
-                            <option value=""></option>
-
-                        </select>
+                        <input name="projectCurrency" formControlName="perdiemCurrency" placeholder="perdiemCurrency" />
                     </div>
 
                     <div class="input-box">
-                        <label class="Details"> Rate</label>
+                        <label class="Details">Perdiem Rate</label>
                         <input type="text" placeholder="Rate" name="perdiemRate"
                             formControlName="perdiemRate" />
                     </div>
                     <div class="input-box">
-                        <label class="Details"> Converted Ammount</label>
+                        <label class="Details"> Perdiem Converted Ammount</label>
                         <input type="text" placeholder="Converted Ammount" name="perdiemConvertedAmmount"
                             formControlName="perdiemConvertedAmmount" />
                     </div>
@@ -328,24 +282,16 @@
                     </div>
                     <div class="input-box">
                         <label class="details">Travel Currency</label>
-                        <select name="Travel Currency" formControlName="travelCurrency" placeholder="travelCurrency">
-                            <option value=""></option>
-                            <option value="">INR</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""> </option>
-                            <option value=""></option>
-
-                        </select>
+                        <input name="Travel Currency" formControlName="travelCurrency" placeholder="travelCurrency" />
                     </div>
 
                     <div class="input-box">
-                        <label class="Details"> Rate</label>
+                        <label class="Details">Travel Rate</label>
                         <input type="text" placeholder="Rate" name="travelRate"
                             formControlName="travelRate" />
                     </div>
                     <div class="input-box">
-                        <label class="Details"> Converted Ammount</label>
+                        <label class="Details">Travel Converted Ammount</label>
                         <input type="text" placeholder="Converted Ammount" name="travelConvertedAmmount"
                             formControlName="travelConvertedAmmount" />
                     </div>
@@ -359,24 +305,16 @@
                     </div>
                     <div class="input-box">
                         <label class="details">Others Currency</label>
-                        <select name="Others Currency" formControlName="othersCurrency" placeholder="OthersCurrency">
-                            <option value=""></option>
-                            <option value="">INR</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""> </option>
-                            <option value=""></option>
-
-                        </select>
+                        <input name="Others Currency" formControlName="othersCurrency" placeholder="OthersCurrency" />
                     </div>
 
                     <div class="input-box">
-                        <label class="Details"> Rate</label>
+                        <label class="Details">Others Rate</label>
                         <input type="text" placeholder="Rate" name="otherRate"
                             formControlName="otherRate" />
                     </div>
                     <div class="input-box">
-                        <label class="Details"> Converted Ammount</label>
+                        <label class="Details">Others Converted Ammount</label>
                         <input type="text" placeholder="Converted Ammount" name="otherConvertedAmmount"
                             formControlName="otherConvertedAmmount" />
                     </div>
