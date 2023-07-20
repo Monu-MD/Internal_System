@@ -20,7 +20,7 @@ var bodyParser = require('body-parser');
 
 var nodemailer = require('nodemailer');
 // var invalidAccessRedirect = require('../../routes/invalidAccess');
-
+  
 var mailId = "";
 var name = "";
 var emp = "";
