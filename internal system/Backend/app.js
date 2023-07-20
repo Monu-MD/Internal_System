@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 var app = express();
 
-
 app.use(bodyParser.json());
 const corsOption = {
   orgin: ['http://localhost:4000', 'http://localhost:4200']
@@ -54,4 +53,3 @@ app.use('/approverequest', apprver);
 app.use('/viewrequest', viewrequest);
 app.use('/reimbursement', reimbursement);
 app.use('/cms',cms);
-
