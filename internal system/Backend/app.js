@@ -24,7 +24,7 @@ var capture = require('./captureModule/capture');
 var login = require('./loginModule/login');
 var cocd = require('./cocdModule/cocd');
 var mssg = require('./message/message');
-var childproject = require('./projectModule/childproject');
+var project = require('./projectModule/project');
 var markDetails = require('./MarkModule/markDetails');
 var employeeDetails = require('./EMployeeModule/employeeDetails');
 var holiday=require('./HolidayModule/holiday');
@@ -32,14 +32,18 @@ var request = require('./RequestModule/request');
 var assetDeatails=require('./AseetModule/assetDetails');
 var apprver = require('./RequestModule/approveLeaves');
 var viewrequest = require('./RequestModule/ViewLev');
+
+var reimbursement=require('./reimbursementModule/initiateRem')
+
 var cms=require('./cmsModule/cms')
+
 
 
 app.use('/capture', capture);
 app.use('/', login);
 app.use('/cocd', cocd);
 app.use('/message', mssg);
-app.use('/projectModule/childproject', childproject);
+app.use('/projectdetails', project);
 app.use('/markDetails', markDetails);
 app.use('/employeeDetails', employeeDetails);
 app.use('/holiday',holiday);
@@ -47,7 +51,5 @@ app.use('/request', request);
 app.use('/assetDetails',assetDeatails);
 app.use('/approverequest', apprver);
 app.use('/viewrequest', viewrequest);
+app.use('/reimbursement', reimbursement);
 app.use('/cms',cms);
-
-
-

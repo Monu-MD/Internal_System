@@ -28,7 +28,7 @@ export class EmpProfessionalDetailsComponent {
     this.emp_data=user[4]
     const data = this.loginSerivce.getData();
     this.cocd = data[10];
-    console.log(this.cocd);
+    console.log(this.cocd,"cheling5");
 
     this.comm_code_curr = this.cocd.comm_code_curr;
     this.comm_code_class = this.cocd.comm_code_class;

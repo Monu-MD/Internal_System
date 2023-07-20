@@ -75,7 +75,6 @@ import { InvoiceRaiseComponent } from './invoice-module/invoice-raise/invoice-ra
 import { InvoiceRegeneratechooseComponent } from './invoice-module/invoice-regeneratechoose/invoice-regeneratechoose.component';
 import { ReportComponent } from './invoice-module/report/report.component';
 import { ChildProjectComponent } from './project-module/child-project/child-project.component';
-import { CustomerModViewComponent } from './project-module/customer-mod-view/customer-mod-view.component';
 import { CustomerModificationComponent } from './project-module/customer-modification/customer-modification.component';
 import { CustomerViewComponent } from './project-module/customer-view/customer-view.component';
 import { CustomercreationComponent } from './project-module/customercreation/customercreation.component';
@@ -104,7 +103,8 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { CancelLeaveComponent } from './request-module/cancel-leave/cancel-leave.component';
 import { ViewDocumentsComponent } from './cms-module/view-documents/view-documents.component';
 import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
-import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';    
+import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';   
+import{ProjectDocumentComponent}from './project-module/project-document/project-document.component' 
 const routes: Routes = [
 
   { path: 'admindashboard', component: AdminDashboardComponent },
@@ -161,13 +161,13 @@ const routes: Routes = [
 
   //project
   { path: 'childproject', component: ChildProjectComponent },
-  { path: 'CustomerModView', component: CustomerModViewComponent },
   { path: 'CustomerModification', component: CustomerModificationComponent },
   { path: 'CustomerView', component: CustomerViewComponent },
   { path: 'Customercreation', component: CustomercreationComponent },
   { path: 'ProjDealloc', component: ProjDeallocComponent },
   { path: 'ProjectAllocation', component: ProjectAllocationComponent },
   { path: 'ProjectDetial', component: ProjectDetialComponent },
+  {path:'ProjectDoc',component:ProjectDocumentComponent},
 
   //jadhav
   { path: 'message', component: MessageComponent },
@@ -240,12 +240,21 @@ const routes: Routes = [
   { path: 'AddNonItAssetDetails', component: AddNonItAssetDetailsComponent },
   { path: 'ModifyNonItAssetDetails', component: ModifyNonItAssetDetailsComponent },
   { path: 'ViewNonItAssetDetails', component: ViewNonItAssetDetailsComponent },
-  { path: 'ViewNonItAssetDetail', component: ViewNonItAssetDetailComponent }
+  { path: 'ViewNonItAssetDetail', component: ViewNonItAssetDetailComponent },
 
 
 
-
-
+  {path:'ITAssetAllocation',component:ITAssetAllocationComponent},
+  {path:'ModifyItAllocationDetails',component:ModifyItAllocationDetailsComponent},
+  {path:'ViewItAllocationDetails',component:ViewItAllocationDetailsComponent},
+  {path:'ViewItAllocationDetail',component:ViewItAllocationDeatilComponent},
+  
+  {path:'AddNonItAssetDetails',component:AddNonItAssetDetailsComponent},
+  {path:'ModifyNonItAssetDetails',component:ModifyNonItAssetDetailsComponent},
+  {path:'ViewNonItAssetDetails',component:ViewNonItAssetDetailsComponent},
+  {path:'ViewNonItAssetDetail',component: ViewNonItAssetDetailComponent}
+ 
+  
 
 
 

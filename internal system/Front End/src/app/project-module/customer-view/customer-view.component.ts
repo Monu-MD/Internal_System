@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ProjectserviceService } from 'src/app/services/projectservice.service';
 
 @Component({
   selector: 'app-customer-view',
@@ -6,19 +9,35 @@ import { Component } from '@angular/core';
   styleUrls: ['./customer-view.component.css']
 })
 export class CustomerViewComponent {
-  customerName='Yash';
-  customerID=1234;
-  clientAddressLine1='abc';
-  clientAddressLine2='efg';
-  countryName='India'
-  cityName='Banglore'
-  clientName1='1'
-  clientEmialId1='1@id'
-  clinetContactNumber1=1233
-  clientName2='yashu p'
-  clientEmialId2='po@gmail.com'
-  clinetContactNumber2=3454
-  GSTNumber='lksdkf334'
-  PANNumber='3423432'
-  remarks='very bad'
+couterViewData: any;
+//   customerName: any;
+// customerID: any;
+// clientAddressLine1: any;
+// clientAddressLine2: any;
+// countryName: any;
+// cityName: any;
+// clientName1: any;
+// clientEmialId1: any;
+// clientContactNumber1: any;
+// clientName2: any;
+// clientEmialId2: any;
+// clientContactNumber2: any;
+// GSTNumber: any;
+// PANNumber: any;
+// remarks: any;
+
+
+constructor(
+  private http: HttpClient,
+    private router: Router,
+    private projectservice: ProjectserviceService
+){
+  const data=this.projectservice.getData();
+  this.couterViewData=data[0];
+}
+
+Close(){
+  this.router.navigate(['/Customercreation'])
+}
+
 }
