@@ -141,7 +141,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { MatSnackBarModule } from '@angular/material/snack-bar';// Import MatSnackBarModule
 import { ViewDocumentsComponent } from './cms-module/view-documents/view-documents.component';
 import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
-import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';  
+import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';
+
+import { ProjectDocumentComponent } from './project-module/project-document/project-document.component';  
 
 
 
@@ -284,6 +286,7 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
       ViewDocumentsComponent,
       ViewMagzineComponent,
       ViewPolicyComponent,
+      ProjectDocumentComponent,
  
 
 

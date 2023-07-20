@@ -103,7 +103,8 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { CancelLeaveComponent } from './request-module/cancel-leave/cancel-leave.component';
 import { ViewDocumentsComponent } from './cms-module/view-documents/view-documents.component';
 import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
-import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';    
+import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';   
+import{ProjectDocumentComponent}from './project-module/project-document/project-document.component' 
 const routes: Routes = [
 
   { path: 'admindashboard', component: AdminDashboardComponent },
@@ -166,6 +167,7 @@ const routes: Routes = [
   { path: 'ProjDealloc', component: ProjDeallocComponent },
   { path: 'ProjectAllocation', component: ProjectAllocationComponent },
   { path: 'ProjectDetial', component: ProjectDetialComponent },
+  {path:'ProjectDoc',component:ProjectDocumentComponent},
 
   //jadhav
   { path: 'message', component: MessageComponent },

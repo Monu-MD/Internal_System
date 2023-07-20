@@ -1578,50 +1578,50 @@ function ModcustDetails(req, res) {
 
 	pool.query("select customer_name,customer_id,customer_addr1,customer_country,customer_city,client_name1,client_email1,client_contact1,client_name2,client_email2,client_contact2,remarks,gstno,pannum,customer_addr2 from customer_master_tbl where del_flg='N' and customer_id=$1", [cid], function (err, resultset) {
 		console.log(resultset.rows);
-		var rowCount=resultset.rowCount;
-		if (rowCount>0) {
+		var rowCount = resultset.rowCount;
+		if (rowCount > 0) {
 			if (err) throw err;
-		var customer_name = resultset.rows['0'].customer_name;
-		console.log(resultset.rows);
-		var customer_id = resultset.rows['0'].customer_id;
-		var customer_addr1 = resultset.rows['0'].customer_addr1;
-		var customer_country = resultset.rows['0'].customer_country;
-		var customer_city = resultset.rows['0'].customer_city;
-		var client_name1 = resultset.rows['0'].client_name1;
-		var client_email1 = resultset.rows['0'].client_email1;
-		var client_contact1 = resultset.rows['0'].client_contact1;
-		var client_name2 = resultset.rows['0'].client_name2;
-		var client_email2 = resultset.rows['0'].client_email2;
-		var client_contact2 = resultset.rows['0'].client_contact2;
-		var remarks = resultset.rows['0'].remarks;
-		var gstno = resultset.rows['0'].gstno;
-		var pannum = resultset.rows['0'].pannum;
-		var customer_addr2 = resultset.rows['0'].customer_addr2;
+			var customer_name = resultset.rows['0'].customer_name;
+			console.log(resultset.rows);
+			var customer_id = resultset.rows['0'].customer_id;
+			var customer_addr1 = resultset.rows['0'].customer_addr1;
+			var customer_country = resultset.rows['0'].customer_country;
+			var customer_city = resultset.rows['0'].customer_city;
+			var client_name1 = resultset.rows['0'].client_name1;
+			var client_email1 = resultset.rows['0'].client_email1;
+			var client_contact1 = resultset.rows['0'].client_contact1;
+			var client_name2 = resultset.rows['0'].client_name2;
+			var client_email2 = resultset.rows['0'].client_email2;
+			var client_contact2 = resultset.rows['0'].client_contact2;
+			var remarks = resultset.rows['0'].remarks;
+			var gstno = resultset.rows['0'].gstno;
+			var pannum = resultset.rows['0'].pannum;
+			var customer_addr2 = resultset.rows['0'].customer_addr2;
 
-		res.json({
-			modadta: {
-				customer_name: customer_name,
-				customer_id: customer_id,
-				customer_addr1: customer_addr1,
-				customer_country: customer_country,
-				customer_city: customer_city,
-				client_name1: client_name1,
-				client_email1: client_email1,
-				client_contact1: client_contact1,
-				client_name2: client_name2,
-				client_email2: client_email2,
-				client_contact2: client_contact2,
-				remarks: remarks,
-				gstno: gstno,
-				pannum: pannum,
-				customer_addr2: customer_addr2
+			res.json({
+				modadta: {
+					customer_name: customer_name,
+					customer_id: customer_id,
+					customer_addr1: customer_addr1,
+					customer_country: customer_country,
+					customer_city: customer_city,
+					client_name1: client_name1,
+					client_email1: client_email1,
+					client_contact1: client_contact1,
+					client_name2: client_name2,
+					client_email2: client_email2,
+					client_contact2: client_contact2,
+					remarks: remarks,
+					gstno: gstno,
+					pannum: pannum,
+					customer_addr2: customer_addr2
 
-			}
-		});
+				}
+			});
 		} else {
-			res.json({notification:"Coustoer ID Does Not Exist"})
+			res.json({ notification: "Coustoer ID Does Not Exist" })
 		}
-		
+
 	});
 };
 
@@ -1730,5 +1730,105 @@ function customermod(req, res) {
 		});
 	});
 }
+
+/////////////////////////////////////////////////////// Coustomer Modification Done //////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////// Project Document Uplaod Start //////////////////////////////////////////////////////////////
+
+
+const formidable = require('formidable');
+const moment = require('moment');
+router.post('/projectDoc', projectDocUpl);
+
+function projectDocUpl(req, res) {
+    // var eid = req.user.rows[0].user_id;
+    doc = "";
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+        if (err) {
+            return res.status(500).json({ error: "Something went wrong!" });
+        }
+
+        var projId = fields["projectId"];
+        var docType = fields["docType"];
+        var projectTag = fields["projectTag"];
+
+        // Check if projectTag is defined and not empty before replacing spaces
+        if (projectTag && projectTag.trim() !== "") {
+            projectTag = projectTag.replace(/ /g, '_').toUpperCase();
+        } else {
+            return res.status(400).json({ error: "Invalid projectTag" });
+        }
+
+        var d = new Date();
+        var n = moment(d).format('YYYYMMDD:hhmmss:a');
+        n = n.replace(/:/g, '_').toUpperCase();
+
+        if (docType == "1") {
+            doc = "SOW_" + projectTag + "_" + n;
+        } else if (docType == "2") {
+            doc = "PO_" + projectTag + "_" + n;
+        } else if (docType == "3") {
+            doc = "MileStone_" + projectTag + "_" + n;
+        } else if (docType == "4") {
+            doc = "Closure_" + projectTag + "_" + n;
+        } else if (docType == "5") {
+            doc = "FeedBack_" + projectTag + "_" + n;
+        } else if (docType == "6") {
+            doc = "Attendance_" + projectTag + "_" + n;
+        } else {
+            return res.status(400).json({ error: "Invalid docType" });
+        }
+
+        var dir2 = './data/CMS/project/projDocs/' + projId + "/";
+        fs.mkdirSync(dir2, { recursive: true }); // Create the directory and any parent directories if they don't exist
+
+        var newName = projId + "_" + doc + ".pdf";
+        var newPath = dir2 + newName;
+        console.log(newPath);
+
+        fs.rename(oldPath, newPath, function (err) {
+            if (err) {
+                return res.status(500).json({ error: "File rename failed" });
+            }
+
+            if (docType == "1") {
+                pool.query("update project_master_tbl set sow_upld='Y' where project_id=$1", [projId], function (err, done) {
+                    if (err) {
+                        return res.status(500).json({ error: "Database update failed" });
+                    }
+                });
+            }
+
+            res.json({ message: 'redirect to reffer', notification: "Document Uploaded Successfully" });
+        });
+    });
+
+    var oldName = "doc.pdf";
+    var dirOld = './data/CMS/project/temp/';
+    if (!fs.existsSync(dirOld)) {
+        fs.mkdirSync(dirOld);
+    }
+    console.log(oldPath);
+
+    var storage = multer.diskStorage({
+        destination: function (req, file, callback) {
+            console.log(file);
+            callback(null, dirOld);
+        },
+        filename: function (req, file, callback) {
+            callback(null, oldName);
+        }
+    });
+
+    var upload = multer({ storage: storage }).single('uploadDoc');
+    upload(req, res, function (err) {
+        if (err) {
+            return res.status(500).json({ error: "File upload failed" });
+        }
+    });
+}
+
+
 
 module.exports = router;
