@@ -143,8 +143,6 @@ const comparePasswordpwd = function (candidatePassword, hash, callback) {
         callback(null, isMatch);
         // console.log("pwd checking3")
         //  console.log(isMatch);
-
-
     });
 }
 const comparePassword = function (candidatePassword, hash, callback) {

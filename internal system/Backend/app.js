@@ -7,6 +7,15 @@ const cors = require('cors');
 var app = express();
 
 
+// Add these lines for handling CORS
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4000/cms/cmsUploadPostEmployee'); // Replace with your frontend URL
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
+
 app.use(bodyParser.json());
 const corsOption = {
   orgin: ['http://localhost:4000', 'http://localhost:4200']
@@ -49,3 +58,6 @@ app.use('/assetDetails',assetDeatails);
 app.use('/approverequest', apprver);
 app.use('/viewrequest', viewrequest);
 app.use('/cms',cms);
+
+
+
