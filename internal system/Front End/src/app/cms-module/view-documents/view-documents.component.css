@@ -1,0 +1,18 @@
+.container {
+    margin-bottom: 239px;
+    max-width: 824px;
+}
+
+a {
+    color: #0c0b0b;
+}
+
+.fa-envelope:before {
+    content: "\f0e0";
+    margin-left: 42px;
+}
+
+.fa-download:before {
+    content: "\f019";
+    margin-left: 20px;
+}

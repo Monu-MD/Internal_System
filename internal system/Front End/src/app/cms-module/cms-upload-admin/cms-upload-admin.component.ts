@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import{FormGroup,ReactiveFormsModule,FormControl,FormControlDirective,Validators} from '@angular/forms';
+import{FormGroup,ReactiveFormsModule,FormControl,FormControlDirective,Validators, FormBuilder} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { LoginServiceService } from 'src/app/services/login-service.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-cms-upload-admin',
@@ -9,50 +11,54 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CmsUploadAdminComponent {
 
-  constructor(private http: HttpClient,
-    ) { }
+uploadForm: FormGroup;
 
-  cms_Admin_Upload_Documents =new FormGroup<any>({
-    user_id:new FormControl(''),
-    documentCategeory:new FormControl(''),
-    documentDescriptionCompanyName:new FormControl(''),
-    documenType:new FormControl(''),
-    documentDescription:new FormControl(''),
-    UploadDocuments:new FormControl('')
- 
-  })
-
-  postData(item: any) {
-    const postData = {
-      user_id:item.user_id,
-      documentCategeory: item.documentCategeory,
-      documentDescriptionCompanyName: item.documentDescriptionCompanyName,
-      documenType: item.documenType,
-      documentDescription:item.documentDescription,
-      UploadDocuments: item.UploadDocuments
-    };
-
-  this.http.post('http://localhost:4000/cms/cmsUploadPostEmployee', postData)
-  .subscribe(
-    (response: any) => {
-
-
-      console.log('Data posted successfully:', response);
-      // location.reload();
-
-    },
-    (error: any) => {
-      console.error('Error:', error);
-    }
-  );
+constructor(private http: HttpClient, private formBuilder: FormBuilder) {
+  this.uploadForm = this.formBuilder.group({
+    user_id: ['', Validators.required],
+    user_type: ['', Validators.required],
+    docCat: ['', Validators.required],
+    docType: [''],
+    CompanyName: [''],
+    documentDescription: [''],
+    uploadDoc: [null, Validators.required]
+  });
 }
 
-onSubmit(item:any){
-  console.log(item);
-  this.postData(item);
+onSubmit(): void {
+  if (this.uploadForm.valid) {
+    const formData = new FormData();
+    formData.append('user_id', this.uploadForm.get('user_id')?.value);
+    formData.append('user_type', this.uploadForm.get('user_type')?.value);
+    formData.append('docCat', this.uploadForm.get('docCat')?.value);
+    formData.append('docType', this.uploadForm.get('docType')?.value);
+    formData.append('CompanyName', this.uploadForm.get('CompanyName')?.value);
+    formData.append('documentDescription', this.uploadForm.get('documentDescription')?.value);
+    formData.append('uploadDoc', this.uploadForm.get('uploadDoc')?.value);
+
+    // Send the form data to the backend
+    this.http.post('http://localhost:4000/cms/cmsUploadPostEmployee', formData)
+      .subscribe(
+        (response: any) => {
+          console.log('Document uploaded successfully:', response);
+          // Handle the success response here if needed
+        },
+        (error: any) => {
+          console.error('Error uploading document:', error);
+          // Handle the error response here if needed
+        }
+      );
+  }
 }
 
- get() {
-   return this.onSubmit;
- }
+onFileChange(event: Event): void {
+  const inputElement = event.target as HTMLInputElement;
+  if (inputElement.files && inputElement.files[0]) {
+    this.uploadForm.patchValue({
+      uploadDoc: inputElement.files[0]
+    });
+    this.uploadForm.get('uploadDoc')?.updateValueAndValidity();
+  }
+}
+
 }

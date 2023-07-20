@@ -283,10 +283,6 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
       ViewDocumentsComponent,
       ViewMagzineComponent,
       ViewPolicyComponent,
- 
-
-
-
 
   ],
   imports: [

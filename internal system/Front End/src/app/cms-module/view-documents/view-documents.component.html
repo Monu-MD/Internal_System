@@ -1,1 +1,135 @@
-<p>view-documents works!</p>
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<div class="container">
+  <hr />
+  <h4 class="title">View Documents <i class="fa fa-file" aria-hidden="true"></i></h4>
+  <hr />
+
+  <ng-container *ngIf="employeeData">
+    <div class="row">
+      <div class="col-sm-6"
+        *ngIf="employeeData.govLen != 0 || employeeData.eduLen != 0 || employeeData.medLen != 0 || employeeData.expLen != 1 || employeeData.phLen != 0">
+
+        <ng-container *ngIf="employeeData.govLen != 0">
+          <label style="color:#404040;"><u>Government Documents</u></label>
+          <ol>
+            <li *ngFor="let doc of employeeData.govDocs">
+              <span>
+                <a [href]="'/cmsModule/cms/cmsViewFilesEmployee?id=' + doc + '&empId=' + employeeData.eid"
+                  target="_blank">{{ doc }}</a>
+                <a [href]="'/cmsModule/cms/cmsMailDoc?id=' + doc  + employeeData.eid" title="Send Mail">hi<i
+                    class="fa fa-envelope" aria-hidden="true"></i></a>
+                <!-- Add the downloadFile function call for downloading the file -->
+                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File"><i class="fa fa-download"
+                    aria-hidden="true"></i></a>
+              </span>
+            </li>
+          </ol>
+          <br />
+        </ng-container>
+
+        <!-- Similar sections for other types of documents (educational, medical, experience, photo) -->
+
+      </div>
+
+      <div class="col-sm-6"
+        *ngIf="employeeData.resLen != 0 || employeeData.othrLen != 0 || employeeData.hrLen != 0 || employeeData.cerLen != 0 || employeeData.bgLen != 0">
+        <!-- Sections for displaying other types of documents (resume, certificates, other documents, background verification, HR upload) -->
+      </div>
+    </div>
+
+    <div class="col-sm-6"
+      *ngIf="employeeData.resLen != 0 || employeeData.othrLen != 0 || employeeData.hrLen != 0 || employeeData.cerLen != 0 || employeeData.bgLen != 0">
+
+      <ng-container *ngIf="employeeData.resLen != 0">
+        <label style="color:#404040;"><u>Resume</u></label>
+        <ol>
+          <li *ngFor="let doc of employeeData.resDocs">
+            <span style="width:100%; word-wrap:break-word; display:inline-block;">
+              <a [href]="'/cmsModule/cms/cmsViewFilesEmployee?id=' + doc + '&empId=' + employeeData.eid"
+                target="_blank">{{ doc }}</a>
+              <a [href]="'/cmsModule/cms/cmsMailDoc?id=' + doc + '&empId=' + employeeData.eid" title="Send Mail"><i
+                  class="fa fa-envelope" aria-hidden="true"></i></a>
+            </span>
+          </li>
+        </ol>
+        <br />
+      </ng-container>
+
+      <ng-container *ngIf="employeeData.cerLen != 0">
+        <label style="color:#404040;"><u>Certificates</u></label>
+        <ol>
+          <li *ngFor="let doc of employeeData.cerDocs">
+            <span style="width:100%; word-wrap:break-word; display:inline-block;">
+              <a [href]="'/cmsModule/cms/cmsViewFilesEmployee?id=' + doc + '&empId=' + employeeData.eid"
+                target="_blank">{{ doc }}</a>
+              <a [href]="'/cmsModule/cms/cmsMailDoc?id=' + doc + '&empId=' + employeeData.eid" title="Send Mail"><i
+                  class="fa fa-envelope" aria-hidden="true"></i></a>
+            </span>
+          </li>
+        </ol>
+        <br />
+      </ng-container>
+
+      <ng-container *ngIf="employeeData.othrLen != 0">
+        <label style="color:#404040;"><u>Other Documents</u></label>
+        <ol>
+          <li *ngFor="let doc of employeeData.othrDocs">
+            <span style="width:100%; word-wrap:break-word; display:inline-block;">
+              <a [href]="'/cmsModule/cms/cmsViewFilesEmployee?id=' + doc + '&empId=' + employeeData.eid"
+                target="_blank">{{ doc }}</a>
+              <a [href]="'/cmsModule/cms/cmsMailDoc?id=' + doc + '&empId=' + employeeData.eid" title="Send Mail"><i
+                  class="fa fa-envelope" aria-hidden="true"></i></a>
+            </span>
+          </li>
+        </ol>
+        <br />
+      </ng-container>
+
+      <ng-container *ngIf="employeeData.bgLen != 0">
+        <label style="color:#404040;"><u>Background Verification Document</u></label>
+        <ol>
+          <li *ngFor="let doc of employeeData.bgDocs">
+            <span style="width:100%; word-wrap:break-word; display:inline-block;">
+              <a [href]="'/cmsModule/cms/cmsViewFilesEmployee?id=' + doc + '&empId=' + employeeData.eid"
+                target="_blank">{{ doc }}</a>
+              <a [href]="'/cmsModule/cms/cmsMailDoc?id=' + doc + '&empId=' + employeeData.eid" title="Send Mail"><i
+                  class="fa fa-envelope" aria-hidden="true"></i></a>
+            </span>
+          </li>
+        </ol>
+        <br />
+      </ng-container>
+
+      <ng-container *ngIf="employeeData.hrLen != 0">
+        <label style="color:#404040;"><u>HR Upload Documents</u></label>
+        <ol>
+          <li *ngFor="let doc of employeeData.hrDocs">
+            <span style="width:100%; word-wrap:break-word; display:inline-block;">
+              <a [href]="'/cmsModule/cms/cmsViewFilesEmployee?id=' + doc + '&empId=' + employeeData.eid"
+                target="_blank">{{ doc }}</a>
+              <a [href]="'/cmsModule/cms/cmsMailDoc?id=' + doc + '&empId=' + employeeData.eid" title="Send Mail"><i
+                  class="fa fa-envelope" aria-hidden="true"></i></a>
+            </span>
+          </li>
+        </ol>
+        <br />
+      </ng-container>
+    </div>
+  </ng-container>
+
+
+
+
+
+
+  <ng-template #noRecords>
+    <label style="color:#404040;">No records found</label>
+    <br />
+  </ng-template>
+</div>
+
+
+<app-footer></app-footer>
