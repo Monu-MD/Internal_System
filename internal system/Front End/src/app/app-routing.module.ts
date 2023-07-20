@@ -83,8 +83,6 @@ import { ProjDeallocComponent } from './project-module/proj-dealloc/proj-dealloc
 import { ProjectAllocationComponent } from './project-module/project-allocation/project-allocation.component';
 import { ProjectDetialComponent } from './project-module/project-detial/project-detial.component';
 import { CmsUploadAdminComponent } from './cms-module/cms-upload-admin/cms-upload-admin.component';
-import { MagzineUploadAdminComponent } from './cms-module/magzine-upload-admin/magzine-upload-admin.component';
-import { PolicyUploadAdminComponent } from './cms-module/policy-upload-admin/policy-upload-admin.component';
 import { ApplyLeaveComponent } from './request-module/apply-leave/apply-leave.component';
 import { ApproveLeaveComponent } from './request-module/approve-leave/approve-leave.component';
 import { LeaveBalanceComponent } from './request-module/leave-balance/leave-balance.component';
@@ -103,8 +101,7 @@ import { ViewItAllocationDeatilComponent } from './asset-mangement-system-module
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component'
 import { CancelLeaveComponent } from './request-module/cancel-leave/cancel-leave.component';
 import { ViewDocumentsComponent } from './cms-module/view-documents/view-documents.component';
-import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
-import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';    
+
 const routes: Routes = [
 
   { path: 'admindashboard', component: AdminDashboardComponent },
@@ -201,11 +198,8 @@ const routes: Routes = [
 
   //cms
   { path: 'cmsUpload', component: CmsUploadAdminComponent },
-  { path: 'magzineUpld', component: MagzineUploadAdminComponent },
-  { path: 'policyupld', component: PolicyUploadAdminComponent },
   {path:'viewDocs',component: ViewDocumentsComponent},
-  {path:'viewMagz',component:ViewMagzineComponent},
-  {path:'viewPolcy',component:ViewPolicyComponent},
+
 
   //mahesh
   { path: 'cocd', component: CommonCodeDetailsComponent },

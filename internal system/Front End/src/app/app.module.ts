@@ -26,8 +26,6 @@ import { ProjectAllocationComponent } from './project-module/project-allocation/
 import { InitiateRemComponent } from './reimbusment-mdule/initiate-rem/initiate-rem.component';
 import { ReimburseApproveComponent } from './reimbusment-mdule/reimburse-approve/reimburse-approve.component';
 import { CmsUploadAdminComponent } from './cms-module/cms-upload-admin/cms-upload-admin.component';
-import { PolicyUploadAdminComponent } from './cms-module/policy-upload-admin/policy-upload-admin.component';
-import { MagzineUploadAdminComponent } from './cms-module/magzine-upload-admin/magzine-upload-admin.component';
 import { AddAppraisalComponent } from './appraisal-module/add-appraisal/add-appraisal.component';
 import { AppraisalComponent } from '../app/appraisal-module/appraisal/appraisal.component';
 import { RejectedAppraisalComponent } from './appraisal-module/rejected-appraisal/rejected-appraisal.component';
@@ -140,8 +138,6 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
 import { MatSnackBarModule } from '@angular/material/snack-bar';// Import MatSnackBarModule
 import { ViewDocumentsComponent } from './cms-module/view-documents/view-documents.component';
-import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
-import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';  
 
 
 
@@ -167,8 +163,6 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
     InitiateRemComponent,
     ReimburseApproveComponent,
     CmsUploadAdminComponent,
-    PolicyUploadAdminComponent,
-    MagzineUploadAdminComponent,
     AddAppraisalComponent,
     AppraisalComponent,
     RejectedAppraisalComponent,
@@ -281,8 +275,7 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
 
     AdminDashboardComponent,
       ViewDocumentsComponent,
-      ViewMagzineComponent,
-      ViewPolicyComponent,
+      
 
   ],
   imports: [
