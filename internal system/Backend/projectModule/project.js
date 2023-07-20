@@ -1736,99 +1736,108 @@ function customermod(req, res) {
 ////////////////////////////////////////////////////// Project Document Uplaod Start //////////////////////////////////////////////////////////////
 
 
+
 const formidable = require('formidable');
 const moment = require('moment');
+
+
 router.post('/projectDoc', projectDocUpl);
 
+
 function projectDocUpl(req, res) {
-    // var eid = req.user.rows[0].user_id;
-    doc = "";
-    var form = new formidable.IncomingForm();
-    form.parse(req, function (err, fields, files) {
-        if (err) {
-            return res.status(500).json({ error: "Something went wrong!" });
-        }
+	doc = "";
+	var form = new formidable.IncomingForm();
+	form.parse(req, function (err, fields, files) {
+		if (err) throw err
 
-        var projId = fields["projectId"];
-        var docType = fields["docType"];
-        var projectTag = fields["projectTag"];
+		var projId = JSON.stringify(form.fields.projectid);
+		console.log(form.fields);
+		console.log("checking", projId);
+		var docType = JSON.stringify(form.fields.DocType);
+		var projectTag = JSON.stringify(form.fields.Tag);
+		console.log("chking4", typeof (docType));
 
-        // Check if projectTag is defined and not empty before replacing spaces
-        if (projectTag && projectTag.trim() !== "") {
-            projectTag = projectTag.replace(/ /g, '_').toUpperCase();
-        } else {
-            return res.status(400).json({ error: "Invalid projectTag" });
-        }
 
-        var d = new Date();
-        var n = moment(d).format('YYYYMMDD:hhmmss:a');
-        n = n.replace(/:/g, '_').toUpperCase();
 
-        if (docType == "1") {
-            doc = "SOW_" + projectTag + "_" + n;
-        } else if (docType == "2") {
-            doc = "PO_" + projectTag + "_" + n;
-        } else if (docType == "3") {
-            doc = "MileStone_" + projectTag + "_" + n;
-        } else if (docType == "4") {
-            doc = "Closure_" + projectTag + "_" + n;
-        } else if (docType == "5") {
-            doc = "FeedBack_" + projectTag + "_" + n;
-        } else if (docType == "6") {
-            doc = "Attendance_" + projectTag + "_" + n;
-        } else {
-            return res.status(400).json({ error: "Invalid docType" });
-        }
+		projectTag = projectTag.replace(/ /g, '_').toUpperCase();
 
-        var dir2 = './data/CMS/project/projDocs/' + projId + "/";
-        fs.mkdirSync(dir2, { recursive: true }); // Create the directory and any parent directories if they don't exist
+		var d = new Date();
+		var n = moment(d).format('YYYYMMDD:hhmmss:a');
+		n = n.replace(/:/g, '_').toUpperCase();
 
-        var newName = projId + "_" + doc + ".pdf";
-        var newPath = dir2 + newName;
-        console.log(newPath);
+		var doc="";
+		if (docType == "1") {
+			doc = "SOW_" + projectTag + "_" + n;
+		}
+		if (docType == "2") {
+			doc = "PO_" + projectTag + "_" + n;
+		}
+		if (docType == "3") {
+			doc = "MileStone_" + projectTag + "_" + n;
+		}
+		if (docType == "4") {
+			doc = "Closure_" + projectTag + "_" + n;
+		}
+		if (docType == "5") {
+			doc = "FeedBack_" + projectTag + "_" + n;
+		}
+		if (docType == "6") {
+			doc = "Attendance_" + projectTag + "_" + n;
+		}
 
-        fs.rename(oldPath, newPath, function (err) {
-            if (err) {
-                return res.status(500).json({ error: "File rename failed" });
-            }
+		projId = projId.replace(/[\["\]]/g, '');
 
-            if (docType == "1") {
-                pool.query("update project_master_tbl set sow_upld='Y' where project_id=$1", [projId], function (err, done) {
-                    if (err) {
-                        return res.status(500).json({ error: "Database update failed" });
-                    }
-                });
-            }
+		var dir2 = './data/CMS/project/projDocs/' + projId + "/";
+		if (!fs.existsSync(dir2)) {
+			fs.mkdirSync(dir2);
+		}
+		var newName = projId + "_" + doc + ".pdf";
+		var newPath = dir2 + newName;
+		console.log(newPath);
 
-            res.json({ message: 'redirect to reffer', notification: "Document Uploaded Successfully" });
-        });
-    });
+		fs.rename(oldPath, newPath,
+			function (err) {
+				if (err) throw err;
+				docType = docType.replace(/[\["\]]/g, '');
+				console.log("check6", typeof (docType), docType);
+				if (docType == 1) {
+					console.log();
+					console.log(projId);
+					pool.query("update project_master_tbl set sow_upld='Y' where project_id=$1", [projId], function (err, done) {
+						if (err) {
+						}
+						res.json({ message: 'redirect to refer', notification: "Document Uploaded Successfully" });
+					});
+					// return res.status(500).json({ error: "Database update failed" });
+				}
 
-    var oldName = "doc.pdf";
-    var dirOld = './data/CMS/project/temp/';
-    if (!fs.existsSync(dirOld)) {
-        fs.mkdirSync(dirOld);
-    }
-    console.log(oldPath);
+			});
+	});
 
-    var storage = multer.diskStorage({
-        destination: function (req, file, callback) {
-            console.log(file);
-            callback(null, dirOld);
-        },
-        filename: function (req, file, callback) {
-            callback(null, oldName);
-        }
-    });
+	var oldName = "doc.pdf";
+	var dirOld = './data/CMS/project/temp/';
+	var oldPath = dirOld + oldName;
 
-    var upload = multer({ storage: storage }).single('uploadDoc');
-    upload(req, res, function (err) {
-        if (err) {
-            return res.status(500).json({ error: "File upload failed" });
-        }
-    });
+	if (!fs.existsSync(dirOld)) {
+		fs.mkdirSync(dirOld, { recursive: true });
+	}
+
+	var storage = multer.diskStorage({
+		destination: function (req, file, callback) {
+			callback(null, dirOld);
+		},
+		filename: function (req, file, callback) {
+			callback(null, oldName);
+		}
+	});
+
+	var upload = multer({ storage: storage }).single('uploadDoc');
+	upload(req, res, function (err) {
+		if (err) {
+			return res.status(500).json({ error: "File upload failed" });
+		}
+	});
 }
-
 
 
 module.exports = router;
