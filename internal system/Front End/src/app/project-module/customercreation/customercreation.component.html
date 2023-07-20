@@ -4,12 +4,25 @@
 <app-sidebar></app-sidebar>
 <div class="allighn">
     <div class="container">
-
+        <div *ngIf="notification!=null">
+            <div class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{notification}}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
         <h1 class="title">Customer Detail People</h1>
 
         <div class="content">
+           
             
             <form [formGroup]="coustomerDetail" class="#" (ngSubmit)="coustomer_Detail(coustomerDetail.value)">
+               
                 <div class="user-details">
                     <div class="input-box">
                         <label class="Details">Customer Name</label>

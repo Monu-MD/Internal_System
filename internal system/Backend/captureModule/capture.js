@@ -156,26 +156,7 @@ router.post('/registerEmpId', (req, res) => {
     });
 })
 
-// pool.query("SELECT * from emp_master_tbl where emp_id = $1", [empid], function (err, result) {
-//     main_count = result.rowCount;
-//     console.log("main_count", main_count);
 
-//     // if (main_count == 0) {
-
-// }
-// else {
-//     // req.flash('error', "You have Already been registered in Amber")
-//     // res.redirect('/captureModule/captureDetail/index');
-//     console.log("400 3rd returned");
-//     // return res.send('Condition is not met');
-//     const message = {
-//         message: "redirect to register ",
-//         notification: "You have Already been registered in Amber"
-//     }
-//     res.send(message);
-
-// }
-// });
 
 
 

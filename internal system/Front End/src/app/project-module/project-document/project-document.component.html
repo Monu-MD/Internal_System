@@ -1,0 +1,58 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div class="allighn">
+    <div class="container">
+
+        <h1 class="title">Upload Project Documents</h1>
+        <div class="content">
+            <!-- <div class="alert" *ngIf="notification">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{notification}}
+              </div> -->
+            <form [formGroup]="project_Doc" class="#" (ngSubmit)="onSubmit()">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details"> Project Id </label>
+
+                        <input type="text" placeholder="Enter your project Id" name="projectid"
+                            formControlName="projectid" />
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details"> Project Tag</label>
+                        <input type="text" placeholder="Enter your project Tag" name="Tag" formControlName="Tag">
+
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details">Document type </label>
+                        <select placeholder="Enter your project type" name="DocType" formControlName="DocType">
+                            <option value="">Select the Document Type</option>
+                            <option value="1">Signed SOW</option>
+                            <option value="2">Purchase Order</option>
+                            <option value="3">Milestone Sign off Documents</option>
+                            <option value="4">Project Closure document</option>
+                            <option value="5">Customer Feedback Form</option>
+                            <option value="6">Signed Attendance sheet</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+
+                        <label class="Details">Upload Document</label>
+                        <input type="file" id="uploadDoc" name="uploadDoc" class="form-control" (change)="onFileChange($event)"  accept=".pdf">
+                    </div>
+                    <div>
+                        <button class="button">Submit</button>
+                        <button class="button" type="reset">Clear</button>
+                    </div>
+
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

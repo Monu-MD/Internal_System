@@ -18,7 +18,6 @@ import { ChildProjectComponent } from '../app/project-module/child-project/child
 import { ApiserviceService } from './apiservice.service';
 import { CustomercreationComponent } from './project-module/customercreation/customercreation.component';
 import { CustomerModificationComponent } from './project-module/customer-modification/customer-modification.component';
-import { CustomerModViewComponent } from './project-module/customer-mod-view/customer-mod-view.component';
 import { CustomerViewComponent } from './project-module/customer-view/customer-view.component';
 import { ProjectDetialComponent } from './project-module/project-detial/project-detial.component';
 import { ProjDeallocComponent } from './project-module/proj-dealloc/proj-dealloc.component';
@@ -136,12 +135,16 @@ import { EmployeeDetailsComponent } from './employee-module/employee-details/emp
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
+
+
 import { MatSnackBarModule } from '@angular/material/snack-bar';// Import MatSnackBarModule
 import { ViewDocumentsComponent } from './cms-module/view-documents/view-documents.component';
 import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
-import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';  
+import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';
+
+import { ProjectDocumentComponent } from './project-module/project-document/project-document.component';  
+
 
 
 
@@ -159,7 +162,7 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
     ChildProjectComponent,
     CustomercreationComponent,
     CustomerModificationComponent,
-    CustomerModViewComponent,
+    // CustomerModViewComponent,
     CustomerViewComponent,
     ProjectDetialComponent,
     ProjDeallocComponent,
@@ -196,8 +199,8 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
     ViewNonItAssetDetailsComponent,
     ViewItAllocationDetailsComponent,
     ViewItAssetDetailComponent,
-    ViewNonItAssetDetailComponent,
     ViewItAllocationDeatilComponent,
+    ViewNonItAssetDetailComponent,
 
 
     CommonCodeDetailsComponent,
@@ -283,6 +286,7 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
       ViewDocumentsComponent,
       ViewMagzineComponent,
       ViewPolicyComponent,
+      ProjectDocumentComponent,
  
 
 
@@ -296,8 +300,7 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule, // Add BrowserAnimationsModule
-    MatSnackBarModule // Add MatSnackBarModule
-    
+   
   ],
   
   providers: [ApiserviceService],

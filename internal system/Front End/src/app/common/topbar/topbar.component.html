@@ -36,16 +36,16 @@
     <!-- project -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'pjt'">
-            <ul>
+            <ul *ngIf="user_type=='A1'">
                 <li><a href="" routerLink="/childproject">Child Project </a></li>
-                <li><a href="" routerLink="/CustomerModView">CustomerMod View</a></li>
                 <li><a href="" routerLink="/CustomerModification">Customer Modification</a></li>
-                <li><a href="" routerLink="/CustomerView">Customer View</a></li>
                 <li><a href="" routerLink="/Customercreation">Customer creation</a></li>
-                <li><a href="" routerLink="/ProjDealloc">Proj Dealloc</a></li>
-                <li><a href="" routerLink="/ProjectAllocation">Project Allocation</a></li>
-                <li><a href="" routerLink="/ProjectDetial">Project Detial</a></li>
+                <li><a (click)="fetchaddPjtDeAlldetails()">Proj Dealloc</a></li>
+                <li><a  (click)="fetchaddPjtAlldetails()" >Project Allocation</a></li>
+                <li><a (click)="fetchaddProjectdetails()">Add Project Detial</a></li>
+                <li><a  routerLink="/ProjectDoc">Add Project Docment</a></li>
 
+                <!-- routerLink="/ProjectDetial" -->
             </ul>
         </div>
     </nav>
@@ -88,7 +88,7 @@
                     <ul>
                         <li><a href="" routerLink="/modifyprofessional">Modify Professional details</a></li>
                         <li><a href="" routerLink="/searchmodify">Search Employee</a></li>
-                        <li><a href="" routerLink="/empProfessional">Add Profile</a></li>
+                        <li><a (click)="addProfile()">Add Profile</a></li>
                     </ul>
                 </div>
             </div>
@@ -126,7 +126,17 @@
                         <li><a href="" routerLink="/levSum">Leave Application FAQ's</a></li>
                     </ul>
                 </div>
-              
+                <div *ngSwitchCase="'L3'" >
+                    <ul>
+                        <li><a href="" routerLink="/approveLev">Approve Leave</a></li>
+                        <li><a href="" routerLink="/applyLev">Apply Leave</a></li>
+                        <li><a href="" routerLink="/levBal">Leave Balance </a></li>
+                        <li><a href="" routerLink="/viewHol">View Holidays</a></li>
+                        <li><a href="" routerLink="/viewLev">View Leave</a></li>
+                        <li><a href="" routerLink="/viewLevCancel">Cancel Leave</a></li>
+                        <li><a href="" routerLink="/levSum">Leave Application FAQ's</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>

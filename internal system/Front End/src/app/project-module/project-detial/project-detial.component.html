@@ -1,4 +1,3 @@
-
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
@@ -7,78 +6,79 @@
 
         <h1 class="title">Select Parent Project Id</h1>
         <div class="content">
-            <div></div>
+            <div class="alert" *ngIf="notification">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{notification}}
+              </div>
             <form [formGroup]="project_Detail" class="#" (ngSubmit)="projectDetail(project_Detail.value)">
                 <div class="user-details">
                     <div class="input-box">
                         <label class="Details"> Project Id </label>
-                        <input type="text" placeholder="Enter your project Id" name="Projectid" formControlName="Projectid" />
+                        <input type="text" placeholder="Enter your project Id" name="Projectid"
+                            formControlName="Projectid" />
                     </div>
+
                     <div class="input-box">
                         <label class="Details"> Customer Id </label>
-                        <input type="text" placeholder="Enter Customer Id" name="customerId" formControlName="customerId" />
+                        <select name="customerId" formControlName="customerId">
+                            <option *ngFor="let data of cocdcust" [value]="data.customer_id">{{
+                                data.customer_name }}</option>
+                        </select>
                     </div>
+
                     <div class="input-box">
                         <label class="Details"> Delivery Manager</label>
-                        <input type="text" placeholder="Enter Delivery Manager Name" name="deliveryManager"
-                            formControlName="deliveryManager" />
+                        <select name="deliveryManager" formControlName="deliveryManager">
+                            <option *ngFor="let data of cocddelname" [value]="data.emp_id">{{
+                                data.emp_name }}</option>
+                        </select>
                     </div>
                     <div class="input-box">
                         <label class="details">Payment Type</label>
                         <select name="paymentType" formControlName="paymentType" placeholder="Payment Type">
-                            <option value=""></option>
-                            <option value="neft">NEFT</option>
-                            <option value="rtgs">RTGS</option>
-                            <option value="cash">Cash</option>
-                            <option value="cheque">Cheque</option>
-                            <option value="DD">DD</option>
+                            <option *ngFor="let data of cocdpmty" [value]="data.comm_code_id">{{
+                                data.comm_code_desc }}</option>
+
 
                         </select>
                     </div>
                     <div class="input-box">
-                        <label class="Details"> Customer Class</label>
-                        <input type="text" placeholder="Enter Customer Class" name="customerClass"
-                            formControlName="customerClass" />
+                        <label class="details">Customer Class</label>
+                        <select name="customerClass" formControlName="customerClass" placeholder="Enter Customer Class">
+                            <option *ngFor="let data of cocodcustclass" [value]="data.comm_code_id">{{
+                                data.comm_code_desc }}</option>
+
+
+                        </select>
                     </div>
+
                     <div class="input-box">
                         <label class="details">Project Team Size</label>
-                        <select name="projectTeamSize" formControlName="projectTeamSize" placeholder="projectTeamSize">
-                            <option value=""></option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-
-                        </select>
+                        <input type="text" name="projectTeamSize" formControlName="projectTeamSize"
+                            placeholder="projectTeamSize" />
                     </div>
                     <div class="input-box">
                         <label class="details">Project Manager</label>
-                        <select name="projectManager" formControlName="projectManager" placeholder="projectTeamSize">
-                            <option value=""></option>
-                            <option value="">M D</option>
-                            <option value="">Mahesh</option>
-                            <option value="">Abhishek</option>
-                            <option value="">Yashewant P Jadhav</option>
-                            <option value="">Pojo</option>
-
-                        </select>
+                       
+                            <select name="projectManager" formControlName="projectManager">
+                                <option *ngFor="let data of cocdProjMgr" [value]="data.emp_id">{{
+                                    data.emp_name }}</option>
+                            </select>
                     </div>
                     <div class="input-box">
                         <label class="Details"> Project Type</label>
-                        <input type="text" placeholder="Enter Project Type" name="projectType"
-                            formControlName="projectType" />
+                        <select placeholder="Enter Project Type" name="projectType" formControlName="projectType">
+                            <option *ngFor="let data of cocdpty" [value]="data.comm_code_id">{{
+                                data.comm_code_desc }}</option>
+                        </select>
+
                     </div>
                     <div class="input-box">
                         <label class="details">Project Currency</label>
                         <select name="projectCurrency" formControlName="projectCurrency" placeholder="project Currency">
-                            <option value=""></option>
-                            <option value="">INR</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""> </option>
-                            <option value=""></option>
-
+                          
+                            <option *ngFor="let data of cocodpcr" [value]="data.comm_code_id">{{
+                                data.comm_code_id }}</option>
                         </select>
                     </div>
                     <div class="input-box">
@@ -103,12 +103,12 @@
                         <input type="text" placeholder="remarks" name="remarks" formControlName="remarks" />
                     </div>
                     <div>
-                        <button class="button" >Submit</button>
+                        <button class="button">Submit</button>
                         <button class="button" type="reset">Clear</button>
                     </div>
-                    
+
                 </div>
-                
+
 
             </form>
         </div>

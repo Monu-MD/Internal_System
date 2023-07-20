@@ -22,71 +22,97 @@ router.get('/employeeDetails', function (req, res) {
 
 	var empId = req.query.user_id;
 
-	pool.query("SELECT user_type from users where user_id = $1", [empId], function (err, result) {
-
-		emp_access = result.rows['0'].user_type;
-
-		if (emp_access != "A1") {
-			res.json({ message: "redirect to admin dashboard" });
+	pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'BLG' ORDER BY comm_code_id ASC", (err, result) => {
+		if (err) {
+			reject(err);
+			return;
 		}
-		else {
+		const comm_code_blood = result.rows;
+		const comm_code_blood_count = result.rowCount;
 
-			pool.query("SELECT comm_code_id from common_code_tbl where code_id = 'ACC' order by comm_code_id asc", function (err, result) {
-				comm_code_id = result.rows;
-				comm_code_id_count = result.rowCount;
+		pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'SHR' ORDER BY comm_code_id ASC", (err, result) => {
+			if (err) {
+				reject(err);
+				return;
+			}
+			const comm_code_shirt = result.rows;
+			const comm_code_shirt_count = result.rowCount;
 
-				pool.query("SELECT comm_code_desc from common_code_tbl where code_id = 'ACC'  order by comm_code_id asc", function (err, result) {
-					comm_code_desc = result.rows;
-					comm_code_desc_count = result.rowCount;
+			pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'STA' ORDER BY comm_code_id ASC", (err, result) => {
+				if (err) {
+					reject(err);
+					return;
+				}
+				const comm_code_state = result.rows;
+				const comm_code_state_count = result.rowCount;
 
-					pool.query("SELECT comm_code_id from common_code_tbl where code_id = 'DSG' order by comm_code_id asc", function (err, result) {
-						desig_code_id = result.rows;
-						desig_code_id_count = result.rowCount;
+				pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'MAR' ORDER BY comm_code_id ASC", (err, result) => {
+					if (err) {
+						reject(err);
+						return;
+					}
+					const comm_code_maritalstatus = result.rows;
+					const comm_code_maritalstatus_count = result.rowCount;
 
-						pool.query("SELECT comm_code_desc from common_code_tbl where code_id = 'DSG'  order by comm_code_id asc", function (err, result) {
-							desig_code_desc = result.rows;
-							desig_code_desc_count = result.rowCount;
+					pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'DSG' ORDER BY comm_code_id ASC", (err, result) => {
+						if (err) {
+							reject(err);
+							return;
+						}
+						const comm_code_dsg = result.rows;
+						const comm_code_dsg_count = result.rowCount;
 
-							pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'CURR' order by comm_code_id asc", function (err, result) {
-								sal_curr = result.rows;
-								sal_curr_count = result.rowCount;
+						pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'PCR' ORDER BY comm_code_id ASC", (err, result) => {
+							if (err) {
+								reject(err);
+								return;
+							}
+							const comm_code_curr = result.rows;
+							const comm_code_cur_count = result.rowCount;
 
-								pool.query("SELECT emp_id from emp_master_tbl order by emp_id", function (err, result) {
-									rptMan_id = result.rows;
-									rptMan_count = result.rowCount;
+							pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'ACC' ORDER BY comm_code_id ASC", (err, result) => {
+								if (err) {
+									reject(err);
+									return;
+								}
+								const comm_code_class = result.rows;
+								const comm_code_class_count = result.rowCount;
 
-									pool.query("SELECT emp_name from emp_master_tbl order by emp_id", function (err, result) {
-										rpt_name = result.rows;
-										rpt_name_count = result.rowCount;
+								pool.query("SELECT comm_code_id, comm_code_desc FROM common_code_tbl WHERE code_id = 'RPT' ORDER BY comm_code_id ASC", (err, result) => {
+									if (err) {
+										reject(err);
+										return;
+									}
+									const comm_code_rpt = result.rows;
+									const comm_code_rpt_count = result.rowCount;
 
-										const data = {
-											// emp_access: emp_access,
-											// ename: req.query.user_name,
-											eid: req.query.user_id,
-											comm_code_id: comm_code_id,
-											comm_code_id_count: comm_code_id_count,
-											comm_code_desc: comm_code_desc,
-											comm_code_desc_count: comm_code_desc_count,
-											desig_code_id: desig_code_id,
-											desig_code_id_count: desig_code_id_count,
-											desig_code_desc: desig_code_desc,
-											desig_code_desc_count: desig_code_desc_count,
-											sal_curr: sal_curr,
-											sal_curr_count: sal_curr_count,
-											rptMan_id: rptMan_id,
-											rptMan_count: rptMan_count,
-											rpt_name: rpt_name,
-											rpt_name_count: rpt_name_count
-										}
-										res.json({ message: "redirect to employee details", Data: data });
-									});
+									const cocd = {
+										comm_code_blood,
+										comm_code_blood_count,
+										comm_code_shirt,
+										comm_code_shirt_count,
+										comm_code_state,
+										comm_code_state_count,
+										comm_code_maritalstatus,
+										comm_code_maritalstatus_count,
+										comm_code_curr,
+										comm_code_cur_count,
+										comm_code_class,
+										comm_code_class_count,
+										comm_code_rpt,
+										comm_code_rpt_count,
+										comm_code_dsg,
+										comm_code_dsg_count
+									};
+
+									res.json({cocd:cocd})
 								});
 							});
 						});
 					});
 				});
 			});
-		}
+		});
 	});
 });
 
@@ -1116,98 +1142,87 @@ function addempdet(req, res) {
 						pool.query("INSERT INTO emp_master_tbl(emp_id,emp_name,emp_access,emp_email,joining_date,designation,salary,reporting_mgr,prev_expr_year,prev_expr_month,prev_empr,prev_empr2,prev_empr3,prev_empr4,prev_empr5,emp_prob,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time,entity_cre_flg,pre_emp_flg,emp_classification,salary_curr) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25)", [empid, empname, empaccess, email, jDate, desig, salary, rptman, preExpyear, preExpmonth, preEmp, preEmp2, preEmp3, preEmp4, preEmp5, probPeriod, 'N', rcreuserid, rcretime, lchguserid, lchgtime, entity_cre_flg, preem, empClass, sal_curr], function (err, done) {
 							if (err) throw err;
 
-							// var userid = empid;
-							// var ranpass = generatePassword(4, false);
-							// var finalpass = userid + "@" + ranpass;
 
-							const transporter = nodemailer.createTransport({
-								service: 'gmail',
-								auth: {
-									user: 'mohammadsab@minorks.com',
-									pass: '9591788719'
-								}
-							});
-
-
-
-							const mailOptions = {
-								from: 'mohammadsab@minorks.com',
-								to: email,
-								subject: 'Register',
-								html: `
-								<style>
-								body {
-								font-family: Arial, sans-serif;
-								font-size: 14px;
-								line-height: 1.4;
-								color: #333333;
-								}
-
-								a {
-								color: white;
-								text-decoration: none;
-								}
-								</style>
-								
-								Dear ${empname},<br>
-								<img href="http://www.minorks.com/images/logo_white.png"></img><br><br>
-								We are delighted to welcome you to our company! As a new member, we kindly request you to complete your account registration process to gain access to our systems and resources.<br>
-								
-								To finalize your registration and create your unique User ID, please follow the steps below:<br>
-								
-								1. Click on the registration link provided below:<br>
-								<a href="http://localhost:4200/register">Click Here For Register</a><br>
-								
-								2. You will be directed to the registration page where you can begin the process.<br>
-								
-								3. Enter your personal details accurately and ensure all required fields are completed.<br>
-								
-								4. Once you have provided your personal details wait for Admin Aproval.<br>
-								
-								<h4 style="color:blue"> Your User ID: ${empid}</h4><br><br>
-								
-								If you have any questions or need further assistance, please feel free to reach out to our HR department.<br>
-								
-								Best regards,<br>
-								Minorks Technology (HR)
-								`
-							};
-
-
-							console.log(mailOptions, "mailll");
-							transporter.sendMail(mailOptions, function (error, info) {
-								if (error) {
-									console.error('Error sending email', error);
-								} else {
-									console.log('Email sent:', info.response);
-								}
-
-
-							});
-
-
-							// bcrypt.hash(finalpass, 10, function (err, hash) {
-
-							// hashpassword = finalpass;
-							// hashpassword = hash;
-							// console.log("bycript enterd");
-							// });
 
 							pool.query("INSERT INTO users(user_name,user_id,user_type,expiry_date,login_allowed,login_attempts,del_flag,login_check,reset_flg,session_id,client_ip) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empname, empid, empaccess, '01-01-2099', 'Y', '0', 'N', 'N', 'Y', '', ''], function (err, done) {
 								// if (err) { throw err; } else { console.log("inserted in user"); }
 								if (err) throw err
 
+								pool.query("insert into e_docket_tbl(emp_id,pan_flg,aadhar_flg,sslc_flg,preuniv_flg,degree_flg,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empid, pan_flg, aadhar_flg, sslc_flg, preuniv_flg, degree_flg, del_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
+									// req.flash('success', "User successfully added and an E-mail has been sent to " + email + " with further instructions.")
+									// res.redirect(req.get('referer'));
+
+
+									res.json({ message: "redirect to refer", notification: "User successfully added and an E-mail has been sent to " + email + " with further instructions." })
+
+
+									const transporter = nodemailer.createTransport({
+										service: 'gmail',
+										auth: {
+											user: 'mohammadsab@minorks.com',
+											pass: '9591788719'
+										}
+									});
+
+
+
+									const mailOptions = {
+										from: 'mohammadsab@minorks.com',
+										to: email,
+										subject: 'Register',
+										html: `
+										<style>
+										body {
+										font-family: Arial, sans-serif;
+										font-size: 14px;
+										line-height: 1.4;
+										color: #333333;
+										}
+		
+										a {
+										color: white;
+										text-decoration: none;
+										}
+										</style>
+										
+										Dear ${empname},<br>
+										<img href="http://www.minorks.com/images/logo_white.png"></img><br><br>
+										We are delighted to welcome you to our company! As a new member, we kindly request you to complete your account registration process to gain access to our systems and resources.<br>
+										
+										To finalize your registration and create your unique User ID, please follow the steps below:<br>
+										
+										1. Click on the registration link provided below:<br>
+										<a href="http://localhost:4200/register">Click Here For Register</a><br>
+										
+										2. You will be directed to the registration page where you can begin the process.<br>
+										
+										3. Enter your personal details accurately and ensure all required fields are completed.<br>
+										
+										4. Once you have provided your personal details wait for Admin Aproval.<br>
+										
+										<h4 style="color:blue"> Your User ID: ${empid}</h4><br><br>
+										
+										If you have any questions or need further assistance, please feel free to reach out to our HR department.<br>
+										
+										Best regards,<br>
+										Minorks Technology (HR)
+										`
+									};
+
+
+									console.log(mailOptions, "mailll");
+									transporter.sendMail(mailOptions, function (error, info) {
+										if (error) {
+											console.error('Error sending email', error);
+										} else {
+											console.log('Email sent:', info.response);
+										}
+
+
+									});
+								});
 							});
 
-							pool.query("insert into e_docket_tbl(emp_id,pan_flg,aadhar_flg,sslc_flg,preuniv_flg,degree_flg,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [empid, pan_flg, aadhar_flg, sslc_flg, preuniv_flg, degree_flg, del_flg, rcreuserid, rcretime, lchguserid, lchgtime], function (err, done) {
-								// req.flash('success', "User successfully added and an E-mail has been sent to " + email + " with further instructions.")
-								// res.redirect(req.get('referer'));
-
-
-								res.json({ message: "redirect to refer", notification: "User successfully added and an E-mail has been sent to " + email + " with further instructions." })
-
-
-							});
 						});
 					}
 				});
