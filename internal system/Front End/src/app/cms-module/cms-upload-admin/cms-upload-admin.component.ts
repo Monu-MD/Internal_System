@@ -34,7 +34,7 @@ export class CmsUploadAdminComponent  {
       formData.append('documentDescription', this.uploadForm.get('documentDescription')?.value);
       formData.append('uploadDoc', this.uploadForm.get('uploadDoc')?.value);
 
-      // Send the form data to the backend
+      // Send the form data to the backend 
       this.http.post('http://localhost:4000/cms/cmsUploadPostEmployee', formData)
         .subscribe(
           (response: any) => {
@@ -58,6 +58,7 @@ export class CmsUploadAdminComponent  {
       this.uploadForm.get('uploadDoc')?.updateValueAndValidity();
     }
   }
+  
 }
 
  

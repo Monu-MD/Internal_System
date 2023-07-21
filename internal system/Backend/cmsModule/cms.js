@@ -88,8 +88,8 @@ function cmsUploadPostEmployee(req, res) {
         const form = new formidable.IncomingForm();
         console.log(">>>> 1");
         form.parse(req, function (err, fields, files) {
-            console.log("feilds value----> "+fields);
-        console.log(">>>> 2");
+            console.log("feilds value----> " + fields);
+            console.log(">>>> 2");
             var empId = eid;
             console.log(empId + " Manny Id?");
 
@@ -240,7 +240,7 @@ function cmsUploadPostEmployee(req, res) {
 
             fs.rename(oldPath, newPath, function (err) {
                 if (err) throw err;
-                res.json({notification: "Document Uploaded Successfully"})
+                res.json({ notification: "Document Uploaded Successfully" })
                 // res.redirect(req.get('referer'));
             });
         });
@@ -249,24 +249,24 @@ function cmsUploadPostEmployee(req, res) {
         var oldName = "doc.pdf";
         var dir1 = './data/CMS/employee/uploadDoc/' + eid + "/";;
         var oldPath = dir1 + oldName;
-        if (!fs.existsSync(dir1)) { 
-         fs.mkdirSync(dir1);
+        if (!fs.existsSync(dir1)) {
+            fs.mkdirSync(dir1);
         }
         var storage = multer.diskStorage({
-         destination: function (req, file, callback) {
-             console.log(file);
-             callback(null, dir1)
-         },
-         filename: function (req, file, callback) {
-             callback(null, oldName)
-         }
+            destination: function (req, file, callback) {
+                console.log(file);
+                callback(null, dir1)
+            },
+            filename: function (req, file, callback) {
+                callback(null, oldName)
+            }
         })
 
         var upload = multer({ storage: storage }).single('uploadDoc')
         upload(req, res, function (err) {
-         if (err) {
-             return res.end("Something went wrong!");
-         }
+            if (err) {
+                return res.end("Something went wrong!");
+            }
         });
 
     }
@@ -293,6 +293,76 @@ function cmsUploadPostEmployee(req, res) {
 
 
 //////////////////  Jadhav ////////////////////////
+
+///////////////// Upload Photo ////////////////////
+
+router.post('/cmsUploadPhotoEmployee', cmsUploadPhotoEmployee);
+
+function cmsUploadPhotoEmployee(req, res) {
+    console.log("Profile API Entry");
+
+    doc = "";
+    var eid = "";
+
+    var form = new formidable.IncomingForm();
+    form.parse(req,
+        function (err, fields, files) {
+            // console.log("Req----> ", req);
+            var emp_id = req.body.user_id;
+            console.log("2222222222222222:- " + emp_id);
+            eid = emp_id;
+
+            var dir2 = './cmsModule/public/images/profile/';
+            newName = eid + ".jpg";
+            var newPath = dir2 + newName;
+
+            fs.rename(oldPath, newPath,
+                function (err) {
+                    if (err) throw err;
+                    console.log("Profile Pic Renamed Successfully");
+                    res.json({ notification: "Profile Photo Uploaded Successfully"})
+                });
+        });
+
+    console.log("check", eid);
+
+    var oldName = "doc.jpg";
+    var dir1 = './data/CMS/employee/uploadDoc/' + eid + "/";;
+    var oldPath = dir1 + oldName;
+    if (!fs.existsSync(dir1)) {
+        fs.mkdirSync(dir1);
+    }
+    var storage = multer.diskStorage({
+        destination: function (req, file, callback) {
+            console.log(file);
+            callback(null, dir1)
+        },
+        filename: function (req, file, callback) {
+            callback(null, oldName)
+        }
+    })
+
+    var upload = multer({ storage: storage }).single('file')
+    upload(req, res, function (err) {
+        if (err) {
+            return res.end("Something went wrong!");
+        }
+    });
+}
+
+////////////// Api Profile Calling..........
+
+router.get('/profile-photo/:eid', (req, res) => {
+    const eid = req.params.eid;
+    const photoPath = path.join(__dirname, `./public/images/profile/${eid}.jpg`);
+    res.sendFile(photoPath);
+    console.log("Choosing the loc:---> "+photoPath);
+});
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
 router.get('/cmsViewEmployee', cmsViewEmployee);
 function cmsViewEmployee(req, res) {
     var eid = 'CR007';

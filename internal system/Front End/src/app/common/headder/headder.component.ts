@@ -11,7 +11,7 @@ import { LoginServiceService } from 'src/app/services/login-service.service';
 export class HeadderComponent {
   selectedFileName: string | undefined;
   username: any;
-  photoUrl: any;
+  photoUrl: string | undefined; 
 
   user_id: any;
   constructor(private service: LoginServiceService, private http: HttpClient, private router: Router) {
@@ -20,32 +20,34 @@ export class HeadderComponent {
     this.user_id = data[0];
 
     console.log(this.user_id);
-   
-
-    // this.photoUrl = this.service.phtotUrl;
 
   }
 
+  /////////////////////////////////  To Change the profile Pic////////////////////////////////////////
   onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    const userId = this.user_id; // Assuming this.user_id contains the user_id value
+    this.uploadFile(file, userId);
+  }
 
-    const file: File = event.target.files[0]
-    console.log("onfile");
-    this.uploadFile(file)
-  }
-  uploadFile(file: any) {
+  uploadFile(file: File, userId: string) {
     const formData = new FormData();
-    formData.append('profile', file);
-    formData.append('username', this.service.data);
-    // formData.append('object2', JSON.stringify({ key: 'value' }));
-    this.profilePhoto(formData)
-    throw new Error('Method not implemented.');
+    formData.append('file', file);
+    formData.append('user_id', userId); // Append the user_id to the FormData
+    this.profilePhoto(formData);
   }
-  profilePhoto(formData: any) {
-   
-    this.http.post('http://localhost:4000/upload-profile', formData)
+
+
+  profilePhoto(formData: FormData) {
+    console.log("Calling API...!!");
+    this.http.post<any>('http://localhost:4000/cms/cmsUploadPhotoEmployee', formData)
       .subscribe(
-        response => {
+        (response: any) => {
           console.log(response);
+          // Update the photoUrl with the newly uploaded photo URL
+
+          // this.photoUrl = response.photoUrl;
+          this.getProfilePhoto(this.user_id);
           alert('Profile picture uploaded successfully!');
         },
         error => {
@@ -54,11 +56,40 @@ export class HeadderComponent {
         }
       );
   }
+
+
+  //////////////////////// Login View Pic /////////////////////////////////////////////
+  ngOnInit() {
+    const eid = this.user_id; // Replace this with the actual employee ID
+    this.getProfilePhoto(eid);
+  }
+  getProfilePhoto(eid: string) {
+    const apiUrl = `http://localhost:4000/cms/profile-photo/${eid}`;
+    this.http.get(apiUrl, { responseType: 'blob' })
+      .subscribe(
+        (response: Blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const imageDataUrl = reader.result as string;
+            this.photoUrl = imageDataUrl; // Update the photoUrl with the retrieved image data
+          };
+          reader.readAsDataURL(response);
+        },
+        error => {
+          console.error(error);
+          // Handle error, e.g., display a placeholder image
+          // this.photoUrl = 'path/to/placeholder-image.png';
+
+          // alert('Error uploading profile picture. Please try again later.');
+        }
+      );
+  }
+
+  //////////////////////////////////////    LOGOUT   /////////////////////////////////
   logout() {
-    console.log("user_id",this.user_id);
-   
+    console.log("user_id", this.user_id);
     const params = new HttpParams()
-      .set('user_id',   this.user_id.toString());
+      .set('user_id', this.user_id.toString());
 
     this.http.get('http://localhost:4000/logout', { params }).subscribe(
       (response: any) => {
@@ -75,7 +106,7 @@ export class HeadderComponent {
       }
     );
   }
- 
- 
+
+
 
 }
