@@ -103,10 +103,11 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { CancelLeaveComponent } from './request-module/cancel-leave/cancel-leave.component';
 import { ViewDocumentsComponent } from './cms-module/view-documents/view-documents.component';
 import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
-import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';   
-import{ProjectDocumentComponent}from './project-module/project-document/project-document.component' 
+import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';
+import { ProjectDocumentComponent } from './project-module/project-document/project-document.component'
+import { FAQComponent } from './faq/faq.component';
 const routes: Routes = [
-
+  { path: 'faq', component: FAQComponent },
   { path: 'admindashboard', component: AdminDashboardComponent },
 
   { path: '', component: LoginComponent },
@@ -167,7 +168,7 @@ const routes: Routes = [
   { path: 'ProjDealloc', component: ProjDeallocComponent },
   { path: 'ProjectAllocation', component: ProjectAllocationComponent },
   { path: 'ProjectDetial', component: ProjectDetialComponent },
-  {path:'ProjectDoc',component:ProjectDocumentComponent},
+  { path: 'ProjectDoc', component: ProjectDocumentComponent },
 
   //jadhav
   { path: 'message', component: MessageComponent },
@@ -203,9 +204,9 @@ const routes: Routes = [
   { path: 'cmsUpload', component: CmsUploadAdminComponent },
   { path: 'magzineUpld', component: MagzineUploadAdminComponent },
   { path: 'policyupld', component: PolicyUploadAdminComponent },
-  {path:'viewDocs',component: ViewDocumentsComponent},
-  {path:'viewMagz',component:ViewMagzineComponent},
-  {path:'viewPolcy',component:ViewPolicyComponent},
+  { path: 'viewDocs', component: ViewDocumentsComponent },
+  { path: 'viewMagz', component: ViewMagzineComponent },
+  { path: 'viewPolcy', component: ViewPolicyComponent },
 
   //mahesh
   { path: 'cocd', component: CommonCodeDetailsComponent },
@@ -244,17 +245,17 @@ const routes: Routes = [
 
 
 
-  {path:'ITAssetAllocation',component:ITAssetAllocationComponent},
-  {path:'ModifyItAllocationDetails',component:ModifyItAllocationDetailsComponent},
-  {path:'ViewItAllocationDetails',component:ViewItAllocationDetailsComponent},
-  {path:'ViewItAllocationDetail',component:ViewItAllocationDeatilComponent},
-  
-  {path:'AddNonItAssetDetails',component:AddNonItAssetDetailsComponent},
-  {path:'ModifyNonItAssetDetails',component:ModifyNonItAssetDetailsComponent},
-  {path:'ViewNonItAssetDetails',component:ViewNonItAssetDetailsComponent},
-  {path:'ViewNonItAssetDetail',component: ViewNonItAssetDetailComponent}
- 
-  
+  { path: 'ITAssetAllocation', component: ITAssetAllocationComponent },
+  { path: 'ModifyItAllocationDetails', component: ModifyItAllocationDetailsComponent },
+  { path: 'ViewItAllocationDetails', component: ViewItAllocationDetailsComponent },
+  { path: 'ViewItAllocationDetail', component: ViewItAllocationDeatilComponent },
+
+  { path: 'AddNonItAssetDetails', component: AddNonItAssetDetailsComponent },
+  { path: 'ModifyNonItAssetDetails', component: ModifyNonItAssetDetailsComponent },
+  { path: 'ViewNonItAssetDetails', component: ViewNonItAssetDetailsComponent },
+  { path: 'ViewNonItAssetDetail', component: ViewNonItAssetDetailComponent }
+
+
 
 
 

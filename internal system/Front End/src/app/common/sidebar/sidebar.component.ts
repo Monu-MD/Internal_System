@@ -53,7 +53,7 @@ export class SidebarComponent {
     console.log(item);
     this.service.get(item)
 
-    if (item == 'dsh') {
+    if (item == 'dsh' ) {
       if (this.user_type=='A1') {
         this.router.navigate(['admindashboard'])
         
