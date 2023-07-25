@@ -41,9 +41,9 @@
                 <li><a href="" routerLink="/CustomerModification">Customer Modification</a></li>
                 <li><a href="" routerLink="/Customercreation">Customer creation</a></li>
                 <li><a (click)="fetchaddPjtDeAlldetails()">Proj Dealloc</a></li>
-                <li><a  (click)="fetchaddPjtAlldetails()" >Project Allocation</a></li>
+                <li><a (click)="fetchaddPjtAlldetails()">Project Allocation</a></li>
                 <li><a (click)="fetchaddProjectdetails()">Add Project Detial</a></li>
-                <li><a  routerLink="/ProjectDoc">Add Project Docment</a></li>
+                <li><a routerLink="/ProjectDoc">Add Project Docment</a></li>
 
                 <!-- routerLink="/ProjectDetial" -->
             </ul>
@@ -79,7 +79,7 @@
         <div class="top-content" *ngSwitchCase="'emp'">
             <div [ngSwitch]="user_type">
                 <div *ngSwitchCase="'L3'">
-                    <ul>   
+                    <ul>
                         <li><a href="" routerLink="/personalDetails">Modify Personal details</a></li>
                         <li><a href="" routerLink="/empDetailview">View Details</a></li>
                     </ul>
@@ -116,7 +116,7 @@
                         <li><a href="" routerLink="/levSum">Leave Application FAQ's</a></li>
                     </ul>
                 </div>
-                <div *ngSwitchCase="'L1'" >
+                <div *ngSwitchCase="'L1'">
                     <ul>
                         <li><a href="" routerLink="/applyLev">Apply Leave</a></li>
                         <li><a href="" routerLink="/levBal">Leave Balance </a></li>
@@ -126,7 +126,7 @@
                         <li><a href="" routerLink="/levSum">Leave Application FAQ's</a></li>
                     </ul>
                 </div>
-                <div *ngSwitchCase="'L3'" >
+                <div *ngSwitchCase="'L3'">
                     <ul>
                         <li><a href="" routerLink="/approveLev">Approve Leave</a></li>
                         <li><a href="" routerLink="/applyLev">Apply Leave</a></li>
@@ -145,17 +145,32 @@
     <!-- cms Module  -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'cms'">
-            <ul>
-                <li><a href="" routerLink="/cmsUpload">Upload Documents</a></li>
-                <li><a href="" routerLink="/viewDocs">View Documents</a></li>
-                <li><a href="" routerLink="/magzineUpld">Upload Magzine</a></li>
-                <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
-                <li><a href="" routerLink="/policyupld">Upload Policy Docs</a></li>
-                <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
-                <li><a href="" routerLink="/searchEmp">Docs App/Rej</a></li>     
-            </ul>
+            <div [ngSwitch]="user_type">
+                <div *ngSwitchCase="'A1'">
+                    <ul>
+                        <li><a href="" routerLink="/cmsUpload">Upload Documents</a></li>
+                        <li><a href="" routerLink="/searchEmp">View Employee Documents</a></li>
+                        <li><a href="" routerLink="/searchEmp">App/Rej Documents</a></li>
+                        <li><a href="" routerLink="/magzineUpld">Upload Magzine</a></li>
+                        <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
+                        <li><a href="" routerLink="/policyupld">Upload Policy Docs</a></li>
+                        <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
+                    </ul>
+                </div>
+                <div *ngSwitchCase="'L1'">
+                    <ul>
+                        <li><a href="" routerLink="/cmsUpload">Upload Documents</a></li>
+                        <li><a href="" routerLink="/viewDocs">View Documents</a></li>
+                        <li><a href="" routerLink="/magzineUpld">Upload Magzine</a></li>
+                        <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
+                        <li><a href="" routerLink="/policyupld">Upload Policy Docs</a></li>
+                        <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
+
     <!-- Capture Module  -->
     <nav class="menu">
         <!-- Appraisal Module -->
