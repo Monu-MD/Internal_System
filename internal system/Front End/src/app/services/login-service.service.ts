@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
+
 export class LoginServiceService {
   ename: any;
   eid: any;
@@ -109,7 +110,5 @@ export class LoginServiceService {
       }
     );
   }
-
-
 
 }

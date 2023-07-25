@@ -11,12 +11,13 @@
                 <form class="#" [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
                     <div class="user-details">
 
+
                         <div class="input-box" [ngSwitch]="Empuser_type">
                             <div *ngSwitchCase="'A1'">
                                 <label class="details"> Employee</label>
                                 <input type="text" name="user_id" placeholder="Employee Id" formControlName="user_id">
                             </div>
-                        </div>
+
 
                         <div class="input-box" [ngSwitch]="Empuser_type">
                             <div *ngSwitchCase="'A1'">

@@ -83,7 +83,7 @@ export class TopbarComponent {
           this.data = "arn"
         }
         //project
-        if (this.currentRoute == "/childproject" || this.currentRoute == "/ProjectDoc" || this.currentRoute == "/CustomerModification" || this.currentRoute == "/CustomerView" || this.currentRoute == "/Customercreation" || this.currentRoute == "/ProjDealloc" || this.currentRoute == "/ProjectAllocation" || this.currentRoute == "/ProjectDetial") {
+        if (this.currentRoute == "/childproject" ||this.currentRoute ==  "/faq"||this.currentRoute == "/ProjectDoc" || this.currentRoute == "/CustomerModification" || this.currentRoute == "/CustomerView" || this.currentRoute == "/Customercreation" || this.currentRoute == "/ProjDealloc" || this.currentRoute == "/ProjectAllocation" || this.currentRoute == "/ProjectDetial") {
           this.data = "pjt"
         }
 
@@ -207,6 +207,9 @@ export class TopbarComponent {
       );
   }
 
-  
+  faq(value:any){
+    this.prjectservice.setFaq(value);
+    this.router.navigate(['/faq'])
+  }
 
 }

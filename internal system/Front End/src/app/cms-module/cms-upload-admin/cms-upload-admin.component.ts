@@ -64,6 +64,7 @@ export class CmsUploadAdminComponent {
       formData.append('docTypeText', this.uploadForm.get('docTypeText')?.value);
       formData.append('uploadDoc', this.uploadForm.get('uploadDoc')?.value);
 
+
       
 
       this.http.post<any>('http://localhost:4000/cms/cmsUploadPost', formData).subscribe(
@@ -76,6 +77,7 @@ export class CmsUploadAdminComponent {
           // Handle the error response here if needed
         }
       );
+
     }
   }
 

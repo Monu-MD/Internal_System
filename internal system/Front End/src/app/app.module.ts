@@ -144,8 +144,14 @@ import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.com
 import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';
 
 import { ProjectDocumentComponent } from './project-module/project-document/project-document.component';
+
 import { DocAppRejComponent } from './cms-module/doc-app-rej/doc-app-rej.component';
 import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';  
+
+import { DocumentListComponent } from './document-list/document-list.component';  
+import { FAQComponent } from './faq/faq.component';  
+
+
 
 
 
@@ -289,10 +295,14 @@ import { SearchEmployeeComponent } from './cms-module/search-employee/search-emp
       ViewMagzineComponent,
       ViewPolicyComponent,
       ProjectDocumentComponent,
+
       DocAppRejComponent,
       SearchEmployeeComponent,
- 
 
+      DocumentListComponent,
+      FAQComponent,
+
+ 
 
 
 
