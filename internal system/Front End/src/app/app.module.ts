@@ -145,6 +145,8 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
 
 import { ProjectDocumentComponent } from './project-module/project-document/project-document.component';
 import { DocumentListComponent } from './document-list/document-list.component';  
+import { FAQComponent } from './faq/faq.component';  
+
 
 
 
@@ -289,8 +291,8 @@ import { DocumentListComponent } from './document-list/document-list.component';
       ViewPolicyComponent,
       ProjectDocumentComponent,
       DocumentListComponent,
+      FAQComponent,
  
-
 
 
 

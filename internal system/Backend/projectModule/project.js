@@ -1808,7 +1808,7 @@ function projectDocUpl(req, res) {
 						}
 						res.json({ message: 'redirect to refer', notification: "Document Uploaded Successfully" });
 					});
-					// return res.status(500).json({ error: "Database update failed" });
+					
 				}
 
 			});
@@ -1839,5 +1839,84 @@ function projectDocUpl(req, res) {
 	});
 }
 
-
+//////////////////////////////////////////////////////// Project Doc View////////////////////////////////////////////////////////////
+router.post('/projectDocView', projectDocsView);
+function projectDocsView(req, res) {
+	sowLen = 0, poLen = 0, mileLen = 0, cloLen = 0, fbLen = 0, aLen = 0;
+	// var eid = req.user.rows[0].user_id;
+	// var ename = req.user.rows[0].user_name;
+	// var emp_access = req.user.rows['0'].user_type;
+	var projId = req.body.projId;
+	var docType = req.body.docType;
+	console.log(projId);
+	console.log("docType : ", docType);
+	var testFolder = './data/CMS/project/projDocs/' + projId + "/";
+	if (!fs.existsSync(testFolder)) {
+		req.flash('error', "No details found for this project")
+		res.redirect(req.get('referer'));
+	}
+	else {
+		pool.query("SELECT cid,project_id from project_master_tbl where project_id =$1 ", [projId],
+			function (err, result) {
+				project = result.rows;
+				console.log(project);
+				projid_count = result.rowCount;
+				fs.readdirSync(testFolder).forEach(
+					function (name) {
+						resValue1 = name.search("SOW");
+						if (resValue1 != -1) {
+							sowDocs[sowLen] = name;
+							sowLen = sowLen + 1;
+						}
+						resValue1 = name.search("PO");
+						if (resValue1 != -1) {
+							poDocs[poLen] = name;
+							poLen = poLen + 1;
+						}
+						resValue1 = name.search("MileStone");
+						if (resValue1 != -1) {
+							mileDocs[mileLen] = name;
+							mileLen = mileLen + 1;
+						}
+						resValue1 = name.search("Closure");
+						if (resValue1 != -1) {
+							cloDocs[cloLen] = name;
+							cloLen = cloLen + 1;
+						}
+						resValue1 = name.search("FeedBack");
+						if (resValue1 != -1) {
+							fbDocs[fbLen] = name;
+							fbLen = fbLen + 1;
+						}
+						resValue1 = name.search("Attendance");
+						if (resValue1 != -1) {
+							aDocs[aLen] = name;
+							aLen = aLen + 1;
+						}
+					});
+				if (sowLen == 0 && poLen == 0 && mileLen == 0 && cloLen == 0 && fbLen == 0 && aLen == 0) {
+					// req.flash('error', "No details found for this project")
+					// res.redirect(req.get('referer'));
+					res.json({message:'redirect to reffer',notification:"No details found for this project"})
+				}
+				else {
+					res.json({message:'projectModule/projectDocView',data: {
+						sowDocs: sowDocs, sowLen: sowLen,
+						poDocs: poDocs, poLen: poLen,
+						mileDocs: mileDocs, mileLen: mileLen,
+						cloDocs: cloDocs, cloLen: cloLen,
+						fbDocs: fbDocs, fbLen: fbLen,
+						aDocs: aDocs, aLen: aLen,
+						project: project,
+						docType: docType,
+						projid_count: projid_count,
+						eid: eid,
+						projId: projId,
+						ename: ename,
+						emp_access: emp_access
+					}});
+				}
+			});
+	}
+}
 module.exports = router;
