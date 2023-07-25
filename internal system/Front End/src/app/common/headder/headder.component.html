@@ -11,14 +11,36 @@
 
 
           <!-- 1 -->
-          <div class="user-profile-container">
+          <!-- <div class="user-profile-container">
             <div *ngIf="photoUrl">
               <img [src]="photoUrl" alt="User Photo" class="user-profile-photo">
             </div>
             <div class="profilePhoto">
               <input type="file" placeholder="profilePhoto" name="uploadDoc" (change)="onFileSelected($event)" [attr.data-file-name]="selectedFileName"  accept=".jpg,.png">
             </div>
+          </div> -->
+
+          <!-- 2 -->
+          <div class="user-profile-container">
+            <label for="profilePhotoInput" class="profilePhoto">
+              <div *ngIf="photoUrl">
+                <img [src]="photoUrl" alt="User Photo" class="user-profile-photo">
+              </div>
+              <div *ngIf="!photoUrl" class="placeholder">
+                <i class="fa fa-camera"></i>
+                <span>Upload Photo</span>
+              </div>
+              <input
+                type="file"
+                id="profilePhotoInput"
+                name="uploadDoc"
+                (change)="onFileSelected($event)"
+                accept=".jpg,.png"
+                style="display: none;"
+              >
+            </label>
           </div>
+          
 
           <div>
             <h1>{{username}}</h1>

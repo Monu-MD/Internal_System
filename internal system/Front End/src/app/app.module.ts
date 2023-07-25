@@ -143,7 +143,8 @@ import { ViewDocumentsComponent } from './cms-module/view-documents/view-documen
 import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
 import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';
 
-import { ProjectDocumentComponent } from './project-module/project-document/project-document.component';  
+import { ProjectDocumentComponent } from './project-module/project-document/project-document.component';
+import { DocumentListComponent } from './document-list/document-list.component';  
 
 
 
@@ -287,6 +288,7 @@ import { ProjectDocumentComponent } from './project-module/project-document/proj
       ViewMagzineComponent,
       ViewPolicyComponent,
       ProjectDocumentComponent,
+      DocumentListComponent,
  
 
 
