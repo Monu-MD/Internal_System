@@ -12,11 +12,14 @@
           <a (click)="downloadFile(doc, employeeData.eid)" title="Download File" class="document-icons"><i
               class="fa fa-download" aria-hidden="true"></i></a>
 
-          <a (click)="sendEMail(doc, employeeData.eid, employeeData.emp_access)" title="Send Mail" class="document-icons"><i
-              class="fa fa-envelope" aria-hidden="true"></i></a>
+          <a (click)="sendEMail(doc, employeeData.eid, employeeData.emp_access)" title="Send Mail"
+            class="document-icons"><i class="fa fa-envelope" aria-hidden="true"></i></a>
         </span>
       </li>
     </ol>
+    <div class="notification" [ngClass]="{'success': isSuccess, 'error': isError}">
+      {{ message }}
+    </div>
   </ng-container>
 
   <ng-template #noDocuments>

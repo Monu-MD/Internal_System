@@ -17,12 +17,9 @@ export class DocumentListComponent {
     this.documents = []; // Initialize the property in the constructor
   }
 
-  // downloadFile(doc: string, empId: string) {
-  //   // Implement the logic to download the file using doc and empId
-  //   // For example:
-  //   console.log(`Downloading file: ${doc} for employee ID: ${empId}`);
-  // }
-
+  isSuccess: boolean = false;
+  isError: boolean = false;
+  message: string = '';
 
   // Function to trigger file download
   downloadFile(docId: string, empId: string): void {
@@ -49,14 +46,40 @@ export class DocumentListComponent {
    // Function to trigger email sending
    sendEMail(docId: string, empId: string, empAccess: string): void {
     const url = `http://localhost:4000/cms/cmsMailDoc?id=${docId}&empId=${empId}&empAccess=${empAccess}`;
+    const notificationDuration = 3000; // Duration in milliseconds (3 seconds)
+    
     this.http.get(url).subscribe(
-      () => {
+      (response:any) => {
         console.log(`Email sent for document: ${docId} for employee ID: ${empId}`);
-        // You can add any logic here to show a success message or update UI after sending email
+        console.log(response);
+
+        // Show success notification
+        this.isSuccess = true;
+        this.isError = false;
+        this.message = 'Document sent successfully!!';
+
+        // Automatically hide the success notification after the specified duration
+        setTimeout(() => {
+          this.isSuccess = false;
+          this.message = '';
+        }, notificationDuration);
+
+        // Add a class to trigger the animation for showing the notification
+        setTimeout(() => {
+          const notificationElement = document.querySelector('.notification');
+          if (notificationElement) {
+            notificationElement.classList.add('show');
+          }
+        }, 100);
+
       },
       (error: any) => {
         console.error('Error sending email:', error);
         // Handle error, e.g., show an error message to the user
+        this.isSuccess = false;
+        this.isError = true;
+        this.message = 'An error occurred while approving the request';
+
       }
     );
   }
