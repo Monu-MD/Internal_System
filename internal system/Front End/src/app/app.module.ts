@@ -143,7 +143,9 @@ import { ViewDocumentsComponent } from './cms-module/view-documents/view-documen
 import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
 import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';
 
-import { ProjectDocumentComponent } from './project-module/project-document/project-document.component';  
+import { ProjectDocumentComponent } from './project-module/project-document/project-document.component';
+import { DocAppRejComponent } from './cms-module/doc-app-rej/doc-app-rej.component';
+import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';  
 
 
 
@@ -287,6 +289,8 @@ import { ProjectDocumentComponent } from './project-module/project-document/proj
       ViewMagzineComponent,
       ViewPolicyComponent,
       ProjectDocumentComponent,
+      DocAppRejComponent,
+      SearchEmployeeComponent,
  
 
 
