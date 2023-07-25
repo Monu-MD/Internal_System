@@ -22,6 +22,7 @@ export class LoginServiceService {
   viewAproval: any;
   cocd:any[]=[]
 
+
   setViewAproval(value: any) {
     this.viewAproval = value;
     console.log(this.viewAproval);

@@ -107,8 +107,10 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
 import{ProjectDocumentComponent}from './project-module/project-document/project-document.component' 
 import { DocAppRejComponent } from './cms-module/doc-app-rej/doc-app-rej.component';
 import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';    
-const routes: Routes = [
+import { FAQComponent } from './faq/faq.component';
 
+const routes: Routes = [
+  { path: 'faq', component: FAQComponent },
   { path: 'admindashboard', component: AdminDashboardComponent },
 
   { path: '', component: LoginComponent },
@@ -169,7 +171,7 @@ const routes: Routes = [
   { path: 'ProjDealloc', component: ProjDeallocComponent },
   { path: 'ProjectAllocation', component: ProjectAllocationComponent },
   { path: 'ProjectDetial', component: ProjectDetialComponent },
-  {path:'ProjectDoc',component:ProjectDocumentComponent},
+  { path: 'ProjectDoc', component: ProjectDocumentComponent },
 
   //jadhav
   { path: 'message', component: MessageComponent },
@@ -205,6 +207,7 @@ const routes: Routes = [
   { path: 'cmsUpload', component: CmsUploadAdminComponent },
   { path: 'magzineUpld', component: MagzineUploadAdminComponent },
   { path: 'policyupld', component: PolicyUploadAdminComponent },
+
   {path:'viewDocs',component: ViewDocumentsComponent},
   {path:'viewMagz',component:ViewMagzineComponent},
   {path:'viewPolcy',component:ViewPolicyComponent},
@@ -212,6 +215,7 @@ const routes: Routes = [
   {path:'searchEmp',component:SearchEmployeeComponent},
   
   
+
   //mahesh
   { path: 'cocd', component: CommonCodeDetailsComponent },
   { path: 'modifycocd', component: CommonCodeDetailsModifyComponent },
@@ -249,17 +253,17 @@ const routes: Routes = [
 
 
 
-  {path:'ITAssetAllocation',component:ITAssetAllocationComponent},
-  {path:'ModifyItAllocationDetails',component:ModifyItAllocationDetailsComponent},
-  {path:'ViewItAllocationDetails',component:ViewItAllocationDetailsComponent},
-  {path:'ViewItAllocationDetail',component:ViewItAllocationDeatilComponent},
-  
-  {path:'AddNonItAssetDetails',component:AddNonItAssetDetailsComponent},
-  {path:'ModifyNonItAssetDetails',component:ModifyNonItAssetDetailsComponent},
-  {path:'ViewNonItAssetDetails',component:ViewNonItAssetDetailsComponent},
-  {path:'ViewNonItAssetDetail',component: ViewNonItAssetDetailComponent}
- 
-  
+  { path: 'ITAssetAllocation', component: ITAssetAllocationComponent },
+  { path: 'ModifyItAllocationDetails', component: ModifyItAllocationDetailsComponent },
+  { path: 'ViewItAllocationDetails', component: ViewItAllocationDetailsComponent },
+  { path: 'ViewItAllocationDetail', component: ViewItAllocationDeatilComponent },
+
+  { path: 'AddNonItAssetDetails', component: AddNonItAssetDetailsComponent },
+  { path: 'ModifyNonItAssetDetails', component: ModifyNonItAssetDetailsComponent },
+  { path: 'ViewNonItAssetDetails', component: ViewNonItAssetDetailsComponent },
+  { path: 'ViewNonItAssetDetail', component: ViewNonItAssetDetailComponent }
+
+
 
 
 

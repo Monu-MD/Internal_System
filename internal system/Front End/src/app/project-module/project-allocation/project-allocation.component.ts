@@ -102,6 +102,7 @@ export class ProjectAllocationComponent {
       .subscribe(
         (response: any) => {
           console.log(response);
+          console.log(response.status);
           
           this.notification = response.notification;
         },
