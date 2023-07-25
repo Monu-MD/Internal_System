@@ -3,36 +3,42 @@
 <app-sidebar></app-sidebar>
 <div class="allighn">
     <div class="container">
-
+        <div class="alert" *ngIf="notification">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{notification}}
+          </div>
         <h1 class="title">Initiate Travel Request flight</h1>
         <div class="content">
             <form class="#" [formGroup]="travelid" (ngSubmit)="travel(travelid.value)">
                 <div class="user-details">
                     <div class="input-box">
                         <label class="Details">Project Id </label>
-                        <input type="text" name="projectId" formControlName="projectId" />
+
+                        <select name="projectId" formControlName="projectId">
+                            <option>Select</option>
+                            <option *ngFor="let data of projectId">{{data.project_id}}</option>
+                        </select>
                     </div>
 
                     <div style="display: flex;
-                    flex-wrap: wrap;
-                    justify-content: right;
-                    margin: 100px 10px 50px px;">
+            flex-wrap: wrap;
+            justify-content: right;
+            margin: 100px 10px 50px px;">
                         <div class="radioButton">
-                            <label> Round-trip Journey </label>
-                            <input type="radio" formControlName="refundAmount" name="refundAmount"
-                                value="Refund Amount">
+                            <label>Round-trip Journey</label>
+                            <input type="radio" formControlName="journeyType" value="N" name="journeyType">
 
                             <label>Single-trip Journey</label>
-                            <input type="radio" formControlName="payExtraAmount" name="payExtraAmount"
-                                value="Pay Extra Amount">
+                            <input type="radio" formControlName="journeyType" value="Y" name="journeyType">
                         </div>
                     </div>
+
 
                     <div class="input-box">
                         <label class="Details">Travel Date</label>
                         <input type="date" name="travelDate" formControlName="travelDate" />
                     </div>
-                   
+
 
                     <div class="input-box">
                         <label class="Details">Tentative Return Date</label>
@@ -55,7 +61,8 @@
 
                     <div class="input-box">
                         <label class="Details"> To be approved by </label>
-                        <input type="text" name="toBeApprovedby" formControlName="toBeApprovedby" />
+                        <input type="text" [ngModel]="user_name" [readOnly]="true" name="toBeApprovedby"
+                            formControlName="toBeApprovedby" />
                     </div>
                 </div>
                 <div>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginServiceService } from 'src/app/services/login-service.service';
 import { NavserviceService } from 'src/app/services/navservice.service';
+import { TravelServiceService } from 'src/app/services/travel-service.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,6 +11,7 @@ import { NavserviceService } from 'src/app/services/navservice.service';
 })
 export class SidebarComponent {
   condition: boolean = true; // Initial value
+  user_id: any;
  
   // Method to enable or disable based on a specific condition
   toggleEnableDisable() {
@@ -22,12 +24,14 @@ export class SidebarComponent {
 
   constructor(private router: Router,
     private service: NavserviceService,
-    private loginservice: LoginServiceService
+    private loginservice: LoginServiceService,
+    private travleservice :TravelServiceService
 
   ) {
     console.log("top enterd");
 
     const user = this.loginservice.getData()
+    this.user_id=user[0];
     this.user_type = user[2];
     console.log(this.user_type,"innsidebar");
 
@@ -53,7 +57,7 @@ export class SidebarComponent {
     console.log(item);
     this.service.get(item)
 
-    if (item == 'dsh') {
+    if (item == 'dsh' ) {
       if (this.user_type=='A1') {
         this.router.navigate(['admindashboard'])
         
@@ -112,7 +116,12 @@ export class SidebarComponent {
       this.router.navigate(['message'])
     }
     if (item == 'tvl') {
-      this.router.navigate(['travel'])
+      if (this.user_type=='A1'||this.user_type=='L3') {
+        this.travleservice.fetchProjectId(this.user_id)
+      } else {
+        this.router.navigate(['travel'])
+        
+      }
     }
     if (item == 'arn') {
       this.router.navigate(['cteApp'])
