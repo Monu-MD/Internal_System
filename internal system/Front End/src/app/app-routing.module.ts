@@ -103,9 +103,12 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { CancelLeaveComponent } from './request-module/cancel-leave/cancel-leave.component';
 import { ViewDocumentsComponent } from './cms-module/view-documents/view-documents.component';
 import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
-import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';
-import { ProjectDocumentComponent } from './project-module/project-document/project-document.component'
+import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';   
+import{ProjectDocumentComponent}from './project-module/project-document/project-document.component' 
+import { DocAppRejComponent } from './cms-module/doc-app-rej/doc-app-rej.component';
+import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';    
 import { FAQComponent } from './faq/faq.component';
+
 const routes: Routes = [
   { path: 'faq', component: FAQComponent },
   { path: 'admindashboard', component: AdminDashboardComponent },
@@ -204,9 +207,14 @@ const routes: Routes = [
   { path: 'cmsUpload', component: CmsUploadAdminComponent },
   { path: 'magzineUpld', component: MagzineUploadAdminComponent },
   { path: 'policyupld', component: PolicyUploadAdminComponent },
-  { path: 'viewDocs', component: ViewDocumentsComponent },
-  { path: 'viewMagz', component: ViewMagzineComponent },
-  { path: 'viewPolcy', component: ViewPolicyComponent },
+
+  {path:'viewDocs',component: ViewDocumentsComponent},
+  {path:'viewMagz',component:ViewMagzineComponent},
+  {path:'viewPolcy',component:ViewPolicyComponent},
+  {path:'docAppRej',component:DocAppRejComponent},
+  {path:'searchEmp',component:SearchEmployeeComponent},
+  
+  
 
   //mahesh
   { path: 'cocd', component: CommonCodeDetailsComponent },

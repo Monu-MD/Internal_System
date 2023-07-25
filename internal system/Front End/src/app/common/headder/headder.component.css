@@ -183,3 +183,26 @@ background-image: url(../../../assets/images/profileDefult.webp);
       text-align: left;
   }
 }
+
+
+
+/* Style the user profile container */
+.user-profile-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Style the user profile photo */
+.user-profile-photo {
+  width: 48px; 
+  height: 48px; 
+  border-radius: 50%; 
+  margin-right: 10px;
+}
+
+h1 {
+  margin: 0; 
+}
+
+
+

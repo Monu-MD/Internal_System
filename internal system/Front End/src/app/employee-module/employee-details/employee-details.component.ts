@@ -23,8 +23,6 @@ export class EmployeeDetailsComponent {
   deleteReason: string;
 
 
-
-
   // cflag: any;
   EMPID: any;
   EMPNAME: any;
@@ -164,12 +162,6 @@ export class EmployeeDetailsComponent {
         this.BRANCHNAME = data.branch_name;
         this.ACCTNUM = data.account_num;
         this.IFSCCODE = data.ifsc_code;
-
-
-
-
-
-
 
       }
     }
