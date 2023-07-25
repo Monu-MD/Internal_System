@@ -1,0 +1,39 @@
+a {
+  color: #070707;
+}
+
+.container {
+  max-width: 1000px;
+}
+
+.fa-download:before {
+  content: "\f019";
+  margin-left: 50px;
+  margin-right: 37px;
+}
+
+
+
+    /* content css */
+    .hedr{
+      color: blue;
+    }
+
+
+/* Add your styles here */
+.document-list {
+    width: 100%;
+    word-wrap: break-word;
+    display: flex;
+    align-items: center;
+  }
+  
+  .document-text {
+    margin: 0;
+    flex: 1;
+  }
+  
+  .document-icons {
+    margin-left: 5px;
+  }
+  
