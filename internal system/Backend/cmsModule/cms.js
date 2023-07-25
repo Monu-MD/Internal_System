@@ -1207,16 +1207,18 @@ function cmsApprAdmin(req,res)
 					emp_id_count=result.rowCount;
 
 					res.json({
-                        data:{
 
-                        
+              data:
+                   {    
 						employee:employee,
 						emp_id_count:emp_id_count,
 						len2:len2,
 						ename:ename,
 						eid:eid,
 						emp_access:emp_access
-                        }
+
+                    }
+                    
 					});
 				});
 		}
