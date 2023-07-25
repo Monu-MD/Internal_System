@@ -145,6 +145,8 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
 
 import { ProjectDocumentComponent } from './project-module/project-document/project-document.component';
 import { DocumentListComponent } from './document-list/document-list.component';  
+import { DocAppRejComponent } from './cms-module/doc-app-rej/doc-app-rej.component';
+import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';  
 
 
 
@@ -289,6 +291,8 @@ import { DocumentListComponent } from './document-list/document-list.component';
       ViewPolicyComponent,
       ProjectDocumentComponent,
       DocumentListComponent,
+      DocAppRejComponent,
+      SearchEmployeeComponent,
  
 
 
@@ -308,4 +312,5 @@ import { DocumentListComponent } from './document-list/document-list.component';
   providers: [ApiserviceService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

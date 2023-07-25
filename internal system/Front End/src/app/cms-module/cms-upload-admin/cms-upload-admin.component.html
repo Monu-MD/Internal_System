@@ -1,0 +1,152 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<body>
+    <div class="allighn">
+        <div class="container">
+
+            <div class="title">Upload Documents</div>
+            <div class="content">
+                <form class="#" [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+                    <div class="user-details">
+
+                        <div class="input-box" [ngSwitch]="Empuser_type">
+                            <div *ngSwitchCase="'A1'">
+                                <label class="details"> Employee</label>
+                                <input type="text" name="user_id" placeholder="Employee Id" formControlName="user_id">
+                            </div>
+                        </div>
+
+                        <div class="input-box" [ngSwitch]="Empuser_type">
+                            <div *ngSwitchCase="'A1'">
+                                <label class="details"> Employee Acess</label>
+                                <input type="text" name="user_type" placeholder="Employee Acess"
+                                    formControlName="user_type">
+                            </div>
+                        </div>
+
+                        <div class="input-box" [ngSwitch]="Empuser_type">
+                            <div *ngSwitchCase="'A1'">
+                                <label class="details">Document Category</label>
+                                <select name="docCat" formControlName="docCat">
+                                    <option value="">----Select the Document Category----</option>
+                                    <option value="1">Govt. Documents</option>
+                                    <option value="2">Educational</option>
+                                    <option value="3">Medical </option>
+                                    <option value="4">Experience</option>
+                                    <option value="5">Photo</option>
+                                    <option value="6">Resume</option>
+                                    <option value="7">Certification</option>
+                                    <option value="8">Others</option>
+                                    <option value="9">Background</option>
+                                    <option value="10">HR Uploads</option>
+                                </select>
+                            </div>
+                            <div *ngSwitchCase="'L3'">
+                                <label class="details">Document Category</label>
+                                <select name="docCat" formControlName="docCat">
+                                    <option value="">----Select the Document Category----</option>
+                                    <option value="1">Govt. Documents</option>
+                                    <option value="2">Educational</option>
+                                    <option value="3">Medical </option>
+                                    <option value="4">Experience</option>
+                                    <option value="5">Photo</option>
+                                    <option value="6">Resume</option>
+                                    <option value="7">Certification</option>
+                                    <option value="8">Others</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+                        <div class="input-box" *ngIf="uploadForm.get('docCat')?.value ==='1'">
+                            <label class="details">Document Type</label>
+                            <select name="documenType" formControlName="docType">
+                                <option value="">---Select the document type---</option>
+                                <option value="1">PassPort</option>
+                                <option value="2">Pan Card</option>
+                                <option value="3">Voter Id</option>
+                                <option value="4">Driving Liense</option>
+                                <option value="5">Aadhar</option>
+                            </select>
+                        </div>
+                        <div class="input-box" *ngIf="uploadForm.get('docCat')?.value ==='2'">
+                            <label class="details">Document Type</label>
+                            <select name="docType" formControlName="docType">
+                                <option value="">---Select the document type---</option>
+                                <option value="1">SSLC</option>
+                                <option value="2">Pre University</option>
+                                <option value="3">Semester 1</option>
+                                <option value="4">Semester 2</option>
+                                <option value="5">Semester 3</option>
+                                <option value="6">Semester 4</option>
+                                <option value="7">Semester 5</option>
+                                <option value="8">Semester 6</option>
+                                <option value="9">Semester 7</option>
+                                <option value="10">Semester 8</option>
+                                <option value="11">Degree</option>
+                                <option value="12">Others</option>
+                            </select>
+                        </div>
+                        <div class="input-box" *ngIf="uploadForm.get('docCat')?.value ==='4'">
+                            <label class="details">Company Name</label>
+                            <input type="text" name="docCatText" formControlName="docCatText">
+                        </div>
+
+
+                        <div class="input-box" *ngIf="uploadForm.get('docCat')?.value ==='7'">
+                            <label class="details">Document Description </label>
+                            <input type="text" name="docCatText" formControlName="docCatText">
+                        </div>
+                        <div class="input-box" *ngIf="uploadForm.get('docCat')?.value ==='8'">
+                            <label class="details">Document Description </label>
+                            <input type="text" name="docCatText" formControlName="docCatText">
+                        </div>
+
+
+                        <div class="input-box" *ngIf="uploadForm.get('docCat')?.value ==='10'" [ngSwitch]="Empuser_type">
+                            <div *ngSwitchCase="'A1'">
+                                <label class="details">Document Type</label>
+                                <select name="docType" formControlName="docType">
+                                    <option value="">---Select the document type---</option>
+                                    <option value="1">Offer Letter</option>
+                                    <option value="2">Bond</option>
+                                    <option value="3">Appointment Letter</option>
+                                    <option value="4">Confirmation Letter</option>
+                                    <option value="5">Onsite Deloyment Docket</option>
+                                    <option value="6">Revision Letter</option>
+                                    <option value="7">Compensation Letter</option>
+                                    <option value="8">Exit Interview Letter </option>
+                                    <option value="9">Relieving Letter</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="input-box" *ngIf="uploadForm.get('docCat')?.value ==='12'">
+                            <label class="details">Document Description </label>
+                            <input type="text" name="docTypeText" formControlName="docTypeText">
+                        </div>
+
+                        <div class="fileUpload">
+                            <div class="details">
+                                <label class="details">Upload Document </label>
+                            </div>
+                            <input type="file" name="uploadDoc" (change)="onFileChange($event)">
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="button" type="reset">Clear</button>
+                        <button class="button" type="submit">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        
+    </div>
+</body>
+<app-footer></app-footer>
