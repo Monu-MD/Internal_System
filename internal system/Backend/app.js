@@ -34,6 +34,7 @@ var apprver = require('./RequestModule/approveLeaves');
 var viewrequest = require('./RequestModule/ViewLev');
 
 var reimbursement=require('./reimbursementModule/initiateRem')
+var travel =require('./TravelModule/trvael')
 
 // var cms=require('./cmsModule/cms')/
 
@@ -51,4 +52,6 @@ app.use('/assetDetails',assetDeatails);
 app.use('/approverequest', apprver);
 app.use('/viewrequest', viewrequest);
 app.use('/reimbursement', reimbursement);
+app.use('/travel', travel);
+
 // app.use('/cms',cms);

@@ -1,4 +1,4 @@
-console.log("child enterd");
+console.log("Project enterd");
 var express = require('express');
 var multer = require('multer');
 var app = express();
@@ -11,6 +11,9 @@ var nodemailer = require('nodemailer');
 const { log } = require('console');
 router.use(express.json())
 var { format } = require('date-fns')
+// const roundTo = require('round-to');
+const roundTo = require('math-round');
+
 
 
 
@@ -794,6 +797,7 @@ function addproductdetails(req, res) {
 																		console.log('Email sent:', info.response);
 																	}
 
+																	res.json({ message: 'redirect to addproductdetals', notification: "Product Id created successfully with Project Id " + projectid + "" })
 
 																});
 															});
@@ -833,7 +837,7 @@ router.get('/fetchaddPjtAlldetails', function (req, res) {
 		projectname = result.rows;
 		projid_count = result.rowCount;
 
-		pool.query("select e.emp_name,e.emp_id,(select COALESCE( NULLIF(sum(b.percentage_alloc),null) ,0) from project_alloc_tbl b where b.del_flg='N' and b.emp_id=e.emp_id) as alloc from emp_master_tbl e inner join e_docket_tbl d on e.emp_id=d.emp_id  where e.emp_access in ('L2','L3') and pan_flg='Y' and aadhar_flg='Y' and sslc_flg='Y' and preuniv_flg='Y' and degree_flg='Y' and d.del_flg='N' and e.emp_id not in (select a.emp_id from project_alloc_tbl a group by a.emp_id having sum(percentage_alloc) =100) order by e.emp_name asc", function (err, result) {
+		pool.query("select e.emp_name,e.emp_id,(select COALESCE( NULLIF(sum(b.percentage_alloc),null) ,0) from project_alloc_tbl b where b.del_flg='N' and b.emp_id=e.emp_id) as alloc from emp_master_tbl e inner join e_docket_tbl d on e.emp_id=d.emp_id  where e.emp_access in ('L2','L3','L1') and pan_flg='Y' and aadhar_flg='Y' and sslc_flg='Y' and preuniv_flg='Y' and degree_flg='Y' and d.del_flg='N' and e.emp_id not in (select a.emp_id from project_alloc_tbl a group by a.emp_id having sum(percentage_alloc) =100) order by e.emp_name asc", function (err, result) {
 			empname = result.rows;
 			empname_count = result.rowCount;
 
@@ -877,7 +881,9 @@ function round(val, precision) {
 	return roundedNumber;
 }
 router.post('/projectAllocation', projectalloc);
+
 function projectalloc(req, res) {
+
 	console.log(req.body);
 	var now = new Date();
 	var rcreuserid = req.body.user_id;
@@ -931,19 +937,13 @@ function projectalloc(req, res) {
 	console.log("emplocation", employeeloc);
 	console.log("convertionrate", convRate);
 
-	// var emplist = empsel.slice(0, -1);
+	console.log(typeof (empsel));
+	var emplist = empsel.slice();
+	console.log(emplist, typeof (emplist));
 	// var arr = emplist.split("-").map(function (val) { return +val + 0; });
-	// console.log("arrayemp", arr);
+	var arr = Object.entries(emplist);
 
-
-	// var emplist = empsel.slice(0, -1);
-	// var arr = emplist.split("-").map(function (val) { return +val + 0; });
-	// console.log("arrayemp", arr);
-	var arr = empsel.slice(0, -1);
-
-	// var emplist = empsel.slice(0, -1);
-	console.log("empsel:", empsel);
-	console.log("empsel type:", typeof emplist);
+	console.log("arrayemp", arr);
 	var rArr = arr;
 	var i = 0;
 	var j = 0;
@@ -960,18 +960,14 @@ function projectalloc(req, res) {
 		peralloc = 100;
 	}
 
-
 	pool.query("SELECT sow_upld from project_master_tbl where project_id=$1", [projid], function (err, resultset) {
 		if (err) throw err;
-		// console.log(resultset.rows);
-
 		var sow_upld_flg = resultset.rows[0].sow_upld;
-		console.log(sow_upld_flg);
 
 		if (sow_upld_flg != "Y") {
 			// req.flash('error', "Project Allocation cannot be done , Since Project Sow Details have not been Uploaded")
 			// res.redirect('/projectModule/projectDetails/projectAllocation');
-			res.json({ message: "redirect ot projectAllocation", notification: 'Project Allocation cannot be done , Since Project Sow Details have not been Uploaded' })
+			res.json({ message: 'redirect to project allocation', notification: "Project Allocation cannot be done , Since Project Sow Details have not been Uploaded" })
 		}
 		else {
 			pool.query("SELECT  comm_code_desc from common_code_tbl where del_flg='N' and code_id ='MAIL' and comm_code_id = 'PROJ' ", function (err, resultset) {
@@ -983,9 +979,11 @@ function projectalloc(req, res) {
 				pool.query("select emp_email from emp_master_tbl where emp_id =$1", [rcreuserid], function (err, resultset) {
 					if (err) throw err;
 					var mail = resultset.rows[0].emp_email;
+
 					pool.query("SELECT  count(*) as cnt from project_master_tbl where closure_flg='N' and project_id =$1 and start_date<=$2", [projid, padate], function (err, resultset) {
 						if (err) throw err;
 						var count = resultset.rows[0].cnt;
+
 						if (count == 0) {
 							error_flg = "Y";
 						}
@@ -993,7 +991,6 @@ function projectalloc(req, res) {
 						pool.query("SELECT  count(*) as cnt from project_master_tbl where closure_flg='N' and project_id =$1 and end_date>=$2", [projid, pedate], function (err, resultset) {
 							if (err) throw err;
 							var cnt = resultset.rows[0].cnt;
-							console.log(cnt, "check5");
 
 							if (cnt == 0) {
 								error_flg = "Y";
@@ -1009,25 +1006,7 @@ function projectalloc(req, res) {
 								var perdiumcurr = resultset.rows[0].perdiumcurr;
 								var perdiumcurrperday = resultset.rows[0].perdium_curr_per_day;
 
-								//	if ( (projcurr == "INR") && (salcurr == "USD") )
-								/*		if ( (projcurr == homecur) && (salcurr != homecur) )
-										{
-											usablesalary = ( usablesalary - 0 ) * ( rate - 0 ); 
-										}
-										  
-										if ( (projcurr != homecur) && (salcurr == homecur) )
-										{
-											usablesalary = ( usablesalary - 0 ) / ( rate - 0 ); 
-										}
-										if ( (projcurr == homecur) && (salcurr != homecur) )
-										{
-											usablesalary = ( usablesalary - 0 ) * ( rate - 0 ); 
-										}
-										  
-										if ( (projcurr != homecur) && (salcurr == homecur) )
-										{
-											usablesalary = ( usablesalary - 0 ) / ( rate - 0 ); 
-										}*/
+
 								usablesalary = (usablesalary - 0) * (convRate - 0);
 								console.log(usablesalary);
 
@@ -1047,10 +1026,10 @@ function projectalloc(req, res) {
 										console.log('firstnoofdays1', firstnoofdays);
 										console.log('lastnoofdays1', lastnoofdays);
 										console.log('usablesalary', usablesalary);
-										console.log(value, "=-=-=-=-");
 
 										//pool.query("select salary from emp_master_tbl where emp_id=$1 group by salary_curr",[value],function(err,resultset){
-										pool.query("select salary from emp_master_tbl where emp_id=$1 ", [value], function (err, resultset) {
+										console.log(value[1]);
+										pool.query("select salary from emp_master_tbl where emp_id=$1 ", [value[1]], function (err, resultset) {
 											if (err) throw err;
 											var emp_sal = resultset.rows[0].salary;
 											console.log('emp_sal', emp_sal);
@@ -1072,54 +1051,22 @@ function projectalloc(req, res) {
 											}
 
 											totempsal = (totempsal - 0) + (firstsal - 0) + (lastsal - 0) + (monthsal - 0);
+
 											arraycnt = (arraycnt - 0) + (1 - 0);
+											console.log(arraycnt, error_flg);
+											if ((arraycnt <= len) && (error_flg != "Y")) {
 
-
-											if ((arraycnt === len) && (error_flg != "Y")) {
-
-												/*  if (projcurr != homecur)
-												{
-													totempsal = ( totempsal - 0 ) / ( rate - 0 ); 
-												}
-												
-												if (projcurr != homecur)
-												{
-													totempsal = ( totempsal - 0 ) / ( rate - 0 ); 
-												}*/
 												totempsal = (totempsal - 0) * (convRate - 0);
 
 												totsal = (totempsal - 0) + (allocatedsalary - 0);
 												console.log('totsal', totsal);
 
+												console.log("check 2");
 
 												if (totsal > usablesalary) {
 													var diff = (totsal - 0) - (usablesalary - 0);
-													var Budjetdiff = round(diff, 2);
+													var Budjetdiff = roundTo(diff, 2);
 
-													// var smtpTransport = nodemailer.createTransport('SMTP', {
-													// 	service: 'gmail',
-													// 	auth:
-													// 	{
-													// 		user: 'amber@nurture.co.in',
-													// 		pass: 'nurture@123'
-													// 	}
-													// });
-
-													// var mailOptions =
-													// {
-													// 	to: mail1,
-													// 	cc: mail,
-													// 	from: 'amber@nurture.co.in',
-													// 	subject: 'Salary Budjet Exceeding',
-													// 	text: 'Hi Team,\n\n' +
-													// 		'You are receiving this mail because you (or someone else) has tried modifying employee allocation for:\n' +
-													// 		'Project ID' + projid + '\n' +
-													// 		'Salary Budget is Exceeding by ' + Budjetdiff + ' ' + projcurr + '\n\n\n\n' +
-													// 		'- Regards,\nAmber'
-													// };
-
-													// smtpTransport.sendMail(mailOptions, function (err) {
-													// });
 													const transporter = nodemailer.createTransport({
 														service: 'gmail',
 														auth: {
@@ -1152,6 +1099,7 @@ function projectalloc(req, res) {
 
 
 													});
+
 												}
 
 
@@ -1163,46 +1111,7 @@ function projectalloc(req, res) {
 
 
 
-														/*if ( (projcurr ==homecur ) && (perdiumcurr != homecur) )
-														{
-															usableperdium = ( usableperdium - 0 ) * ( rate - 0 ); 
-														}
-													  
-														if ( (projcurr != homecur) && (perdiumcurr == homecur) )
-														{
-															usableperdium = ( usableperdium - 0 ) / ( rate - 0 ); 
-														}
-												
-														if ( (projcurr == homecur) && (perdiumcurrperday != homecur) )
-														{
-															locperdium = ( locperdium - 0 ) * ( rate - 0 ); 
-														}
-													  
-														if ( (projcurr != homecur) && (perdiumcurrperday ==homecur ) )
-														{
-															locperdium = ( locperdium - 0 ) / ( rate - 0 ); 
-														}
-												
-												
-														if ( (projcurr == homecur) && (perdiumcurr != homecur) )
-														{
-															usableperdium = ( usableperdium - 0 ) * ( rate - 0 ); 
-														}
-													  
-														if ( (projcurr != homecur) && (perdiumcurr == homecur) )
-														{
-															usableperdium = ( usableperdium - 0 ) / ( rate - 0 ); 
-														}
-												
-														if ( (projcurr == homecur) && (perdiumcurrperday != homecur) )
-														{
-															locperdium = ( locperdium - 0 ) * ( rate - 0 ); 
-														}
-													  
-														if ( (projcurr != homecur) && (perdiumcurrperday == homecur) )
-														{
-															locperdium = ( locperdium - 0 ) / ( rate - 0 ); 
-														}*/
+
 														usableperdium = (usableperdium - 0) * (convRate - 0);
 														locperdium = (locperdium - 0) * (convRate - 0);
 
@@ -1220,13 +1129,12 @@ function projectalloc(req, res) {
 
 															var reservedperdium = (locperdium - 0) * (noofdays - 0);
 															console.log('--------per reserved-----', reservedperdium);
-															var empreservedperdium = round(reservedperdium, 2, 2);
-
+															var empreservedperdium = roundTo(reservedperdium, 2);
 
 															if (totutilizedper > usableperdium) {
 
 																var diff = (totutilizedper - 0) - (usableperdium - 0);
-																var Budjetdiff = round(diff, 2);
+																var Budjetdiff = roundTo(diff, 2);
 																const transporter = nodemailer.createTransport({
 																	service: 'gmail',
 																	auth: {
@@ -1266,7 +1174,7 @@ function projectalloc(req, res) {
 																arr.forEach(function (value) {
 
 
-																	pool.query("select salary from emp_master_tbl where emp_id=$1", [value], function (err, resultset) {
+																	pool.query("select salary from emp_master_tbl where emp_id=$1", [value[1]], function (err, resultset) {
 																		if (err) throw err;
 																		var emp_sal = resultset.rows[0].salary;
 																		console.log('emp_sal', emp_sal);
@@ -1286,53 +1194,39 @@ function projectalloc(req, res) {
 																			monthsal = 0;
 
 																		}
-
-
-
 																		var reservedsal = (firstsal - 0) + (lastsal - 0) + (monthsal - 0);
-																		console.log("check3");
-																		/*if (projcurr != homecur)
-																		{
-																			reservedsal = ( reservedsal - 0 ) / ( rate - 0 ); 
-																		}*/
 																		reservedsal = (reservedsal - 0) * (convRate - 0);
-
-																		/*if (projcurr == "GBP")
-																		if (projcurr != homecur)
-																		{
-																			reservedsal = ( reservedsal - 0 ) / ( rate - 0 ); 
-																		}*/
-																		var empreservedsal = round(reservedsal, 2);
+																		var empreservedsal = roundTo(reservedsal, 2);
 																		console.log(' employee salary reserved', empreservedsal);
 
-																		pool.query("SELECT  count(*) as cnt from project_alloc_tbl  where del_flg='N' and emp_id =$1 and project_id =$2", [value, projid], function (err, resultset) {
+																		pool.query("SELECT  count(*) as cnt from project_alloc_tbl  where del_flg='N' and emp_id =$1 and project_id =$2", [value[1], projid], function (err, resultset) {
 																			if (err) throw err;
 																			var ecount = resultset.rows[0].cnt;
 																			console.log('ecount', ecount);
 																			if (ecount == 0) {
-																				pool.query("SELECT  count(*) as cnt from project_alloc_tbl  where del_flg='N' and emp_id =$1", [value], function (err, resultset) {
+																				pool.query("SELECT  count(*) as cnt from project_alloc_tbl  where del_flg='N' and emp_id =$1", [value[1]], function (err, resultset) {
 																					if (err) throw err;
 																					var rcount = resultset.rows[0].cnt;
 																					if (rcount > 0) {
-																						pool.query("select sum(percentage_alloc) as salloc from project_alloc_tbl WHERE del_flg='N' and emp_id=$1", [value], function (err, result) {
+																						pool.query("select sum(percentage_alloc) as salloc from project_alloc_tbl WHERE del_flg='N' and emp_id=$1", [value[1]], function (err, result) {
 																							if (err) throw err;
 																							var sAlloc = result.rows[0].salloc;
 																							console.log('sumalloc', sAlloc);
 																							totperalloc = (sAlloc - 0) + (peralloc - 0);
 																							perremalloc = (100 - 0) - (sAlloc - 0)
 																							if (totperalloc < 100) {
-																								pool.query("INSERT INTO public.project_alloc_tbl(project_id, emp_id,emp_loc_type, emp_reporting_mgr, project_allocation_date, emp_billable_flg, emp_project_relieving_date, rcre_user_id, rcre_time, lchg_user_id, lchg_time, del_flg, free_text_1, free_text_2, free_text_3, percentage_alloc,working_days,salary_reserved,perdium_reserved,project_crncy,convertion_rate) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [projid, value, employeeloc, projman, padate, employeebillable, pedate, rcreuserid, rcretime, lchguserid, lchgtime, 'N', ftxt1, ftxt2, ftxt3, peralloc, noofdays, empreservedsal, empreservedperdium, projcurr, convRate], function (err, result) {
+																								pool.query("INSERT INTO public.project_alloc_tbl(project_id, emp_id,emp_loc_type, emp_reporting_mgr, project_allocation_date, emp_billable_flg, emp_project_relieving_date, rcre_user_id, rcre_time, lchg_user_id, lchg_time, del_flg, free_text_1, free_text_2, free_text_3, percentage_alloc,working_days,salary_reserved,perdium_reserved,project_crncy,convertion_rate) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [projid, value[1], employeeloc, projman, padate, employeebillable, pedate, rcreuserid, rcretime, lchguserid, lchgtime, 'N', ftxt1, ftxt2, ftxt3, peralloc, noofdays, empreservedsal, empreservedperdium, projcurr, convRate], function (err, result) {
 																									if (err) throw err;
-																									pool.query("update emp_master_tbl set reporting_mgr=$1,project_id=$2 where emp_id=$3", [projman, projid, value], function (err, done) {
+																									pool.query("update emp_master_tbl set reporting_mgr=$1,project_id=$2 where emp_id=$3", [projman, projid, value[1]], function (err, done) {
 																										if (err) throw err;
 																									});
 																								});
 
 																							}
 																							if (perremalloc > 0) {
-																								pool.query("INSERT INTO public.project_alloc_tbl(project_id, emp_id,emp_loc_type, emp_reporting_mgr, project_allocation_date, emp_billable_flg, emp_project_relieving_date, rcre_user_id, rcre_time, lchg_user_id, lchg_time, del_flg, free_text_1, free_text_2, free_text_3, percentage_alloc,working_days,salary_reserved,perdium_reserved,project_crncy,convertion_rate) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [projid, value, employeeloc, projman, padate, employeebillable, pedate, rcreuserid, rcretime, lchguserid, lchgtime, 'N', ftxt1, ftxt2, ftxt3, perremalloc, noofdays, empreservedsal, empreservedperdium, projcurr, convRate], function (err, result) {
+																								pool.query("INSERT INTO public.project_alloc_tbl(project_id, emp_id,emp_loc_type, emp_reporting_mgr, project_allocation_date, emp_billable_flg, emp_project_relieving_date, rcre_user_id, rcre_time, lchg_user_id, lchg_time, del_flg, free_text_1, free_text_2, free_text_3, percentage_alloc,working_days,salary_reserved,perdium_reserved,project_crncy,convertion_rate) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [projid, value[1], employeeloc, projman, padate, employeebillable, pedate, rcreuserid, rcretime, lchguserid, lchgtime, 'N', ftxt1, ftxt2, ftxt3, perremalloc, noofdays, empreservedsal, empreservedperdium, projcurr, convRate], function (err, result) {
 																									if (err) throw err;
-																									pool.query("update emp_master_tbl set reporting_mgr=$1,project_id=$2 where emp_id=$3", [projman, projid, value], function (err, done) {
+																									pool.query("update emp_master_tbl set reporting_mgr=$1,project_id=$2 where emp_id=$3", [projman, projid, value[1]], function (err, done) {
 																										if (err) throw err;
 																									});
 																								});
@@ -1341,28 +1235,21 @@ function projectalloc(req, res) {
 																						});
 																					}
 																					else {
-																						pool.query("INSERT INTO public.project_alloc_tbl(project_id, emp_id,emp_loc_type, emp_reporting_mgr, project_allocation_date, emp_billable_flg, emp_project_relieving_date, rcre_user_id, rcre_time, lchg_user_id, lchg_time, del_flg, free_text_1, free_text_2, free_text_3, percentage_alloc,working_days,salary_reserved,perdium_reserved,project_crncy,convertion_rate) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [projid, value, employeeloc, projman, padate, employeebillable, pedate, rcreuserid, rcretime, lchguserid, lchgtime, 'N', ftxt1, ftxt2, ftxt3, peralloc, noofdays, empreservedsal, empreservedperdium, projcurr, convRate], function (err, result) {
+																						pool.query("INSERT INTO public.project_alloc_tbl(project_id, emp_id,emp_loc_type, emp_reporting_mgr, project_allocation_date, emp_billable_flg, emp_project_relieving_date, rcre_user_id, rcre_time, lchg_user_id, lchg_time, del_flg, free_text_1, free_text_2, free_text_3, percentage_alloc,working_days,salary_reserved,perdium_reserved,project_crncy,conertio_rate) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [projid, value[1], employeeloc, projman, padate, employeebillable, pedate, rcreuserid, rcretime, lchguserid, lchgtime, 'N', ftxt1, ftxt2, ftxt3, peralloc, noofdays, empreservedsal, empreservedperdium, projcurr, convRate], function (err, result) {
 																							if (err) throw err;
-																							pool.query("update emp_master_tbl set reporting_mgr=$1,project_id=$2 where emp_id=$3", [projman, projid, value], function (err, done) {
+																							pool.query("update emp_master_tbl set reporting_mgr=$1,project_id=$2 where emp_id=$3", [projman, projid, value[1]], function (err, done) {
 																								if (err) throw err;
 																							});
 																						});
-																						res.json({
-																							message: 'redirect to refer',
-																							notification: 'Employees Allocated to " + projid + " successfully'
-																						})
-																					}
-																					// req.flash('success', "Employees Allocated to " + projid + " successfully")
-																					// res.redirect(req.get('referer'));
 
+																					}
+																					return res.json({ notification: "Employees Allocated to " + projid + " successfully" })
+																					// res.redirect(req.get('referer'));
 																				});
 																			}
 																			else {
 																				console.log("already allocated");
-																				res.json({
-																					message: 'redirect to refer',
-																					notification: 'Alerdy Allocated'
-																				})
+
 																			}
 
 																		});
@@ -1384,22 +1271,15 @@ function projectalloc(req, res) {
 												/*For OFFSHORE Location*/
 												else {
 
-													// var reservedperdium = 0;
-													// var empreservedperdium = round('round', reservedperdium, 2); // Rounds to 2 decimal places
 													var reservedperdium = 0;
-													var precision = 2; // Set the number of decimal places you want
-
-													var empreservedperdium = +reservedperdium.toFixed(precision);
-													console.log(empreservedperdium); // Output: 10.26
-
-
+													var empreservedperdium = roundTo(reservedperdium, 2);
 
 													arr.forEach(function (value) {
 
 														console.log('in OFFSHORE else');
 
 														var empreservedsal = 0;
-														pool.query("select salary from emp_master_tbl where emp_id=$1", [value], function (err, resultset) {
+														pool.query("select salary from emp_master_tbl where emp_id=$1", [value[1]], function (err, resultset) {
 															if (err) throw err;
 															var emp_sal = resultset.rows[0].salary;
 															console.log('emp_sal', emp_sal);
@@ -1426,13 +1306,13 @@ function projectalloc(req, res) {
 															{
 																reservedsal = ( reservedsal - 0 ) / ( rate - 0 ); 
 															}
-												
+											    
 															if (projcurr == "GBP")
 															{
 																reservedsal = ( reservedsal - 0 ) / ( rate - 0 ); 
 															}*/
 															reservedsal = (reservedsal - 0) * (convRate - 0);
-															var empreservedsal = round(reservedsal, 2);
+															var empreservedsal = roundTo(reservedsal, 2);
 															console.log(' employee salary reserved', empreservedsal);
 
 															pool.query("SELECT  count(*) as cnt from project_alloc_tbl  where del_flg='N' and emp_id =$1 and project_id =$2", [value, projid], function (err, resultset) {
@@ -1471,25 +1351,28 @@ function projectalloc(req, res) {
 																			});
 																		}
 																		else {
-																			pool.query("INSERT INTO public.project_alloc_tbl(project_id, emp_id,emp_loc_type, emp_reporting_mgr, project_allocation_date, emp_billable_flg, emp_project_relieving_date, rcre_user_id, rcre_time, lchg_user_id, lchg_time, del_flg, free_text_1, free_text_2, free_text_3, percentage_alloc,working_days,salary_reserved,perdium_reserved,project_crncy,convertion_rate) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [projid, value, employeeloc, projman, padate, employeebillable, pedate, rcreuserid, rcretime, lchguserid, lchgtime, 'N', ftxt1, ftxt2, ftxt3, peralloc, noofdays, empreservedsal, empreservedperdium, projcurr, convRate], function (err, result) {
+																			console.log(value[1]);
+
+																			pool.query("INSERT INTO public.project_alloc_tbl(project_id, emp_id,emp_loc_type, emp_reporting_mgr, project_allocation_date, emp_billable_flg, emp_project_relieving_date, rcre_user_id, rcre_time, lchg_user_id, lchg_time, del_flg, free_text_1, free_text_2, free_text_3, percentage_alloc,working_days,salary_reserved,perdium_reserved,project_crncy,convertion_rate) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [projid, value[1], employeeloc, projman, padate, employeebillable, pedate, rcreuserid, rcretime, lchguserid, lchgtime, 'N', ftxt1, ftxt2, ftxt3, peralloc, noofdays, empreservedsal, empreservedperdium, projcurr, convRate], function (err, result) {
 																				if (err) throw err;
-																				pool.query("update emp_master_tbl set reporting_mgr=$1,project_id=$2 where emp_id=$3", [projman, projid, value], function (err, done) {
+																				console.log(value[1]);
+																				pool.query("update emp_master_tbl set reporting_mgr=$1,project_id=$2 where emp_id=$3", [projman, projid, value[1]], function (err, done) {
 																					if (err) throw err;
 																				});
 																			});
 
-																			// res.send({
-
-																			// 	notification:"Employees Allocated to " + projid + " successfully"
-																			// });
-																			res.status(200).send('OK');
+																			res.json({
+																				message: "redirect ot refere", notification: "Employees Allocated to " + projid + " successfully"
+																			})
 
 																		}
-																		// req.flash('success', "Employees Allocated to " + projid + " successfully")
-																		// res.redirect(req.get('referer'));
 																	});
 																}
 																else {
+																	console.log("already allocated");
+																	res.json({
+																		message: "redirect ot refere", notification: "already allocated"
+																	})
 
 																}
 
@@ -1513,7 +1396,7 @@ function projectalloc(req, res) {
 		}//close of sow 
 	});
 };
-////////////////////////////////////////////////////// Project De-allocatin ///////////////////////////////////////////////////////
+
 
 router.get('/fetchaddPjtDeAlldetails', function (req, res) {
 	var emp_access = req.query.user_type;
@@ -1736,9 +1619,19 @@ function customermod(req, res) {
 ////////////////////////////////////////////////////// Project Document Uplaod Start //////////////////////////////////////////////////////////////
 
 
+router.get('/fecthProjectDoc', function (req, res) {
+	pool.query("select project_id from project_master_tbl where sow_upld='N'", function (err, result) {
+		if (err) throw err
+		console.log(result.rows);
+		projectid = result.rows
+		res.json({ projectId: projectid })
+	})
+})
+
 
 const formidable = require('formidable');
 const moment = require('moment');
+const { ok } = require('assert');
 
 
 router.post('/projectDoc', projectDocUpl);
@@ -1765,7 +1658,7 @@ function projectDocUpl(req, res) {
 		var n = moment(d).format('YYYYMMDD:hhmmss:a');
 		n = n.replace(/:/g, '_').toUpperCase();
 
-		var doc="";
+		var doc = "";
 		if (docType == "1") {
 			doc = "SOW_" + projectTag + "_" + n;
 		}
@@ -1808,7 +1701,7 @@ function projectDocUpl(req, res) {
 						}
 						res.json({ message: 'redirect to refer', notification: "Document Uploaded Successfully" });
 					});
-					
+
 				}
 
 			});
@@ -1897,24 +1790,26 @@ function projectDocsView(req, res) {
 				if (sowLen == 0 && poLen == 0 && mileLen == 0 && cloLen == 0 && fbLen == 0 && aLen == 0) {
 					// req.flash('error', "No details found for this project")
 					// res.redirect(req.get('referer'));
-					res.json({message:'redirect to reffer',notification:"No details found for this project"})
+					res.json({ message: 'redirect to reffer', notification: "No details found for this project" })
 				}
 				else {
-					res.json({message:'projectModule/projectDocView',data: {
-						sowDocs: sowDocs, sowLen: sowLen,
-						poDocs: poDocs, poLen: poLen,
-						mileDocs: mileDocs, mileLen: mileLen,
-						cloDocs: cloDocs, cloLen: cloLen,
-						fbDocs: fbDocs, fbLen: fbLen,
-						aDocs: aDocs, aLen: aLen,
-						project: project,
-						docType: docType,
-						projid_count: projid_count,
-						eid: eid,
-						projId: projId,
-						ename: ename,
-						emp_access: emp_access
-					}});
+					res.json({
+						message: 'projectModule/projectDocView', data: {
+							sowDocs: sowDocs, sowLen: sowLen,
+							poDocs: poDocs, poLen: poLen,
+							mileDocs: mileDocs, mileLen: mileLen,
+							cloDocs: cloDocs, cloLen: cloLen,
+							fbDocs: fbDocs, fbLen: fbLen,
+							aDocs: aDocs, aLen: aLen,
+							project: project,
+							docType: docType,
+							projid_count: projid_count,
+							eid: eid,
+							projId: projId,
+							ename: ename,
+							emp_access: emp_access
+						}
+					});
 				}
 			});
 	}

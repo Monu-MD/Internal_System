@@ -9,14 +9,17 @@
             <div class="alert" *ngIf="notification">
                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                 {{notification}}
-              </div>
+            </div>
             <form [formGroup]="project_Doc" class="#" (ngSubmit)="onSubmit()">
                 <div class="user-details">
                     <div class="input-box">
                         <label class="Details"> Project Id </label>
 
-                        <input type="text" placeholder="Enter your project Id" name="projectid"
-                            formControlName="projectid" />
+                        <select placeholder="Enter your project Id" name="projectid" formControlName="projectid">
+                            <option *ngFor="let data of projectID" [value]="data.project_id">{{
+                                data.project_id }}</option>
+                            
+                            </select>
                     </div>
 
                     <div class="input-box">
@@ -40,7 +43,8 @@
                     <div class="input-box">
 
                         <label class="Details">Upload Document</label>
-                        <input type="file" id="uploadDoc" name="uploadDoc" class="form-control" (change)="onFileChange($event)"  accept=".pdf">
+                        <input type="file" id="uploadDoc" name="uploadDoc" class="form-control"
+                            (change)="onFileChange($event)" accept=".pdf">
                     </div>
                     <div>
                         <button class="button">Submit</button>

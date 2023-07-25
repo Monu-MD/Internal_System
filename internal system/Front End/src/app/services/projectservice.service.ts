@@ -6,6 +6,7 @@ import { Route, Router } from '@angular/router';
   providedIn: 'root'
 })
 export class ProjectserviceService {
+  projectId:any[]=[]
 
   constructor(private http: HttpClient, private router: Router) {
   }
