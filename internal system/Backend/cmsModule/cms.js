@@ -1139,10 +1139,6 @@ function cmsUploadPostEmployee(req, res) {
 
 }
 
-
-
-
-
 /////////////////////////////////////////admin Approve////////////////////////////////////////////////////////
 
 ////////////////////////////////////////EMP APPROVE//////////////////
@@ -1218,7 +1214,7 @@ function cmsApprAdmin(req,res)
 						emp_access:emp_access
 
                     }
-                    
+
 					});
 				});
 		}
@@ -1294,10 +1290,6 @@ function cmsApprEmpIdAdmin(req,res)
 		res.json('Redirect to  Admin');
 	}
 }
-
-
-
-
 
 
 //////////////////////////////////////APPROVE POST///////////////////////////////
@@ -1459,11 +1451,6 @@ function cmsApprPostAdmin(req,res)
 
         }
 }
-
-
-
-
-
 
 
 ///////////////////////////////////////INDULUAL APPPR///////////////////////////////
