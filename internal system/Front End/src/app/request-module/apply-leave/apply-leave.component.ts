@@ -12,18 +12,6 @@ export class ApplyLeaveComponent implements OnInit{
 
   addLeaveForm!: FormGroup;
 
-  // addLeaveForm = new FormGroup<any>({
-  //   sessionType: new FormControl('', [Validators.required]),
-  //   sessions: new FormControl('', [Validators.required]),
-  //   leaveType: new FormControl('', [Validators.required]),
-  //   fromDate: new FormControl('', [Validators.required]),
-  //   toDate: new FormControl('', [Validators.required]),
-  //   description: new FormControl('', [Validators.required]),
-  //   mangername: new FormControl('', [Validators.required]),
-  //   appliedNoOfDays: new FormControl('', [Validators.required]),
-  //   availableLeaves: new FormControl('', [Validators.required]),
-  //   availedLevs: new FormControl('', [Validators.required]),
-  // })
 
   user_id: any;
   user_type: any;
