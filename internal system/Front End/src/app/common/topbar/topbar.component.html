@@ -316,15 +316,36 @@
         <!-- Appraisal Module -->
         <div class="top-content" *ngSwitchCase="'tvl'">
             <ul>
-                <li><a href="" routerLink="/apprejected">App Rejected Req</a></li>
-                <li><a href="" routerLink="/approvereq">Approve Request</a></li>
-                <li><a href="" routerLink="/canceltvldet">Cancel Travel Details</a></li>
-                <li><a href="" routerLink="/canceltvlque">Cancel Travel Queue</a></li>
-                <li><a href="" routerLink="/travel">Travel</a></li>
+                <!-- Always displayed links -->
                 <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
-                <li><a href="" routerLink="/viewtvl">View Travel</a></li>
-
-            </ul>
+              
+                <!-- Links for user_type 'L1' and 'L3' -->
+                <ng-container *ngIf="user_type === 'L1' || user_type === 'L3'">
+                  <li><a href="" routerLink="/travel">Initiate Travel</a></li>
+                  <li><a href="" routerLink="/">Modify Travel Request</a></li>
+                  <li><a href="" routerLink="/">Cancel Travel</a></li>
+                  <li><a href="" routerLink="/viewtvl">View Travel</a></li>
+                </ng-container>
+              
+                <!-- Links for user_type 'L3' -->
+                <ng-container *ngIf="user_type === 'L3'">
+                  <li><a href="" routerLink="/approvereq">Approve Request</a></li>
+                </ng-container>
+              
+                <!-- Links for user_type 'A1' (All links will be displayed) -->
+                <ng-container *ngIf="user_type === 'A1'">
+                  <li><a href="" routerLink="/apprejected">App Rejected Req</a></li>
+                  <li><a href="" routerLink="/approvereq">Approve Request</a></li>
+                  <li><a href="" routerLink="/canceltvldet">Cancel Travel Details</a></li>
+                  <li><a href="" routerLink="/canceltvlque">Cancel Travel Queue</a></li>
+                  <li><a href="" routerLink="/travel">Initiate Travel</a></li>
+                  <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
+                  <li><a href="" routerLink="/viewtvl">View Travel</a></li>
+                  <li><a href="" routerLink="/">Modify Travel Request</a></li>
+                  <li><a href="" routerLink="/">Cancel Travel</a></li>
+                </ng-container>
+              </ul>
+              
         </div>
     </nav>
 

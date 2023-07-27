@@ -16,30 +16,36 @@ var moment = require('moment');
 router.get('/travel', travel);
 function travel(req, res) {
     var emp_id = req.query.employeeId;
-    pool.query("SELECT emp_access from emp_master_tbl where emp_id=$1", [emp_id], function (err, result) {
+    pool.query("SELECT emp_access FROM emp_master_tbl WHERE emp_id = $1", [emp_id], function (err, result) {
         if (err) throw err;
-
         var emp_access = result.rows[0].emp_access;
-        if (emp_access == 'L3' || emp_access == 'A1') {
-            pool.query("SELECT Distinct project_id from project_master_tbl where closure_flg=$1", ['N'], function (err, result2) {
-                if (err) {
-                    console.error('Error with table query', err);
-                } else {
-                    console.log("result", result2);
-                    var pid = result2.rows;
-                    console.log("pid", pid);
-                }
-                res.json({
-                    redirect: '/travel', projectId: {
-                        pid: pid,
-                    }
-                });
+        if (emp_access === 'A1') {
+            pool.query("SELECT emp_master_tbl.emp_id, emp_master_tbl.emp_name, project_alloc_tbl.project_id  FROM emp_master_tbl JOIN project_alloc_tbl ON emp_master_tbl.emp_id = project_alloc_tbl.emp_id;", function (err, result) {
+                if (err) throw err;
+                console.log(result.rows);
+                res.json({ redirect: '/travel', pidRptName: result.rows })
 
-            });
+            })
         }
-
+        else {
+            pool.query(
+                "SELECT project_alloc_tbl.project_id, project_alloc_tbl.emp_reporting_mgr, emp_master_tbl.emp_name AS emp_reporting_mgr_name " +
+                "FROM project_alloc_tbl " +
+                "JOIN emp_master_tbl ON project_alloc_tbl.emp_reporting_mgr = emp_master_tbl.emp_id " +
+                "WHERE project_alloc_tbl.emp_id = $1",
+                [emp_id],
+                function (err, result) {
+                    if (err) throw err;
+                    data = result.rows[0];
+                    console.log(result.rows);
+                    res.json({ redirect: '/travel', pidRptName: data })
+                }
+            );
+        }
     })
 }
+
+/////////////////// All travel Request [trvel req,cancel,modified,etc......]//////////////////////////////////
 router.post('/travelReq', travelReq);
 function travelReq(req, res) {
     console.log(req.body);
@@ -199,11 +205,11 @@ function travelReq(req, res) {
 
                     console.log("checkFlag::::falsefalsefalsefalsefalse");
 
-                    pool.query("SELECT emp_id, emp_name from emp_master_tbl where emp_id IN (SELECT emp_reporting_mgr from project_alloc_tbl where emp_id = $1 and project_id = $2)", [emp_id, pid], function (err, result2) {
+                    pool.query("SELECT emp_id, emp_name FROM emp_master_tbl WHERE emp_id IN (SELECT emp_reporting_mgr FROM project_alloc_tbl WHERE emp_id = $1 AND project_id = $2)", [emp_id, pid], function (err, result2) {
                         if (err) {
                             console.error('Error with table query', err);
                         } else {
-                            empname = result2.rows['0'].emp_name;
+                            empName = result2.rows['0'].emp_name;
                             console.log("empName", empName);
                             approverid = result2.rows['0'].emp_id;
                             console.log("approverid ::HII:", approverid);
@@ -235,7 +241,7 @@ function travelReq(req, res) {
 
                                 if (tenDate.length != "0") {
                                     console.log("tenDate", tenDate);
-                                    pool.query("INSERT INTO travel_master_tbl_temp(req_id,emp_id,emp_name,emp_access,project_id,from_date,to_date,from_location,to_location,remarks,approver_id,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time,modify_flg,request_status) values($1,$2,$3,$4,$5,$6,$7,upper($8),upper($9),upper($10),$11,$12,$13,$14,$15,$16,$17,$18)", [req_id, emp_id, empname, empaccess, pid, travelDate, tenDate, fromLoc, toLoc, rmks, approverid, 'N', rcreuserid, rcretime, lchguserid, lchgtime, 'N', 'SUB'], function (err, done) {
+                                    pool.query("INSERT INTO travel_master_tbl_temp(req_id,emp_id,emp_name,emp_access,project_id,from_date,to_date,from_location,to_location,remarks,approver_id,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time,modify_flg,request_status,appr_flg,confrm_flg,reject_flg) values($1,$2,$3,$4,$5,$6,$7,upper($8),upper($9),upper($10),$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [req_id, emp_id, empname, empaccess, pid, travelDate, tenDate, fromLoc, toLoc, rmks, approverid, 'N', rcreuserid, rcretime, lchguserid, lchgtime, 'N', 'SUB', 'N', 'N', 'N'], function (err, done) {
                                         if (err) throw err;
                                         //  req.flash('success',"Travel request has been submitted successfully with Request Id:"+ req_id +".");
                                         // res.redirect('/travelModule/travelCyber');
@@ -347,9 +353,9 @@ function travelReq(req, res) {
                                                                 pnr_number: pnr_number,
                                                                 free_text_1: free_text_1,
                                                                 ticket_number: ticket_number,
-                                                               
 
-                                                            },notification: success
+
+                                                            }, notification: success
                                                         });
 
                                                     });

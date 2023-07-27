@@ -10,21 +10,26 @@ import { TravelServiceService } from 'src/app/services/travel-service.service';
   styleUrls: ['./travel.component.css']
 })
 export class TravelComponent {
-  projectId: any;
+  pidRptName: any;
   user_name: any;
   user_type: any;
   user_id: any;
-  notification:any;
+  notification: any;
+  disable: any;
+  selectedProject: any;
+  reportingManager:any;
+  rptMgrId:any;
   constructor(private travelservice: TravelServiceService, private loginservice: LoginServiceService,
-    private http :HttpClient) {
-    this.projectId = this.travelservice.getTrvelData()[0].pid;
+    private http: HttpClient) {
+    // this.pidRptName = this.travelservice.getTrvelData()[0];
+
+    this.pidRptName = [this.travelservice.getTrvelData()[0]];
     this.user_id = this.loginservice.getData()[0];
     this.user_name = this.loginservice.getData()[1];
     this.user_type = this.loginservice.getData()[2];
-
-    console.log(this.user_name);
-    
+    this.notification=this.travelservice.getTrvelData()[1];
   }
+
   travelid = new FormGroup<any>({
 
     projectId: new FormControl(''),
@@ -34,9 +39,18 @@ export class TravelComponent {
     fromLocation: new FormControl(''),
     toLocation: new FormControl(''),
     remarks: new FormControl(''),
-    toBeApprovedby: new FormControl('')
+    toBeApprovedby: new FormControl(''),
+    rptMgrId: new FormControl(''),
+
 
   })
+  onProjectSelection() {
+    const selectedProjectId = this.travelid.get('projectId')?.value;
+    this.selectedProject = this.pidRptName.find((project: { project_id: any; }) => project.project_id === selectedProjectId);
+    this.reportingManager=this.selectedProject.emp_reporting_mgr_name;
+    this.rptMgrId=this.selectedProject.emp_reporting_mgr
+    
+  }
 
   travel(item: any) {
     console.log(item);
@@ -45,20 +59,8 @@ export class TravelComponent {
       user_name: this.user_name,
       user_type: this.user_type,
       user_id: this.user_id,
-      test:'Submit'
+      test: 'Submit'
     };
-    this.http.post('http://localhost:4000/travel/travelReq',payload).subscribe(
-      (response: any) => {
-        console.log(response.message);
-        console.log(response);
-        this.notification=response.notification;
-
-      },
-      (error: any) => {
-        console.error('API Error:', error);
-        // Handle error cases and navigate accordingly
-        // this.router.navigate(['/error']);
-      }
-    );
+    this.travelservice.travelReq(payload)
   }
 }

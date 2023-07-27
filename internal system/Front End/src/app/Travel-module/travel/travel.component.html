@@ -6,63 +6,69 @@
         <div class="alert" *ngIf="notification">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             {{notification}}
-          </div>
+        </div>
         <h1 class="title">Initiate Travel Request flight</h1>
         <div class="content">
             <form class="#" [formGroup]="travelid" (ngSubmit)="travel(travelid.value)">
                 <div class="user-details">
                     <div class="input-box">
-                        <label class="Details">Project Id </label>
-
-                        <select name="projectId" formControlName="projectId">
-                            <option>Select</option>
-                            <option *ngFor="let data of projectId">{{data.project_id}}</option>
+                        <label class="Details">Project Id</label>
+                        <select name="projectId" formControlName="projectId" (change)="onProjectSelection()">
+                            <option *ngFor="let data of pidRptName" [value]="data.project_id">{{ data.project_id }}</option>
+                          </select>
+                    </div>
+                    <div class="input-box" *ngIf="user_type !== 'L1'">
+                        <label class="Details">Employee Name</label>
+                        <select name="employeeId" formControlName="employeeId">
+                            
+                            <option *ngFor="let data of pidRptName">{{data.project_id}}</option>
                         </select>
                     </div>
 
-                    <div style="display: flex;
-            flex-wrap: wrap;
-            justify-content: right;
-            margin: 100px 10px 50px px;">
+                    <div style="display: flex; flex-wrap: wrap; justify-content: right; margin: 100px 10px 50px px;">
                         <div class="radioButton">
                             <label>Round-trip Journey</label>
                             <input type="radio" formControlName="journeyType" value="N" name="journeyType">
-
                             <label>Single-trip Journey</label>
-                            <input type="radio" formControlName="journeyType" value="Y" name="journeyType">
+                            <input type="radio" formControlName="journeyType"    value="Y" name="journeyType">
                         </div>
                     </div>
-
 
                     <div class="input-box">
                         <label class="Details">Travel Date</label>
                         <input type="date" name="travelDate" formControlName="travelDate" />
                     </div>
 
-
                     <div class="input-box">
                         <label class="Details">Tentative Return Date</label>
-                        <input type="date" name="tentativeReturnDate" formControlName="tentativeReturnDate" />
+                        <input
+                        type="date"
+                        name="tentativeReturnDate"
+                        formControlName="tentativeReturnDate"
+                        />
+                      
                     </div>
+
+                    <div class="input-box"  >
+                        <label class="Details">To be approved by</label>
+                        <input type="text"[ngModel]="reportingManager" [readonly]="true" name="toBeApprovedby" formControlName="toBeApprovedby"/>
+                        <input type="hidden" name="rptMgrId" [ngModel]="rptMgrId"  [value]="rptMgrId" formControlName="rptMgrId" />
+
+                    </div>
+
                     <div class="input-box">
                         <label class="Details">From Location</label>
                         <input type="text" name="fromLocation" formControlName="fromLocation" />
                     </div>
+
                     <div class="input-box">
-                        <label class="Details">To Location </label>
+                        <label class="Details">To Location</label>
                         <input type="text" name="toLocation" formControlName="toLocation" />
                     </div>
 
-
                     <div class="input-box">
-                        <label class="Details">Remarks </label>
+                        <label class="Details">Remarks</label>
                         <input type="text" name="remarks" formControlName="remarks" />
-                    </div>
-
-                    <div class="input-box">
-                        <label class="Details"> To be approved by </label>
-                        <input type="text" [ngModel]="user_name" [readOnly]="true" name="toBeApprovedby"
-                            formControlName="toBeApprovedby" />
                     </div>
                 </div>
                 <div>
