@@ -146,7 +146,8 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
 import { ProjectDocumentComponent } from './project-module/project-document/project-document.component';
 import { DocumentListComponent } from './document-list/document-list.component';  
 import { DocAppRejComponent } from './cms-module/doc-app-rej/doc-app-rej.component';
-import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';  
+import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';
+import { ViewDocStatusComponent } from './cms-module/view-doc-status/view-doc-status.component';  
 
 
 
@@ -293,6 +294,7 @@ import { SearchEmployeeComponent } from './cms-module/search-employee/search-emp
       DocumentListComponent,
       DocAppRejComponent,
       SearchEmployeeComponent,
+      ViewDocStatusComponent,
  
 
 

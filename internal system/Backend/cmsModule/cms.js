@@ -1695,6 +1695,7 @@ router.get('/profile-photo/:eid', (req, res) => {
 
 //------------------------    Employee Doc View  ----------------------
 
+
 router.get('/cmsViewEmployee', cmsViewEmployee);
 function cmsViewEmployee(req, res) {
 
@@ -1707,17 +1708,6 @@ function cmsViewEmployee(req, res) {
     var govLen = 0, eduLen = 0, medLen = 0, expLen = 0, phLen = 0, resLen = 0, hrLen = 0, cerLen = 0, othrLen = 0, bgLen = 0, polLen = 0, policy_count = 0;
 
     var resValue1;
-
-    // govLen = 0;
-    // eduLen = 0;
-    // medLen = 0;
-    // expLen = 0;
-    // phLen = 0;
-    // othrLen = 0;
-    // resLen = 0;
-    // hrLen = 0;
-    // cerLen = 0;
-    // bgLen = 0;
 
     var testFolder = './data/CMS/employee/uploadDoc/' + eid + "/";
     if (!fs.existsSync(testFolder)) {
