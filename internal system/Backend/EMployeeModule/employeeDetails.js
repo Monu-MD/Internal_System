@@ -1820,8 +1820,8 @@ function apprPen(req, res) {
 
 	// var empId = req.user.rows['0'].user_id;
 
-	pool.query("SELECT user_type from users where user_id = $1", [emp_id], function (err, result) {
-		emp_access = result.rows['0'].user_type;
+	// pool.query("SELECT user_type from users where user_id = $1", [emp_id], function (err, result) {
+	// 	emp_access = result.rows['0'].user_type;
 
 		pool.query("select emp_id,emp_name,gender,dob,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,phone1,phone2,father_name,mother_name,martial_status,spouse_name,pan_number,passport_num,aadhaar_num,license_num,blood_group,shirt_size,emergency_num,emergency_con_person,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code from emp_info_tbl_temp where LOWER(emp_id)=LOWER($1)", [emp_id], function (err, result) {
 			if (err) throw err;
@@ -1840,6 +1840,7 @@ function apprPen(req, res) {
 				var empAccess = resultset.rows['0'].emp_access;
 				var jDate = resultset.rows['0'].joining_date;
 				// var jDate = dateFormat(jDate, "yyyy-mm-dd");
+			
 				var desig = resultset.rows['0'].designation;
 				var empClass = resultset.rows['0'].emp_classification;
 				var salary = resultset.rows['0'].salary;
@@ -1854,6 +1855,7 @@ function apprPen(req, res) {
 				var preEmp4 = resultset.rows['0'].prev_empr4;
 				var preEmp5 = resultset.rows['0'].prev_empr5;
 				//query to select description of employee Access
+				
 
 				pool.query("select comm_code_desc from common_code_tbl where code_id='ACC' and comm_code_id=$1", [empAccess], function (err, resultset) {
 					empAccess_desc = resultset.rows['0'].comm_code_desc;
@@ -1874,6 +1876,9 @@ function apprPen(req, res) {
 							pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'DSG' ", function (err, result) {
 								comm_code_desig = result.rows;
 								comm_code_desig_count = result.rowCount;
+
+
+							
 
 								//query to fetch other Data from Table for reporting manager
 
@@ -1971,7 +1976,7 @@ function apprPen(req, res) {
 			});
 
 		});
-	});
+	// });
 }
 
 

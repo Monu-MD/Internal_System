@@ -45,6 +45,7 @@ export class ApproveLeaveComponent {
     
   }
 
+  
   ngOnInit() {
     this.fetchData(this.user_id);
   }

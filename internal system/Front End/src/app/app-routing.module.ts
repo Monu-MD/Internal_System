@@ -107,7 +107,9 @@ import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.compon
 import{ProjectDocumentComponent}from './project-module/project-document/project-document.component' 
 import { DocAppRejComponent } from './cms-module/doc-app-rej/doc-app-rej.component';
 import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component'; 
-   
+import { SearchEmpDocAppRejComponent } from './cms-module/search-emp-doc-app-rej/search-emp-doc-app-rej.component';  
+import { DocumentsComponent } from './cms-module/documents/documents.component';  
+
 const routes: Routes = [
 
   { path: 'admindashboard', component: AdminDashboardComponent },
@@ -211,7 +213,10 @@ const routes: Routes = [
   {path:'viewPolcy',component:ViewPolicyComponent},
   {path:'docAppRej',component:DocAppRejComponent},
   {path:'searchEmp',component:SearchEmployeeComponent},
-  
+  {path:'searchEmpAppRej',component:SearchEmpDocAppRejComponent},
+  {path:'docs',component:DocumentsComponent},
+     
+
   
   //mahesh
   { path: 'cocd', component: CommonCodeDetailsComponent },
