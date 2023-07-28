@@ -108,6 +108,8 @@ import { ProjectDocumentComponent } from './project-module/project-document/proj
 import { DocAppRejComponent } from './cms-module/doc-app-rej/doc-app-rej.component';
 import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';
 import { ViewDocStatusComponent } from './cms-module/view-doc-status/view-doc-status.component';
+import { SearchEmpDocAppRejComponent } from './cms-module/search-emp-doc-app-rej/search-emp-doc-app-rej.component';  
+import { DocumentsComponent } from './cms-module/documents/documents.component';  
 
 const routes: Routes = [
 
@@ -213,7 +215,8 @@ const routes: Routes = [
   { path: 'viewMagz', component: ViewMagzineComponent },
   { path: 'viewPolcy', component: ViewPolicyComponent },
   { path: 'docAppRej', component: DocAppRejComponent },
-
+  {path:'searchEmpAppRej',component:SearchEmpDocAppRejComponent},
+  {path:'docs',component:DocumentsComponent},
 
   //mahesh
   { path: 'cocd', component: CommonCodeDetailsComponent },

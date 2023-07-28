@@ -125,7 +125,7 @@ export class SidebarComponent {
       this.router.navigate(['applyLev'])
     }
     if (item == 'cms') {
-      this.router.navigate(['cmsUpload'])
+      this.router.navigate(['docs'])
     }
   }
 }

@@ -32,13 +32,13 @@ interface EmployeeDocument {
   ename: string;
   emp_access: string;
 }
-
 @Component({
-  selector: 'app-search-employee',
-  templateUrl: './search-employee.component.html',
-  styleUrls: ['./search-employee.component.css']
+  selector: 'app-search-emp-doc-app-rej',
+  templateUrl: './search-emp-doc-app-rej.component.html',
+  styleUrls: ['./search-emp-doc-app-rej.component.css']
 })
-export class SearchEmployeeComponent {
+export class SearchEmpDocAppRejComponent {
+
   user_type: any;
   user_id: any;
 
@@ -60,10 +60,9 @@ export class SearchEmployeeComponent {
     console.log("On Item employeeID: " + item.employeeId);
     if (item != null) {
       this.service.sendEmpId(item.employeeId)
-      this.router.navigateByUrl("/viewDocs");
+      this.router.navigateByUrl("/docAppRej");
     }
   
 
   }
-  
 }

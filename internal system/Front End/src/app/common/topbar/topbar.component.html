@@ -143,7 +143,79 @@
 
 
     <!-- cms Module  -->
-    
+    <nav class="menu">
+        <div class="top-content" *ngSwitchCase="'upld'">
+            <div [ngSwitch]="user_type">
+                <div *ngSwitchCase="'L1'">
+                    <ul>
+                        <li><a href="" routerLink="/cmsUpload">Upload Documents</a></li>
+                        <li><a href="" routerLink="/viewStats">View Status</a></li>
+                        <li><a href="" routerLink="/viewDocs">View Documents</a></li>
+                    </ul>
+                </div>
+              <div *ngSwitchCase="'L3'">
+                    <ul>
+                        <li><a href="" routerLink="/cmsUpload">Upload Documents</a></li>
+                        <li><a href="" routerLink="/viewStats">View Status</a></li>
+                        <li><a href="" routerLink="/viewDocs">View Documents</a></li>
+                    </ul>
+                </div>
+                <div class="top-content" *ngSwitchCase="'A1'">
+                    <ul>
+                        <li><a href="" routerLink="/cmsUpload">Upload Documents</a></li>
+                        <li><a href="" routerLink="/searchEmp">View Employee Documents</a></li>
+                        <li><a href="" routerLink="/searchEmpAppRej">App/Rej Documents</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="menu">
+        <div class="top-content" *ngSwitchCase="'Magz'">
+            <div [ngSwitch]="user_type">
+                <div *ngSwitchCase="'L1'">
+                    <ul>
+                        <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
+                    </ul>
+                </div>
+              <div *ngSwitchCase="'L3'">
+                    <ul>
+                        <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
+                    </ul>
+                </div>
+                <div class="top-content" *ngSwitchCase="'A1'">
+                    <ul>
+                        <li><a href="" routerLink="/magzineUpld">Upload Magzine</a></li>
+                        <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="menu">
+        <div class="top-content" *ngSwitchCase="'Polcy'">
+            <div [ngSwitch]="user_type">
+                <div *ngSwitchCase="'L1'">
+                    <ul>
+                        <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
+                    </ul>
+                </div>
+              <div *ngSwitchCase="'L3'">
+                    <ul>
+                        <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
+                    </ul>
+                </div>
+                <div class="top-content" *ngSwitchCase="'A1'">
+                    <ul>
+                        <li><a href="" routerLink="/policyupld">Upload Policy Docs</a></li>
+                        <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <!-- Capture Module  -->
     <nav class="menu">
