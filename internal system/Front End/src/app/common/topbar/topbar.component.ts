@@ -98,7 +98,8 @@ export class TopbarComponent {
         }
 
         //cms
-        if (this.currentRoute == "/cmsUpload" || this.currentRoute=="/viewDocs"|| this.currentRoute=="/searchEmp"||this.currentRoute=="/searchEmpAppRej"||this.currentRoute=="/docAppRej"){
+
+        if (this.currentRoute == "/cmsUpload" || this.currentRoute=="/viewDocs"|| this.currentRoute=="/searchEmp"||this.currentRoute=="/searchEmpAppRej"||this.currentRoute=="/docAppRej" ||this.currentRoute=="/viewStats"){
           this.data = "upld"
         }
         if ( this.currentRoute == "/magzineUpld" || this.currentRoute=="/viewMagz"){
@@ -108,10 +109,6 @@ export class TopbarComponent {
           this.data = "Polcy"
         }
 
-        // if (this.currentRoute == "/cmsUpload"||this.currentRoute == "/policyupld"|| this.currentRoute=="viewPolcy"|| 
-        //           this.currentRoute=="/viewDocs"|| this.currentRoute=="searchEmp"||this.currentRoute == "/policyupld"|| this.currentRoute=="viewPolcy"){
-        //   this.data = "cms"
-        // }
 
         // /Asset
         if (this.currentRoute == "/ItAssetDetails" || this.currentRoute == "/ModifyItAssetDetails" || this.currentRoute == "/ViewItAssetDetails" || this.currentRoute == "/ViewItAssetDetail") {

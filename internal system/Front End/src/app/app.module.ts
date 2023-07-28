@@ -147,6 +147,7 @@ import { ProjectDocumentComponent } from './project-module/project-document/proj
 import { DocumentListComponent } from './document-list/document-list.component';  
 import { DocAppRejComponent } from './cms-module/doc-app-rej/doc-app-rej.component';
 import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';
+import { ViewDocStatusComponent } from './cms-module/view-doc-status/view-doc-status.component';  
 import { SearchEmpDocAppRejComponent } from './cms-module/search-emp-doc-app-rej/search-emp-doc-app-rej.component';
 import { DocumentsComponent } from './cms-module/documents/documents.component';  
 
@@ -295,8 +296,10 @@ import { DocumentsComponent } from './cms-module/documents/documents.component';
       DocumentListComponent,
       DocAppRejComponent,
       SearchEmployeeComponent,
+      ViewDocStatusComponent,
       SearchEmpDocAppRejComponent,
       DocumentsComponent,
+
  
 
 
