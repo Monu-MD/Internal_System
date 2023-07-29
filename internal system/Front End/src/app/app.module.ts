@@ -151,7 +151,6 @@ import { ViewDocStatusComponent } from './cms-module/view-doc-status/view-doc-st
 import { SearchEmpDocAppRejComponent } from './cms-module/search-emp-doc-app-rej/search-emp-doc-app-rej.component';
 import { DocumentsComponent } from './cms-module/documents/documents.component';
 import { DocumentList2Component } from './document-list2/document-list2.component';
-import { RejectViewComponent } from './reject-view/reject-view.component';
 import { RejDocComponent } from './cms-module/rej-doc/rej-doc.component';  
 
 
@@ -303,7 +302,6 @@ import { RejDocComponent } from './cms-module/rej-doc/rej-doc.component';
       SearchEmpDocAppRejComponent,
       DocumentsComponent,
       DocumentList2Component,
-      RejectViewComponent,
       RejDocComponent,
 
  
