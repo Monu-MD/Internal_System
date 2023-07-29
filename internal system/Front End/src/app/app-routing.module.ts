@@ -103,10 +103,14 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { CancelLeaveComponent } from './request-module/cancel-leave/cancel-leave.component';
 import { ViewDocumentsComponent } from './cms-module/view-documents/view-documents.component';
 import { ViewMagzineComponent } from './cms-module/view-magzine/view-magzine.component';
-import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';   
-import{ProjectDocumentComponent}from './project-module/project-document/project-document.component' 
+import { ViewPolicyComponent } from './cms-module/view-policy/view-policy.component';
+import { ProjectDocumentComponent } from './project-module/project-document/project-document.component'
 import { DocAppRejComponent } from './cms-module/doc-app-rej/doc-app-rej.component';
-import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';    
+import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';
+import { ViewDocStatusComponent } from './cms-module/view-doc-status/view-doc-status.component';
+import { SearchEmpDocAppRejComponent } from './cms-module/search-emp-doc-app-rej/search-emp-doc-app-rej.component';  
+import { DocumentsComponent } from './cms-module/documents/documents.component';  
+import { RejDocComponent } from './cms-module/rej-doc/rej-doc.component';
 import { FAQComponent } from './faq/faq.component';
 
 const routes: Routes = [
@@ -205,16 +209,18 @@ const routes: Routes = [
 
   //cms
   { path: 'cmsUpload', component: CmsUploadAdminComponent },
-  { path: 'magzineUpld', component: MagzineUploadAdminComponent },
   { path: 'policyupld', component: PolicyUploadAdminComponent },
+  { path: 'magzineUpld', component: MagzineUploadAdminComponent },
+  { path: 'searchEmp', component: SearchEmployeeComponent },
+  { path: 'viewDocs', component: ViewDocumentsComponent },
+  { path: 'viewStats', component: ViewDocStatusComponent },
+  { path: 'viewMagz', component: ViewMagzineComponent },
+  { path: 'viewPolcy', component: ViewPolicyComponent },
+  { path: 'docAppRej', component: DocAppRejComponent },
+  {path:'searchEmpAppRej',component:SearchEmpDocAppRejComponent},
+  {path:'docs',component:DocumentsComponent},
+  {path:'rejView',component:RejDocComponent},
 
-  {path:'viewDocs',component: ViewDocumentsComponent},
-  {path:'viewMagz',component:ViewMagzineComponent},
-  {path:'viewPolcy',component:ViewPolicyComponent},
-  {path:'docAppRej',component:DocAppRejComponent},
-  {path:'searchEmp',component:SearchEmployeeComponent},
-  
-  
 
   //mahesh
   { path: 'cocd', component: CommonCodeDetailsComponent },

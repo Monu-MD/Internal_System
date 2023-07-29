@@ -99,10 +99,17 @@ export class TopbarComponent {
         }
 
         //cms
-        if (this.currentRoute == "/cmsUpload" || this.currentRoute == "/magzineUpld" || this.currentRoute == "/policyupld" || this.currentRoute=="/viewDocs" || this.currentRoute=="viewMagz" || this.currentRoute=="viewPolcy"|| this.currentRoute=="searchEmp"){
 
-          this.data = "cms"
+        if (this.currentRoute == "/cmsUpload" || this.currentRoute=="/viewDocs"|| this.currentRoute=="/searchEmp"||this.currentRoute=="/searchEmpAppRej"||this.currentRoute=="/docAppRej" ||this.currentRoute=="/viewStats"){
+          this.data = "upld"
         }
+        if ( this.currentRoute == "/magzineUpld" || this.currentRoute=="/viewMagz"){
+          this.data = "Magz"
+        }
+        if (this.currentRoute == "/policyupld"|| this.currentRoute=="/viewPolcy"){
+          this.data = "Polcy"
+        }
+
 
         // /Asset
         if (this.currentRoute == "/ItAssetDetails" || this.currentRoute == "/ModifyItAssetDetails" || this.currentRoute == "/ViewItAssetDetails" || this.currentRoute == "/ViewItAssetDetail") {
