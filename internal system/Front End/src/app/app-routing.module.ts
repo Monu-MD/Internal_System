@@ -111,9 +111,10 @@ import { ViewDocStatusComponent } from './cms-module/view-doc-status/view-doc-st
 import { SearchEmpDocAppRejComponent } from './cms-module/search-emp-doc-app-rej/search-emp-doc-app-rej.component';
 import { DocumentsComponent } from './cms-module/documents/documents.component';
 import { RejDocComponent } from './cms-module/rej-doc/rej-doc.component';
+import { FAQComponent } from './faq/faq.component';
 
 const routes: Routes = [
-
+  { path: 'faq', component: FAQComponent },
   { path: 'admindashboard', component: AdminDashboardComponent },
 
   { path: '', component: LoginComponent },
@@ -219,6 +220,7 @@ const routes: Routes = [
   { path: 'searchEmpAppRej', component: SearchEmpDocAppRejComponent },
   { path: 'docs', component: DocumentsComponent },
   { path: 'rejView', component: RejDocComponent },
+
 
   //mahesh
   { path: 'cocd', component: CommonCodeDetailsComponent },

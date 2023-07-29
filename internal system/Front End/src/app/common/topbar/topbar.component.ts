@@ -16,6 +16,7 @@ export class TopbarComponent {
   user_id: any;
 
 
+
   redirect() {
 
   }
@@ -83,7 +84,7 @@ export class TopbarComponent {
           this.data = "arn"
         }
         //project
-        if (this.currentRoute == "/childproject" || this.currentRoute == "/ProjectDoc" || this.currentRoute == "/CustomerModification" || this.currentRoute == "/CustomerView" || this.currentRoute == "/Customercreation" || this.currentRoute == "/ProjDealloc" || this.currentRoute == "/ProjectAllocation" || this.currentRoute == "/ProjectDetial") {
+        if (this.currentRoute == "/childproject" || this.currentRoute == "/faq" || this.currentRoute == "/ProjectDoc" || this.currentRoute == "/CustomerModification" || this.currentRoute == "/CustomerView" || this.currentRoute == "/Customercreation" || this.currentRoute == "/ProjDealloc" || this.currentRoute == "/ProjectAllocation" || this.currentRoute == "/ProjectDetial") {
           this.data = "pjt"
         }
 
@@ -93,7 +94,7 @@ export class TopbarComponent {
         }
 
         //request
-        if (this.currentRoute == "/applyLev" || this.currentRoute == "/approveLev" || this.currentRoute == "/levBal" || this.currentRoute == "/levSum" || this.currentRoute == "/markLev" || this.currentRoute == "/unmarkLev" || this.currentRoute == "/viewHol" || this.currentRoute == "/viewLev" || this.currentRoute=="/viewLevCancel") {
+        if (this.currentRoute == "/applyLev" || this.currentRoute == "/approveLev" || this.currentRoute == "/levBal" || this.currentRoute == "/levSum" || this.currentRoute == "/markLev" || this.currentRoute == "/unmarkLev" || this.currentRoute == "/viewHol" || this.currentRoute == "/viewLev" || this.currentRoute == "/viewLevCancel") {
           this.data = "req"
         }
 
@@ -161,7 +162,7 @@ export class TopbarComponent {
       );
   }
 
-  fetchaddPjtAlldetails(){
+  fetchaddPjtAlldetails() {
     const params = new HttpParams().set('user_id', this.user_id.toString())
 
 
@@ -178,7 +179,7 @@ export class TopbarComponent {
         }
       );
   }
-  fetchaddPjtDeAlldetails(){
+  fetchaddPjtDeAlldetails() {
     const params = new HttpParams().set('user_type', this.user_type.toString())
 
 
@@ -197,7 +198,7 @@ export class TopbarComponent {
   }
 
 
-  addProfile(){
+  addProfile() {
     const params = new HttpParams().set('user_id', this.user_id.toString())
 
 
@@ -205,7 +206,7 @@ export class TopbarComponent {
       .subscribe(
         (response: any) => {
           console.log(response);
-          this.loginService.cocd=response.cocd
+          this.loginService.cocd = response.cocd
           this.router.navigate(['/empProfessional'])
         },
         error => {
@@ -215,6 +216,25 @@ export class TopbarComponent {
       );
   }
 
-  
+  faq(value: any) {
+    this.prjectservice.setFaq(value);
+    this.router.navigate(['/faq'])
+  }
 
+  fetchaddProjectDoc() {
+    this.http.get('http://localhost:4000/projectdetails/fecthProjectDoc',)
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.prjectservice.projectId = response.projectId
+          this.router.navigate(['/ProjectDoc'])
+        },
+        error => {
+          console.error(error);
+          alert('Error ');
+        }
+      );
+  }
+
+  
 }
