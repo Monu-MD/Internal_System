@@ -1,0 +1,67 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+
+<div class="container" class="tablecontainer" class="viewData">
+  <div class="table-content">
+    <div class="notification" [ngClass]="{'success': isSuccess, 'error': isError}">
+      {{ message }}
+    </div>
+    <ng-container *ngIf="rejetedData">
+      <table class="tables">
+        <thead>
+          <tr>
+            <th>Documents</th>
+            <th>Rejected Reason</th>
+            <th>Delete Option</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Government Documents -->
+          <ng-container *ngIf="rejetedData.govLen1 !== 0">
+            <tr *ngFor="let doc2 of rejetedData.govDocs1">
+              <td>
+                <h5 class="document-text">{{ doc2 }}</h5>
+              </td>
+              <td>{{ rejetedData.eid }}</td>
+              <td>
+                <button type="button" class="btn btn-primary document-icons"
+                  (click)="deleteDocument(doc2, rejetedData.eid)">
+                  Delete <span class="fa fa-trash"></span>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+
+          <!-- Educational Documents -->
+          <ng-container *ngIf="rejetedData.eduLen1 !== 0">
+            <tr *ngFor="let doc2 of rejetedData.eduDocs1">
+              <td>
+                <h5 class="document-text">{{ doc2 }}</h5>
+              </td>
+              <td>{{ rejetedData.eid }}</td>
+              <td>
+                <button type="button" class="btn btn-primary document-icons"
+                  (click)="deleteDocument(doc2, rejetedData.eid)">
+                  Delete <span class="fa fa-trash"></span>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+
+        </tbody>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+      </table>
+    </ng-container>
+
+    <!-- <ng-container *ngIf="!employeeData || (employeeData.govLen === 0 && employeeData.eduLen === 0)">
+      <ng-template #noRecords>
+        <label style="color:#404040;">No records found</label>
+        <br />
+      </ng-template>
+    </ng-container> -->
+  </div>
+</div>
+
+<app-footer></app-footer>

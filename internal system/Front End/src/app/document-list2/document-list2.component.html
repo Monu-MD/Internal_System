@@ -1,0 +1,63 @@
+<ng-container *ngIf="employeeData && employeeData.eid">
+  <label class="hedr">
+    <h4>{{ header }}</h4>
+  </label>
+
+  <ng-container *ngIf="documents.length > 0; else noDocuments">
+    <ol>
+      <li *ngFor="let doc of documents">
+        <div class="document-list">
+          <div class="document-item">
+            <h5 class="document-text">{{ doc }}</h5>
+            <button type="button" class="btn btn-primary document-icons"
+              (click)="deleteDocument(doc, employeeData.eid)">
+              Delete <span class="fa fa-trash"></span>
+            </button>
+          </div>
+        </div>
+      </li>
+    </ol>
+
+    <div class="notification" [ngClass]="{'success': isSuccess, 'error': isError}">
+      {{ message }}
+    </div>
+  </ng-container>
+
+  <ng-template #noDocuments>
+    <p>No documents found.</p>
+  </ng-template>
+  <br />
+</ng-container>
+
+
+<!-- 
+<ng-container *ngIf="rejetedData && rejetedData.eid">
+  <table>
+    <thead>
+      <tr>
+        <th>Documents</th>
+        <th>Rejected Reason</th>
+        <th>Delete Option</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="documents2.length > 0; else noRejectedDocuments">
+        <tr *ngFor="let doc2 of documents2">
+          <td>
+            <h5 class="document-text">{{ doc2 }}</h5>
+          </td>
+          <td>{{ rejetedData.rejectedReasonProperty }}</td>
+          <td>
+            <input type="button" class="btn btn-danger btn-fill" style="float: center;"
+              (click)="deleteDocument(doc2, rejetedData.eid)">
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <ng-template #noRejectedDocuments>
+    <p>No rejected documents found.</p>
+  </ng-template>
+  <br />
+</ng-container> -->

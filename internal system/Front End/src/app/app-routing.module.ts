@@ -110,6 +110,7 @@ import { SearchEmployeeComponent } from './cms-module/search-employee/search-emp
 import { ViewDocStatusComponent } from './cms-module/view-doc-status/view-doc-status.component';
 import { SearchEmpDocAppRejComponent } from './cms-module/search-emp-doc-app-rej/search-emp-doc-app-rej.component';  
 import { DocumentsComponent } from './cms-module/documents/documents.component';  
+import { RejDocComponent } from './cms-module/rej-doc/rej-doc.component';
 
 const routes: Routes = [
 
@@ -217,6 +218,7 @@ const routes: Routes = [
   { path: 'docAppRej', component: DocAppRejComponent },
   {path:'searchEmpAppRej',component:SearchEmpDocAppRejComponent},
   {path:'docs',component:DocumentsComponent},
+  {path:'rejView',component:RejDocComponent},
 
   //mahesh
   { path: 'cocd', component: CommonCodeDetailsComponent },
