@@ -74,6 +74,7 @@ export class ProjectDetialComponent {
 
         this.notification = response.notification;
         
+        
       },
       (error: any) => {
         console.error('API Error:', error);
