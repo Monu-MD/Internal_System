@@ -1,4 +1,7 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LoginServiceService } from 'src/app/services/login-service.service';
 
 @Component({
   selector: 'app-view-travel-appr-queue',
@@ -7,17 +10,52 @@ import { Component } from '@angular/core';
 })
 export class ViewTravelApprQueueComponent {
 
-  viewtravel = [
-    {  reqid: 'No Record Found', projectid: 'No Record Found', employee: 'No Record Found', from: 'No Record Found',to: 'No Record Found',status: 'No Record Found',action: 'No Record Found' },
-  ];
+  viewtravel: any;
+  filterForm = new FormGroup<any>({
+    requeststatus: new FormControl('', [Validators.required])
+  })
+  user_id: any;
+  notification: any;
 
-  itemsPerPage = 10;
-  currentPage = 1; 
-  totalItems = this.viewtravel.length;
-  PerPage: number = 100;
-  itemsPerPageOptions: number[] = [10, 25, 50, 100];
-  onItemsPerPageChange(): void {
-    this.currentPage = 1;
+
+  constructor(
+    private loginservice: LoginServiceService,
+    private http: HttpClient
+
+  ) {
+    this.user_id = this.loginservice.getData()[0]
+  }
+
+  // itemsPerPage = 10;
+  // currentPage = 1;
+  // totalItems = this.viewtravel.length;
+  // PerPage: number = 100;
+  // itemsPerPageOptions: number[] = [10, 25, 50, 100];
+  // onItemsPerPageChange(): void {
+  //   this.currentPage = 1;
+
+  // }
+
+  Filter(value: any) {
+    
+
+    let params = new HttpParams().set('status', value.requeststatus.toString())
+    .set('user_id',this.user_id.toString());
+
+    this.http.get('http://localhost:4000/travel/viewTravelReq', { params }).subscribe(
+      (response: any) => {
+        console.log('API Response:', response);
+        this.viewtravel = response.viewTravelReq;
+        console.log(this.viewtravel);
+        
+      },
+      (error: any) => {
+        console.error('API Error:', error);
+        // Handle error cases and navigate accordingly
+        // this.router.navigate(['/error']);
+      }
+    );
+
 
   }
 }

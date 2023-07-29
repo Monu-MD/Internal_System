@@ -12,6 +12,7 @@ const { log } = require('console');
 router.use(express.json())
 var { format } = require('date-fns')
 var moment = require('moment');
+const { request } = require('https');
 
 router.get('/travel', travel);
 function travel(req, res) {
@@ -20,9 +21,9 @@ function travel(req, res) {
         if (err) throw err;
         var emp_access = result.rows[0].emp_access;
         if (emp_access === 'A1') {
-            pool.query("SELECT emp_master_tbl.emp_id, emp_master_tbl.emp_name, project_alloc_tbl.project_id  FROM emp_master_tbl JOIN project_alloc_tbl ON emp_master_tbl.emp_id = project_alloc_tbl.emp_id;", function (err, result) {
+            pool.query("SELECT DISTINCT emp_master_tbl.emp_id, project_alloc_tbl.project_id, emp_master_tbl.emp_name, emp_manager_tbl.emp_name AS reporting_manager_name, emp_manager_tbl.emp_id AS reporting_manager  FROM project_alloc_tbl JOIN emp_master_tbl ON project_alloc_tbl.emp_id = emp_master_tbl.emp_id JOIN emp_master_tbl AS emp_manager_tbl ON project_alloc_tbl.emp_reporting_mgr = emp_manager_tbl.emp_id", function (err, result) {
                 if (err) throw err;
-                console.log(result.rows);
+                console.log(result.rows[0]);
                 res.json({ redirect: '/travel', pidRptName: result.rows })
 
             })
@@ -48,7 +49,6 @@ function travel(req, res) {
 /////////////////// All travel Request [trvel req,cancel,modified,etc......]//////////////////////////////////
 router.post('/travelReq', travelReq);
 function travelReq(req, res) {
-    console.log(req.body);
     var test = req.body.test;
     var test1 = req.body.test1;
     var test2 = req.body.test2;
@@ -65,6 +65,15 @@ function travelReq(req, res) {
         var emp_id = req.body.user_id;
         var empname = req.body.user_name;
         var empaccess = req.body.user_type;
+        if (empaccess == 'A1') {
+            console.log(req.body);
+            emp_id = req.body.item.employeeId;
+            pool.query("select emp_name,emp_access from emp_master_tbl where emp_id=$1", [emp_id], function (err, result) {
+                if (err) throw err;
+                empname = result.rows[0].emp_name;
+                empaccess = result.rows[0].emp_access;
+            })
+        }
         var travelDate = req.body.item.travelDate;
         var now = new Date();
         var rcreuserid = emp_id;
@@ -79,7 +88,7 @@ function travelReq(req, res) {
         var toLoc = req.body.item.toLocation;
         var rmks = req.body.item.remarks;
         // var free_text_1 = req.body.free_text_1;
-        var emp_access = req.body.user_type;
+        var emp_access = empaccess;
         var emp_Name = empname;
         var val_from_date = "";
         var val_from_location = "";
@@ -241,7 +250,7 @@ function travelReq(req, res) {
 
                                 if (tenDate.length != "0") {
                                     console.log("tenDate", tenDate);
-                                    pool.query("INSERT INTO travel_master_tbl_temp(req_id,emp_id,emp_name,emp_access,project_id,from_date,to_date,from_location,to_location,remarks,approver_id,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time,modify_flg,request_status,appr_flg,confrm_flg,reject_flg) values($1,$2,$3,$4,$5,$6,$7,upper($8),upper($9),upper($10),$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [req_id, emp_id, empname, empaccess, pid, travelDate, tenDate, fromLoc, toLoc, rmks, approverid, 'N', rcreuserid, rcretime, lchguserid, lchgtime, 'N', 'SUB', 'N', 'N', 'N'], function (err, done) {
+                                    pool.query("INSERT INTO travel_master_tbl_temp(req_id,emp_id,emp_name,emp_access,project_id,from_date,to_date,from_location,to_location,remarks,approver_id,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time,modify_flg,request_status,appr_flg,confrm_flg,reject_flg) values($1,$2,$3,$4,$5,$6,$7,upper($8),upper($9),upper($10),$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)", [req_id, emp_id, empname, empaccess, pid, travelDate, tenDate, fromLoc, toLoc, rmks, approverid, 'N', rcreuserid, rcretime, lchguserid, lchgtime, 'N', 'CPM', 'N', 'N', 'N'], function (err, done) {
                                         if (err) throw err;
                                         //  req.flash('success',"Travel request has been submitted successfully with Request Id:"+ req_id +".");
                                         // res.redirect('/travelModule/travelCyber');
@@ -316,10 +325,21 @@ function travelReq(req, res) {
                                                         const mailOptions = {
                                                             from: 'mohammadsab@minorks.com',
                                                             to: approver_email,
-
-                                                            from: 'amber@nurture.co.in',
                                                             subject: 'Travel Request notification',
-                                                            text: 'Travel Request ' + req_id + ' has been raised for your approval with' + project_id + ' to travel from  ' + fromLoc + '  to ' + toLoc + ' on ' + from_date + ' for employee ' + empname + '(' + emp_id + ').\n' + '.  \n' + '\n' + '\n' + '\n' + '\n' + ' - Travel Request System'
+                                                            text: `Dear Approver,
+                                                        
+                                                            Travel Request ${req_id} has been raised for your approval.
+                                                            
+                                                            Details:
+                                                            Project ID: ${project_id}
+                                                            Employee Name: ${empname} (${emp_id})
+                                                            Travel Dates: From ${fromLoc} to ${toLoc} on ${from_date}.
+                                                            
+                                                            Please review and take appropriate action.
+                                                            
+                                                            Thank you,
+                                                            Travel Request System`
+
                                                             // text: 'This is a test email sent from Node.js using Nodemailer.'
                                                         };
 
@@ -372,7 +392,7 @@ function travelReq(req, res) {
 
                                 if (tenDate.length == "0") {
                                     console.log("inside else tenDate", tenDate);
-                                    pool.query("INSERT INTO travel_master_tbl_temp(req_id,emp_id,emp_name,emp_access,project_id,from_date,from_location,to_location,remarks,approver_id,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time,modify_flg,request_status) values($1,$2,$3,$4,$5,$6,$7,upper($8),upper($9),upper($10),$11,$12,$13,$14,$15,$16,$17)", [req_id, emp_id, empname, empaccess, pid, travelDate, fromLoc, toLoc, rmks, approverid, 'N', rcreuserid, rcretime, lchguserid, lchgtime, 'N', 'SUB'], function (err, done) {
+                                    pool.query("INSERT INTO travel_master_tbl_temp(req_id,emp_id,emp_name,emp_access,project_id,from_date,from_location,to_location,remarks,approver_id,del_flg,rcre_user_id,rcre_time,lchg_user_id,lchg_time,modify_flg,request_status) values($1,$2,$3,$4,$5,$6,$7,upper($8),upper($9),upper($10),$11,$12,$13,$14,$15,$16,$17)", [req_id, emp_id, empname, empaccess, pid, travelDate, fromLoc, toLoc, rmks, approverid, 'N', rcreuserid, rcretime, lchguserid, lchgtime, 'N', 'CPM'], function (err, done) {
                                         if (err) throw err;
                                         else {
 
@@ -431,20 +451,32 @@ function travelReq(req, res) {
                                                             console.log('manager id ', approver_email);
                                                         }
                                                         console.log('smtpTransport call ');
-                                                        var smtpTransport = nodemailer.createTransport('SMTP', {
+                                                        const transporter = nodemailer.createTransport({
                                                             service: 'gmail',
                                                             auth: {
-                                                                user: 'amber@nurture.co.in',
-                                                                pass: 'nurture@123'
+                                                                user: 'mohammadsab@minorks.com',
+                                                                pass: '9591788719'
                                                             }
                                                         });
                                                         var mailOptions = {
                                                             to: approver_email,
-
-                                                            from: 'amber@nurture.co.in',
-                                                            subject: 'Travel Request notification',
-                                                            text: 'Travel Request ' + req_id + ' has been raised for your approval with' + project_id + ' to travel from  ' + fromLoc + '  to ' + toLoc + ' on ' + from_date + ' for employee ' + empname + '(' + emp_id + ').\n' + '.  \n' + '\n' + '\n' + '\n' + '\n' + ' - Travel Request System'
+                                                            from: 'mohammadsab@minorks.com',
+                                                            subject: 'Travel Request Notification',
+                                                            text: `Dear Approver,
+                                                        
+                                                        Travel Request ${req_id} has been raised for your approval.
+                                                        
+                                                        Details:
+                                                        Project ID: ${project_id}
+                                                        Employee Name: ${empname} (${emp_id})
+                                                        Travel Dates: From ${fromLoc} to ${toLoc} on ${from_date}.
+                                                        
+                                                        Please review and take appropriate action.
+                                                        
+                                                        Thank you,
+                                                        Travel Request System`
                                                         };
+
                                                         console.log('mailOptions', mailOptions);
                                                         smtpTransport.sendMail(mailOptions, function (err) { });
                                                         // from_date= from_date.toDateString();
@@ -492,4 +524,22 @@ function travelReq(req, res) {
 
 
 };
+
+
+////////////////////////////////////////////////////// View Travel Reques///////////////////////////////////////////////////////////
+router.get('/viewTravelReq', viewTravelReq);
+function viewTravelReq(req,res){
+    console.log(req.query);
+    var emp_id=req.query.user_id;
+    var status=req.query.status;
+    if(status=='All'){
+        pool.query("select req_id,project_id,emp_name,from_location,to_location,comm_code_desc as status from common_code_tbl JOIN travel_master_tbl_temp ON travel_master_tbl_temp.request_status=common_code_tbl.comm_code_id and travel_master_tbl_temp.reject_flg ='N' and  travel_master_tbl_temp.emp_id=$1",[emp_id],function(err,result){
+            if(err) throw err;
+            console.log(result.rows)
+            res.json({viewTravelReq:result.rows})
+        })
+    }
+}
+
+
 module.exports = router;

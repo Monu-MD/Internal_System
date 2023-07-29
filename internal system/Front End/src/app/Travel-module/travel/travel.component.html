@@ -15,15 +15,15 @@
                         <label class="Details">Project Id</label>
                         <select name="projectId" formControlName="projectId" (change)="onProjectSelection()">
                             <option *ngFor="let data of pidRptName" [value]="data.project_id">{{ data.project_id }}</option>
+                            
                           </select>
                     </div>
                     <div class="input-box" *ngIf="user_type !== 'L1'">
-                        <label class="Details">Employee Name</label>
-                        <select name="employeeId" formControlName="employeeId">
-                            
-                            <option *ngFor="let data of pidRptName">{{data.project_id}}</option>
+                        <label class="Details">Employee Name</label> 
+                        <select name="employeeId" [(ngModel)]="selectedEmployee" (change)="onEmployeeSelection()"  formControlName="employeeId">
+                          <option *ngFor="let data of filterEmployeeNames"  [value]="data">{{ data }}</option>
                         </select>
-                    </div>
+                      </div>
 
                     <div style="display: flex; flex-wrap: wrap; justify-content: right; margin: 100px 10px 50px px;">
                         <div class="radioButton">
@@ -51,8 +51,8 @@
 
                     <div class="input-box"  >
                         <label class="Details">To be approved by</label>
-                        <input type="text"[ngModel]="reportingManager" [readonly]="true" name="toBeApprovedby" formControlName="toBeApprovedby"/>
-                        <input type="hidden" name="rptMgrId" [ngModel]="rptMgrId"  [value]="rptMgrId" formControlName="rptMgrId" />
+                        <!-- <input type="hidden" name="rptMgrId"   [value]="rptMgrId" formControlName="rptMgrId" /> -->
+                        <input type="text"[ngModel]="selectedReportingManagerName" [readonly]="true" name="toBeApprovedby" formControlName="toBeApprovedby"/>
 
                     </div>
 

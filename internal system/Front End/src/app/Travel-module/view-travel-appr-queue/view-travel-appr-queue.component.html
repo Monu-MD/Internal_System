@@ -4,26 +4,29 @@
 
 <div class="container" class="tablecontainer" class="viewData">
     <div class="table-content">
-        <h1 class="title">View Travel Approval Queue</h1>
-        <br><br>
-        <div>
-            
-                <label>Filter :</label>
-                <input type="text" class="serchdata"> <br><br>
-                <label style="height: 50px;">Request Status :</label>
-                <!-- <input type="text" class="serchdata">   -->
+        <h3 class="title">View Travel Approval Queue</h3>
 
+        <div>
+
+            <label>Filter :</label>
+            <input type="text" class="serchdata"> <br><br>
+            <label style="height: 50px;">Request Status :</label>
+
+
+            <form [formGroup]="filterForm" (ngSubmit)="Filter(filterForm.value)">
                 <select name="paymentType" formControlName="requeststatus" placeholder="select">
-                    <option value=""></option>
-                    <option value="neft">NEFT</option>
-                    <option value="rtgs">RTGS</option>
-                    <option value="cash">Cash</option>
-                    <option value="cheque">Cheque</option>
-                    <option value="DD">DD</option>
+                    <option value="All">All</option>
+                    <option value="APM">Pending with Finance</option>
+                    <option value="APF">Approved by Finance</option>
+                    <option value="RJF">Rejected by Finance</option>
+                    <option value="CAN">Cancelled by Self</option>
+                    <option value="CPF">Pending for Cancellation Approval</option>
+                    <option value="CAF">Cancel Confirmed by Finance</option>
                 </select>
-            
-                <button class="button">Apply</button>
-            
+
+                <button type="submit" class="button">Apply</button>
+            </form>
+
         </div>
         <br> <br>
 
@@ -36,18 +39,18 @@
                     <th>FROM</th>
                     <th>TO</th>
                     <th>STATUS</th>
-                    <th>ACTIONS</th>
+
                 </tr>
             </thead>
-            <tbody>
-                <tr *ngFor="let tq of viewtravel|slice: (currentPage - 1) * itemsPerPage : currentPage * itemsPerPage">
-                    <td>{{ tq.reqid }}</td>
-                    <td>{{ tq.projectid }}</td>
-                    <td>{{ tq.employee }}</td>
-                    <td>{{ tq.from }}</td>
-                    <td>{{ tq.to }}</td>
+            <tbody  >
+                <tr *ngFor="let tq of viewtravel">
+                    <td>{{ tq.req_id }}</td>
+                    <td>{{ tq.project_id }}</td>
+                    <td>{{ tq.emp_name }}</td>
+                    <td>{{ tq.from_location }}</td>
+                    <td>{{ tq.to_location }}</td>
                     <td>{{ tq.status }}</td>
-                    <td>{{ tq.action }}</td>
+
                 </tr>
             </tbody>
         </table>
