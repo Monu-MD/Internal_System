@@ -57,8 +57,6 @@ export class RejDocComponent {
 
     console.log("current user ID: ---" + this.user_id);
     this.rejectDoc();
-
-    // Fetch employee data on component initialization
   }
 
   
@@ -77,6 +75,10 @@ export class RejDocComponent {
       }
     );
   }
+
+
+
+  
 
   private readonly apiUrl = 'your-api-endpoint';
   deleteDocument(docId: string, empId: string): void {

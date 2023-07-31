@@ -213,13 +213,14 @@ const routes: Routes = [
   { path: 'magzineUpld', component: MagzineUploadAdminComponent },
   { path: 'searchEmp', component: SearchEmployeeComponent },
   { path: 'viewDocs', component: ViewDocumentsComponent },
-  { path: 'viewStats', component: ViewDocStatusComponent },
+  { path: 'viewPen', component: ViewDocStatusComponent },
+  { path: 'rejView', component: RejDocComponent },
+  
   { path: 'viewMagz', component: ViewMagzineComponent },
   { path: 'viewPolcy', component: ViewPolicyComponent },
   { path: 'docAppRej', component: DocAppRejComponent },
   { path: 'searchEmpAppRej', component: SearchEmpDocAppRejComponent },
   { path: 'docs', component: DocumentsComponent },
-  { path: 'rejView', component: RejDocComponent },
 
 
   //mahesh
