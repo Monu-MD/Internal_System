@@ -8,36 +8,37 @@
 
             <div class="title">Upload Documents </div>
                 <div class="content">
-                    <form class="#" [formGroup]="Policy_Upload_Admin"
-                        (ngSubmit)="policyUploadAdmin(Policy_Upload_Admin.value)">
-
-
+                    <form class="#" [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+                        
                         <div class="user-details">
                             <div class="input-box">
                                 <label class="details">Policy Tag</label>
                                 <select name="policyTag" formControlName="policyTag">
-                                    <option value=""></option>
-
-                                </select>
+                                    <option value="INSURANCE">Insurance</option>
+                                </select>    
                             </div>
 
                             <div class="input-box">
                                 <label class="details">Document Name</label>
-                                <input type="text" name="documentName" formControlName="documentName">
+                                <input type="text" name="docName" formControlName="docName">
                             </div>
+
                             <div class="fileUpload">
                                 <div class="details">
-
                                     <label class="details">Upload Document </label>
                                 </div>
-                                <input type="file" accept="image/*">
+                                <input type="file" name="uploadDoc" (change)="onFileChange($event)">
                             </div>
                         </div>
+
+                        
                         <div>
                             <button class="button" type="reset">Clear</button>
                             <button class="button">Submit</button>
                         </div>
+
                     </form>
+
                 </div>
         </div>
     </div>

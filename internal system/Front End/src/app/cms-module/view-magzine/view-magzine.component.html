@@ -2,8 +2,38 @@
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
 
+<div *ngFor="let data of rowData">
+  <p>magzDoc: {{ data.magzDoc }}</p>
+  <p>magzYear: {{ data.magzYear }}</p>
+</div>
 
-<h1>VIEW MAGZINE</h1>
-
+<div class="container tablecontainer viewData">
+  <div class="table-content">
+    <ng-container *ngIf="rowData">
+      <table class="tables">
+        <thead>
+          <tr>
+            <th>Documents</th>
+            <th>Download</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Government Documents -->
+          <ng-container *ngIf="rowData">
+            <tr *ngFor="let data of rowData">
+              <td>{{ data.magzDoc }}</td>
+              <td>
+                <a (click)="downloadFile(data, rowData.eid)" title="Download File" class="document-icons">
+                  <i class="fa fa-download" aria-hidden="true"></i>
+                </a>
+              <td>{{ data.magzYear }}</td>    
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </ng-container>
+  </div>
+</div>
 
 <app-footer></app-footer>

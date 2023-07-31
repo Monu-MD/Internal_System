@@ -102,7 +102,7 @@ export class TopbarComponent {
 
         //cms
 
-        if (this.currentRoute == "/cmsUpload" || this.currentRoute == "/viewDocs" || this.currentRoute == "/searchEmp" || this.currentRoute == "/searchEmpAppRej" || this.currentRoute == "/docAppRej" || this.currentRoute == "/viewStats") {
+        if (this.currentRoute == "/cmsUpload" || this.currentRoute=="/viewDocs"|| this.currentRoute=="/searchEmp"||this.currentRoute=="/searchEmpAppRej"||this.currentRoute=="/docAppRej" || this.currentRoute == "/viewPen" || this.currentRoute == "/rejView"){
           this.data = "upld"
         }
         if (this.currentRoute == "/magzineUpld" || this.currentRoute == "/viewMagz") {

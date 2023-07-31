@@ -10,14 +10,12 @@
             <div class="content">
                 <form class="#" [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
                     <div class="user-details">
-
                         <div class="input-box" [ngSwitch]="Empuser_type">
                             <div *ngSwitchCase="'A1'">
                                 <label class="details"> Employee</label>
                                 <input type="text" name="user_id" placeholder="Employee Id" formControlName="user_id">
                             </div>
                         </div>
-
                         <div class="input-box" [ngSwitch]="Empuser_type">
                             <div *ngSwitchCase="'A1'">
                                 <label class="details"> Employee Acess</label>
@@ -25,7 +23,6 @@
                                     formControlName="user_type">
                             </div>
                         </div>
-
                         <div class="input-box" [ngSwitch]="Empuser_type">
                             <div *ngSwitchCase="'A1'">
                                 <label class="details">Document Category</label>
@@ -72,9 +69,6 @@
                                 </select>
                             </div>
                         </div>
-
-
-
                         <div class="input-box" *ngIf="uploadForm.get('docCat')?.value ==='1'">
                             <label class="details">Document Type</label>
                             <select name="documenType" formControlName="docType">
