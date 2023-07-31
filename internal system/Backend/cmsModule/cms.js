@@ -726,6 +726,139 @@ function cmsApprRejectAdmin(req, res) {
     // }
 }
 
+
+
+////////////////////////////////////////Policy Admin Start/////////////////////////////////////
+router.get('/policyUploadAdmin', function (req, res) {
+    var eid = req.user.rows[0].user_id;
+    var ename = req.user.rows[0].user_name;
+    var emp_access = req.user.rows[0].user_type;
+
+    if (emp_access == "A1") {
+        pdbconnect.query("SELECT COMM_CODE_DESC FROM COMMON_CODE_TBL WHERE CODE_ID = 'POL'  ORDER BY COMM_CODE_ID ASC", function (err, result) {
+            policy = result.rows;
+            policy_count = result.rowCount;
+
+            res.render('cmsModule/policyUploadAdmin', { ename: ename, eid: eid, emp_access: emp_access, policy: policy, policy_count: policy_count });
+        });
+    }
+    else {
+        res.redirect('/admin-dashboard/adminDashboard/admindashboard');
+    }
+});
+
+
+
+router.post('/policyUploadPostAdmin', policyUploadPostAdmin);
+function policyUploadPostAdmin(req, res) {
+
+    const form = new formidable.IncomingForm();
+    console.log("Entred to ADMIN post");
+    form.parse(req, function (err, fields, files) {
+        console.log("req", req);
+
+        policyTag = req.body.policyTag;
+
+        console.log("policytag--->", policyTag);
+
+        policyTag = policyTag.replace(/ /g, '_').toUpperCase();
+
+        var docName = req.body.docName;
+        // var docName = fields["docName"];
+        console.log("docname--->", docName);
+
+        docName = docName.replace(/ /g, '_').toUpperCase();
+        var dir2 = './data/CMS/policy/uploadDoc/';
+        if (!fs.existsSync(dir2)) {
+            fs.mkdirSync(dir2);
+        }
+        var d = new Date();
+        d = moment(d).format('YYYY-MM-DD:hh-mm:a');
+        d = d.replace(/:/g, '_').toUpperCase();
+        var newName = policyTag + "_" + docName + "_" + d + ".pdf";
+        var newPath = dir2 + newName;
+
+        /*	fs.readdirSync(dir2).forEach(
+            function (name)
+            {
+                if(name == newName)
+                {
+                    req.flash('error',"File already exists with same name")
+                    res.redirect(req.get('referer'));
+                }
+            });*/
+
+        fs.rename(oldPath, newPath,
+            function (err) {
+                if (err) throw err;
+                res.json({
+                    notification: "Documents upload Successfully"
+                })
+
+            });
+    });
+
+    var oldName = "doc.pdf"
+    var dirOld = './data/CMS/policy/temp/';
+    var oldPath = dirOld + oldName;
+    if (!fs.existsSync(dirOld)) {
+        fs.mkdirSync(dirOld);
+    }
+
+    var storage = multer.diskStorage({
+        destination: function (req, file, callback) {
+            console.log(file);
+            callback(null, dirOld)
+        },
+        filename: function (req, file, callback) {
+            callback(null, oldName)
+        }
+    })
+    var upload = multer({ storage: storage }).single('uploadDoc')
+    upload(req, res, function (err) {
+        if (err) {
+            return res.end("Something went wrong!");
+        }
+    });
+}
+
+
+
+
+
+////////////////////////////////////////Policy Admin Close//////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ///////////////////////////////////////////////////////////////Magazine//////////////////////////////////////////////////////////////////////
 
 
@@ -753,7 +886,6 @@ router.get('/magazineUploadAdmin', function (req, res) {
 
 router.post('/magazineUploadPostAdmin', magazineUploadPostAdmin);
 function magazineUploadPostAdmin(req, res) {
-
     var form = new formidable.IncomingForm();
     console.log("enter magazine");
     form.parse(req, function (err, fields, files) {
@@ -761,14 +893,6 @@ function magazineUploadPostAdmin(req, res) {
 
         var magYear = req.body.magYear;
         var magQuarter = req.body.magQuarter;
-
-        // var magYear = fields["magYear"];
-        // var magQuarter = fields["magQuarter"];
-
-
-        console.log("magYear--> " + magYear);
-        console.log("magQuarter--> " + magQuarter);
-
 
         var dir2 = './data/CMS/magazine/uploadDoc/' + magYear + '/';
 
@@ -789,6 +913,13 @@ function magazineUploadPostAdmin(req, res) {
             });
     });
 
+        console.log("newName-->", newName);
+        fs.rename(oldPath, newPath,
+            function (err) {
+                if (err) throw err;
+                res.json({ notification: "Document Uploaded Successfully" })
+            });
+    });
 
     console.log("enterd to create floder");
 
@@ -801,6 +932,14 @@ function magazineUploadPostAdmin(req, res) {
         fs.mkdirSync(dirOld);
     }
 
+    var oldName = "doc.pdf"
+    var dirOld = './data/CMS/magazine/temp/';
+    console.log("dirOld-->", dirOld);
+    var oldPath = dirOld + oldName;
+    console.log("oldpath-->", oldPath);
+    if (!fs.existsSync(dirOld)) {
+        fs.mkdirSync(dirOld);
+    }
 
     var storage = multer.diskStorage({
         destination: function (req, file, callback) {
@@ -1124,6 +1263,7 @@ function cmsrejView(req, res) {
 
     var eid = req.query.user_id;
     console.log("CMS Rej API ID:- " + eid + " \n");
+
 
     var rdocs = [];
     var rpath = [];
