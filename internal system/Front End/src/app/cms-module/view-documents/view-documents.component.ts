@@ -62,6 +62,7 @@ export class ViewDocumentsComponent {
     this.fetchEmployeeData(); // Fetch employee data on component initialization
   }
 
+  
   fetchEmployeeData() {
     const params = new HttpParams().set('user_id', this.user_id.toString())
     // .set('user_access', this.user_access.toString())
