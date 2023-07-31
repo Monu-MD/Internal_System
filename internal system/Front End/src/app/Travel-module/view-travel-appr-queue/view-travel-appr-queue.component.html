@@ -3,10 +3,14 @@
 <app-sidebar></app-sidebar>
 
 <div class="container" class="tablecontainer" class="viewData">
+
     <div class="table-content">
         <h3 class="title">View Travel Approval Queue</h3>
-
-        <div>
+        <div class="alert" *ngIf="notification!=undefined">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{notification}}
+        </div>
+        <div *ngIf="user_type=='L1'">
 
             <label>Filter :</label>
             <input type="text" class="serchdata"> <br><br>
@@ -16,12 +20,12 @@
             <form [formGroup]="filterForm" (ngSubmit)="Filter(filterForm.value)">
                 <select name="paymentType" formControlName="requeststatus" placeholder="select">
                     <option value="All">All</option>
-                    <option value="APM">Pending with Finance</option>
-                    <option value="APF">Approved by Finance</option>
+                    <option value="CPF">Pending with Finance</option>
+                    <option value="CAF">Approved by Finance</option>
                     <option value="RJF">Rejected by Finance</option>
                     <option value="CAN">Cancelled by Self</option>
-                    <option value="CPF">Pending for Cancellation Approval</option>
-                    <option value="CAF">Cancel Confirmed by Finance</option>
+                    <option value="PCF">Pending for Cancellation Approval</option>
+                    <option value="CCF">Cancel Confirmed by Finance</option>
                 </select>
 
                 <button type="submit" class="button">Apply</button>
@@ -39,20 +43,32 @@
                     <th>FROM</th>
                     <th>TO</th>
                     <th>STATUS</th>
+                    <th *ngIf="user_type!='L1'">Action</th>
+                    
+
 
                 </tr>
             </thead>
-            <tbody  >
+            <br>
+            <tbody>
                 <tr *ngFor="let tq of viewtravel">
                     <td>{{ tq.req_id }}</td>
                     <td>{{ tq.project_id }}</td>
                     <td>{{ tq.emp_name }}</td>
                     <td>{{ tq.from_location }}</td>
                     <td>{{ tq.to_location }}</td>
-                    <td>{{ tq.status }}</td>
-
+                    <td>{{ tq.status ||tq.request_status }}</td>
+                    <button type="button" class="btn btn-success" *ngIf="user_type=='L3'||user_type=='A1'"
+                        (click)="approveRejTravel('apr',tq)">Approve</button>
+                    <span style="margin: 0 10px;" *ngIf="user_type=='L3'||user_type==='A1'"></span>
+                    <button type="button" class="btn btn-danger" *ngIf="user_type=='L3'||user_type==='A1'"
+                        (click)="approveRejTravel('rej',tq)">Reject</button>
+                 
+                        <button type="button" class="btn btn-danger" *ngIf="user_type=='F1'"
+                        (click)='viewDetTvlApr()'>View</button>
                 </tr>
             </tbody>
+
         </table>
         <br>
 

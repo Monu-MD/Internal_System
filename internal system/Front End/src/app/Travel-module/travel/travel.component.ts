@@ -66,9 +66,9 @@ export class TravelComponent {
       console.log(this.filterEmployeeNames);
 
     } else {
-      this.selectedProject = this.pidRptName.find((project: { project_id: any; }) => project.project_id === selectedProjectId);
-      this.selectedReportingManagerName = this.selectedProject.reporting_manager_name;
-      this.rptMgrId = this.selectedProject.reporting_manager
+      this.selectedProject = this.pidRptName.find((project: { project_id: any; }) => project.project_id === selectedProjectId);      
+      this.selectedReportingManagerName = this.selectedProject.reporting_manager_name ||this.selectedProject.emp_reporting_mgr_name;
+      this.rptMgrId = this.selectedProject.reporting_manager || this.selectedProject.emp_reporting_mgr
       
 
     }

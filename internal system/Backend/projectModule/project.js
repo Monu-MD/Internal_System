@@ -841,7 +841,7 @@ router.get('/fetchaddPjtAlldetails', function (req, res) {
 			empname = result.rows;
 			empname_count = result.rowCount;
 
-			pool.query("select e.emp_id,e.emp_name from emp_master_tbl e inner join e_docket_tbl d on e.emp_id=d.emp_id  where e.emp_access in ('L1','L2','L3') and pan_flg='Y' and aadhar_flg='Y' and sslc_flg='Y' and preuniv_flg='Y' and degree_flg='Y' and d.del_flg='N' order by e.emp_id asc", function (err, result) {
+			pool.query("select e.emp_id,e.emp_name from emp_master_tbl e inner join e_docket_tbl d on e.emp_id=d.emp_id  where e.emp_access in ('L3') and pan_flg='Y' and aadhar_flg='Y' and sslc_flg='Y' and preuniv_flg='Y' and degree_flg='Y' and d.del_flg='N' order by e.emp_id asc", function (err, result) {
 				manager = result.rows;
 				id_count = result.rowCount;
 
