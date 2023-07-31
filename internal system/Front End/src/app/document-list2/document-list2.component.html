@@ -3,6 +3,11 @@
     <h4>{{ header }}</h4>
   </label>
 
+  <div class="notification" [ngClass]="{'success': isSuccess, 'error': isError}">
+    {{ message }}
+  </div>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
   <ng-container *ngIf="documents.length > 0; else noDocuments">
     <ol>
       <li *ngFor="let doc of documents">
@@ -17,10 +22,6 @@
         </div>
       </li>
     </ol>
-
-    <div class="notification" [ngClass]="{'success': isSuccess, 'error': isError}">
-      {{ message }}
-    </div>
   </ng-container>
 
   <ng-template #noDocuments>

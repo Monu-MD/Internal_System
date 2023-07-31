@@ -518,132 +518,132 @@ function cmsUploadPostEmployee(req, res) {
 router.get('/cmsApprIndvAdmin', cmsApprIndvAdmin);
 function cmsApprIndvAdmin(req, res) {
 
-         console.log("approve entered");
-        panFlg = "N", aadharFlg = "N", sslcFlg = "N", preunivFlg = "N", degreeFlg = "N";
+    console.log("approve entered");
+    panFlg = "N", aadharFlg = "N", sslcFlg = "N", preunivFlg = "N", degreeFlg = "N";
 
-        var empId = req.query.empId;
-        var doc = req.query.doc;
+    var empId = req.query.empId;
+    var doc = req.query.doc;
 
-        var caseInp1 = doc?.length - 7;
+    var caseInp1 = doc?.length - 7;
 
-        // var name = doc.substring(0, caseInp1);
-        var dir1 = './data/CMS/employee/uploadDoc/' + empId + "/";
-        var oldPath = dir1 + doc;
-        var resValue = doc ? doc.search("PHOTO") : -1;
+    // var name = doc.substring(0, caseInp1);
+    var dir1 = './data/CMS/employee/uploadDoc/' + empId + "/";
+    var oldPath = dir1 + doc;
+    var resValue = doc ? doc.search("PHOTO") : -1;
 
-        console.log("empid-->" + empId);
-        console.log("doc-->" + doc);
-        console.log("caseInp-->" + caseInp1);
-        console.log("oldPath-->" + oldPath);
-        console.log("resValue-->" + resValue);
+    console.log("empid-->" + empId);
+    console.log("doc-->" + doc);
+    console.log("caseInp-->" + caseInp1);
+    console.log("oldPath-->" + oldPath);
+    console.log("resValue-->" + resValue);
 
-        if (doc && doc.length > 7) {
-            var name = doc.substring(0, caseInp1);
+    if (doc && doc.length > 7) {
+        var name = doc.substring(0, caseInp1);
 
-            if (resValue != -1) {
-                var newName = empId + ".jpg";
-                var dir2 = './data/CMS/employee/uploadDoc/';
-            }
-            else {
-                var resValue1 = name ? name.search("RESUME") : -1;
-                if (resValue1 != -1) {
-                    var newName = name + ".doc";
-                }
-                else {
-                    var newName = name + ".pdf";
-                    var apprPattern = name ? name.search("GOVT_PANCARD") : -1;
-                    if (apprPattern != -1) {
-                        panFlg = "Y";
-                    }
-                    var apprPattern = name.search("GOVT_AADHAR");
-                    if (apprPattern != -1) {
-                        aadharFlg = "Y";
-                    }
-                    var apprPattern = name.search("EDUC_SSLC");
-                    if (apprPattern != -1) {
-                        sslcFlg = "Y";
-                    }
-                    var apprPattern = name.search("EDUC_PRE_UNIV");
-                    if (apprPattern != -1) {
-                        preunivFlg = "Y";
-                    }
-                    var apprPattern = name.search("EDUC_DEGREE");
-                    if (apprPattern != -1) {
-                        degreeFlg = "Y";
-                    }
-                    var apprPattern = name.search("PHOTO");
-                    if (apprPattern != -1) {
-
-                    }
-                }
-                var dir2 = './data/CMS/employee/uploadDoc/' + empId + "/";
-            }
+        if (resValue != -1) {
+            var newName = empId + ".jpg";
+            var dir2 = './data/CMS/employee/uploadDoc/';
         }
-        var newPath = dir2 + newName;
-
-        fs.rename(oldPath, newPath, function (err) {
-            if (err) {
-                console.error(err);
-                return res.status(500).json({ error: "Error while moving the file" });
-            }
-
-            else if (panFlg == "Y") {
-                pool.query("UPDATE E_DOCKET_TBL SET PAN_FLG = $1 WHERE EMP_ID = $2", [panFlg, empId],
-                    function (err, done) {
-                        if (err) throw err;
-                        res.json({
-                            notification: "Documents Approved Successfully"
-                        })
-                    });
-            }
-            else if (aadharFlg == "Y") {
-                pool.query("UPDATE E_DOCKET_TBL SET AADHAR_FLG = $1 WHERE EMP_ID = $2", [aadharFlg, empId],
-                    function (err, done) {
-                        if (err) throw err;
-                        res.json({
-                            notification: "Documents Approved Successfully"
-                        })
-                    });
-
-            }
-            else if (sslcFlg == "Y") {
-                pool.query("UPDATE E_DOCKET_TBL SET SSLC_FLG = $1 WHERE EMP_ID = $2", [sslcFlg, empId],
-                    function (err, done) {
-                        if (err) throw err;
-                        res.json({
-                            notification: "Documents Approved Successfully"
-                        })
-                    });
-
-            }
-            else if (preunivFlg == "Y") {
-                pool.query("UPDATE E_DOCKET_TBL SET PREUNIV_FLG = $1 WHERE EMP_ID = $2", [preunivFlg, empId],
-                    function (err, done) {
-                        if (err) throw err;
-                        res.json({
-                            notification: "Documents Approved Successfully"
-                        })
-                    });
-
-            }
-            else if (degreeFlg == "Y") {
-                pool.query("UPDATE E_DOCKET_TBL SET DEGREE_FLG = $1 WHERE EMP_ID = $2", [degreeFlg, empId],
-                    function (err, done) {
-                        if (err) throw err;
-                        res.json({
-                            notification: "Documents Approved Successfully"
-                        })
-                    });
-
+        else {
+            var resValue1 = name ? name.search("RESUME") : -1;
+            if (resValue1 != -1) {
+                var newName = name + ".doc";
             }
             else {
-                res.json({
-                    notification: "Documents Approved Successfully"
-                })
+                var newName = name + ".pdf";
+                var apprPattern = name ? name.search("GOVT_PANCARD") : -1;
+                if (apprPattern != -1) {
+                    panFlg = "Y";
+                }
+                var apprPattern = name.search("GOVT_AADHAR");
+                if (apprPattern != -1) {
+                    aadharFlg = "Y";
+                }
+                var apprPattern = name.search("EDUC_SSLC");
+                if (apprPattern != -1) {
+                    sslcFlg = "Y";
+                }
+                var apprPattern = name.search("EDUC_PRE_UNIV");
+                if (apprPattern != -1) {
+                    preunivFlg = "Y";
+                }
+                var apprPattern = name.search("EDUC_DEGREE");
+                if (apprPattern != -1) {
+                    degreeFlg = "Y";
+                }
+                var apprPattern = name.search("PHOTO");
+                if (apprPattern != -1) {
+
+                }
             }
-        });
+            var dir2 = './data/CMS/employee/uploadDoc/' + empId + "/";
+        }
     }
-  
+    var newPath = dir2 + newName;
+
+    fs.rename(oldPath, newPath, function (err) {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: "Error while moving the file" });
+        }
+
+        else if (panFlg == "Y") {
+            pool.query("UPDATE E_DOCKET_TBL SET PAN_FLG = $1 WHERE EMP_ID = $2", [panFlg, empId],
+                function (err, done) {
+                    if (err) throw err;
+                    res.json({
+                        notification: "Documents Approved Successfully"
+                    })
+                });
+        }
+        else if (aadharFlg == "Y") {
+            pool.query("UPDATE E_DOCKET_TBL SET AADHAR_FLG = $1 WHERE EMP_ID = $2", [aadharFlg, empId],
+                function (err, done) {
+                    if (err) throw err;
+                    res.json({
+                        notification: "Documents Approved Successfully"
+                    })
+                });
+
+        }
+        else if (sslcFlg == "Y") {
+            pool.query("UPDATE E_DOCKET_TBL SET SSLC_FLG = $1 WHERE EMP_ID = $2", [sslcFlg, empId],
+                function (err, done) {
+                    if (err) throw err;
+                    res.json({
+                        notification: "Documents Approved Successfully"
+                    })
+                });
+
+        }
+        else if (preunivFlg == "Y") {
+            pool.query("UPDATE E_DOCKET_TBL SET PREUNIV_FLG = $1 WHERE EMP_ID = $2", [preunivFlg, empId],
+                function (err, done) {
+                    if (err) throw err;
+                    res.json({
+                        notification: "Documents Approved Successfully"
+                    })
+                });
+
+        }
+        else if (degreeFlg == "Y") {
+            pool.query("UPDATE E_DOCKET_TBL SET DEGREE_FLG = $1 WHERE EMP_ID = $2", [degreeFlg, empId],
+                function (err, done) {
+                    if (err) throw err;
+                    res.json({
+                        notification: "Documents Approved Successfully"
+                    })
+                });
+
+        }
+        else {
+            res.json({
+                notification: "Documents Approved Successfully"
+            })
+        }
+    });
+}
+
 ///////////////////////////////////////////Reject //////////////////////////////////////////
 
 router.get('/cmsApprRejectAdmin', cmsApprRejectAdmin);
@@ -651,74 +651,74 @@ router.get('/cmsApprRejectAdmin', cmsApprRejectAdmin);
 function cmsApprRejectAdmin(req, res) {
     console.log("reject entered");
 
-        var empId = req.query.empId;
-         var doc = req.query.doc;
-         var reas = req.query.reas;
-        console.log("empid-->" + empId);
-        console.log("doc-->" + doc);
-        console.log("reas-->" + reas);
+    var empId = req.query.empId;
+    var doc = req.query.doc;
+    var reas = req.query.reas;
+    console.log("empid-->" + empId);
+    console.log("doc-->" + doc);
+    console.log("reas-->" + reas);
 
-        var dirRej = './data/CMS/employee/rejectDoc/' + empId + "/";
-        if (!fs.existsSync(dirRej)) {
-            fs.mkdirSync(dirRej, { recursive: true });
-        }
+    var dirRej = './data/CMS/employee/rejectDoc/' + empId + "/";
+    if (!fs.existsSync(dirRej)) {
+        fs.mkdirSync(dirRej, { recursive: true });
+    }
 
-        var caseInp1 = doc.length - 7;
-        console.log("caseInp1", caseInp1);
-        var name = doc.substring(0, caseInp1);
+    var caseInp1 = doc.length - 7;
+    console.log("caseInp1", caseInp1);
+    var name = doc.substring(0, caseInp1);
 
-        var resValue = name.search("PHOTO");
-        if (resValue !== -1) {
-            var newName = name + "_rj.jpg";
+    var resValue = name.search("PHOTO");
+    if (resValue !== -1) {
+        var newName = name + "_rj.jpg";
+    } else {
+        var resValue1 = name.search("RESUME");
+        if (resValue1 !== -1) {
+            var newName = name + "_rj.doc";
         } else {
-            var resValue1 = name.search("RESUME");
-            if (resValue1 !== -1) {
-                var newName = name + "_rj.doc";
-            } else {
-                var newName = name + "_rj.pdf";
-            }
+            var newName = name + "_rj.pdf";
+        }
+    }
+
+    var newPath = dirRej + newName;
+
+    var dirReas = './data/CMS/employee/rejectReason/' + empId + "/";
+    if (!fs.existsSync(dirReas)) {
+        fs.mkdirSync(dirReas, { recursive: true });
+    }
+    var reastxt = name + "_rj.txt";
+    var reasNewfile = dirReas + reastxt;
+
+    var dirOld = './data/CMS/employee/uploadDoc/' + empId + "/";
+    var oldPath = dirOld + doc;
+
+    fs.rename(oldPath, newPath, function (err) {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: "Error while moving the file" });
         }
 
-        var newPath = dirRej + newName;
-
-        var dirReas = './data/CMS/employee/rejectReason/' + empId + "/";
-        if (!fs.existsSync(dirReas)) {
-            fs.mkdirSync(dirReas, { recursive: true });
-        }
-        var reastxt = name + "_rj.txt";
-        var reasNewfile = dirReas + reastxt;
-
-        var dirOld = './data/CMS/employee/uploadDoc/' + empId + "/";
-        var oldPath = dirOld + doc;
-
-        fs.rename(oldPath, newPath, function (err) {
+        fs.writeFile(reasNewfile, reas, function (err) {
             if (err) {
                 console.error(err);
-                return res.status(500).json({ error: "Error while moving the file" });
+                return res.status(500).json({ error: "Error while writing reject reason" });
             }
 
-            fs.writeFile(reasNewfile, reas, function (err) {
-                if (err) {
-                    console.error(err);
-                    return res.status(500).json({ error: "Error while writing reject reason" });
-                }
-
-                len = 0;
-                var testFolder = './data/CMS/employee/uploadDoc/' + empId + "/";
-                fs.readdirSync(testFolder).forEach(
-                    function (name) {
-                        var resValue = name.search("uv");
-                        if (resValue != -1) {
-                            docs[len] = name;
-                            cpath[len] = testFolder + name;
-                            len = len + 1;
-                        }
-                    });
-                res.json({
-                    notification: "Document Rejected Successfully"
+            len = 0;
+            var testFolder = './data/CMS/employee/uploadDoc/' + empId + "/";
+            fs.readdirSync(testFolder).forEach(
+                function (name) {
+                    var resValue = name.search("uv");
+                    if (resValue != -1) {
+                        docs[len] = name;
+                        cpath[len] = testFolder + name;
+                        len = len + 1;
+                    }
                 });
+            res.json({
+                notification: "Document Rejected Successfully"
             });
         });
+    });
     // } else {
     //     res.json({
     //         message: "redirect to admin "
@@ -732,191 +732,174 @@ function cmsApprRejectAdmin(req, res) {
 ///////////////////////////////////////////////////upload documents///////////////////////////////
 
 
-router.get('/magazineUploadAdmin',function(req,res)
-{
-        var eid =req.query.user_id;
-        var ename = req.query.user_name;
-        var emp_access = req.query.user_type;
-	if(emp_access == "A1")
-        {
-		res.json(
+router.get('/magazineUploadAdmin', function (req, res) {
+    var eid = req.query.user_id;
+    var ename = req.query.user_name;
+    var emp_access = req.query.user_type;
+    if (emp_access == "A1") {
+        res.json(
             {
-                ename:ename,
-                eid:eid,
-                emp_access:emp_access
+                ename: ename,
+                eid: eid,
+                emp_access: emp_access
             }
         );
-	}
-        else
-        {
-                res.json('redirect to Admin-dashboard');
-        }
+    }
+    else {
+        res.json('redirect to Admin-dashboard');
+    }
 });
 
 
-router.post('/magazineUploadPostAdmin',magazineUploadPostAdmin);
-function magazineUploadPostAdmin(req,res)
-{
-   
-		var form = new formidable.IncomingForm();
-        console.log("enter magazine");
-		form.parse(req,function (err, fields, files)
-			{
-                // console.log("req-->",req);
+router.post('/magazineUploadPostAdmin', magazineUploadPostAdmin);
+function magazineUploadPostAdmin(req, res) {
 
-                var magYear = req.body.magYear;
-				var magQuarter =req.body.magQuarter;
+    var form = new formidable.IncomingForm();
+    console.log("enter magazine");
+    form.parse(req, function (err, fields, files) {
+        // console.log("req-->",req);
 
-				// var magYear = fields["magYear"];
-				// var magQuarter = fields["magQuarter"];
+        var magYear = req.body.magYear;
+        var magQuarter = req.body.magQuarter;
+
+        // var magYear = fields["magYear"];
+        // var magQuarter = fields["magQuarter"];
 
 
-                console.log("magYear--> " + magYear);
-                console.log("magQuarter--> " + magQuarter);
+        console.log("magYear--> " + magYear);
+        console.log("magQuarter--> " + magQuarter);
 
 
-				var dir2 = './data/CMS/magazine/uploadDoc/'+magYear+'/';
+        var dir2 = './data/CMS/magazine/uploadDoc/' + magYear + '/';
 
-                console.log("dir2-->",dir2);
+        console.log("dir2-->", dir2);
 
-				if (!fs.existsSync(dir2))
-				{
-					fs.mkdirSync(dir2);
-				}
-				var newName = "laCarta"+"_"+magYear+"_"+magQuarter+".pdf";
+        if (!fs.existsSync(dir2)) {
+            fs.mkdirSync(dir2);
+        }
+        var newName = "laCarta" + "_" + magYear + "_" + magQuarter + ".pdf";
 
-				var newPath = dir2 + newName;
+        var newPath = dir2 + newName;
 
-                console.log("newName-->",newName);
-				fs.rename(oldPath, newPath,
-				function (err)
-				{
-					if (err) throw err;
-					res.json({ notification: "Document Uploaded Successfully" })
-				});
-			});
+        console.log("newName-->", newName);
+        fs.rename(oldPath, newPath,
+            function (err) {
+                if (err) throw err;
+                res.json({ notification: "Document Uploaded Successfully" })
+            });
+    });
 
 
-            console.log("enterd to create floder");
+    console.log("enterd to create floder");
 
-		var oldName = "doc.pdf"
-		var dirOld = './data/CMS/magazine/temp/';
-        console.log("dirOld-->",dirOld);
-		var oldPath = dirOld + oldName;
-        console.log("oldpath-->",oldPath);
-		if (!fs.existsSync(dirOld))
-		{
-			fs.mkdirSync(dirOld);
-		}
+    var oldName = "doc.pdf"
+    var dirOld = './data/CMS/magazine/temp/';
+    console.log("dirOld-->", dirOld);
+    var oldPath = dirOld + oldName;
+    console.log("oldpath-->", oldPath);
+    if (!fs.existsSync(dirOld)) {
+        fs.mkdirSync(dirOld);
+    }
 
 
-		var storage = multer.diskStorage({
-			destination: function(req, file, callback) {
-				console.log(file);
-				callback(null, dirOld)
-			},
-			filename: function(req, file, callback) {
-				callback(null,oldName)
-			}
-		})
-		var upload = multer({storage: storage}).single('uploadDoc')
-		upload(req, res, function(err) {
-			if (err) {
-					return res.end("Something went wrong!");
-				 }
-			});
-	}
+    var storage = multer.diskStorage({
+        destination: function (req, file, callback) {
+            console.log(file);
+            callback(null, dirOld)
+        },
+        filename: function (req, file, callback) {
+            callback(null, oldName)
+        }
+    })
+    var upload = multer({ storage: storage }).single('uploadDoc')
+    upload(req, res, function (err) {
+        if (err) {
+            return res.end("Something went wrong!");
+        }
+    });
+}
 
 
 
 ///////////////////////////////////////////////view documents//////////////////////////////////////
 
-router.get('/magazineViewAdmin',magazineViewAdmin);
-function magazineViewAdmin(req,res)
-{
+router.get('/magazineViewAdmin', magazineViewAdmin);
+function magazineViewAdmin(req, res) {
 
     console.log("view magazine entered");
-	totYear = 0;
-	len2 = 0;
-	totLen = 0;
-	i = 0;
-	var eid = req.query.user_id;
-	var ename = req.query.user_name;
-	var emp_access = req.query.user_type;
+    totYear = 0;
+    len2 = 0;
+    totLen = 0;
+    i = 0;
+    var eid = req.query.user_id;
+    var ename = req.query.user_name;
+    var emp_access = req.query.user_type;
 
 
-		var testFolder = './data/CMS/magazine/uploadDoc/';
-		fs.readdirSync(testFolder).forEach(function (magYear) 
-		{
-			magzYear[totYear] = magYear;
-			len2 = 0;
-			var testFolder1 = './data/CMS/magazine/uploadDoc/'+magYear+'/';
-			fs.readdirSync(testFolder1).forEach(function (magDoc)
-			{
-				magzDoc[totLen] = magDoc;
-				var resultDoc = magDoc.search("Q1");
-				if(resultDoc != -1)
-				{
-					magzQtr[totLen] = "Q1";
-				}
-				resultDoc = magDoc.search("Q2");
-				if(resultDoc != -1)
-				{
-					magzQtr[totLen] = "Q2";
-				}
-				resultDoc = magDoc.search("Q3");
-				if(resultDoc != -1)
-				{
-					magzQtr[totLen] = "Q3";
-				}
-				resultDoc = magDoc.search("Q4");
-				if(resultDoc != -1)
-				{
-					magzQtr[totLen] = "Q4";
-				}
-				len2 = len2 + 1;
-				totLen = totLen + 1;
-			});
-
-			magzTot[totYear] = len2;
-			totYear = totYear + 1;
-		});
-
-		res.json(
-		{
-            data: {
-            magzDoc:magzDoc,
-			magzYear:magzYear,
-			ename:ename,
-			eid:eid,
-			emp_access:emp_access
+    var testFolder = './data/CMS/magazine/uploadDoc/';
+    fs.readdirSync(testFolder).forEach(function (magYear) {
+        magzYear[totYear] = magYear;
+        len2 = 0;
+        var testFolder1 = './data/CMS/magazine/uploadDoc/' + magYear + '/';
+        fs.readdirSync(testFolder1).forEach(function (magDoc) {
+            magzDoc[totLen] = magDoc;
+            var resultDoc = magDoc.search("Q1");
+            if (resultDoc != -1) {
+                magzQtr[totLen] = "Q1";
             }
-		});
-	
-	
+            resultDoc = magDoc.search("Q2");
+            if (resultDoc != -1) {
+                magzQtr[totLen] = "Q2";
+            }
+            resultDoc = magDoc.search("Q3");
+            if (resultDoc != -1) {
+                magzQtr[totLen] = "Q3";
+            }
+            resultDoc = magDoc.search("Q4");
+            if (resultDoc != -1) {
+                magzQtr[totLen] = "Q4";
+            }
+            len2 = len2 + 1;
+            totLen = totLen + 1;
+        });
+
+        magzTot[totYear] = len2;
+        totYear = totYear + 1;
+    });
+
+    res.json(
+        {
+            data: {
+                magzDoc: magzDoc,
+                magzYear: magzYear,
+                ename: ename,
+                eid: eid,
+                emp_access: emp_access
+            }
+        });
+
+
 
 }
 
 
-router.get('/magazineViewFilesAdmin',magazineViewFilesAdmin);
-function magazineViewFilesAdmin(req,res)
-{
+router.get('/magazineViewFilesAdmin', magazineViewFilesAdmin);
+function magazineViewFilesAdmin(req, res) {
     console.log("view Magazine entered");
 
-	var yr = req.query.yr;
-	var magdoc = req.query.magdoc;
-        var magFolder = './data/CMS/magazine/uploadDoc/'+yr+'/';
-	var magfile = magFolder + magdoc;
-	fs.readFile(magfile, 
-	function(err, file) 
-	{
-		//res.setHeader('Content-disposition', 'attachment; filename=' + magfile);
-                //res.download(magfile);
+    var yr = req.query.yr;
+    var magdoc = req.query.magdoc;
+    var magFolder = './data/CMS/magazine/uploadDoc/' + yr + '/';
+    var magfile = magFolder + magdoc;
+    fs.readFile(magfile,
+        function (err, file) {
+            //res.setHeader('Content-disposition', 'attachment; filename=' + magfile);
+            //res.download(magfile);
 
-		res.writeHead(200, {"Content-Type" : "application/pdf"});
-		res.write(file, "binary");
-		res.end();
-	});
+            res.writeHead(200, { "Content-Type": "application/pdf" });
+            res.write(file, "binary");
+            res.end();
+        });
 }
 
 
@@ -937,7 +920,9 @@ function magazineViewFilesAdmin(req,res)
 
 
 
-//////////////////  Jadhav ////////////////////////
+// <===============================  Jadhav ===============================>>
+
+
 
 ///////////////// Modify Profile Photo ////////////////////
 
@@ -1009,7 +994,7 @@ router.get('/profile-photo/:eid', (req, res) => {
 
 
 
-//------------------------    Employee pending status View  ----------------------
+//------------------------    Employee pending Doc View  ----------------------
 
 
 router.get('/cmsPenViewSts', cmsStatusView);
@@ -1131,123 +1116,47 @@ function cmsStatusView(req, res) {
     // }
 }
 
-//------------------------    Employee rejected status View  ----------------------
+//------------------------    Employee Rejected Doc View  ----------------------
 
 
 router.get('/cmsRejViewSts', cmsrejView);
 function cmsrejView(req, res) {
 
     var eid = req.query.user_id;
-    console.log("CMS API ID:- " + eid + " \n");
+    console.log("CMS Rej API ID:- " + eid + " \n");
+
+    var rdocs = [];
+    var rpath = [];
+    var rreas = [];
+    var rlen = 0;
 
 
-    // if (emp_access != "A1") {
-    var govDocs1 = [], eduDocs1 = [], medDocs1 = [], expDocs1 = [], phDocs1 = [], resDocs1 = [], hrDocs1 = [], cerDocs1 = [], othrDocs1 = [], bgDocs1 = [];
-    var govLen1 = 0, eduLen1 = 0, medLen1 = 0, expLen1 = 0, phLen1 = 0, resLen1 = 0, hrLen1 = 0, cerLen1 = 0, othrLen1 = 0, bgLen1 = 0;
-
-    var resValue1;
-
-    var testFolder = './data/CMS/employee/rejectDoc/' + eid + "/";
-    if (!fs.existsSync(testFolder)) {
-        res.json({ notification: "No records found" })
+    var rFolder = './data/CMS/employee/rejectDoc/' + eid + "/";
+    if (!fs.existsSync(rFolder)) {
+        console.log('No records found for rejection');
     }
     else {
-        fs.readdirSync(testFolder).forEach(
+        fs.readdirSync(rFolder).forEach(
             function (name) {
                 console.log(name);
                 var resValue = name.search("rj");
-                // console.log("resValue sir: " + resValue);
-
-                // var resValue = '-1';
-                // console.log("resValue Mine: " + resValue);
-
                 if (resValue != -1) {
-
-                    resValue1 = name.search("GOVT");
-                    if (resValue1 != -1) {
-                        govDocs1[govLen1] = name;
-                        govLen1 = govLen1 + 1;
-                    }
-
-
-                    resValue1 = name.search("EDUC");
-                    if (resValue1 != -1) {
-                        eduDocs1[eduLen1] = name;
-                        eduLen1 = eduLen1 + 1;
-                    }
-
-
-                    resValue1 = name.search("MEDICAL");
-                    if (resValue1 != -1) {
-                        medDocs[medLen] = name;
-                        medLen = medLen + 1;
-                    }
-
-                    resValue1 = name.search("EXPERIENCE");
-                    if (resValue1 != -1) {
-                        expDocs[expLen] = name;
-                        expLen = expLen + 1;
-                    }
-
-                    resValue1 = name.search("PHOTO");
-                    if (resValue1 != -1) {
-                        phDocs[phLen] = name;
-                        phLen = phLen + 1;
-                    }
-
-                    resValue1 = name.search("RESUME");
-                    if (resValue1 != -1) {
-                        resDocs[resLen] = name;
-                        resLen = resLen + 1;
-                    }
-                    resValue1 = name.search("_HR");
-                    if (resValue1 != -1) {
-                        hrDocs[hrLen] = name;
-                        hrLen = hrLen + 1;
-                    }
-                    resValue1 = name.search("CERT");
-                    if (resValue1 != -1) {
-                        cerDocs[cerLen] = name;
-                        cerLen = cerLen + 1;
-                    }
-                    resValue1 = name.search("BACKGROUND");
-                    if (resValue1 != -1) {
-                        bgDocs[bgLen] = name;
-                        bgLen = bgLen + 1;
-                    }
-                    resValue1 = name.search("OTHR");
-                    if (resValue1 != -1) {
-                        othrDocs[othrLen] = name;
-                        othrLen = othrLen + 1;
-                    }
+                    rdocs[rlen] = name;
+                    rpath[rlen] = rFolder + name;
+                    var chklen = name.length - 3;
+                    var txtfile = name.substring(0, chklen);
+                    txtfile = './data/CMS/employee/rejectReason/' + eid + "/" + txtfile + "txt";
+                    var dataContent = fs.readFileSync(txtfile, 'utf8');
+                    rreas[rlen] = dataContent;
+                    rlen = rlen + 1;
                 }
-
             });
-
-
-        res.json({
-
-
-            govDocs1: govDocs1, govLen1: govLen1,
-            eduDocs1: eduDocs1, eduLen1: eduLen1,
-            medDocs1: medDocs1, medLen1: medLen1,
-            expDocs1: expDocs1, expLen1: expLen1,
-            phDocs1: phDocs1, phLen1: phLen1,
-            resDocs1: resDocs1, resLen1: resLen1,
-            othrDocs1: othrDocs1, othrLen1: othrLen1,
-            hrDocs1: hrDocs1, hrLen1: hrLen1,
-            cerDocs1: cerDocs1, cerLen1: cerLen1,
-            bgDocs1: bgDocs1, bgLen1: bgLen1,
-
-            eid: eid,
-
-        });
     }
-    // }
 
-    // else {
-    //     res.json({ notification: "Redirect to Admin Dashboard" });
-    // }
+    res.json({
+        rdocs: rdocs, rpath: rpath, rlen: rlen, rreas: rreas,
+        eid: eid,
+    });
 }
 
 //------------------------    Employee Doc View  ----------------------
@@ -1374,7 +1283,6 @@ function cmsViewEmployee(req, res) {
 
 
 // -----------------------   Employee Doc Download  ----------------------
-
 // Assuming your files are stored in the 'uploadDoc' directory
 const uploadDir = path.join(__dirname, '..', 'data', 'CMS', 'employee', 'uploadDoc');
 router.get('/downloadFile', (req, res) => {
@@ -1413,8 +1321,7 @@ router.get('/downloadFile', (req, res) => {
 });
 
 
-
-// -----------------------  Employee Email   -----------------------------
+// -----------------------  Employee Doc Email   -----------------------------
 router.get('/cmsMailDoc', cmsMailDoc);
 function cmsMailDoc(req, res) {
     var docmnt = req.query.id;
@@ -1538,6 +1445,27 @@ function cmsDeletePenDocEmployee(req, res) {
 
 
 // -----------------------   Rej Doc Delete   -----------------------------
-// router.get('/cmsDeleteRejDocEmployee', cmsDeleteRejDocEmployee);
+router.delete('/cmsDeleteRejDocEmployee', cmsDeleteRejDocEmployee);
+function cmsDeleteRejDocEmployee(req, res) {
+    const empId = req.query.empId;
+    const doc = req.query.doc;
+
+
+    var caseInp1 = doc.length - 3;
+    var name = doc.substring(0, caseInp1);
+
+    var rejFile = './data/CMS/employee/rejectDoc/' + empId + "/" + doc;
+    var rejReasFile = './data/CMS/employee/rejectReason/' + empId + "/" + name + "txt";
+
+    if (fs.existsSync(rejFile)) {
+        fs.unlinkSync(rejFile);
+        fs.unlinkSync(rejReasFile);
+
+        res.json({ message: 'success', status: 'Document Deleted Successfully' });
+    } else {
+        res.status(404).json({ message: 'File not found', status: 'failure' });
+    }
+}
+
 
 module.exports = router;

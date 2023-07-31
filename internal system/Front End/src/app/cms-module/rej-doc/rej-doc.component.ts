@@ -1,29 +1,15 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginServiceService } from 'src/app/services/login-service.service';
 
 
 interface RejectedDocument {
-  govDocs1: string[];
-  govLen1: number;
-  eduDocs1: string[];
-  eduLen1: number;
-  medDocs1: string[];
-  medLen1: number;
-  expDocs1: string[];
-  expLen1: number;
-  phDocs1: string[];
-  phLen1: number;
-  resDocs1: string[];
-  resLen1: number;
-  othrDocs1: string[];
-  othrLen1: number;
-  hrDocs1: string[];
-  hrLen1: number;
-  cerDocs1: string[];
-  cerLen1: number;
-  bgDocs1: string[];
-  bgLen1: number;
+  rlen: number;
+  rdocs: string[];
+  rreas: string[];
+  rpath: string[];
+  
 
   eid: string;
 }
@@ -47,14 +33,13 @@ export class RejDocComponent {
   user_id: any;
   user_access: any;
 
-  constructor(private http: HttpClient, private loginservice: LoginServiceService) {
+  constructor(private http: HttpClient, private loginservice: LoginServiceService, private router: Router) {
     const user = this.loginservice.getData();
     this.user_id = user[0];
     this.user_access = user[2];
   }
 
   ngOnInit() {
-
     console.log("current user ID: ---" + this.user_id);
     this.rejectDoc();
   }
@@ -68,7 +53,7 @@ export class RejDocComponent {
       (response: any) => {
         console.log( "Rejected Data \n");
         console.log( response);
-        this.rejetedData = response;
+        this.rejetedData = response;        
       },
       (error) => {
         console.error('Error fetching employee data:', error);
@@ -79,26 +64,37 @@ export class RejDocComponent {
 
 
   
-
-  private readonly apiUrl = 'your-api-endpoint';
-  deleteDocument(docId: string, empId: string): void {
-    // Make sure to set the appropriate headers if required by your API (e.g., authentication token)
+  private readonly apiUrl = 'http://localhost:4000/cms/cmsDeleteRejDocEmployee';
+  deleteDocument(doc: string, empId: string): void {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      // Add any other required headers here
+      'Content-Type': 'application/json'
     });
+    const options = { headers: headers };
+    const notificationDuration = 3000;
+    this.http.delete(`${this.apiUrl}?empId=${empId}&doc=${doc}`, options).subscribe(
+      (response: any) => {
+        console.log('Document deleted successfully:', response);
+         this.isSuccess = true;
+         this.isError = false;
+         this.message = 'Document Deleted!!!';
+ 
+         setTimeout(() => {
+           this.isSuccess = false;
+           this.message = '';
+          }, notificationDuration);
 
-    // Make the DELETE request
-    this.http.delete(`${this.apiUrl}/${empId}`, { headers })
-      .subscribe(
-        (response) => {
-          // Handle the response if needed (e.g., show a success message)
-          console.log('Document deleted successfully:', response);
-        },
-        (error) => {
-          // Handle the error if the API call fails (e.g., show an error message)
-          console.error('Error deleting document:', error);
-        }
-      );
+          setTimeout(() => {
+            const notificationElement = document.querySelector('.notification');
+            if (notificationElement) {
+              notificationElement.classList.add('show');
+            }
+          }, 100);
+          
+        this.router.navigate(['/viewDocs']);
+      },
+      (error) => {
+        console.error('Error deleting document:', error);
+      }
+    );
   }
 }

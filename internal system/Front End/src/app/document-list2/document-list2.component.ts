@@ -32,11 +32,28 @@ export class DocumentList2Component {
       'Content-Type': 'application/json'
     });
     const options = { headers: headers };
+    const notificationDuration = 3000;
 
     this.http.delete(`${this.apiUrl}?empId=${empId}&doc=${doc}`, options).subscribe(
       (response: any) => {
         console.log('Document deleted successfully:', response);
-        this.router.navigate(['/viewDocs']);
+        this.isSuccess = true;
+        this.isError = false;
+        this.message = 'Document Deleted!!!';
+
+        setTimeout(() => {
+          this.isSuccess = false;
+          this.message = '';
+         }, notificationDuration);
+
+         setTimeout(() => {
+           const notificationElement = document.querySelector('.notification');
+           if (notificationElement) {
+             notificationElement.classList.add('show');
+           }
+         }, 100);
+
+        // this.router.navigate(['/viewDocs']);
       },
       (error) => {
         console.error('Error deleting document:', error);
