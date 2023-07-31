@@ -886,7 +886,6 @@ router.get('/magazineUploadAdmin', function (req, res) {
 
 router.post('/magazineUploadPostAdmin', magazineUploadPostAdmin);
 function magazineUploadPostAdmin(req, res) {
-
     var form = new formidable.IncomingForm();
     console.log("enter magazine");
     form.parse(req, function (err, fields, files) {
@@ -894,14 +893,6 @@ function magazineUploadPostAdmin(req, res) {
 
         var magYear = req.body.magYear;
         var magQuarter = req.body.magQuarter;
-
-        // var magYear = fields["magYear"];
-        // var magQuarter = fields["magQuarter"];
-
-
-        console.log("magYear--> " + magYear);
-        console.log("magQuarter--> " + magQuarter);
-
 
         var dir2 = './data/CMS/magazine/uploadDoc/' + magYear + '/';
 
@@ -922,6 +913,13 @@ function magazineUploadPostAdmin(req, res) {
             });
     });
 
+        console.log("newName-->", newName);
+        fs.rename(oldPath, newPath,
+            function (err) {
+                if (err) throw err;
+                res.json({ notification: "Document Uploaded Successfully" })
+            });
+    });
 
     console.log("enterd to create floder");
 
@@ -934,6 +932,14 @@ function magazineUploadPostAdmin(req, res) {
         fs.mkdirSync(dirOld);
     }
 
+    var oldName = "doc.pdf"
+    var dirOld = './data/CMS/magazine/temp/';
+    console.log("dirOld-->", dirOld);
+    var oldPath = dirOld + oldName;
+    console.log("oldpath-->", oldPath);
+    if (!fs.existsSync(dirOld)) {
+        fs.mkdirSync(dirOld);
+    }
 
     var storage = multer.diskStorage({
         destination: function (req, file, callback) {
@@ -1036,7 +1042,26 @@ function magazineViewFilesAdmin(req, res) {
 }
 
 
-//////////////////  Jadhav ////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// <===============================  Jadhav ===============================>>
+
+
 
 ///////////////// Modify Profile Photo ////////////////////
 
@@ -1108,7 +1133,7 @@ router.get('/profile-photo/:eid', (req, res) => {
 
 
 
-//------------------------    Employee pending status View  ----------------------
+//------------------------    Employee pending Doc View  ----------------------
 
 
 router.get('/cmsPenViewSts', cmsStatusView);
@@ -1230,123 +1255,48 @@ function cmsStatusView(req, res) {
     // }
 }
 
-//------------------------    Employee rejected status View  ----------------------
+//------------------------    Employee Rejected Doc View  ----------------------
 
 
 router.get('/cmsRejViewSts', cmsrejView);
 function cmsrejView(req, res) {
 
     var eid = req.query.user_id;
-    console.log("CMS API ID:- " + eid + " \n");
+    console.log("CMS Rej API ID:- " + eid + " \n");
 
 
-    // if (emp_access != "A1") {
-    var govDocs1 = [], eduDocs1 = [], medDocs1 = [], expDocs1 = [], phDocs1 = [], resDocs1 = [], hrDocs1 = [], cerDocs1 = [], othrDocs1 = [], bgDocs1 = [];
-    var govLen1 = 0, eduLen1 = 0, medLen1 = 0, expLen1 = 0, phLen1 = 0, resLen1 = 0, hrLen1 = 0, cerLen1 = 0, othrLen1 = 0, bgLen1 = 0;
+    var rdocs = [];
+    var rpath = [];
+    var rreas = [];
+    var rlen = 0;
 
-    var resValue1;
 
-    var testFolder = './data/CMS/employee/rejectDoc/' + eid + "/";
-    if (!fs.existsSync(testFolder)) {
-        res.json({ notification: "No records found" })
+    var rFolder = './data/CMS/employee/rejectDoc/' + eid + "/";
+    if (!fs.existsSync(rFolder)) {
+        console.log('No records found for rejection');
     }
     else {
-        fs.readdirSync(testFolder).forEach(
+        fs.readdirSync(rFolder).forEach(
             function (name) {
                 console.log(name);
                 var resValue = name.search("rj");
-                // console.log("resValue sir: " + resValue);
-
-                // var resValue = '-1';
-                // console.log("resValue Mine: " + resValue);
-
                 if (resValue != -1) {
-
-                    resValue1 = name.search("GOVT");
-                    if (resValue1 != -1) {
-                        govDocs1[govLen1] = name;
-                        govLen1 = govLen1 + 1;
-                    }
-
-
-                    resValue1 = name.search("EDUC");
-                    if (resValue1 != -1) {
-                        eduDocs1[eduLen1] = name;
-                        eduLen1 = eduLen1 + 1;
-                    }
-
-
-                    resValue1 = name.search("MEDICAL");
-                    if (resValue1 != -1) {
-                        medDocs[medLen] = name;
-                        medLen = medLen + 1;
-                    }
-
-                    resValue1 = name.search("EXPERIENCE");
-                    if (resValue1 != -1) {
-                        expDocs[expLen] = name;
-                        expLen = expLen + 1;
-                    }
-
-                    resValue1 = name.search("PHOTO");
-                    if (resValue1 != -1) {
-                        phDocs[phLen] = name;
-                        phLen = phLen + 1;
-                    }
-
-                    resValue1 = name.search("RESUME");
-                    if (resValue1 != -1) {
-                        resDocs[resLen] = name;
-                        resLen = resLen + 1;
-                    }
-                    resValue1 = name.search("_HR");
-                    if (resValue1 != -1) {
-                        hrDocs[hrLen] = name;
-                        hrLen = hrLen + 1;
-                    }
-                    resValue1 = name.search("CERT");
-                    if (resValue1 != -1) {
-                        cerDocs[cerLen] = name;
-                        cerLen = cerLen + 1;
-                    }
-                    resValue1 = name.search("BACKGROUND");
-                    if (resValue1 != -1) {
-                        bgDocs[bgLen] = name;
-                        bgLen = bgLen + 1;
-                    }
-                    resValue1 = name.search("OTHR");
-                    if (resValue1 != -1) {
-                        othrDocs[othrLen] = name;
-                        othrLen = othrLen + 1;
-                    }
+                    rdocs[rlen] = name;
+                    rpath[rlen] = rFolder + name;
+                    var chklen = name.length - 3;
+                    var txtfile = name.substring(0, chklen);
+                    txtfile = './data/CMS/employee/rejectReason/' + eid + "/" + txtfile + "txt";
+                    var dataContent = fs.readFileSync(txtfile, 'utf8');
+                    rreas[rlen] = dataContent;
+                    rlen = rlen + 1;
                 }
-
             });
-
-
-        res.json({
-
-
-            govDocs1: govDocs1, govLen1: govLen1,
-            eduDocs1: eduDocs1, eduLen1: eduLen1,
-            medDocs1: medDocs1, medLen1: medLen1,
-            expDocs1: expDocs1, expLen1: expLen1,
-            phDocs1: phDocs1, phLen1: phLen1,
-            resDocs1: resDocs1, resLen1: resLen1,
-            othrDocs1: othrDocs1, othrLen1: othrLen1,
-            hrDocs1: hrDocs1, hrLen1: hrLen1,
-            cerDocs1: cerDocs1, cerLen1: cerLen1,
-            bgDocs1: bgDocs1, bgLen1: bgLen1,
-
-            eid: eid,
-
-        });
     }
-    // }
 
-    // else {
-    //     res.json({ notification: "Redirect to Admin Dashboard" });
-    // }
+    res.json({
+        rdocs: rdocs, rpath: rpath, rlen: rlen, rreas: rreas,
+        eid: eid,
+    });
 }
 
 //------------------------    Employee Doc View  ----------------------
@@ -1473,7 +1423,6 @@ function cmsViewEmployee(req, res) {
 
 
 // -----------------------   Employee Doc Download  ----------------------
-
 // Assuming your files are stored in the 'uploadDoc' directory
 const uploadDir = path.join(__dirname, '..', 'data', 'CMS', 'employee', 'uploadDoc');
 router.get('/downloadFile', (req, res) => {
@@ -1512,8 +1461,7 @@ router.get('/downloadFile', (req, res) => {
 });
 
 
-
-// -----------------------  Employee Email   -----------------------------
+// -----------------------  Employee Doc Email   -----------------------------
 router.get('/cmsMailDoc', cmsMailDoc);
 function cmsMailDoc(req, res) {
     var docmnt = req.query.id;
@@ -1616,6 +1564,48 @@ function cmsMailDoc(req, res) {
     }
 }
 
+
+
+// -----------------------   Pen Doc Delete   -----------------------------
+router.delete('/cmsDeletePenDocEmployee', cmsDeletePenDocEmployee);
+function cmsDeletePenDocEmployee(req, res) {
+    const empId = req.query.empId;
+    const doc = req.query.doc;
+
+    const rejFile = `./data/CMS/employee/uploadDoc/${empId}/${doc}`;
+
+    // Check if the file exists before attempting to delete
+    if (fs.existsSync(rejFile)) {
+        fs.unlinkSync(rejFile);
+        res.json({ message: 'success', status: 'Document Deleted Successfully' });
+    } else {
+        res.status(404).json({ message: 'File not found', status: 'failure' });
+    }
+}
+
+
+// -----------------------   Rej Doc Delete   -----------------------------
+router.delete('/cmsDeleteRejDocEmployee', cmsDeleteRejDocEmployee);
+function cmsDeleteRejDocEmployee(req, res) {
+    const empId = req.query.empId;
+    const doc = req.query.doc;
+
+
+    var caseInp1 = doc.length - 3;
+    var name = doc.substring(0, caseInp1);
+
+    var rejFile = './data/CMS/employee/rejectDoc/' + empId + "/" + doc;
+    var rejReasFile = './data/CMS/employee/rejectReason/' + empId + "/" + name + "txt";
+
+    if (fs.existsSync(rejFile)) {
+        fs.unlinkSync(rejFile);
+        fs.unlinkSync(rejReasFile);
+
+        res.json({ message: 'success', status: 'Document Deleted Successfully' });
+    } else {
+        res.status(404).json({ message: 'File not found', status: 'failure' });
+    }
+}
 
 
 module.exports = router;
