@@ -20,40 +20,25 @@ const formidable = require('formidable');
 var bodyParser = require('body-parser');
 
 var nodemailer = require('nodemailer');
-const { log } = require('console');
-// var invalidAccessRedirect = require('../../routes/invalidAccess');
 
 var mailId = "";
-var name = "";
-var emp = "";
 var newName = "";
-var emp_name = "";
-var oldPath = "";
-var testFolder = "";
 var cpath = [];
 var docs = [];
-var len = 0, len1 = 0, len2 = 0, plen = 0, rlen = 0, len3 = 0, totLen = 0, totYear = 0;
-var govLen = 0, eduLen = 0, medLen = 0, expLen = 0, phLen = 0, resLen = 0, hrLen = 0, cerLen = 0, othrLen = 0, bgLen = 0, polLen = 0, policy_count = 0;
-var govDocs = [], eduDocs = [], medDocs = [], expDocs = [], phDocs = [], resDocs = [], hrDocs = [], cerDocs = [], othrDocs = [], bgDocs = [], polDocs = [];
 var policyTag = "";
-var rdocs = [], pdocs = [];
-var rpath = [], ppath = [];
-var rreas = [];
-var resAppr = [];
-var empArray = [];
-var empNameArray = [];
 var magzYear = [], magzDoc = [], magzTot = [], magzQtr = [];
-var i = 0, j = 0;
-var empId = "";
-var empFile = "";
-var txtFile = "";
 var doc = "";
 var panFlg = "N", aadharFlg = "N", sslcFlg = "N", preunivFlg = "N", degreeFlg = "N";
-var updQuery = "", selQuery = "";
-var mailCommPath = '/home/portal/central/';
+
+
+
+
+
 
 
 ////////////////////////////////// Mahesh ////////////////////////////
+
+//////////////////////////////////////--->    Documents  <<--///////////////////////////////////////////////////////
 
 /////////////////////////////////////// upload documents ////////////////////////
 
@@ -728,7 +713,11 @@ function cmsApprRejectAdmin(req, res) {
 
 
 
-////////////////////////////////////////Policy Admin Start/////////////////////////////////////
+
+//////////////////////////////////////--->    Ploicy  <<--///////////////////////////////////////////////////////
+
+
+////////////////////////  Upload Policy  /////////////////////////////////////
 router.get('/policyUploadAdmin', function (req, res) {
     var eid = req.user.rows[0].user_id;
     var ename = req.user.rows[0].user_name;
@@ -826,43 +815,13 @@ function policyUploadPostAdmin(req, res) {
 
 
 
-////////////////////////////////////////Policy Admin Close//////////////////////////////////////
 
 
 
+//////////////////////////////////////--->    Magazine  <<--///////////////////////////////////////////////////////
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-///////////////////////////////////////////////////////////////Magazine//////////////////////////////////////////////////////////////////////
-
-
-///////////////////////////////////////////////////upload documents///////////////////////////////
+/////////////////////// Upload Magazine  //////////////////////////////////////
 
 
 router.get('/magazineUploadAdmin', function (req, res) {
@@ -919,7 +878,6 @@ function magazineUploadPostAdmin(req, res) {
                 if (err) throw err;
                 res.json({ notification: "Document Uploaded Successfully" })
             });
-    });
 
     console.log("enterd to create floder");
 
@@ -960,7 +918,7 @@ function magazineUploadPostAdmin(req, res) {
 
 
 
-///////////////////////////////////////////////view documents//////////////////////////////////////
+/////////////////////// view Magazine  //////////////////////////////////////
 
 router.get('/magazineViewAdmin', magazineViewAdmin);
 function magazineViewAdmin(req, res) {
