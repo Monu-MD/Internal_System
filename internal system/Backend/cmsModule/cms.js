@@ -102,7 +102,7 @@ function cmsUploadPostEmployee(req, res) {
             }
 
             if (docCat == "7" || docCat == "8" || docCat == "4") {
-              
+
                 docCatText = docCatText.replace(/ /g, '_').toUpperCase();
             }
 
@@ -518,27 +518,27 @@ function cmsUploadPostEmployee(req, res) {
 router.get('/cmsApprIndvAdmin', cmsApprIndvAdmin);
 function cmsApprIndvAdmin(req, res) {
 
-         console.log("approve entered");
-        panFlg = "N", aadharFlg = "N", sslcFlg = "N", preunivFlg = "N", degreeFlg = "N";
+    console.log("approve entered");
+    panFlg = "N", aadharFlg = "N", sslcFlg = "N", preunivFlg = "N", degreeFlg = "N";
 
-        var empId = req.query.empId;
-        var doc = req.query.doc;
-       
-        var caseInp1 = doc?.length - 7;
+    var empId = req.query.empId;
+    var doc = req.query.doc;
 
-        // var name = doc.substring(0, caseInp1);
-        var dir1 = './data/CMS/employee/uploadDoc/' + empId + "/";
-        var oldPath = dir1 + doc;
-        var resValue = doc ? doc.search("PHOTO") : -1;
+    var caseInp1 = doc?.length - 7;
 
-        console.log("empid-->"+empId);
-        console.log("doc-->"+doc);
-        console.log("caseInp-->"+caseInp1);
-        console.log("oldPath-->"+oldPath);
-        console.log("resValue-->"+resValue);
-      
-        if (doc && doc.length > 7) {
-            var name = doc.substring(0, caseInp1);
+    // var name = doc.substring(0, caseInp1);
+    var dir1 = './data/CMS/employee/uploadDoc/' + empId + "/";
+    var oldPath = dir1 + doc;
+    var resValue = doc ? doc.search("PHOTO") : -1;
+
+    console.log("empid-->" + empId);
+    console.log("doc-->" + doc);
+    console.log("caseInp-->" + caseInp1);
+    console.log("oldPath-->" + oldPath);
+    console.log("resValue-->" + resValue);
+
+    if (doc && doc.length > 7) {
+        var name = doc.substring(0, caseInp1);
 
         if (resValue != -1) {
             var newName = empId + ".jpg";
@@ -573,77 +573,77 @@ function cmsApprIndvAdmin(req, res) {
                 }
                 var apprPattern = name.search("PHOTO");
                 if (apprPattern != -1) {
-                   
+
                 }
             }
             var dir2 = './data/CMS/employee/uploadDoc/' + empId + "/";
         }
-        }
-        var newPath = dir2 + newName;
-    
-        fs.rename(oldPath, newPath, function (err) {
-          if (err) {
+    }
+    var newPath = dir2 + newName;
+
+    fs.rename(oldPath, newPath, function (err) {
+        if (err) {
             console.error(err);
             return res.status(500).json({ error: "Error while moving the file" });
-          }
-    
-                else if (panFlg == "Y") {
-                    pool.query("UPDATE E_DOCKET_TBL SET PAN_FLG = $1 WHERE EMP_ID = $2", [panFlg, empId],
-                        function (err, done) {
-                            if (err) throw err;
-                            res.json({
-                                notification: "Documents Approved Successfully"
-                            })
-                        });
-                }
-                else if (aadharFlg == "Y") {
-                    pool.query("UPDATE E_DOCKET_TBL SET AADHAR_FLG = $1 WHERE EMP_ID = $2", [aadharFlg, empId],
-                        function (err, done) {
-                            if (err) throw err;
-                            res.json({
-                                notification: "Documents Approved Successfully"
-                            })
-                        });
+        }
 
-                }
-                else if (sslcFlg == "Y") {
-                    pool.query("UPDATE E_DOCKET_TBL SET SSLC_FLG = $1 WHERE EMP_ID = $2", [sslcFlg, empId],
-                        function (err, done) {
-                            if (err) throw err;
-                            res.json({
-                                notification: "Documents Approved Successfully"
-                            })
-                        });
-
-                }
-                else if (preunivFlg == "Y") {
-                    pool.query("UPDATE E_DOCKET_TBL SET PREUNIV_FLG = $1 WHERE EMP_ID = $2", [preunivFlg, empId],
-                        function (err, done) {
-                            if (err) throw err;
-                            res.json({
-                                notification: "Documents Approved Successfully"
-                            })
-                        });
-
-                }
-                else if (degreeFlg == "Y") {
-                    pool.query("UPDATE E_DOCKET_TBL SET DEGREE_FLG = $1 WHERE EMP_ID = $2", [degreeFlg, empId],
-                        function (err, done) {
-                            if (err) throw err;
-                            res.json({
-                                notification: "Documents Approved Successfully"
-                            })
-                        });
-
-                }
-                else {
+        else if (panFlg == "Y") {
+            pool.query("UPDATE E_DOCKET_TBL SET PAN_FLG = $1 WHERE EMP_ID = $2", [panFlg, empId],
+                function (err, done) {
+                    if (err) throw err;
                     res.json({
                         notification: "Documents Approved Successfully"
                     })
-                }
-            });
-    }
-  
+                });
+        }
+        else if (aadharFlg == "Y") {
+            pool.query("UPDATE E_DOCKET_TBL SET AADHAR_FLG = $1 WHERE EMP_ID = $2", [aadharFlg, empId],
+                function (err, done) {
+                    if (err) throw err;
+                    res.json({
+                        notification: "Documents Approved Successfully"
+                    })
+                });
+
+        }
+        else if (sslcFlg == "Y") {
+            pool.query("UPDATE E_DOCKET_TBL SET SSLC_FLG = $1 WHERE EMP_ID = $2", [sslcFlg, empId],
+                function (err, done) {
+                    if (err) throw err;
+                    res.json({
+                        notification: "Documents Approved Successfully"
+                    })
+                });
+
+        }
+        else if (preunivFlg == "Y") {
+            pool.query("UPDATE E_DOCKET_TBL SET PREUNIV_FLG = $1 WHERE EMP_ID = $2", [preunivFlg, empId],
+                function (err, done) {
+                    if (err) throw err;
+                    res.json({
+                        notification: "Documents Approved Successfully"
+                    })
+                });
+
+        }
+        else if (degreeFlg == "Y") {
+            pool.query("UPDATE E_DOCKET_TBL SET DEGREE_FLG = $1 WHERE EMP_ID = $2", [degreeFlg, empId],
+                function (err, done) {
+                    if (err) throw err;
+                    res.json({
+                        notification: "Documents Approved Successfully"
+                    })
+                });
+
+        }
+        else {
+            res.json({
+                notification: "Documents Approved Successfully"
+            })
+        }
+    });
+}
+
 ///////////////////////////////////////////Reject //////////////////////////////////////////
 
 router.get('/cmsApprRejectAdmin', cmsApprRejectAdmin);
@@ -651,74 +651,74 @@ router.get('/cmsApprRejectAdmin', cmsApprRejectAdmin);
 function cmsApprRejectAdmin(req, res) {
     console.log("reject entered");
 
-        var empId = req.query.empId;
-         var doc = req.query.doc;
-         var reas = req.query.reas;
-        console.log("empid-->" + empId);
-        console.log("doc-->" + doc);
-        console.log("reas-->" + reas);
+    var empId = req.query.empId;
+    var doc = req.query.doc;
+    var reas = req.query.reas;
+    console.log("empid-->" + empId);
+    console.log("doc-->" + doc);
+    console.log("reas-->" + reas);
 
-        var dirRej = './data/CMS/employee/rejectDoc/' + empId + "/";
-        if (!fs.existsSync(dirRej)) {
-            fs.mkdirSync(dirRej, { recursive: true });
-        }
+    var dirRej = './data/CMS/employee/rejectDoc/' + empId + "/";
+    if (!fs.existsSync(dirRej)) {
+        fs.mkdirSync(dirRej, { recursive: true });
+    }
 
-        var caseInp1 = doc.length - 7;
-        console.log("caseInp1", caseInp1);
-        var name = doc.substring(0, caseInp1);
+    var caseInp1 = doc.length - 7;
+    console.log("caseInp1", caseInp1);
+    var name = doc.substring(0, caseInp1);
 
-        var resValue = name.search("PHOTO");
-        if (resValue !== -1) {
-            var newName = name + "_rj.jpg";
+    var resValue = name.search("PHOTO");
+    if (resValue !== -1) {
+        var newName = name + "_rj.jpg";
+    } else {
+        var resValue1 = name.search("RESUME");
+        if (resValue1 !== -1) {
+            var newName = name + "_rj.doc";
         } else {
-            var resValue1 = name.search("RESUME");
-            if (resValue1 !== -1) {
-                var newName = name + "_rj.doc";
-            } else {
-                var newName = name + "_rj.pdf";
-            }
+            var newName = name + "_rj.pdf";
+        }
+    }
+
+    var newPath = dirRej + newName;
+
+    var dirReas = './data/CMS/employee/rejectReason/' + empId + "/";
+    if (!fs.existsSync(dirReas)) {
+        fs.mkdirSync(dirReas, { recursive: true });
+    }
+    var reastxt = name + "_rj.txt";
+    var reasNewfile = dirReas + reastxt;
+
+    var dirOld = './data/CMS/employee/uploadDoc/' + empId + "/";
+    var oldPath = dirOld + doc;
+
+    fs.rename(oldPath, newPath, function (err) {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: "Error while moving the file" });
         }
 
-        var newPath = dirRej + newName;
-
-        var dirReas = './data/CMS/employee/rejectReason/' + empId + "/";
-        if (!fs.existsSync(dirReas)) {
-            fs.mkdirSync(dirReas, { recursive: true });
-        }
-        var reastxt = name + "_rj.txt";
-        var reasNewfile = dirReas + reastxt;
-
-        var dirOld = './data/CMS/employee/uploadDoc/' + empId + "/";
-        var oldPath = dirOld + doc;
-
-        fs.rename(oldPath, newPath, function (err) {
+        fs.writeFile(reasNewfile, reas, function (err) {
             if (err) {
                 console.error(err);
-                return res.status(500).json({ error: "Error while moving the file" });
+                return res.status(500).json({ error: "Error while writing reject reason" });
             }
 
-            fs.writeFile(reasNewfile, reas, function (err) {
-                if (err) {
-                    console.error(err);
-                    return res.status(500).json({ error: "Error while writing reject reason" });
-                }
-
-                len = 0;
-                    var testFolder = './data/CMS/employee/uploadDoc/' + empId + "/";
-                    fs.readdirSync(testFolder).forEach(
-                        function (name) {
-                            var resValue = name.search("uv");
-                            if (resValue != -1) {
-                                docs[len] = name;
-                                cpath[len] = testFolder + name;
-                                len = len + 1;
-                            }
-                        });
-                res.json({
-                    notification: "Document Rejected Successfully"
+            len = 0;
+            var testFolder = './data/CMS/employee/uploadDoc/' + empId + "/";
+            fs.readdirSync(testFolder).forEach(
+                function (name) {
+                    var resValue = name.search("uv");
+                    if (resValue != -1) {
+                        docs[len] = name;
+                        cpath[len] = testFolder + name;
+                        len = len + 1;
+                    }
                 });
+            res.json({
+                notification: "Document Rejected Successfully"
             });
         });
+    });
     // } else {
     //     res.json({
     //         message: "redirect to admin "
@@ -726,197 +726,313 @@ function cmsApprRejectAdmin(req, res) {
     // }
 }
 
+
+
+////////////////////////////////////////Policy Admin Start/////////////////////////////////////
+router.get('/policyUploadAdmin', function (req, res) {
+    var eid = req.user.rows[0].user_id;
+    var ename = req.user.rows[0].user_name;
+    var emp_access = req.user.rows[0].user_type;
+
+    if (emp_access == "A1") {
+        pdbconnect.query("SELECT COMM_CODE_DESC FROM COMMON_CODE_TBL WHERE CODE_ID = 'POL'  ORDER BY COMM_CODE_ID ASC", function (err, result) {
+            policy = result.rows;
+            policy_count = result.rowCount;
+
+            res.render('cmsModule/policyUploadAdmin', { ename: ename, eid: eid, emp_access: emp_access, policy: policy, policy_count: policy_count });
+        });
+    }
+    else {
+        res.redirect('/admin-dashboard/adminDashboard/admindashboard');
+    }
+});
+
+
+
+router.post('/policyUploadPostAdmin', policyUploadPostAdmin);
+function policyUploadPostAdmin(req, res) {
+
+    const form = new formidable.IncomingForm();
+    console.log("Entred to ADMIN post");
+    form.parse(req, function (err, fields, files) {
+        console.log("req", req);
+
+        policyTag = req.body.policyTag;
+
+        console.log("policytag--->", policyTag);
+
+        policyTag = policyTag.replace(/ /g, '_').toUpperCase();
+
+        var docName = req.body.docName;
+        // var docName = fields["docName"];
+        console.log("docname--->", docName);
+
+        docName = docName.replace(/ /g, '_').toUpperCase();
+        var dir2 = './data/CMS/policy/uploadDoc/';
+        if (!fs.existsSync(dir2)) {
+            fs.mkdirSync(dir2);
+        }
+        var d = new Date();
+        d = moment(d).format('YYYY-MM-DD:hh-mm:a');
+        d = d.replace(/:/g, '_').toUpperCase();
+        var newName = policyTag + "_" + docName + "_" + d + ".pdf";
+        var newPath = dir2 + newName;
+
+        /*	fs.readdirSync(dir2).forEach(
+            function (name)
+            {
+                if(name == newName)
+                {
+                    req.flash('error',"File already exists with same name")
+                    res.redirect(req.get('referer'));
+                }
+            });*/
+
+        fs.rename(oldPath, newPath,
+            function (err) {
+                if (err) throw err;
+                res.json({
+                    notification: "Documents upload Successfully"
+                })
+
+            });
+    });
+
+    var oldName = "doc.pdf"
+    var dirOld = './data/CMS/policy/temp/';
+    var oldPath = dirOld + oldName;
+    if (!fs.existsSync(dirOld)) {
+        fs.mkdirSync(dirOld);
+    }
+
+    var storage = multer.diskStorage({
+        destination: function (req, file, callback) {
+            console.log(file);
+            callback(null, dirOld)
+        },
+        filename: function (req, file, callback) {
+            callback(null, oldName)
+        }
+    })
+    var upload = multer({ storage: storage }).single('uploadDoc')
+    upload(req, res, function (err) {
+        if (err) {
+            return res.end("Something went wrong!");
+        }
+    });
+}
+
+
+
+
+
+////////////////////////////////////////Policy Admin Close//////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ///////////////////////////////////////////////////////////////Magazine//////////////////////////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////upload documents///////////////////////////////
 
 
-router.get('/magazineUploadAdmin',function(req,res)
-{
-        var eid =req.query.user_id;
-        var ename = req.query.user_name;
-        var emp_access = req.query.user_type;
-	if(emp_access == "A1")
-        {
-		res.json(
+router.get('/magazineUploadAdmin', function (req, res) {
+    var eid = req.query.user_id;
+    var ename = req.query.user_name;
+    var emp_access = req.query.user_type;
+    if (emp_access == "A1") {
+        res.json(
             {
-                ename:ename,
-                eid:eid,
-                emp_access:emp_access
+                ename: ename,
+                eid: eid,
+                emp_access: emp_access
             }
         );
-	}
-        else
-        {
-                res.json('redirect to Admin-dashboard');
-        }
+    }
+    else {
+        res.json('redirect to Admin-dashboard');
+    }
 });
 
 
-router.post('/magazineUploadPostAdmin',magazineUploadPostAdmin);
-function magazineUploadPostAdmin(req,res)
-{
-   
-		var form = new formidable.IncomingForm();
-        console.log("enter magazine");
-		form.parse(req,function (err, fields, files)
-			{
-                // console.log("req-->",req);
+router.post('/magazineUploadPostAdmin', magazineUploadPostAdmin);
+function magazineUploadPostAdmin(req, res) {
 
-                var magYear = req.body.magYear;
-				var magQuarter =req.body.magQuarter;
+    var form = new formidable.IncomingForm();
+    console.log("enter magazine");
+    form.parse(req, function (err, fields, files) {
+        // console.log("req-->",req);
 
-				// var magYear = fields["magYear"];
-				// var magQuarter = fields["magQuarter"];
+        var magYear = req.body.magYear;
+        var magQuarter = req.body.magQuarter;
+
+        // var magYear = fields["magYear"];
+        // var magQuarter = fields["magQuarter"];
 
 
-                console.log("magYear--> " + magYear);
-                console.log("magQuarter--> " + magQuarter);
+        console.log("magYear--> " + magYear);
+        console.log("magQuarter--> " + magQuarter);
 
 
-				var dir2 = './data/CMS/magazine/uploadDoc/'+magYear+'/';
+        var dir2 = './data/CMS/magazine/uploadDoc/' + magYear + '/';
 
-                console.log("dir2-->",dir2);
+        console.log("dir2-->", dir2);
 
-				if (!fs.existsSync(dir2))
-				{
-					fs.mkdirSync(dir2);
-				}
-				var newName = "laCarta"+"_"+magYear+"_"+magQuarter+".pdf";
+        if (!fs.existsSync(dir2)) {
+            fs.mkdirSync(dir2);
+        }
+        var newName = "laCarta" + "_" + magYear + "_" + magQuarter + ".pdf";
 
-				var newPath = dir2 + newName;
+        var newPath = dir2 + newName;
 
-                console.log("newName-->",newName);
-				fs.rename(oldPath, newPath,
-				function (err)
-				{
-					if (err) throw err;
-					res.json({ notification: "Document Uploaded Successfully" })
-				});
-			});
+        console.log("newName-->", newName);
+        fs.rename(oldPath, newPath,
+            function (err) {
+                if (err) throw err;
+                res.json({ notification: "Document Uploaded Successfully" })
+            });
+    });
 
 
-            console.log("enterd to create floder");
+    console.log("enterd to create floder");
 
-		var oldName = "doc.pdf"
-		var dirOld = './data/CMS/magazine/temp/';
-        console.log("dirOld-->",dirOld);
-		var oldPath = dirOld + oldName;
-        console.log("oldpath-->",oldPath);
-		if (!fs.existsSync(dirOld))
-		{
-			fs.mkdirSync(dirOld);
-		}
+    var oldName = "doc.pdf"
+    var dirOld = './data/CMS/magazine/temp/';
+    console.log("dirOld-->", dirOld);
+    var oldPath = dirOld + oldName;
+    console.log("oldpath-->", oldPath);
+    if (!fs.existsSync(dirOld)) {
+        fs.mkdirSync(dirOld);
+    }
 
 
-		var storage = multer.diskStorage({
-			destination: function(req, file, callback) {
-				console.log(file);
-				callback(null, dirOld)
-			},
-			filename: function(req, file, callback) {
-				callback(null,oldName)
-			}
-		})
-		var upload = multer({storage: storage}).single('uploadDoc')
-		upload(req, res, function(err) {
-			if (err) {
-					return res.end("Something went wrong!");
-				 }
-			});
-	}
+    var storage = multer.diskStorage({
+        destination: function (req, file, callback) {
+            console.log(file);
+            callback(null, dirOld)
+        },
+        filename: function (req, file, callback) {
+            callback(null, oldName)
+        }
+    })
+    var upload = multer({ storage: storage }).single('uploadDoc')
+    upload(req, res, function (err) {
+        if (err) {
+            return res.end("Something went wrong!");
+        }
+    });
+}
 
 
 
 ///////////////////////////////////////////////view documents//////////////////////////////////////
 
-router.get('/magazineViewAdmin',magazineViewAdmin);
-function magazineViewAdmin(req,res)
-{
+router.get('/magazineViewAdmin', magazineViewAdmin);
+function magazineViewAdmin(req, res) {
 
     console.log("view magazine entered");
-	totYear = 0;
-	len2 = 0;
-	totLen = 0;
-	i = 0;
-	var eid = req.query.user_id;
-	var ename = req.query.user_name;
-	var emp_access = req.query.user_type;
+    totYear = 0;
+    len2 = 0;
+    totLen = 0;
+    i = 0;
+    var eid = req.query.user_id;
+    var ename = req.query.user_name;
+    var emp_access = req.query.user_type;
 
 
-		var testFolder = './data/CMS/magazine/uploadDoc/';
-		fs.readdirSync(testFolder).forEach(function (magYear) 
-		{
-			magzYear[totYear] = magYear;
-			len2 = 0;
-			var testFolder1 = './data/CMS/magazine/uploadDoc/'+magYear+'/';
-			fs.readdirSync(testFolder1).forEach(function (magDoc)
-			{
-				magzDoc[totLen] = magDoc;
-				var resultDoc = magDoc.search("Q1");
-				if(resultDoc != -1)
-				{
-					magzQtr[totLen] = "Q1";
-				}
-				resultDoc = magDoc.search("Q2");
-				if(resultDoc != -1)
-				{
-					magzQtr[totLen] = "Q2";
-				}
-				resultDoc = magDoc.search("Q3");
-				if(resultDoc != -1)
-				{
-					magzQtr[totLen] = "Q3";
-				}
-				resultDoc = magDoc.search("Q4");
-				if(resultDoc != -1)
-				{
-					magzQtr[totLen] = "Q4";
-				}
-				len2 = len2 + 1;
-				totLen = totLen + 1;
-			});
-
-			magzTot[totYear] = len2;
-			totYear = totYear + 1;
-		});
-
-		res.json(
-		{
-            data: {
-            magzDoc:magzDoc,
-			magzYear:magzYear,
-			ename:ename,
-			eid:eid,
-			emp_access:emp_access
+    var testFolder = './data/CMS/magazine/uploadDoc/';
+    fs.readdirSync(testFolder).forEach(function (magYear) {
+        magzYear[totYear] = magYear;
+        len2 = 0;
+        var testFolder1 = './data/CMS/magazine/uploadDoc/' + magYear + '/';
+        fs.readdirSync(testFolder1).forEach(function (magDoc) {
+            magzDoc[totLen] = magDoc;
+            var resultDoc = magDoc.search("Q1");
+            if (resultDoc != -1) {
+                magzQtr[totLen] = "Q1";
             }
-		});
-	
-	
+            resultDoc = magDoc.search("Q2");
+            if (resultDoc != -1) {
+                magzQtr[totLen] = "Q2";
+            }
+            resultDoc = magDoc.search("Q3");
+            if (resultDoc != -1) {
+                magzQtr[totLen] = "Q3";
+            }
+            resultDoc = magDoc.search("Q4");
+            if (resultDoc != -1) {
+                magzQtr[totLen] = "Q4";
+            }
+            len2 = len2 + 1;
+            totLen = totLen + 1;
+        });
+
+        magzTot[totYear] = len2;
+        totYear = totYear + 1;
+    });
+
+    res.json(
+        {
+            data: {
+                magzDoc: magzDoc,
+                magzYear: magzYear,
+                ename: ename,
+                eid: eid,
+                emp_access: emp_access
+            }
+        });
+
+
 
 }
 
 
-router.get('/magazineViewFilesAdmin',magazineViewFilesAdmin);
-function magazineViewFilesAdmin(req,res)
-{
+router.get('/magazineViewFilesAdmin', magazineViewFilesAdmin);
+function magazineViewFilesAdmin(req, res) {
     console.log("view Magazine entered");
 
-	var yr = req.query.yr;
-	var magdoc = req.query.magdoc;
-        var magFolder = './data/CMS/magazine/uploadDoc/'+yr+'/';
-	var magfile = magFolder + magdoc;
-	fs.readFile(magfile, 
-	function(err, file) 
-	{
-		//res.setHeader('Content-disposition', 'attachment; filename=' + magfile);
-                //res.download(magfile);
+    var yr = req.query.yr;
+    var magdoc = req.query.magdoc;
+    var magFolder = './data/CMS/magazine/uploadDoc/' + yr + '/';
+    var magfile = magFolder + magdoc;
+    fs.readFile(magfile,
+        function (err, file) {
+            //res.setHeader('Content-disposition', 'attachment; filename=' + magfile);
+            //res.download(magfile);
 
-		res.writeHead(200, {"Content-Type" : "application/pdf"});
-		res.write(file, "binary");
-		res.end();
-	});
+            res.writeHead(200, { "Content-Type": "application/pdf" });
+            res.write(file, "binary");
+            res.end();
+        });
 }
 
 
@@ -1003,7 +1119,7 @@ function cmsStatusView(req, res) {
 
 
     // if (emp_access != "A1") {
-    var govDocs = [], eduDocs = [], medDocs = [], expDocs = [], phDocs = [], resDocs = [], hrDocs = [], cerDocs = [], othrDocs = [], bgDocs = [],polDocs = [];
+    var govDocs = [], eduDocs = [], medDocs = [], expDocs = [], phDocs = [], resDocs = [], hrDocs = [], cerDocs = [], othrDocs = [], bgDocs = [], polDocs = [];
     var govLen = 0, eduLen = 0, medLen = 0, expLen = 0, phLen = 0, resLen = 0, hrLen = 0, cerLen = 0, othrLen = 0, bgLen = 0, polLen = 0, policy_count = 0;
 
     var resValue1;
@@ -1091,7 +1207,7 @@ function cmsStatusView(req, res) {
 
         res.json({
 
-            
+
             govDocs: govDocs, govLen: govLen,
             eduDocs: eduDocs, eduLen: eduLen,
             medDocs: medDocs, medLen: medLen,
@@ -1103,8 +1219,8 @@ function cmsStatusView(req, res) {
             cerDocs: cerDocs, cerLen: cerLen,
             bgDocs: bgDocs, bgLen: bgLen,
 
-             eid: eid,
-           
+            eid: eid,
+
         });
     }
     // }
@@ -1121,7 +1237,7 @@ router.get('/cmsRejViewSts', cmsrejView);
 function cmsrejView(req, res) {
 
     var eid = req.query.user_id;
-    console.log("CMS API ID:- " + eid+" \n");
+    console.log("CMS API ID:- " + eid + " \n");
 
 
     // if (emp_access != "A1") {
@@ -1210,7 +1326,7 @@ function cmsrejView(req, res) {
 
         res.json({
 
-            
+
             govDocs1: govDocs1, govLen1: govLen1,
             eduDocs1: eduDocs1, eduLen1: eduLen1,
             medDocs1: medDocs1, medLen1: medLen1,
@@ -1222,8 +1338,8 @@ function cmsrejView(req, res) {
             cerDocs1: cerDocs1, cerLen1: cerLen1,
             bgDocs1: bgDocs1, bgLen1: bgLen1,
 
-             eid: eid,
-           
+            eid: eid,
+
         });
     }
     // }
@@ -1243,7 +1359,7 @@ function cmsViewEmployee(req, res) {
 
 
     // if (emp_access != "A1") {
-    var govDocs = [], eduDocs = [], medDocs = [], expDocs = [], phDocs = [], resDocs = [], hrDocs = [], cerDocs = [], othrDocs = [], bgDocs = [],polDocs = [];
+    var govDocs = [], eduDocs = [], medDocs = [], expDocs = [], phDocs = [], resDocs = [], hrDocs = [], cerDocs = [], othrDocs = [], bgDocs = [], polDocs = [];
     var govLen = 0, eduLen = 0, medLen = 0, expLen = 0, phLen = 0, resLen = 0, hrLen = 0, cerLen = 0, othrLen = 0, bgLen = 0, polLen = 0, policy_count = 0;
 
     var resValue1;
@@ -1265,66 +1381,66 @@ function cmsViewEmployee(req, res) {
 
                 // if (resValue != -1) {
 
-                    resValue1 = name.search("GOVT");
-                    // console.log("GOVT resValue1 sir:- " + resValue1);
-                    // resValue1 = '2';
-                    // console.log("GOVT resValue1:- "+resValue1);
-                    if (resValue1 != -1) {
-                        govDocs[govLen] = name;
-                        govLen = govLen + 1;
-                    }
+                resValue1 = name.search("GOVT");
+                // console.log("GOVT resValue1 sir:- " + resValue1);
+                // resValue1 = '2';
+                // console.log("GOVT resValue1:- "+resValue1);
+                if (resValue1 != -1) {
+                    govDocs[govLen] = name;
+                    govLen = govLen + 1;
+                }
 
 
-                    resValue1 = name.search("EDUC");
-                    if (resValue1 != -1) {
-                        eduDocs[eduLen] = name;
-                        eduLen = eduLen + 1;
-                    }
+                resValue1 = name.search("EDUC");
+                if (resValue1 != -1) {
+                    eduDocs[eduLen] = name;
+                    eduLen = eduLen + 1;
+                }
 
 
-                    resValue1 = name.search("MEDICAL");
-                    if (resValue1 != -1) {
-                        medDocs[medLen] = name;
-                        medLen = medLen + 1;
-                    }
+                resValue1 = name.search("MEDICAL");
+                if (resValue1 != -1) {
+                    medDocs[medLen] = name;
+                    medLen = medLen + 1;
+                }
 
-                    resValue1 = name.search("EXPERIENCE");
-                    if (resValue1 != -1) {
-                        expDocs[expLen] = name;
-                        expLen = expLen + 1;
-                    }
+                resValue1 = name.search("EXPERIENCE");
+                if (resValue1 != -1) {
+                    expDocs[expLen] = name;
+                    expLen = expLen + 1;
+                }
 
-                    resValue1 = name.search("PHOTO");
-                    if (resValue1 != -1) {
-                        phDocs[phLen] = name;
-                        phLen = phLen + 1;
-                    }
+                resValue1 = name.search("PHOTO");
+                if (resValue1 != -1) {
+                    phDocs[phLen] = name;
+                    phLen = phLen + 1;
+                }
 
-                    resValue1 = name.search("RESUME");
-                    if (resValue1 != -1) {
-                        resDocs[resLen] = name;
-                        resLen = resLen + 1;
-                    }
-                    resValue1 = name.search("_HR");
-                    if (resValue1 != -1) {
-                        hrDocs[hrLen] = name;
-                        hrLen = hrLen + 1;
-                    }
-                    resValue1 = name.search("CERT");
-                    if (resValue1 != -1) {
-                        cerDocs[cerLen] = name;
-                        cerLen = cerLen + 1;
-                    }
-                    resValue1 = name.search("BACKGROUND");
-                    if (resValue1 != -1) {
-                        bgDocs[bgLen] = name;
-                        bgLen = bgLen + 1;
-                    }
-                    resValue1 = name.search("OTHR");
-                    if (resValue1 != -1) {
-                        othrDocs[othrLen] = name;
-                        othrLen = othrLen + 1;
-                    }
+                resValue1 = name.search("RESUME");
+                if (resValue1 != -1) {
+                    resDocs[resLen] = name;
+                    resLen = resLen + 1;
+                }
+                resValue1 = name.search("_HR");
+                if (resValue1 != -1) {
+                    hrDocs[hrLen] = name;
+                    hrLen = hrLen + 1;
+                }
+                resValue1 = name.search("CERT");
+                if (resValue1 != -1) {
+                    cerDocs[cerLen] = name;
+                    cerLen = cerLen + 1;
+                }
+                resValue1 = name.search("BACKGROUND");
+                if (resValue1 != -1) {
+                    bgDocs[bgLen] = name;
+                    bgLen = bgLen + 1;
+                }
+                resValue1 = name.search("OTHR");
+                if (resValue1 != -1) {
+                    othrDocs[othrLen] = name;
+                    othrLen = othrLen + 1;
+                }
                 // }
 
             });
@@ -1332,7 +1448,7 @@ function cmsViewEmployee(req, res) {
 
         res.json({
 
-            
+
             govDocs: govDocs, govLen: govLen,
             eduDocs: eduDocs, eduLen: eduLen,
             medDocs: medDocs, medLen: medLen,
@@ -1344,8 +1460,8 @@ function cmsViewEmployee(req, res) {
             cerDocs: cerDocs, cerLen: cerLen,
             bgDocs: bgDocs, bgLen: bgLen,
 
-             eid: eid
-           
+            eid: eid
+
         });
     }
     // }
