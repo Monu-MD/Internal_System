@@ -11,57 +11,47 @@
         <div class="col-sm-6">
 
             <!-- Government Documents -->
-            <app-document-list *ngIf="employeeData.govLen !== 0" [header]="'Government Documents'"
-                [documents]="employeeData.govDocs" [employeeData]="employeeData"></app-document-list>
+            <app-document-list2 *ngIf="employeeData.govLen !== 0" [header]="'Government Documents'"
+                [documents]="employeeData.govDocs" [employeeData]="employeeData"></app-document-list2>
 
             <!-- Educational Documents -->
-            <app-document-list *ngIf="employeeData.eduLen !== 0" [header]="'Educational Documents'"
-                [documents]="employeeData.eduDocs" [employeeData]="employeeData"></app-document-list>
+            <app-document-list2 *ngIf="employeeData.eduLen !== 0" [header]="'Educational Documents'"
+                [documents]="employeeData.eduDocs" [employeeData]="employeeData"></app-document-list2>
 
             <!-- Medical Documents -->
-            <app-document-list *ngIf="employeeData.medLen !== 0" [header]="'Medical Documents'"
-                [documents]="employeeData.medDocs" [employeeData]="employeeData"></app-document-list>
+            <app-document-list2 *ngIf="employeeData.medLen !== 0" [header]="'Medical Documents'"
+                [documents]="employeeData.medDocs" [employeeData]="employeeData"></app-document-list2>
 
             <!-- Experience Documents -->
-            <app-document-list *ngIf="employeeData.expLen !== 0" [header]="'Experince '"
-                [documents]="employeeData.expDocs" [employeeData]="employeeData"></app-document-list>
+            <app-document-list2 *ngIf="employeeData.expLen !== 0" [header]="'Experince '"
+                [documents]="employeeData.expDocs" [employeeData]="employeeData"></app-document-list2>
 
             <!-- Photo  -->
-            <app-document-list *ngIf="employeeData.phLen !== 0" [header]="'Photo'" [documents]="employeeData.phDocs"
-                [employeeData]="employeeData"></app-document-list>
+            <app-document-list2 *ngIf="employeeData.phLen !== 0" [header]="'Photo'" [documents]="employeeData.phDocs"
+                [employeeData]="employeeData"></app-document-list2>
 
             <!-- Resume  -->
-            <app-document-list *ngIf="employeeData.resLen !== 0" [header]="'Resume'" [documents]="employeeData.resDocs"
-                [employeeData]="employeeData"></app-document-list>
+            <app-document-list2 *ngIf="employeeData.resLen !== 0" [header]="'Resume'" [documents]="employeeData.resDocs"
+                [employeeData]="employeeData"></app-document-list2>
 
             <!-- Other Documents  -->
-            <app-document-list *ngIf="employeeData.othrLen !== 0" [header]="'Other Documents'"
-                [documents]="employeeData.othrDocs" [employeeData]="employeeData"></app-document-list>
+            <app-document-list2 *ngIf="employeeData.othrLen !== 0" [header]="'Other Documents'"
+                [documents]="employeeData.othrDocs" [employeeData]="employeeData"></app-document-list2>
 
             <!-- Certificates -->
-            <app-document-list *ngIf="employeeData.cerLen !== 0" [header]="'Certificates'"
-                [documents]="employeeData.cerDocs" [employeeData]="employeeData"></app-document-list>
+            <app-document-list2 *ngIf="employeeData.cerLen !== 0" [header]="'Certificates'"
+                [documents]="employeeData.cerDocs" [employeeData]="employeeData"></app-document-list2>
 
             <!-- Hr Doc -->
-            <app-document-list *ngIf="employeeData.hrLen !== 0" [header]="'HR Documents'"
-                [documents]="employeeData.hrDocs" [employeeData]="employeeData"></app-document-list>
+            <app-document-list2 *ngIf="employeeData.hrLen !== 0" [header]="'HR Documents'"
+                [documents]="employeeData.hrDocs" [employeeData]="employeeData"></app-document-list2>
 
             <!-- Background Doc -->
-            <app-document-list *ngIf="employeeData.bgLen !== 0" [header]="'Background Documents'"
-                [documents]="employeeData.bgDocs" [employeeData]="employeeData"></app-document-list>
+            <app-document-list2 *ngIf="employeeData.bgLen !== 0" [header]="'Background Documents'"
+                [documents]="employeeData.bgDocs" [employeeData]="employeeData"></app-document-list2>
         </div>
 
     </ng-container>
-
-    <hr />
-    <h4 class="title">Rejected Documents <i class="fa fa-file" aria-hidden="true"></i></h4>
-    <hr />
-
-
-    <ng-template #noRecords>
-        <label style="color:#404040;">No records found</label>
-        <br />
-    </ng-template>
 </div>
 
 <app-footer></app-footer>

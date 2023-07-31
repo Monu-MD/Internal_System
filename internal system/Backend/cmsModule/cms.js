@@ -992,19 +992,19 @@ router.get('/profile-photo/:eid', (req, res) => {
 
 
 
-//------------------------    Employee Doc View  ----------------------
+//------------------------    Employee pending status View  ----------------------
 
 
-router.get('/cmsViewEmployee', cmsViewEmployee);
-function cmsViewEmployee(req, res) {
+router.get('/cmsPenViewSts', cmsStatusView);
+function cmsStatusView(req, res) {
 
     var eid = req.query.user_id;
     console.log("CMS API ID:- " + eid);
 
 
     // if (emp_access != "A1") {
-    var govDocs = [], eduDocs = [], medDocs = [], expDocs = [], phDocs = [], resDocs = [], hrDocs = [], cerDocs = [], othrDocs = [], bgDocs = [], emp_access=[],polDocs = [];
-    var govLen = 0, eduLen = 0, medLen = 0, expLen = 0, phLen = 0, resLen = 0, hrLen = 0, cerLen = 0, othrLen = 0, bgLen = 0,emp_access=0, polLen = 0, policy_count = 0;
+    var govDocs = [], eduDocs = [], medDocs = [], expDocs = [], phDocs = [], resDocs = [], hrDocs = [], cerDocs = [], othrDocs = [], bgDocs = [],polDocs = [];
+    var govLen = 0, eduLen = 0, medLen = 0, expLen = 0, phLen = 0, resLen = 0, hrLen = 0, cerLen = 0, othrLen = 0, bgLen = 0, polLen = 0, policy_count = 0;
 
     var resValue1;
 
@@ -1104,7 +1104,247 @@ function cmsViewEmployee(req, res) {
             bgDocs: bgDocs, bgLen: bgLen,
 
              eid: eid,
-             emp_access: emp_access
+           
+        });
+    }
+    // }
+
+    // else {
+    //     res.json({ notification: "Redirect to Admin Dashboard" });
+    // }
+}
+
+//------------------------    Employee rejected status View  ----------------------
+
+
+router.get('/cmsRejViewSts', cmsrejView);
+function cmsrejView(req, res) {
+
+    var eid = req.query.user_id;
+    console.log("CMS API ID:- " + eid+" \n");
+
+
+    // if (emp_access != "A1") {
+    var govDocs1 = [], eduDocs1 = [], medDocs1 = [], expDocs1 = [], phDocs1 = [], resDocs1 = [], hrDocs1 = [], cerDocs1 = [], othrDocs1 = [], bgDocs1 = [];
+    var govLen1 = 0, eduLen1 = 0, medLen1 = 0, expLen1 = 0, phLen1 = 0, resLen1 = 0, hrLen1 = 0, cerLen1 = 0, othrLen1 = 0, bgLen1 = 0;
+
+    var resValue1;
+
+    var testFolder = './data/CMS/employee/rejectDoc/' + eid + "/";
+    if (!fs.existsSync(testFolder)) {
+        res.json({ notification: "No records found" })
+    }
+    else {
+        fs.readdirSync(testFolder).forEach(
+            function (name) {
+                console.log(name);
+                var resValue = name.search("rj");
+                // console.log("resValue sir: " + resValue);
+
+                // var resValue = '-1';
+                // console.log("resValue Mine: " + resValue);
+
+                if (resValue != -1) {
+
+                    resValue1 = name.search("GOVT");
+                    if (resValue1 != -1) {
+                        govDocs1[govLen1] = name;
+                        govLen1 = govLen1 + 1;
+                    }
+
+
+                    resValue1 = name.search("EDUC");
+                    if (resValue1 != -1) {
+                        eduDocs1[eduLen1] = name;
+                        eduLen1 = eduLen1 + 1;
+                    }
+
+
+                    resValue1 = name.search("MEDICAL");
+                    if (resValue1 != -1) {
+                        medDocs[medLen] = name;
+                        medLen = medLen + 1;
+                    }
+
+                    resValue1 = name.search("EXPERIENCE");
+                    if (resValue1 != -1) {
+                        expDocs[expLen] = name;
+                        expLen = expLen + 1;
+                    }
+
+                    resValue1 = name.search("PHOTO");
+                    if (resValue1 != -1) {
+                        phDocs[phLen] = name;
+                        phLen = phLen + 1;
+                    }
+
+                    resValue1 = name.search("RESUME");
+                    if (resValue1 != -1) {
+                        resDocs[resLen] = name;
+                        resLen = resLen + 1;
+                    }
+                    resValue1 = name.search("_HR");
+                    if (resValue1 != -1) {
+                        hrDocs[hrLen] = name;
+                        hrLen = hrLen + 1;
+                    }
+                    resValue1 = name.search("CERT");
+                    if (resValue1 != -1) {
+                        cerDocs[cerLen] = name;
+                        cerLen = cerLen + 1;
+                    }
+                    resValue1 = name.search("BACKGROUND");
+                    if (resValue1 != -1) {
+                        bgDocs[bgLen] = name;
+                        bgLen = bgLen + 1;
+                    }
+                    resValue1 = name.search("OTHR");
+                    if (resValue1 != -1) {
+                        othrDocs[othrLen] = name;
+                        othrLen = othrLen + 1;
+                    }
+                }
+
+            });
+
+
+        res.json({
+
+            
+            govDocs1: govDocs1, govLen1: govLen1,
+            eduDocs1: eduDocs1, eduLen1: eduLen1,
+            medDocs1: medDocs1, medLen1: medLen1,
+            expDocs1: expDocs1, expLen1: expLen1,
+            phDocs1: phDocs1, phLen1: phLen1,
+            resDocs1: resDocs1, resLen1: resLen1,
+            othrDocs1: othrDocs1, othrLen1: othrLen1,
+            hrDocs1: hrDocs1, hrLen1: hrLen1,
+            cerDocs1: cerDocs1, cerLen1: cerLen1,
+            bgDocs1: bgDocs1, bgLen1: bgLen1,
+
+             eid: eid,
+           
+        });
+    }
+    // }
+
+    // else {
+    //     res.json({ notification: "Redirect to Admin Dashboard" });
+    // }
+}
+
+//------------------------    Employee Doc View  ----------------------
+
+router.get('/cmsViewEmployee', cmsViewEmployee);
+function cmsViewEmployee(req, res) {
+
+    var eid = req.query.user_id;
+    console.log("CMS API ID:- " + eid);
+
+
+    // if (emp_access != "A1") {
+    var govDocs = [], eduDocs = [], medDocs = [], expDocs = [], phDocs = [], resDocs = [], hrDocs = [], cerDocs = [], othrDocs = [], bgDocs = [],polDocs = [];
+    var govLen = 0, eduLen = 0, medLen = 0, expLen = 0, phLen = 0, resLen = 0, hrLen = 0, cerLen = 0, othrLen = 0, bgLen = 0, polLen = 0, policy_count = 0;
+
+    var resValue1;
+
+    var testFolder = './data/CMS/employee/uploadDoc/' + eid + "/";
+    if (!fs.existsSync(testFolder)) {
+        res.json({ notification: "No records found" })
+    }
+    else {
+        fs.readdirSync(testFolder).forEach(
+            function (name) {
+                console.log(name);
+
+                // var resValue = name.search("uv");
+                // console.log("resValue sir: " + resValue);
+
+                // var resValue = '-1';
+                // console.log("resValue Mine: " + resValue);
+
+                // if (resValue != -1) {
+
+                    resValue1 = name.search("GOVT");
+                    // console.log("GOVT resValue1 sir:- " + resValue1);
+                    // resValue1 = '2';
+                    // console.log("GOVT resValue1:- "+resValue1);
+                    if (resValue1 != -1) {
+                        govDocs[govLen] = name;
+                        govLen = govLen + 1;
+                    }
+
+
+                    resValue1 = name.search("EDUC");
+                    if (resValue1 != -1) {
+                        eduDocs[eduLen] = name;
+                        eduLen = eduLen + 1;
+                    }
+
+
+                    resValue1 = name.search("MEDICAL");
+                    if (resValue1 != -1) {
+                        medDocs[medLen] = name;
+                        medLen = medLen + 1;
+                    }
+
+                    resValue1 = name.search("EXPERIENCE");
+                    if (resValue1 != -1) {
+                        expDocs[expLen] = name;
+                        expLen = expLen + 1;
+                    }
+
+                    resValue1 = name.search("PHOTO");
+                    if (resValue1 != -1) {
+                        phDocs[phLen] = name;
+                        phLen = phLen + 1;
+                    }
+
+                    resValue1 = name.search("RESUME");
+                    if (resValue1 != -1) {
+                        resDocs[resLen] = name;
+                        resLen = resLen + 1;
+                    }
+                    resValue1 = name.search("_HR");
+                    if (resValue1 != -1) {
+                        hrDocs[hrLen] = name;
+                        hrLen = hrLen + 1;
+                    }
+                    resValue1 = name.search("CERT");
+                    if (resValue1 != -1) {
+                        cerDocs[cerLen] = name;
+                        cerLen = cerLen + 1;
+                    }
+                    resValue1 = name.search("BACKGROUND");
+                    if (resValue1 != -1) {
+                        bgDocs[bgLen] = name;
+                        bgLen = bgLen + 1;
+                    }
+                    resValue1 = name.search("OTHR");
+                    if (resValue1 != -1) {
+                        othrDocs[othrLen] = name;
+                        othrLen = othrLen + 1;
+                    }
+                // }
+
+            });
+
+
+        res.json({
+
+            
+            govDocs: govDocs, govLen: govLen,
+            eduDocs: eduDocs, eduLen: eduLen,
+            medDocs: medDocs, medLen: medLen,
+            expDocs: expDocs, expLen: expLen,
+            phDocs: phDocs, phLen: phLen,
+            resDocs: resDocs, resLen: resLen,
+            othrDocs: othrDocs, othrLen: othrLen,
+            hrDocs: hrDocs, hrLen: hrLen,
+            cerDocs: cerDocs, cerLen: cerLen,
+            bgDocs: bgDocs, bgLen: bgLen,
+
+             eid: eid
            
         });
     }

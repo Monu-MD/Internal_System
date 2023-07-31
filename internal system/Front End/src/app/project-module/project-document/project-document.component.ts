@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProjectserviceService } from 'src/app/services/projectservice.service';
 
 @Component({
   selector: 'app-project-document',
@@ -17,14 +18,19 @@ export class ProjectDocumentComponent {
   // }
   project_Doc: FormGroup;
   notification: any;
+  projectID: any[];
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient, private formBuilder: FormBuilder,private projectservice:ProjectserviceService) {
     this.project_Doc = this.formBuilder.group({
       projectid:new FormControl(''),
         uploadDoc:new FormControl(''),
         Tag:new FormControl(''),
         DocType:new FormControl(''),
     });
+
+    this.projectID=this.projectservice.projectId;
+    console.log(this.projectID);
+    
   }
 
   onSubmit(): void {

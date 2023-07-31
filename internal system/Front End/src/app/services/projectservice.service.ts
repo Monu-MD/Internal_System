@@ -6,6 +6,7 @@ import { Route, Router } from '@angular/router';
   providedIn: 'root'
 })
 export class ProjectserviceService {
+  projectId:any[]=[]
 
   constructor(private http: HttpClient, private router: Router) {
   }
@@ -30,12 +31,16 @@ export class ProjectserviceService {
     this.fetchaddPjtDeAlldetails = value;
   }
 
-  
+  FAQ:any
+  setFaq(value:any){
+  this.FAQ=value
+  }
   getData() {
     return [this.coustomerviewData,
     this.cocdProjectdetails,
     this.fetchaddPjtAlldetails,
     this.fetchaddPjtDeAlldetails,
+    this.FAQ,
   ];
   }
 }

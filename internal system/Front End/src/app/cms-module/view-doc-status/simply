@@ -1,0 +1,45 @@
+ <ng-container *ngIf="rejetedData">
+        <div class="col-sm-6">
+
+            <!-- Government Documents -->
+            <app-document-list2 *ngIf="rejetedData.govLen1 !== 0"
+                [documents2]="rejetedData.govDocs1" [rejetedData]="rejetedData"></app-document-list2>
+
+            <!-- Educational Documents -->
+            <app-document-list2 *ngIf="rejetedData.eduLen1 !== 0"
+                [documents2]="rejetedData.eduDocs1" [rejetedData]="rejetedData"></app-document-list2>
+
+            <!-- Medical Documents -->
+            <app-document-list2 *ngIf="rejetedData.medLen1 !== 0"
+                [documents2]="rejetedData.medDocs1" [rejetedData]="rejetedData"></app-document-list2>
+
+            <!-- Experience Documents -->
+            <app-document-list2 *ngIf="rejetedData.expLen1 !== 0"
+                [documents2]="rejetedData.expDocs1" [rejetedData]="rejetedData"></app-document-list2>
+
+            <!-- Photo  -->
+            <app-document-list2 *ngIf="rejetedData.phLen1 !== 0" [documents2]="rejetedData.phDocs1"
+                [rejetedData]="rejetedData"></app-document-list2>
+
+            <!-- Resume  -->
+            <app-document-list2 *ngIf="rejetedData.resLen1 !== 0"
+                [documents2]="rejetedData.resDocs1" [rejetedData]="rejetedData"></app-document-list2>
+
+            <!-- Other Documents  -->
+            <app-document-list2 *ngIf="rejetedData.othrLen1 !== 0"
+                [documents2]="rejetedData.othrDocs1" [rejetedData]="rejetedData"></app-document-list2>
+
+            <!-- Certificates -->
+            <app-document-list2 *ngIf="rejetedData.cerLen1 !== 0"
+                [documents2]="rejetedData.cerDocs1" [rejetedData]="rejetedData"></app-document-list2>
+
+            <!-- Hr Doc -->
+            <app-document-list2 *ngIf="rejetedData.hrLen1 !== 0"
+                [documents2]="rejetedData.hrDocs1" [rejetedData]="rejetedData"></app-document-list2>
+
+            <!-- Background Doc -->
+            <app-document-list2 *ngIf="rejetedData.bgLen1 !== 0"
+                [documents2]="rejetedData.bgDocs1" [rejetedData]="rejetedData"></app-document-list2>
+        </div>
+
+    </ng-container>

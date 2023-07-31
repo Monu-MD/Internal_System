@@ -38,11 +38,12 @@ interface EmployeeDocument {
 })
 export class ViewDocStatusComponent {
 
-  
+
   employeeData: EmployeeDocument | undefined;
+
   user_id: any;
   user_access: any;
-  emp_Id:any;
+  emp_Id: any;
 
   constructor(private http: HttpClient, private loginservice: LoginServiceService, private cmsService: CmsService) {
     const user = this.loginservice.getData();
@@ -51,24 +52,19 @@ export class ViewDocStatusComponent {
   }
 
   ngOnInit() {
-    var gotId = this.cmsService.getCMSempID();
-    if (gotId != null) {
-      this.user_id = gotId;
-      console.log(this.user_id+"admin sending Id");
-      
-    }
     console.log("current user ID: ---" + this.user_id);
-
-    this.fetchEmployeeData(); // Fetch employee data on component initialization
+    this.pendingDoc();
   }
 
-  fetchEmployeeData() {
+  pendingDoc() {
     const params = new HttpParams().set('user_id', this.user_id.toString())
     // .set('user_access', this.user_access.toString())
+    console.log("status Api called");
 
-    this.http.get('http://localhost:4000/cms/cmsViewEmployee', { params }).subscribe(
+    this.http.get('http://localhost:4000/cms/cmsPenViewSts', { params }).subscribe(
       (response: any) => {
-        console.log(response);
+        console.log( "Pending Data \n");
+        console.log( response);
         this.employeeData = response;
       },
       (error) => {
@@ -76,5 +72,6 @@ export class ViewDocStatusComponent {
       }
     );
   }
+
 
 }

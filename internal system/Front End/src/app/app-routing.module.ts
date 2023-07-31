@@ -108,11 +108,13 @@ import { ProjectDocumentComponent } from './project-module/project-document/proj
 import { DocAppRejComponent } from './cms-module/doc-app-rej/doc-app-rej.component';
 import { SearchEmployeeComponent } from './cms-module/search-employee/search-employee.component';
 import { ViewDocStatusComponent } from './cms-module/view-doc-status/view-doc-status.component';
-import { SearchEmpDocAppRejComponent } from './cms-module/search-emp-doc-app-rej/search-emp-doc-app-rej.component';  
-import { DocumentsComponent } from './cms-module/documents/documents.component';  
+import { SearchEmpDocAppRejComponent } from './cms-module/search-emp-doc-app-rej/search-emp-doc-app-rej.component';
+import { DocumentsComponent } from './cms-module/documents/documents.component';
+import { RejDocComponent } from './cms-module/rej-doc/rej-doc.component';
+import { FAQComponent } from './faq/faq.component';
 
 const routes: Routes = [
-
+  { path: 'faq', component: FAQComponent },
   { path: 'admindashboard', component: AdminDashboardComponent },
 
   { path: '', component: LoginComponent },
@@ -215,8 +217,10 @@ const routes: Routes = [
   { path: 'viewMagz', component: ViewMagzineComponent },
   { path: 'viewPolcy', component: ViewPolicyComponent },
   { path: 'docAppRej', component: DocAppRejComponent },
-  {path:'searchEmpAppRej',component:SearchEmpDocAppRejComponent},
-  {path:'docs',component:DocumentsComponent},
+  { path: 'searchEmpAppRej', component: SearchEmpDocAppRejComponent },
+  { path: 'docs', component: DocumentsComponent },
+  { path: 'rejView', component: RejDocComponent },
+
 
   //mahesh
   { path: 'cocd', component: CommonCodeDetailsComponent },
