@@ -517,12 +517,8 @@ function cmsUploadPostEmployee(req, res) {
 
 router.get('/cmsApprIndvAdmin', cmsApprIndvAdmin);
 function cmsApprIndvAdmin(req, res) {
-    // var emp_access = req.body.user_type;
-       var emp_access ="A1";
-       console.log("emp_access",emp_access);
 
-    if (emp_access == "A1") {
-        console.log("approve chaeck1");
+         console.log("approve entered");
         panFlg = "N", aadharFlg = "N", sslcFlg = "N", preunivFlg = "N", degreeFlg = "N";
 
         var empId = req.query.empId;
@@ -647,27 +643,17 @@ function cmsApprIndvAdmin(req, res) {
                 }
             });
     }
-    else {
-        res.json({
-            message: "redirect to admin "
-        })
-    }
-}
-
+  
 ///////////////////////////////////////////Reject //////////////////////////////////////////
 
 router.get('/cmsApprRejectAdmin', cmsApprRejectAdmin);
 
 function cmsApprRejectAdmin(req, res) {
-    var empId = req.query.empId;
-    var doc = req.query.doc;
-    var emp_access = "A1";
+    console.log("reject entered");
 
-    console.log("empAccess-->", emp_access);
-
-    if (emp_access === "A1") {
+        var empId = req.query.empId;
+         var doc = req.query.doc;
          var reas = req.query.reas;
-        //  var reas="simply";
         console.log("empid-->" + empId);
         console.log("doc-->" + doc);
         console.log("reas-->" + reas);
@@ -733,255 +719,205 @@ function cmsApprRejectAdmin(req, res) {
                 });
             });
         });
-    } else {
-        res.json({
-            message: "redirect to admin "
-        });
-    }
+    // } else {
+    //     res.json({
+    //         message: "redirect to admin "
+    //     });
+    // }
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////Magazine//////////////////////////////////////////////////////////////////////
 
 
+///////////////////////////////////////////////////upload documents///////////////////////////////
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////admin Approve////////////////////////////////////////////////////////
-
-router.get('/cmsApprAdmin', cmsApprAdmin);
-function cmsApprAdmin(req, res) {
-    var eid = req.body.user_id;
-    var ename = req.body.user_name;
-    var emp_access = req.body.user_type;
-    console.log("eid-->" + eid);
-    console.log("ename-->" + ename);
-    console.log("emp_access-->" + emp_access);
-    if (emp_access == "A1") {
-        len = 0;
-        len2 = 0;
-        i = 0;
-        var empString = "";
-        selQuery = "";
-        var testFolder = './data/CMS/employee/uploadDoc/';
-        fs.readdirSync(testFolder).forEach(function (empId) {
-            len1 = 0;
-            cpath[len] = testFolder + empId + "/";
-
-            try {
-                fs.readdirSync(cpath[len]).forEach(
-                    function (empFile) {
-                        var resValue = empFile.search("uv");
-                        if (resValue != -1) {
-                            empArray[len2] = empId;
-                            len2 = len2 + 1;
-                            throw "done";
-                        }
-                    });
+router.get('/magazineUploadAdmin',function(req,res)
+{
+        var eid =req.query.user_id;
+        var ename = req.query.user_name;
+        var emp_access = req.query.user_type;
+	if(emp_access == "A1")
+        {
+		res.json(
+            {
+                ename:ename,
+                eid:eid,
+                emp_access:emp_access
             }
-            catch (e) { if (e != "done") console.log(empId); }
-            docs[len] = empFile;
-            len = len + 1;
-        });
-        for (i = 0; i < len2;) {
-            empString = empString + "'" + empArray[i] + "'";
-            i = i + 1;
-            if (i < len2) {
-                empString = empString + ",";
-            }
+        );
+	}
+        else
+        {
+                res.json('redirect to Admin-dashboard');
         }
-        if (len2 > 0) {
-            selQuery = "SELECT emp_id,emp_name from emp_master_tbl where emp_id in (" + empString + ") order by emp_id"
-
-            pool.query(selQuery,
-                function (err, result) {
-                    employee = result.rows;
-                    emp_id_count = result.rowCount;
-
-                    res.json({
-
-                        data:
-                        {
-                            employee: employee,
-                            emp_id_count: emp_id_count,
-                            len2: len2,
-                            ename: ename,
-                            eid: eid,
-                            emp_access: emp_access
-
-                        }
-
-                    });
-                });
-        }
-        else {
-            res.json({
-                data: {
-                    len2: len2,
-                    ename: ename,
-                    eid: eid,
-                    emp_access: emp_access
-                }
-            });
-
-        }
-    }
-    else {
-        res.json(' redirect to admin');
-    }
-}
+});
 
 
-//////////////////////////////////////APPROVE POST///////////////////////////////
-router.post('/cmsApprPostAdmin', cmsApprPostAdmin);
-function cmsApprPostAdmin(req, res) {
-    // var emp_access = req.body.user_type;
+router.post('/magazineUploadPostAdmin',magazineUploadPostAdmin);
+function magazineUploadPostAdmin(req,res)
+{
+   
+		var form = new formidable.IncomingForm();
+        console.log("enter magazine");
+		form.parse(req,function (err, fields, files)
+			{
+                // console.log("req-->",req);
 
-    var emp_access ='A1';
+                var magYear = req.body.magYear;
+				var magQuarter =req.body.magQuarter;
 
-    if (emp_access == "A1") {
-        updQuery = "", panFlg = "N", aadharFlg = "N", sslcFlg = "N", preunivFlg = "N", degreeFlg = "N";
-        len = req.query.len;
-        empId = req.query.empId;
-        i = 0;
-        j = 0;
-        var caseInp = "";
-        for (i = 0; i < len; i++) {
-            var caseInp = req.body['caseinput' + i];
-            if (caseInp == 1) {
-                docs[i];
-                var caseInp1 = docs[i].length - 7;
-                var dir1 = './data/CMS/employee/uploadDoc/' + empId + "/";
-                var oldPath = dir1 + docs[i];
-                var name = docs[i].substring(0, caseInp1);
+				// var magYear = fields["magYear"];
+				// var magQuarter = fields["magQuarter"];
 
-                var resValue = name.search("PHOTO");
-                if (resValue != -1) {
-                    var newName = empId + ".jpg";
-                    var dir2 = './public/images/profile/';
-                }
-                else {
-                    var resValue1 = name.search("RESUME");
-                    if (resValue1 != -1) {
-                        var newName = name + ".doc";
-                    }
-                    else {
-                        var newName = name + ".pdf";
-                        var apprPattern = name.search("GOVT_PANCARD");
-                        if (apprPattern != -1) {
-                            panFlg = "Y";
-                        }
-                        var apprPattern = name.search("GOVT_AADHAR");
-                        if (apprPattern != -1) {
-                            aadharFlg = "Y";
-                        }
-                        var apprPattern = name.search("EDUC_SSLC");
-                        if (apprPattern != -1) {
-                            sslcFlg = "Y";
-                        }
-                        var apprPattern = name.search("EDUC_PRE_UNIV");
-                        if (apprPattern != -1) {
-                            preunivFlg = "Y";
-                        }
-                        var apprPattern = name.search("EDUC_DEGREE");
-                        if (apprPattern != -1) {
-                            degreeFlg = "Y";
-                        }
 
-                    }
-                    var dir2 = './data/CMS/employee/uploadDoc/' + empId + "/";
-                }
-                var newPath = dir2 + newName;
-                fs.rename(oldPath, newPath, function (err) {
-                    if (err) throw err;
+                console.log("magYear--> " + magYear);
+                console.log("magQuarter--> " + magQuarter);
 
-                });
+
+				var dir2 = './data/CMS/magazine/uploadDoc/'+magYear+'/';
+
+                console.log("dir2-->",dir2);
+
+				if (!fs.existsSync(dir2))
+				{
+					fs.mkdirSync(dir2);
+				}
+				var newName = "laCarta"+"_"+magYear+"_"+magQuarter+".pdf";
+
+				var newPath = dir2 + newName;
+
+                console.log("newName-->",newName);
+				fs.rename(oldPath, newPath,
+				function (err)
+				{
+					if (err) throw err;
+					res.json({ notification: "Document Uploaded Successfully" })
+				});
+			});
+
+
+            console.log("enterd to create floder");
+
+		var oldName = "doc.pdf"
+		var dirOld = './data/CMS/magazine/temp/';
+        console.log("dirOld-->",dirOld);
+		var oldPath = dirOld + oldName;
+        console.log("oldpath-->",oldPath);
+		if (!fs.existsSync(dirOld))
+		{
+			fs.mkdirSync(dirOld);
+		}
+
+
+		var storage = multer.diskStorage({
+			destination: function(req, file, callback) {
+				console.log(file);
+				callback(null, dirOld)
+			},
+			filename: function(req, file, callback) {
+				callback(null,oldName)
+			}
+		})
+		var upload = multer({storage: storage}).single('uploadDoc')
+		upload(req, res, function(err) {
+			if (err) {
+					return res.end("Something went wrong!");
+				 }
+			});
+	}
+
+
+
+///////////////////////////////////////////////view documents//////////////////////////////////////
+
+router.get('/magazineViewAdmin',magazineViewAdmin);
+function magazineViewAdmin(req,res)
+{
+
+    console.log("view magazine entered");
+	totYear = 0;
+	len2 = 0;
+	totLen = 0;
+	i = 0;
+	var eid = req.query.user_id;
+	var ename = req.query.user_name;
+	var emp_access = req.query.user_type;
+
+
+		var testFolder = './data/CMS/magazine/uploadDoc/';
+		fs.readdirSync(testFolder).forEach(function (magYear) 
+		{
+			magzYear[totYear] = magYear;
+			len2 = 0;
+			var testFolder1 = './data/CMS/magazine/uploadDoc/'+magYear+'/';
+			fs.readdirSync(testFolder1).forEach(function (magDoc)
+			{
+				magzDoc[totLen] = magDoc;
+				var resultDoc = magDoc.search("Q1");
+				if(resultDoc != -1)
+				{
+					magzQtr[totLen] = "Q1";
+				}
+				resultDoc = magDoc.search("Q2");
+				if(resultDoc != -1)
+				{
+					magzQtr[totLen] = "Q2";
+				}
+				resultDoc = magDoc.search("Q3");
+				if(resultDoc != -1)
+				{
+					magzQtr[totLen] = "Q3";
+				}
+				resultDoc = magDoc.search("Q4");
+				if(resultDoc != -1)
+				{
+					magzQtr[totLen] = "Q4";
+				}
+				len2 = len2 + 1;
+				totLen = totLen + 1;
+			});
+
+			magzTot[totYear] = len2;
+			totYear = totYear + 1;
+		});
+
+		res.json(
+		{
+            data: {
+            magzDoc:magzDoc,
+			magzYear:magzYear,
+			ename:ename,
+			eid:eid,
+			emp_access:emp_access
             }
-        }
+		});
+	
+	
 
-        if (panFlg == "Y" || aadharFlg == "Y" || sslcFlg == "Y" || preunivFlg == "Y" || degreeFlg == "Y") {
-            if (panFlg == "Y") {
-                updQuery = "PAN_FLG = 'Y'";
-            }
-            if (aadharFlg == "Y") {
-                if (updQuery == "") {
-                    updQuery = "AADHAR_FLG = 'Y'";
-                }
-                else {
-                    updQuery = updQuery + ",AADHAR_FLG = 'Y'";
-                }
-            }
-            if (sslcFlg == "Y") {
-                if (updQuery == "") {
-                    updQuery = "SSLC_FLG = 'Y'";
-                }
-                else {
-                    updQuery = updQuery + ",SSLC_FLG = 'Y'";
-                }
-            }
-            if (preunivFlg == "Y") {
-                if (updQuery == "") {
-                    updQuery = "PREUNIV_FLG = 'Y'";
-                }
-                else {
-                    updQuery = updQuery + ",PREUNIV_FLG = 'Y'";
-                }
-            }
-            if (degreeFlg == "Y") {
-                if (updQuery == "") {
-                    updQuery = "DEGREE_FLG = 'Y'";
-                }
-                else {
-                    updQuery = updQuery + ",DEGREE_FLG = 'Y'";
-                }
-            }
-            console.log("updQuery : ", updQuery);
-
-            pool.query("UPDATE E_DOCKET_TBL SET " + updQuery + " WHERE EMP_ID = $1", [empId],
-                function (err, done) {
-                    if (err) throw err;
-                    res.json({
-
-                        notification: "Documents Approved Successfully"
-                    })
-
-
-                });
-        }
-        else {
-            res.json({
-
-                notification: "Documents Approved Successfully"
-            })
-        }
-    }
-    else {
-        res.json({
-
-            message: "redirect to admin "
-        })
-
-    }
 }
 
 
-/////////////////////////////////////////////////
+router.get('/magazineViewFilesAdmin',magazineViewFilesAdmin);
+function magazineViewFilesAdmin(req,res)
+{
+    console.log("view Magazine entered");
 
+	var yr = req.query.yr;
+	var magdoc = req.query.magdoc;
+        var magFolder = './data/CMS/magazine/uploadDoc/'+yr+'/';
+	var magfile = magFolder + magdoc;
+	fs.readFile(magfile, 
+	function(err, file) 
+	{
+		//res.setHeader('Content-disposition', 'attachment; filename=' + magfile);
+                //res.download(magfile);
 
+		res.writeHead(200, {"Content-Type" : "application/pdf"});
+		res.write(file, "binary");
+		res.end();
+	});
+}
 
 
 //////////////////  Jadhav ////////////////////////

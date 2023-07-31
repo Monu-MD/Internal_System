@@ -15,7 +15,8 @@ Policy_Upload_Admin=new FormGroup<any>({
 })
 
 policyUploadAdmin(item:any){
-  console.log(item);
   
+  console.log(item);
+
 }
 }
