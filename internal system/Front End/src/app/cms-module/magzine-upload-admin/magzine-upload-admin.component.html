@@ -8,34 +8,51 @@
 
             <div class="title">Upload Documents </div>
                 <div class="content">
-                    <form class="#" [formGroup]="magzine_Upload_Admin"
-                        (ngSubmit)="magzineUploadAdmin(magzine_Upload_Admin.value)">
+                    <form class="#" [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
 
 
                         <div class="user-details">
+
                             <div class="input-box">
-                                <label class="details">Year</label>
-                                <input type="text" name="year" formControlName="year">
+                                <label for="magYear" class="details">Year</label>
+                                <select id="magYear" class="form-control" formControlName="magYear" required>
+                                    <option value="">--Select--</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                </select>
+                                <pre></pre>
                             </div>
 
                             <div class="input-box">
-                                <label class="details">Quarter</label>
-                                <input type="text" name="quarter" formControlName="quarter">
+                                <label for="magQuarter" class="details">Quarter</label>
+                                <select id="magQuarter" class="form-control" formControlName="magQuarter" required>
+                                    <option value="">--Select--</option>
+                                    <option value="Q1">Q1</option>
+                                    <option value="Q2">Q2</option>
+                                    <option value="Q3">Q3</option>
+                                    <option value="Q4">Q4</option>
+                                </select>
+                                <pre></pre>
                             </div>
+
                             <div class="fileUpload">
                                 <div class="details">
-
                                     <label class="details">Upload Document </label>
                                 </div>
-                                <input type="file"  formControlName="uploadDoucumet" name="uploadDoucumet" accept=".pdf,.doc,.docx">
+                                <input type="file" name="uploadDoc" (change)="onFileChange($event)">
                             </div>
                         </div>
+
                         <div>
                             <button class="button" type="reset">Clear</button>
-                            <button class="button">Submit</button>
+                            <button class="button" type="submit">Submit</button>
                         </div>
+
                     </form>
-                </div>
+
+             </div>
         </div>
     </div>
 </body>

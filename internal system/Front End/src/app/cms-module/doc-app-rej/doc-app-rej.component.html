@@ -1,115 +1,200 @@
-
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
 
 <div class="container" class="tablecontainer" class="viewData">
-  <div class="table-content">
-    <div class="notification" [ngClass]="{'success': isSuccess, 'error': isError}">
-        {{ message }}
+    <div class="table-content">
+        <div class="notification" [ngClass]="{'success': isSuccess, 'error': isError}">
+            {{ message }}
+        </div>
+        <ng-container *ngIf="employeeData">
+            <table class="tables">
+                <thead>
+                    <tr>
+                        <th>Document Type</th>
+                        <th>Documents</th>
+                        <th>Download</th>
+                        <th>Approve</th>
+                        <th>Reject Reason</th>
+                        <th>Reject</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Government Documents -->
+                    <ng-container *ngIf="employeeData.govLen !== 0">
+                        <tr *ngFor="let doc of employeeData.govDocs">
+                            <td>Government</td>
+                            <td>{{ doc }}</td>
+                            <td>
+                                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File"
+                                    class="document-icons">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td><button class="button listbutton" (click)="approve(employeeData.govDocs[0])">Approve
+                                </button></td>
+                            <td><textarea [(ngModel)]="rejectReason[doc]"
+                                    placeholder="Enter reject reason here"></textarea></td>
+                            <td><button class="button listbutton"
+                                    (click)="Reject(employeeData.govDocs[0])">Reject</button></td>
+                        </tr>
+                    </ng-container>
+
+                    <!-- Educational Documents -->
+                    <ng-container *ngIf="employeeData.eduLen !== 0">
+                        <tr *ngFor="let doc of employeeData.eduDocs">
+                            <td>Educational</td>
+                            <td>{{ doc }}</td>
+                            <td>
+                                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File"
+                                    class="document-icons">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td><button class="button listbutton"
+                                    (click)="approve(employeeData.eduDocs[0])">Approve</button></td>
+                            <td><textarea [(ngModel)]="rejectReason[doc]"
+                                    placeholder="Enter reject reason here"></textarea></td>
+                            <td><button class="button listbutton"
+                                    (click)="Reject(employeeData.eduDocs[0])">Reject</button></td>
+
+                        </tr>
+                    </ng-container>
+
+                    <!-- Resume -->
+                    <ng-container *ngIf="employeeData.resLen !== 0">
+                        <tr *ngFor="let doc of employeeData.resDocs">
+                            <td>Resume</td>
+                            <td>{{ doc }}</td>
+                            <td>
+                                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File"
+                                    class="document-icons">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td><button class="button listbutton"
+                                    (click)="approve(employeeData.resDocs[0])">Approve</button></td>
+                            <td><textarea [(ngModel)]="rejectReason[doc]"
+                                    placeholder="Enter reject reason here"></textarea></td>
+                            <td><button class="button listbutton"
+                                    (click)="Reject(employeeData.resDocs[0])">Reject</button></td>
+                        </tr>
+                    </ng-container>
+
+                    <!-- Photo-->
+                    <ng-container *ngIf="employeeData.phLen !== 0">
+                        <tr *ngFor="let doc of employeeData.phDocs">
+                            <td>Photo</td>
+                            <td>{{ doc }}</td>
+                            <td>
+                                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File"
+                                    class="document-icons">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td><button class="button listbutton"
+                                    (click)="approve(employeeData.phDocs[0])">Approve</button></td>
+                            <td><textarea [(ngModel)]="rejectReason[doc]"
+                                    placeholder="Enter reject reason here"></textarea></td>
+                            <td><button class="button listbutton"
+                                    (click)="Reject(employeeData.phDocs[0])">Reject</button></td>
+                        </tr>
+                    </ng-container>
+
+                    <!-- Medical -->
+                    <ng-container *ngIf="employeeData.medLen !== 0">
+                        <tr *ngFor="let doc of employeeData.medDocs">
+                            <td>Photo</td>
+                            <td>{{ doc }}</td>
+                            <td>
+                                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File"
+                                    class="document-icons">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td><button class="button listbutton"
+                                    (click)="approve(employeeData.medDocs[0])">Approve</button></td>
+                            <td><textarea [(ngModel)]="rejectReason[doc]"
+                                    placeholder="Enter reject reason here"></textarea></td>
+                            <td><button class="button listbutton"
+                                    (click)="Reject(employeeData.medDocs[0])">Reject</button></td>
+                        </tr>
+                    </ng-container>
+
+                    <!-- Experience -->
+                    <ng-container *ngIf="employeeData.expLen !== 0">
+                        <tr *ngFor="let doc of employeeData.expDocs">
+                            <td>Photo</td>
+                            <td>{{ doc }}</td>
+                            <td>
+                                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File"
+                                    class="document-icons">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td><button class="button listbutton"
+                                    (click)="approve(employeeData.expDocs[0])">Approve</button></td>
+                            <td><textarea [(ngModel)]="rejectReason[doc]"
+                                    placeholder="Enter reject reason here"></textarea></td>
+                            <td><button class="button listbutton"
+                                    (click)="Reject(employeeData.expDocs[0])">Reject</button></td>
+                        </tr>
+                    </ng-container>
+
+
+                    <!-- Certification -->
+                    <ng-container *ngIf="employeeData.cerLen !== 0">
+                        <tr *ngFor="let doc of employeeData.cerDocs">
+                            <td>Photo</td>
+                            <td>{{ doc }}</td>
+                            <td>
+                                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File"
+                                    class="document-icons">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td><button class="button listbutton"
+                                    (click)="approve(employeeData.cerDocs[0])">Approve</button></td>
+                            <td><textarea [(ngModel)]="rejectReason[doc]"
+                                    placeholder="Enter reject reason here"></textarea></td>
+                            <td><button class="button listbutton"
+                                    (click)="Reject(employeeData.cerDocs[0])">Reject</button></td>
+                        </tr>
+                    </ng-container>
+
+                    <!-- Others -->
+                    <ng-container *ngIf="employeeData.othrLen !== 0">
+                        <tr *ngFor="let doc of employeeData.othrDocs">
+                            <td>Photo</td>
+                            <td>{{ doc }}</td>
+                            <td>
+                                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File"
+                                    class="document-icons">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td><button class="button listbutton"
+                                    (click)="approve(employeeData.othrDocs[0])">Approve</button></td>
+                            <td><textarea [(ngModel)]="rejectReason[doc]"
+                                    placeholder="Enter reject reason here"></textarea></td>
+                            <td><button class="button listbutton"
+                                    (click)="Reject(employeeData.othrDocs[0])">Reject</button></td>
+                        </tr>
+                    </ng-container>
+
+
+                </tbody>
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            </table>
+        </ng-container>
+
+        <ng-container *ngIf="!employeeData || (employeeData.govLen === 0 && employeeData.eduLen === 0 
+    && employeeData.resLen === 0 && employeeData.phLen === 0 && employeeData.medLen === 0)">
+            <ng-template #noRecords>
+                <label style="color:#404040;">No records found</label>
+                <br />
+            </ng-template>
+        </ng-container>
     </div>
-    <ng-container *ngIf="employeeData">
-      <table class="tables">
-        <thead>
-          <tr>
-            <th>Document Type</th>
-            <th>Documents</th>
-            <th>Download</th>
-            <th>Approve</th>
-            <th>Reject Reason</th>
-            <th>Reject</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Government Documents -->
-          <ng-container *ngIf="employeeData.govLen !== 0">
-            <tr *ngFor="let doc of employeeData.govDocs">
-              <td>Government</td>
-              <td>{{ doc }}</td>
-              <td>
-                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File" class="document-icons">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                </a>
-              </td>
-              <td><button class="button listbutton" (click)="approve(employeeData.govDocs[0])">Approve </button></td>
-              <td><textarea [(ngModel)]="rejectReason[doc]" placeholder="Enter reject reason here"></textarea></td>
-              <td><button class="button listbutton" (click)="Reject(employeeData.govDocs[0])">Reject</button></td>
-              <td>
-                Pending
-            </td>
-            </tr>
-          </ng-container>
-
-          <!-- Educational Documents -->
-          <ng-container *ngIf="employeeData.eduLen !== 0">
-            <tr *ngFor="let doc of employeeData.eduDocs">
-              <td>Educational</td>
-              <td>{{ doc }}</td>
-              <td>
-                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File" class="document-icons">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                </a>
-              </td>
-              <td><button class="button listbutton" (click)="approve(employeeData.eduDocs[0])">Approve</button></td>
-              <td><textarea [(ngModel)]="rejectReason[doc]" placeholder="Enter reject reason here"></textarea></td>
-              <td><button class="button listbutton" (click)="Reject(employeeData.eduDocs[0])">Reject</button></td>
-              <td >
-                Pending
-            </td>
-            </tr>
-          </ng-container>
-
-          <!-- Resume -->
-          <ng-container *ngIf="employeeData.resLen !== 0">
-            <tr *ngFor="let doc of employeeData.resDocs">
-              <td>Resume</td>
-              <td>{{ doc }}</td>
-              <td>
-                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File" class="document-icons">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                </a>
-              </td>
-              <td><button class="button listbutton" (click)="approve(employeeData.resDocs[0])">Approve</button></td>
-              <td><textarea [(ngModel)]="rejectReason[doc]" placeholder="Enter reject reason here"></textarea></td>
-              <td><button class="button listbutton"(click)="Reject(employeeData.resDocs[0])">Reject</button></td>
-              <td >
-                Pending
-            </td>
-            </tr>
-          </ng-container>
-          
-          <!-- Photo-->
-          <ng-container *ngIf="employeeData.phLen !== 0">
-            <tr *ngFor="let doc of employeeData.phDocs">
-              <td>Photo</td>
-              <td>{{ doc }}</td>
-              <td>
-                <a (click)="downloadFile(doc, employeeData.eid)" title="Download File" class="document-icons">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                </a>
-              </td>
-              <td><button class="button listbutton" (click)="approve(employeeData.phDocs[0])">Approve</button></td>
-              <td><textarea [(ngModel)]="rejectReason[doc]" placeholder="Enter reject reason here"></textarea></td>
-              <td><button class="button listbutton" (click)="Reject(employeeData.phDocs[0])">Reject</button></td>
-              
-              <td >
-                Pending
-            </td>
-            </tr>
-          </ng-container>
-
-        </tbody>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-      </table>
-    </ng-container>
-
-    <ng-container *ngIf="!employeeData || (employeeData.govLen === 0 && employeeData.eduLen === 0)">
-      <ng-template #noRecords>
-        <label style="color:#404040;">No records found</label>
-        <br />
-      </ng-template>
-    </ng-container>
-  </div>
 </div>
 <app-footer></app-footer>
