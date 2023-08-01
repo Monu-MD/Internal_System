@@ -4,6 +4,7 @@ import { NavigationEnd, Router, Event } from '@angular/router';
 import { LoginServiceService } from 'src/app/services/login-service.service';
 import { NavserviceService } from 'src/app/services/navservice.service';
 import { ProjectserviceService } from 'src/app/services/projectservice.service';
+import { TravelServiceService } from 'src/app/services/travel-service.service';
 
 @Component({
   selector: 'app-topbar',
@@ -22,7 +23,8 @@ export class TopbarComponent {
   }
   constructor(private service: NavserviceService, private http: HttpClient,
     private router: Router, private loginService: LoginServiceService,
-    private prjectservice: ProjectserviceService) {
+    private prjectservice: ProjectserviceService,
+    private trvelService: TravelServiceService) {
 
     /// redirect data or id ///
     this.data = this.service.returrnAns;
@@ -103,10 +105,10 @@ export class TopbarComponent {
         if (this.currentRoute == "/cmsUpload" || this.currentRoute=="/viewDocs"|| this.currentRoute=="/searchEmp"||this.currentRoute=="/searchEmpAppRej"||this.currentRoute=="/docAppRej" || this.currentRoute == "/viewPen" || this.currentRoute == "/rejView"){
           this.data = "upld"
         }
-        if ( this.currentRoute == "/magzineUpld" || this.currentRoute=="/viewMagz"){
+        if (this.currentRoute == "/magzineUpld" || this.currentRoute == "/viewMagz") {
           this.data = "Magz"
         }
-        if (this.currentRoute == "/policyupld"|| this.currentRoute=="/viewPolcy"){
+        if (this.currentRoute == "/policyupld" || this.currentRoute == "/viewPolcy") {
           this.data = "Polcy"
         }
 
@@ -236,5 +238,24 @@ export class TopbarComponent {
       );
   }
 
-  
+  aproverTvlreq() {
+    const params = new HttpParams().set('user_id', this.user_id.toString()).
+      set('user_type', this.user_type.toString())
+
+
+    this.http.get('http://localhost:4000/travel/aproverTvlreq', { params })
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.trvelService.setTravelApprovalView(response.approvalReqView)
+          this.router.navigate(['/viewtvl'])
+        },
+        error => {
+          console.error(error);
+          alert('Error ');
+        }
+      );
+  }
+
+
 }

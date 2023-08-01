@@ -6,12 +6,12 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class TravelServiceService {
-  pidRptName:any;
+  pidRptName: any;
   notification: any;
 
-  constructor(private http:HttpClient,private rouetr:Router) { }
-///////////////////////// most commonly used api's //////////////////////////////////
-  fetchProjectId(employeeId:string){
+  constructor(private http: HttpClient, private rouetr: Router) { }
+  ///////////////////////// most commonly used api's //////////////////////////////////
+  fetchProjectId(employeeId: string) {
     console.log('service', employeeId);
 
     // const params = new HttpParams().set('employeeId', JSON.stringify(employeeId, null, "'"));
@@ -20,8 +20,8 @@ export class TravelServiceService {
     this.http.get('http://localhost:4000/travel/travel', { params }).subscribe(
       (response: any) => {
         console.log(response);
-        
-        this.pidRptName=response.pidRptName;
+
+        this.pidRptName = response.pidRptName;
         this.rouetr.navigate([response.redirect])
       },
       (error: any) => {
@@ -33,8 +33,8 @@ export class TravelServiceService {
   }
 
 
-travelReq(value:any){
-  this.http.post('http://localhost:4000/travel/travelReq', value).subscribe(
+  travelReq(value: any) {
+    this.http.post('http://localhost:4000/travel/travelReq', value).subscribe(
       (response: any) => {
         console.log(response.message);
         console.log(response);
@@ -47,11 +47,18 @@ travelReq(value:any){
         // this.router.navigate(['/error']);
       }
     );
-}
+  }
 
-  getTrvelData(){
-    return[this.pidRptName,
-      this.notification
+
+  travelApprovalView: any;
+  setTravelApprovalView(value: any) {
+    this.travelApprovalView = value;
+  }
+  getTrvelData() {
+    return [this.pidRptName,
+    this.notification,
+    this.travelApprovalView
+
     ]
   }
 }

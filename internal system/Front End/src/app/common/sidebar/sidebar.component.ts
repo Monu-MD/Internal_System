@@ -116,7 +116,7 @@ export class SidebarComponent {
       this.router.navigate(['message'])
     }
     if (item == 'tvl') {
-      if (this.user_type=='A1'||this.user_type=='L3'|| this.user_type=='L1') {
+      if (this.user_type=='A1'||this.user_type=='L3'|| this.user_type=='L1'||this.user_type=='F1') {
         this.travleservice.fetchProjectId(this.user_id)
       } else {
         this.router.navigate(['travel'])

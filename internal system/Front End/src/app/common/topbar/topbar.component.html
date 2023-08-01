@@ -386,7 +386,7 @@
                 <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
               
                 <!-- Links for user_type 'L1' and 'L3' -->
-                <ng-container *ngIf="user_type === 'L1' || user_type === 'L3'">
+                <ng-container *ngIf="user_type === 'L1' || user_type === 'L3'||user_type === 'F1'">
                   <li><a href="" routerLink="/travel">Initiate Travel</a></li>
                   <li><a href="" routerLink="/">Modify Travel Request</a></li>
                   <li><a href="" routerLink="/">Cancel Travel</a></li>
@@ -394,8 +394,8 @@
                 </ng-container>
               
                 <!-- Links for user_type 'L3' -->
-                <ng-container *ngIf="user_type === 'L1'">
-                  <li><a href="" routerLink="/approvereq">Approve Request</a></li>
+                <ng-container *ngIf="user_type === 'L3'|| user_type ==='F1'" >
+                  <li><a   (click)="aproverTvlreq()">Approve Request</a></li>
                 </ng-container>
               
                 <!-- Links for user_type 'A1' (All links will be displayed) -->
