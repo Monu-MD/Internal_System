@@ -39,7 +39,6 @@ export class DocumentListComponent {
         console.log(`Downloading file: ${secondPart}.pdf for employee ID: ${empId}`);
       },
       (error: any) => {
-        // Handle error, if any
         console.error('Error downloading document:', error);
       }
     );
