@@ -2,8 +2,49 @@
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
 
+<body>
+    <div class="allighn">
+        <div class="container">
+            <div class="title">Policy Documents </div>
 
-<h1>VIEW POLICY</h1>
+            <div class="content">
+                <form class="#" [formGroup]="uploadForm">
 
+                    <div class="user-details">
+
+                        <div class="input-box">
+                            <label class="details">Policy Tag</label>
+                            <select name="policyTag" formControlName="policyTag" (change)="onPolicyTagChange()">
+                                <option value=" ">ALL Policy</option>
+                                <option value="LEAVE">Leave Policy</option>
+                                <option value="INSURANCE">Insurance Policy</option>
+                                <option value="HR">HR Policy</option>
+                            </select>
+                        </div>
+
+                        <div class="documents">
+                            <h3>Documents:</h3>
+                            <ng-container *ngIf="polDocs">
+                                <ng-container *ngFor="let doc of polDocs; let i = index">
+                                    <div>
+                                        <a [href]="doc.url" target="_blank" download>
+                                            {{ i + 1 }}. {{ doc }}
+                                        </a>
+                                        <button *ngIf="canDeleteDocuments()" (click)="onDeleteDocument(doc)">
+                                            Delete
+                                        </button>
+                                    </div>
+                                    <br>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
 
 <app-footer></app-footer>
