@@ -10,12 +10,13 @@ import { LoginServiceService } from 'src/app/services/login-service.service';
 })
 export class ViewPolicyComponent {
 
-  polDocs: any[] | undefined;
-  polLen: number | undefined;
+  polDocs: any[] = [];
+  polLen: number = 0;
 
   uploadForm: FormGroup;
   policyTag: any;
-data:any;
+  data:any;
+  rowData:any[]=[];
 
   user_access: any;
 
@@ -27,8 +28,7 @@ data:any;
     const user = this.loginservice.getData();
     this.user_access = user[2];
   }
-  
-  rowData:any[]=[];
+
   
 ngOnInit() {
   this.fetchData();
@@ -65,13 +65,12 @@ ngOnInit() {
       );
     }
   }
-  
 
 
-canDeleteDocuments(): boolean {
-  return this.user_access === 'A1';
-}
 
+  canDeleteDocuments(): boolean {
+    return this.user_access === 'A1';
+  }
 
   private readonly apiUrl = 'http://localhost:4000/cms/policyDeleteDocs';
   onDeleteDocument(doc: any): void {
@@ -90,6 +89,22 @@ canDeleteDocuments(): boolean {
     );
   }
 
+  onDownload(doc: any): void {
+    const filename = doc;
+    const firstPart = filename.split('__')[0];
+    const url = `http://localhost:4000/cms/policyDownload/${filename}`;
+  
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${firstPart}.pdf`;
+  
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  
+    console.log(`Downloading file: ${firstPart}.pdf`);
+  }
+  
 
 
 }
