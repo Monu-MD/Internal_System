@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Route, Router } from '@angular/router';
 
 
 @Component({
@@ -11,19 +12,18 @@ import { HttpClient } from '@angular/common/http';
 export class PolicyUploadAdminComponent  {
 
 
-
-
-
 uploadForm: FormGroup;
 policyTag: any;
 data:any;
 
-
   constructor(
     private http: HttpClient,
     private formBuilder: FormBuilder,
+    private router: Router,
 
-  ) {
+  )
+
+   {
     this.uploadForm = this.formBuilder.group({
       policyTag: this.data?.policyTag || '',
       docName:new FormControl(' '),
@@ -31,7 +31,6 @@ data:any;
       
       
     });
-
   }
 
 
@@ -40,6 +39,7 @@ rowData:any[]=[];
 ngOnInit() {
   this.fetchData();
 }
+
 
 
   fetchData() {
@@ -68,7 +68,9 @@ ngOnInit() {
       this.http.post<any>('http://localhost:4000/cms/policyUploadPostAdmin', formData).subscribe(
         (response: any) => {
           console.log('Document uploaded successfully:', response);
-          // Handle the success response here if needed
+          this.router.navigateByUrl("/viewPolcy");
+        
+
         },
         (error: any) => {
           console.error('Error uploading document:', error);

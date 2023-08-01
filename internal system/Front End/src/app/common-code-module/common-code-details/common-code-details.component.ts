@@ -25,4 +25,5 @@ export class CommonCodeDetailsComponent {
   get(){
     return this.onSubmit
   }
+  
 }

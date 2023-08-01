@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { LoginServiceService } from 'src/app/services/login-service.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cms-upload-admin',
   templateUrl: './cms-upload-admin.component.html',
@@ -18,7 +19,7 @@ export class CmsUploadAdminComponent {
   constructor(
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    private loginservice: LoginServiceService
+    private loginservice: LoginServiceService, private router:Router
   ) {
     this.uploadForm = this.formBuilder.group({
       user_id: new FormControl('', Validators.required),
@@ -70,11 +71,10 @@ export class CmsUploadAdminComponent {
       this.http.post<any>('http://localhost:4000/cms/cmsUploadPost', formData).subscribe(
         (response: any) => {
           console.log('Document uploaded successfully:', response);
-          // Handle the success response here if needed
+          this.router.navigateByUrl("/viewDocs");
         },
         (error: any) => {
           console.error('Error uploading document:', error);
-          // Handle the error response here if needed
         }
       );
     }

@@ -10,17 +10,16 @@ export class ConfigureLeavesComponent {
 
   constructor(private http: HttpClient,
     ) { }
-
-
-    
+ 
 leaveForm=new FormGroup<any>({
-
+  
     leave_type: new FormControl('', [Validators.required]),
     allocated_leaves: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     year: new FormControl('', [Validators.required])
 
   })
+
 
   postData(item: any) {
     const postData = {

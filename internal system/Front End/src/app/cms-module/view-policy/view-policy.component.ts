@@ -92,7 +92,7 @@ ngOnInit() {
   onDownload(doc: any): void {
     const filename = doc;
     const firstPart = filename.split('__')[0];
-    const url = `http://localhost:4000/cms/policyDownload/${filename}`;
+    const url = `http://localhost:4000/cms/policyDownload?doc=${filename}`;
   
     const link = document.createElement('a');
     link.href = url;
