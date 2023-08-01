@@ -30,7 +30,7 @@ router.post('/registerEmpId', (req, res) => {
 
             if (mcount == 0) {
                 if (icount == 0) {
-
+                    
                     pool.query("SELECT comm_code_id,comm_code_desc from common_code_tbl where code_id = 'BLG' order by comm_code_id asc", function (err, result) {
                         comm_code_blood = result.rows;
                         comm_code_blood_count = result.rowCount;
@@ -86,7 +86,6 @@ router.post('/registerEmpId', (req, res) => {
                                                         comm_code_rpt_count: comm_code_rpt_count,
                                                         comm_code_dsg: comm_code_dsg,
                                                         comm_code_dsg_count: comm_code_dsg_count
-
                                                     }
                                                     console.log('m count if enterd');
                                                     const message = {
