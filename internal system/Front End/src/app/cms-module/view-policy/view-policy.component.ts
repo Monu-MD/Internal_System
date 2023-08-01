@@ -14,18 +14,40 @@ export class ViewPolicyComponent {
   polLen: number = 0;
 
   uploadForm: FormGroup;
+  policyTag: any;
+  data:any;
+  rowData:any[]=[];
 
   user_access: any;
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private loginservice: LoginServiceService) {
     this.uploadForm = this.formBuilder.group({
-      policyTag: new FormControl(''),
+      policyTag: this.data?.policyTag || '',
     });
 
     const user = this.loginservice.getData();
     this.user_access = user[2];
   }
 
+  
+ngOnInit() {
+  this.fetchData();
+}
+
+
+  fetchData() {
+    this.http.get('http://localhost:4000/cms/policyUploadAdmin').subscribe(
+      (response: any) => {
+        console.log(response.data);
+        this.policyTag=response.data.policyTag;
+  
+        
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
+  }
 
   onPolicyTagChange() {
     const policyTagValue = this.uploadForm.get('policyTag')?.value;

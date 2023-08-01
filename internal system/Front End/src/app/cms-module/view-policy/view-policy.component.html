@@ -14,12 +14,11 @@
 
                         <div class="input-box">
                             <label class="details">Policy Tag</label>
-                            <select name="policyTag" formControlName="policyTag" (change)="onPolicyTagChange()">
-                                <option value=" ">ALL Policy</option>
-                                <option value="LEAVE">Leave Policy</option>
-                                <option value="INSURANCE">Insurance Policy</option>
-                                <option value="HR">HR Policy</option>
-                            </select>
+                                <select name="policyTag" formControlName="policyTag"  (change)="onPolicyTagChange()">
+                                    <option value=" ">ALL</option>
+                                    <option *ngFor="let data of policyTag" [value]="data.comm_code_desc">{{
+                                        data.comm_code_desc }}</option>
+                                </select> 
                         </div>
 
                         <div>
@@ -37,7 +36,7 @@
                                         <a [href]="doc.url" target="_blank" (click)="onDownload(doc)">
                                             {{ i + 1 }}. {{ doc }}
                                         </a>
-                                        <button *ngIf="canDeleteDocuments()" (click)="onDeleteDocument(doc)">
+                                        <button class="listbutton" style="margin-left: 25px;" *ngIf="canDeleteDocuments()" (click)="onDeleteDocument(doc)">
                                             Delete
                                         </button>
                                     </div>
