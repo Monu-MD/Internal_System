@@ -14,7 +14,9 @@
                             <div class="input-box">
                                 <label class="details">Policy Tag</label>
                                 <select name="policyTag" formControlName="policyTag">
-                                    <option value="INSURANCE">Insurance</option>
+                                    <option value=""></option>
+                                    <option *ngFor="let data of policyTag" [value]="data.comm_code_desc">{{
+                                        data.comm_code_desc }}</option>
                                 </select>    
                             </div>
 
