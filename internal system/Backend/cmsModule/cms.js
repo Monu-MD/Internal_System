@@ -1404,14 +1404,14 @@ router.get('/downloadFile', (req, res) => {
 
     // Determine the content type based on the file extension
     const ext = path.extname(filePath).toLowerCase();
-    let contentType = 'application/octet-stream'; // Default content type for unknown file types
+    let contentType = 'application/octet-stream'; 
     if (ext === '.pdf') {
         contentType = 'application/pdf';
     } else if (ext === '.jpg' || ext === '.jpeg') {
         contentType = 'image/jpeg';
     } else if (ext === '.png') {
         contentType = 'image/png';
-    } // Add more conditions for other file types if needed
+    }
 
     // Set the content disposition header to force the browser to download the file
     res.setHeader('Content-disposition', `attachment; filename=${docId}`);
@@ -1589,7 +1589,7 @@ function policyDocsView(req, res) {
     var polLen = 0
 
     policyTag = req.query.policyTag;
-    console.log("policyTag: "+policyTag);
+    console.log("policyTag: " + policyTag);
 
     if (policyTag == null || policyTag == "") {
         policyTag = "ALL";
@@ -1637,31 +1637,41 @@ function policyDocsView(req, res) {
 
 router.get('/policyDownload', policyDownLoadAll);
 function policyDownLoadAll(req, res) {
-    var id = req.query.id;
+    console.log("Entered Download Pol Api");
+
+    var id = req.query.doc;
+    console.log("Docs: " + id);
+
+    // Extract the first part of the filename before the first "__"
+    var firstPart = id.split('__')[0];
+
     var polFolder = './data/CMS/policy/uploadDoc/';
     var file1 = polFolder + id;
-    fs.readFile(file1,
-        function (err, file) {
-            res.setHeader('Content-disposition', 'attachment; filename=' + file1);
-            res.download(file1);
-        });
+    let contentType = 'application/octet-stream';
+
+    res.setHeader('Content-disposition', 'attachment; filename=' + firstPart + '.pdf');
+    res.setHeader('Content-type', contentType);
+
+    const fileStream = fs.createReadStream(file1);
+    fileStream.pipe(res);
 }
+
 
 
 // -----------------------   Policy  Delete   -----------------------------
 
 router.delete('/policyDeleteDocs', policyDeleteDocs);
 function policyDeleteDocs(req, res) {
-   console.log("Entered into delete Pol Api");
-        var doc = req.query.doc;
-        var delFile = './data/CMS/policy/uploadDoc/' + doc;
+    console.log("Entered into delete Pol Api");
+    var doc = req.query.doc;
+    var delFile = './data/CMS/policy/uploadDoc/' + doc;
 
-        if (fs.existsSync(delFile)) {
-            fs.unlinkSync(delFile);
-            res.json({ message: 'success', status: 'Document Deleted Successfully' });
-        } else {
-            res.status(404).json({ message: 'File not found', status: 'failure' });
-        }
+    if (fs.existsSync(delFile)) {
+        fs.unlinkSync(delFile);
+        res.json({ message: 'success', status: 'Document Deleted Successfully' });
+    } else {
+        res.status(404).json({ message: 'File not found', status: 'failure' });
+    }
 
 }
 

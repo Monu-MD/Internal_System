@@ -22,12 +22,19 @@
                             </select>
                         </div>
 
-                        <div class="documents">
-                            <h3>Documents:</h3>
-                            <ng-container *ngIf="polDocs">
+                        <div>
+                            <ng-container *ngIf="polLen === 0">
+                                <h3>No records found.</h3>
+                            </ng-container>
+                        
+                            <ng-container *ngIf="polDocs && polLen > 0">
+                                <h3>Documents:</h3>
                                 <ng-container *ngFor="let doc of polDocs; let i = index">
                                     <div>
-                                        <a [href]="doc.url" target="_blank" download>
+                                        <!-- <a [href]="doc.url" target="_blank" download>
+                                            {{ i + 1 }}. {{ doc }}
+                                        </a> -->
+                                        <a [href]="doc.url" target="_blank" (click)="onDownload(doc)">
                                             {{ i + 1 }}. {{ doc }}
                                         </a>
                                         <button *ngIf="canDeleteDocuments()" (click)="onDeleteDocument(doc)">
@@ -38,7 +45,7 @@
                                 </ng-container>
                             </ng-container>
                         </div>
-
+                        
                     </div>
 
                 </form>
