@@ -730,22 +730,20 @@ function cmsApprRejectAdmin(req, res) {
 
 ////////////////////////////////////////Policy Admin Start/////////////////////////////////////
 router.get('/policyUploadAdmin', function (req, res) {
-    var eid = req.user.rows[0].user_id;
-    var ename = req.user.rows[0].user_name;
-    var emp_access = req.user.rows[0].user_type;
-
-    if (emp_access == "A1") {
-        pdbconnect.query("SELECT COMM_CODE_DESC FROM COMMON_CODE_TBL WHERE CODE_ID = 'POL'  ORDER BY COMM_CODE_ID ASC", function (err, result) {
-            policy = result.rows;
+ 
+        pool.query("SELECT  COMM_CODE_ID,COMM_CODE_DESC FROM COMMON_CODE_TBL WHERE CODE_ID = 'POL'  ORDER BY COMM_CODE_ID ASC", function (err, result) {
+            policyTag = result.rows;
             policy_count = result.rowCount;
 
-            res.render('cmsModule/policyUploadAdmin', { ename: ename, eid: eid, emp_access: emp_access, policy: policy, policy_count: policy_count });
+            res.json({
+          data:{
+                policyTag: policyTag,
+                policy_count: policy_count
+          }
+            });
         });
     }
-    else {
-        res.redirect('/admin-dashboard/adminDashboard/admindashboard');
-    }
-});
+);
 
 
 
@@ -821,9 +819,6 @@ function policyUploadPostAdmin(req, res) {
         }
     });
 }
-
-
-
 
 
 ////////////////////////////////////////Policy Admin Close//////////////////////////////////////

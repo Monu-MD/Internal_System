@@ -118,7 +118,6 @@ export class PersonalDetailsComponent {
     for (let i = 0; i < this.comm_code_blood.length; i++) {
       if (this.comm_code_blood[i].comm_code_desc === bloodGroup) {
         data.bloodGroup = this.comm_code_blood[i].comm_code_id;
-
         break;
       }
     }
@@ -134,6 +133,7 @@ export class PersonalDetailsComponent {
         break;
       }
     }
+
     if (this.adressAreSame) {
       data.state1 = data.state;
       data.city1 = data.city;
@@ -147,12 +147,14 @@ export class PersonalDetailsComponent {
         break;
       }
     }
+
     for (let i = 0; i < this.comm_code_maritalstatus.length; i++) {
       if (this.comm_code_maritalstatus[i].comm_code_desc === marital_status) {
         data.maritalStatus = this.comm_code_maritalstatus[i].comm_code_id;
         break;
       }
     }
+    
     console.log(data);
 
     if (this.modifypersonal === false) {
