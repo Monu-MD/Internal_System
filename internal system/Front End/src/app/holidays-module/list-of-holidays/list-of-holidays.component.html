@@ -11,7 +11,7 @@
                     <div *ngSwitchCase="'A1'">
                         <button class="listbutton" routerLink="/addHolidays">Add Holiday</button>
                     </div>
-                    <div *ngSwitchCase="'L3'">
+                    <div *ngSwitchCase="'L1'">
                         <!-- <button class="listbutton" routerLink="/addHolidays">Add Holiday</button> -->
                     </div>
 
@@ -28,7 +28,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <thead *ngSwitchCase="'L3'">
+                <thead *ngSwitchCase="'L1'">
                     <tr>
                         <th>Holiday Type</th>
                         <th>Date</th>
@@ -47,7 +47,7 @@
                                 <td><button class="button" class="listbutton"
                                         (click)="deleteHoliday(row)">Delete</button></td>
                             </div>
-                            <div *ngSwitchCase="'L3'">
+                            <div *ngSwitchCase="'L1'">
                                 <!-- <td></td> -->
                             </div>
                         </div>
