@@ -5,37 +5,37 @@
     <h1 class="title">Add Holiday/Working Day</h1>
     <div class="content">
         <form [formGroup]="addForm" (ngSubmit)="onSubmit(addForm.value)">
-  
-            <div class="user-details">
-            <div class="input-box">
-                <label for="day_type" class="details">Holiday Type</label>
-                <select id="day_type" class="form-control" formControlName="day_type">
-                    <option value="">--Select--</option>
-                    <option value="H">Holiday</option>
-                    <option value="W">Working Day</option>
-                </select>
-            </div>
-        </div>
-
-           <div class="user-details">
-            <div class="input-box">
-                <label  class="details">Select date</label>
-                <input type="date" name="sel_date" formControlName="sel_date">
-            </div>
-        </div>
 
             <div class="user-details">
-            <div class="input-box">
-                <label for="description">Description</label>
-                <textarea id="description" class="form-control" formControlName="description"
-                  ></textarea>
+                <div class="input-box">
+                    <label for="day_type" class="details">Holiday Type</label>
+                    <select id="day_type" class="form-control" formControlName="day_type">
+                        <option value="">--Select--</option>
+                        <option value="H">Holiday</option>
+                        <option value="W">Working Day</option>
+                    </select>
+                </div>
             </div>
+            
+            <div class="user-details">
+                <div class="input-box">
+                    <label class="details">Select date</label>
+                    <input type="date" name="sel_date" formControlName="sel_date">
+                </div>
+            </div>
+
+            <div class="user-details">
+                <div class="input-box">
+                    <label for="description">Description</label>
+                    <textarea id="description" class="form-control" formControlName="description"></textarea>
+                </div>
             </div>
 
             <div class="button-group">
-                <button type="submit" class="button" >Submit</button>
+                <button type="submit" class="button">Submit</button>
                 <button type="reset" class="button">Clear</button>
             </div>
+
         </form>
     </div>
 </div>

@@ -35,7 +35,6 @@ var panFlg = "N", aadharFlg = "N", sslcFlg = "N", preunivFlg = "N", degreeFlg = 
 
 
 
-
 ////////////////////////////////// Mahesh ////////////////////////////
 
 //////////////////////////////////////--->    Documents  <<--///////////////////////////////////////////////////////
@@ -1001,20 +1000,6 @@ function magazineViewFilesAdmin(req, res) {
             res.end();
         });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
