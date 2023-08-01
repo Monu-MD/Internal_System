@@ -744,7 +744,7 @@ function policyUploadPostAdmin(req, res) {
     const form = new formidable.IncomingForm();
     console.log("Entred to ADMIN post");
     form.parse(req, function (err, fields, files) {
-        console.log("req", req);
+        // console.log("req", req);
 
         policyTag = req.body.policyTag;
 
@@ -818,6 +818,11 @@ function policyUploadPostAdmin(req, res) {
 
 
 
+//            ↓↓↓↓    Policy View and Delete Done by Jadav below↓    ↓↓↓↓
+
+
+
+
 //////////////////////////////////////--->    Magazine  <<--///////////////////////////////////////////////////////
 
 
@@ -872,12 +877,12 @@ function magazineUploadPostAdmin(req, res) {
             });
     });
 
-        console.log("newName-->", newName);
-        fs.rename(oldPath, newPath,
-            function (err) {
-                if (err) throw err;
-                res.json({ notification: "Document Uploaded Successfully" })
-            });
+    console.log("newName-->", newName);
+    fs.rename(oldPath, newPath,
+        function (err) {
+            if (err) throw err;
+            res.json({ notification: "Document Uploaded Successfully" })
+        });
 
     console.log("enterd to create floder");
 
@@ -1532,7 +1537,6 @@ function cmsDeletePenDocEmployee(req, res) {
 
     const rejFile = `./data/CMS/employee/uploadDoc/${empId}/${doc}`;
 
-    // Check if the file exists before attempting to delete
     if (fs.existsSync(rejFile)) {
         fs.unlinkSync(rejFile);
         res.json({ message: 'success', status: 'Document Deleted Successfully' });
@@ -1564,6 +1568,104 @@ function cmsDeleteRejDocEmployee(req, res) {
         res.status(404).json({ message: 'File not found', status: 'failure' });
     }
 }
+
+
+
+
+
+
+
+
+//                   ↓↑↓↑↓↑↓↑       Policy Continue here...    ↓↑↓↑↓↑↓↑ 
+
+
+// -----------------------   Policy  View   -----------------------------
+
+router.get('/policyDocsView', policyDocsView);
+
+function policyDocsView(req, res) {
+    var polDocs = []
+    var policyTag = "";
+    var polLen = 0
+
+    policyTag = req.query.policyTag;
+    console.log("policyTag: "+policyTag);
+
+    if (policyTag == null || policyTag == "") {
+        policyTag = "ALL";
+    }
+    var policyTag1 = policyTag.replace(/ /g, '_').toUpperCase();
+    polLen = 0;
+
+    var polFolder = './data/CMS/policy/uploadDoc/';
+    if (!fs.existsSync(polFolder)) {
+        req.flash('error', "No records found")
+        res.redirect(req.get('referer'));
+    }
+    else {
+        fs.readdirSync(polFolder).forEach(
+            function (name) {
+                if (policyTag == "ALL") {
+                    polDocs[polLen] = name;
+                    polLen = polLen + 1;
+                }
+                else {
+                    var resultDoc = name.search(policyTag1);
+                    if (resultDoc != -1) {
+                        polDocs[polLen] = name;
+                        polLen = polLen + 1;
+                    }
+                }
+            });
+    }
+    // pdbconnect.query("SELECT COMM_CODE_DESC FROM COMMON_CODE_TBL WHERE CODE_ID = 'POL'  ORDER BY COMM_CODE_ID ASC", function (err, result) {
+    //     policy = result.rows;
+    //     policy_count = result.rowCount;
+
+    res.json({
+        polDocs: polDocs, polLen: polLen, policyTag: policyTag,
+        // policy: policy, policy_count: policy_count,
+        // eid: eid,
+    });
+    // });
+}
+
+
+
+
+// -----------------------   Policy  Download   -----------------------------
+
+router.get('/policyDownload', policyDownLoadAll);
+function policyDownLoadAll(req, res) {
+    var id = req.query.id;
+    var polFolder = './data/CMS/policy/uploadDoc/';
+    var file1 = polFolder + id;
+    fs.readFile(file1,
+        function (err, file) {
+            res.setHeader('Content-disposition', 'attachment; filename=' + file1);
+            res.download(file1);
+        });
+}
+
+
+// -----------------------   Policy  Delete   -----------------------------
+
+router.delete('/policyDeleteDocs', policyDeleteDocs);
+function policyDeleteDocs(req, res) {
+   console.log("Entered into delete Pol Api");
+        var doc = req.query.doc;
+        var delFile = './data/CMS/policy/uploadDoc/' + doc;
+
+        if (fs.existsSync(delFile)) {
+            fs.unlinkSync(delFile);
+            res.json({ message: 'success', status: 'Document Deleted Successfully' });
+        } else {
+            res.status(404).json({ message: 'File not found', status: 'failure' });
+        }
+
+}
+
+
 
 
 module.exports = router;
