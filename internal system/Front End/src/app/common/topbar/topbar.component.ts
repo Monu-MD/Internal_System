@@ -4,6 +4,7 @@ import { NavigationEnd, Router, Event } from '@angular/router';
 import { LoginServiceService } from 'src/app/services/login-service.service';
 import { NavserviceService } from 'src/app/services/navservice.service';
 import { ProjectserviceService } from 'src/app/services/projectservice.service';
+import { ReimbursementserviceService } from 'src/app/services/reimbursementservice.service';
 import { TravelServiceService } from 'src/app/services/travel-service.service';
 
 @Component({
@@ -24,7 +25,7 @@ export class TopbarComponent {
   constructor(private service: NavserviceService, private http: HttpClient,
     private router: Router, private loginService: LoginServiceService,
     private prjectservice: ProjectserviceService,
-    private trvelService: TravelServiceService) {
+    private trvelService: TravelServiceService,private reimbusmentservice:ReimbursementserviceService) {
 
     /// redirect data or id ///
     this.data = this.service.returrnAns;
@@ -257,5 +258,21 @@ export class TopbarComponent {
       );
   }
 
+  fetchaddRemDeAlldetails() {
+    const params = new HttpParams().set('user_id', this.user_id.toString()).set('user_type', this.user_type.toString());
+  
+    this.http.get('http://localhost:4000/reimbursement/initiateRem', { params })
+      .subscribe(
+        (response: any) => {
+          console.log(response.fetchaddRemDeAlldetails);
+          this.reimbusmentservice.setFetchaddRemDeAlldetails(response.fetchaddRemDeAlldetails);
+          this.router.navigate(['/initiaterem']);
+        },
+        error => {
+          console.error(error);
+          alert('Error');
+        }
+      );
+  }
 
 }

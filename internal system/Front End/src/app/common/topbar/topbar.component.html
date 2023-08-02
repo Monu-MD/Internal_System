@@ -33,6 +33,7 @@
             </ul>
         </div>
     </nav>
+
     <!-- project -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'pjt'">
@@ -51,6 +52,7 @@
         </div>
     </nav>
 
+
     <!-- Report module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'rpt'">
@@ -64,22 +66,42 @@
         </div>
     </nav>
 
+
     <!-- reimbusment Module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'rmb'">
-            <ul>
-                <li><a href="" routerLink="/initiaterem">Initiate Reimbursement</a></li>
-                <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
-                <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
-            </ul>
+            <div [ngSwitch]="user_type">
+                <div *ngSwitchCase="'L3'">
+                    <ul>
+                        <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li>
+                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
+                        <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                    </ul>
+                </div>
+
+                <div class="top-content" *ngSwitchCase="'F1'">
+                    <ul>
+                        <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
+                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
+                        <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                    </ul>
+                </div>
+                <div class="top-content" *ngSwitchCase="'A1'">
+                    <ul>
+                        <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
+                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
+                        <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
-
+    
     <!-- Employee module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'emp'">
             <div [ngSwitch]="user_type">
-                <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L1'">
                     <ul>
                         <li><a href="" routerLink="/personalDetails">Modify Personal details</a></li>
                         <li><a href="" routerLink="/empDetailview">View Details</a></li>
@@ -127,7 +149,7 @@
                         <li><a href="" routerLink="/levSum">Leave Application FAQ's</a></li>
                     </ul>
                 </div>
-                <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L1'">
                     <ul>
                         <li><a href="" routerLink="/approveLev">Approve Leave</a></li>
                         <li><a href="" routerLink="/applyLev">Apply Leave</a></li>
@@ -262,7 +284,7 @@
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'hol'">
             <div [ngSwitch]="user_type">
-                <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L1'">
                     <ul>
                         <li><a routerLink="/viewHolidays">List Of Holidays</a></li>
                     </ul>
@@ -286,7 +308,7 @@
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'ast'">
             <div [ngSwitch]="user_type">
-                <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L1'">
                     <ul>
                         <li><a href="" routerLink="/ViewItAssetDetail">View IT Detail</a></li>
                     </ul>
@@ -309,7 +331,7 @@
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'allast'">
             <div [ngSwitch]="user_type">
-                <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L1'">
                     <ul>
                         <li><a href="" routerLink="/ViewItAllocationDetail">View Allocation Detail</a></li>
                     </ul>
@@ -332,7 +354,7 @@
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'nonast'">
             <div [ngSwitch]="user_type">
-                <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L1'">
                     <ul>
                         <li><a href="" routerLink="/ViewNonItAssetDetail">View NON IT Details</a></li>
                     </ul>

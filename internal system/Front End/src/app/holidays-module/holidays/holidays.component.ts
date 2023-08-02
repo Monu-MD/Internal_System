@@ -25,14 +25,12 @@ export class HolidaysComponent {
       sel_date: item.sel_date,
       description: item.description
     };
-
+ 
   this.http.post('http://localhost:4000/holiday/addHolidays', postData)
   .subscribe(
     (response: any) => {
 
-
       console.log('Data posted successfully:', response);
-
 
     },
     (error: any) => {

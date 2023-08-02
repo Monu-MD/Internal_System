@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Route, Router } from '@angular/router';
 
 
 @Component({
@@ -8,26 +9,51 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './policy-upload-admin.component.html',
   styleUrls: ['./policy-upload-admin.component.css']
 })
-export class PolicyUploadAdminComponent {
-
-
-
+export class PolicyUploadAdminComponent  {
 
 
 uploadForm: FormGroup;
-
+policyTag: any;
+data:any;
 
   constructor(
     private http: HttpClient,
     private formBuilder: FormBuilder,
-   
-  ) {
+    private router: Router,
+
+  )
+
+   {
     this.uploadForm = this.formBuilder.group({
-      policyTag:new FormControl(''),
+      policyTag: this.data?.policyTag || '',
       docName:new FormControl(' '),
       uploadDoc:new FormControl(' '),
+      
+      
     });
+  }
 
+
+rowData:any[]=[];
+  
+ngOnInit() {
+  this.fetchData();
+}
+
+
+
+  fetchData() {
+    this.http.get('http://localhost:4000/cms/policyUploadAdmin').subscribe(
+      (response: any) => {
+        console.log(response.data);
+        this.policyTag=response.data.policyTag;
+  
+        
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
   onSubmit(): void {
@@ -42,7 +68,9 @@ uploadForm: FormGroup;
       this.http.post<any>('http://localhost:4000/cms/policyUploadPostAdmin', formData).subscribe(
         (response: any) => {
           console.log('Document uploaded successfully:', response);
-          // Handle the success response here if needed
+          this.router.navigateByUrl("/viewPolcy");
+        
+
         },
         (error: any) => {
           console.error('Error uploading document:', error);
@@ -61,5 +89,6 @@ uploadForm: FormGroup;
       this.uploadForm.get('uploadDoc')?.updateValueAndValidity();
     }
   }
+
 }
 

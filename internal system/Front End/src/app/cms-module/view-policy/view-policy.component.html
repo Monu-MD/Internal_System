@@ -2,8 +2,55 @@
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
 
+<body>
+    <div class="allighn">
+        <div class="container">
+            <div class="title">Policy Documents </div>
 
-<h1>VIEW POLICY</h1>
+            <div class="content">
+                <form class="#" [formGroup]="uploadForm">
 
+                    <div class="user-details">
+
+                        <div class="input-box">
+                            <label class="details">Policy Tag</label>
+                                <select name="policyTag" formControlName="policyTag"  (change)="onPolicyTagChange()">
+                                    <option value=" ">ALL</option>
+                                    <option *ngFor="let data of policyTag" [value]="data.comm_code_desc">{{
+                                        data.comm_code_desc }}</option>
+                                </select> 
+                        </div>
+
+                        <div>
+                            <ng-container *ngIf="polLen === 0">
+                                <h3>No records found.</h3>
+                            </ng-container>
+                        
+                            <ng-container *ngIf="polDocs && polLen > 0">
+                                <h3>Documents:</h3>
+                                <ng-container *ngFor="let doc of polDocs; let i = index">
+                                    <div>
+                                        <!-- <a [href]="doc.url" target="_blank" download>
+                                            {{ i + 1 }}. {{ doc }}
+                                        </a> -->
+                                        <a [href]="doc.url" target="_blank" (click)="onDownload(doc)">
+                                            {{ i + 1 }}. {{ doc }}
+                                        </a>
+                                        <button class="listbutton" style="margin-left: 25px;" *ngIf="canDeleteDocuments()" (click)="onDeleteDocument(doc)">
+                                            Delete
+                                        </button>
+                                    </div>
+                                    <br>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                        
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
 
 <app-footer></app-footer>

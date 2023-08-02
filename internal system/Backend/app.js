@@ -16,7 +16,6 @@ app.listen(4000, () => {
   console.log('API server is running at port 4000');
 });
 
-
 //////////////////////// Importing Node Modules ////////////////////////////////////////
 
 
@@ -35,6 +34,7 @@ var viewrequest = require('./RequestModule/ViewLev');
 var reimbursement=require('./reimbursementModule/initiateRem')
 var travel =require('./TravelModule/trvael')
 var cms=require('./cmsModule/cms')
+var report=require('./ReportModule/reportDetails');
 
 
 app.use('/capture', capture);
@@ -52,3 +52,4 @@ app.use('/viewrequest', viewrequest);
 app.use('/reimbursement', reimbursement);
 app.use('/travel', travel);
 app.use('/cms',cms);
+app.use('/report',report);

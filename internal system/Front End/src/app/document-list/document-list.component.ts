@@ -26,21 +26,24 @@ export class DocumentListComponent {
     const url = `http://localhost:4000/cms/downloadFile?id=${docId}&empId=${empId}`;
     this.http.get(url, { responseType: 'blob' }).subscribe(
       (response: Blob) => {
+        // Extract the second part of the filename after the first underscore
+        const secondPart = docId.split('_')[2];
+  
         // Create a link element to download the file
         const link = document.createElement('a');
         link.href = URL.createObjectURL(response);
-        link.download = docId; // Set the desired filename for the downloaded file
+        link.download = `${secondPart}.pdf`; // Set the desired filename for the downloaded file
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        console.log(`Downloading file: ${docId} for employee ID: ${empId}`);
+        console.log(`Downloading file: ${secondPart}.pdf for employee ID: ${empId}`);
       },
       (error: any) => {
-        // Handle error, if any
         console.error('Error downloading document:', error);
       }
     );
   }
+  
 
 
    // Function to trigger email sending
