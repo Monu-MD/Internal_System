@@ -6,115 +6,99 @@
 
         <h1 class="title">Approve/Reject</h1>
         <div class="content">
+            <div class="alert" *ngIf="notification!=undefined">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{notification}}
+            </div>
             <form class="#" [formGroup]="approvereq" (ngSubmit)="approve(approvereq.value)">
                 <div class="user-details">
                     <div class="input-box">
                         <label class="Details"> Request Id </label>
                         <input type="text" placeholder="Enter your Request Id" name="Requestid"
-                            formControlName="Requestid" />
+                            formControlName="Requestid" [ngModel]="viewDetTvlApr.req_id" [readonly]="true" />
                     </div>
                     <div class="input-box">
                         <label class="Details"> Employee Id </label>
                         <input type="text" placeholder="Enter Employee Id" name="Employeeid"
-                            formControlName="Employeeid" />
+                            formControlName="Employeeid" [ngModel]="viewDetTvlApr.emp_id" [readonly]="true" />
                     </div>
                     <div class="input-box">
                         <label class="Details"> Employee Name </label>
                         <input type="text" placeholder="Enter the Employee Name" name="Employeename"
-                            formControlName="Employeename" />
+                            formControlName="Employeename" [ngModel]="viewDetTvlApr.emp_name" [readonly]="true" />
                     </div>
                     <div class="input-box">
                         <label class="Details">Project Id</label>
-                        <input type="text" placeholder="Enter Project Id " name="Projectid"
-                            formControlName="Projectid" />
+                        <input type="text" placeholder="Enter Project Id " name="Projectid" formControlName="Projectid"
+                            [ngModel]="viewDetTvlApr.project_id" [readonly]="true" />
                     </div>
                     <div class="input-box">
                         <label class="Details">From Location</label>
                         <input type="text" placeholder="Enter the Location" name="FromLocation"
-                            formControlName="FromLocation" />
+                            formControlName="FromLocation" [ngModel]="viewDetTvlApr.from_location" [readonly]="true" />
                     </div>
                     <div class="input-box">
                         <label class="Details">To Location </label>
                         <input type="text" placeholder="Enter the Location " name="ToLocation "
-                            formControlName="ToLocation" />
+                            formControlName="ToLocation" [ngModel]="viewDetTvlApr.to_location" [readonly]="true" />
                     </div>
                     <div class="input-box">
                         <label class="details">From Date </label>
-                        <input type="date" name="fromDate " formControlName="fromDate">
+                        <input type="date" name="fromDate " formControlName="fromDate"
+                            [ngModel]="viewDetTvlApr.from_date" [readonly]="true">
                     </div>
                     <div class="input-box">
                         <label class="details">To Date </label>
-                        <input type="date" name="toDate" formControlName="toDate">
-                    </div>
-                    <div class="input-box">
-                        <label class="details">Available Amount </label>
-                        <input type="number" name="avlamt" formControlName="avlamt">
+                        <input type="date" name="toDate" formControlName="toDate" [ngModel]="viewDetTvlApr.to_date"
+                            [readonly]="true">
                     </div>
                     <div class="input-box">
                         <label class="Details">Approved by </label>
                         <input type="text" placeholder="Enter the Approver name " name="Approvername"
-                            formControlName="Approvername" />
+                            formControlName="Approvername" [ngModel]="viewDetTvlApr.managername" [readonly]="true" />
                     </div>
-                    <div class="input-box">
-                        <label class="Details">Approver Remarks </label>
-                        <input type="text" placeholder=" Remarks " name="approverRemarks "
-                            formControlName="approverRemarks" />
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Employee Remarks </label>
-                        <input type="text" placeholder="Remarks  " name="Employeeremarks"
-                            formControlName="Employeeremarks" />
-                    </div>
+
+                </div>
+                <hr>
+                <h1 class="title">Enetr Travel Details</h1>
+                <div class="user-details">
                     <div class="input-box">
                         <label class="Details">Booked Ticket Fare </label>
-                        <input type="number" placeholder=" " name="bookedticketfare"
+                        <input type="text" placeholder=" " name="bookedticketfare"
                             formControlName="bookedticketfare" />
                     </div>
 
-                    <div style="display: flex;
-                        flex-wrap: wrap;
-                        justify-content: space-between;
-                        margin: 0px 0px 100px px;">
-                        <div class="radioButton">
-                            <label>Refund Amount</label>
-                            <input type="radio" formControlName="refundAmount" name="refundAmount"
-                                value="Refund Amount">
 
-                            <label>Pay Extra Amount </label>
-                            <input type="radio" formControlName="payExtraAmount" name="payExtraAmount"
-                                value="Pay Extra Amount">
-                        </div>
-                    </div>
-
-                    <div class="input-box">
-                        <label class="Details">Amount Refunded </label>
-                        <input type="number" placeholder=" " name="amountrefunded" formControlName="amountrefunded" />
-                    </div>
                     <div class="input-box">
                         <label class="Details">PNR Number </label>
-                        <input type="number" placeholder=" " name="pnrnumber" formControlName="pnrnumber" />
+                        <input type="text" placeholder=" " name="pnrnumber" formControlName="pnrnumber" />
                     </div>
                     <div class="input-box">
                         <label class="Details">Ticket Number</label>
-                        <input type="number" placeholder=" " name="ticketnumber" formControlName="ticketnumber" />
+                        <input type="text" placeholder=" " name="ticketnumber" formControlName="ticketnumber" />
                     </div>
-                    <div class="input-box">
-                        <label class="Details">Finance Remarks </label>
-                        <input type="text" placeholder="Remarks  " name="financeremarks"
-                            formControlName="financeremarks" />
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Cost</label>
-                        <input type="text" placeholder="Enter the cost  " name="cost" formControlName="cost" />
-                    </div>
+
+                    
                 </div>
 
                 <div>
-                    <button class="button">Approve</button>
-                    <button class="button">Reject</button>
+                    <button type="button" class="btn btn-success" *ngIf="user_type=='F1'||user_type==='A1'"
+                        (click)="approveRejTravel('apr',viewDetTvlApr)">Approve</button>
+                    <span style="margin: 0 10px;"></span>
+                    <button type="button" class="btn btn-danger" *ngIf="user_type=='F1'||user_type==='A1'"
+                        (click)="approveRejTravel('rej',viewDetTvlApr)">Reject</button>
+
                 </div>
+               
+
             </form>
+            <div class="input-box" *ngIf="rjt==true">
+                <label class="Details">Reject Reson</label>
+                <input type="text" *ngIf="rjt==true" placeholder="Reject Reson" [(ngModel)]="rejectReson">
+            </div>
         </div>
+
     </div>
 </div>
+
 <app-headder></app-headder>

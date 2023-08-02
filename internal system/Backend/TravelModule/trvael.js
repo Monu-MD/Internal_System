@@ -565,7 +565,7 @@ function aproverTvlreq(req, res) {
             if (err) throw err;
             if (result.rowCount > 0) {
                 for (let index = 0; index < result.rowCount; index++) {
-                    result.rows[index].request_status='Pending'
+                    result.rows[index].request_status = 'Pending'
                     console.log(result.rows);
                 }
 
@@ -577,16 +577,23 @@ function aproverTvlreq(req, res) {
         })
 
     } else {
+        var confrm_flg = ''
+        if (emp_access == 'A1') {
+            confrm_flg = 'N'
+        }
+        else {
+            confrm_flg = 'Y'
+        }
         console.log("else enterd");
-        pool.query("select req_id,project_id,emp_name,from_location,to_location,request_status from travel_master_tbl_temp where request_status='CPF'", function (err, result) {
+        pool.query("select req_id,project_id,emp_name,from_location,to_location,request_status from travel_master_tbl_temp where confrm_flg=$1 and  request_status='CPF'", [confrm_flg], function (err, result) {
             if (err) throw err;
             console.log(result.rows);
             if (result.rowCount > 0) {
                 for (let index = 0; index < result.rowCount; index++) {
-                    result.rows[index].request_status='Pending'
+                    result.rows[index].request_status = 'Pending'
                     console.log(result.rows);
                 }
-                
+
 
                 res.json({ approvalReqView: result.rows })
             } else {
@@ -613,14 +620,19 @@ function aproveRejTvlreq(req, res) {
 
     var updateStatus = ''
     var aprover = ''
+    var appr_flg = ''
+    var confirm_flg = ''
     if (action == 'apr') {
         if (user_type == 'L3') {
-
+            confirm_flg = 'N'
             updateStatus = 'CPF'
             aprover = 'Reporting Manager'
+            appr_flg = 'N'
         } else {
             updateStatus = 'CAF'
             aprover = 'Finance Manager'
+            appr_flg = 'Y'
+            confirm_flg = 'Y'
         }
     }
     else {
@@ -639,14 +651,88 @@ function aproveRejTvlreq(req, res) {
         useremial = result.rows[0].emp_email;
 
     });
-    if (user_type === 'L3' || user_type === 'F1') {
+    /////////////////////////// if user is admin /////////////////
+    if (user_type == 'A1') {
         if (action == 'apr') {
-            pool.query('UPDATE travel_master_tbl_temp SET request_status = $4 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3', [emp_name, project_id, req_id, updateStatus], function (err, result) {
+
+            var bookedticketfare = req.body.tq.bookedticketfare
+            var pnrnumber = req.body.tq.pnrnumber
+            var ticketnumber = req.body.tq.ticketnumber
+
+            pool.query('update travel_master_tbl_temp set confrm_flg=$1,pnr_number=$4,ticket_number=$5,fair_ticket=$6 where project_id=$2 and req_id=$3', ['Y', project_id, req_id, pnrnumber, ticketnumber, bookedticketfare], function (err, result) {
+                if (err) throw err;
+                res.json({ notification: "travel request is aproved" })
+            })
+        }
+        else {
+            pool.query('UPDATE travel_master_tbl_temp SET request_status = $4,reject_flg=$5 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3', [emp_name, project_id, req_id, updateStatus, 'Y'], function (err, result) {
                 if (err) throw err;
 
+                var rejectReson = req.body.rejectReson;
+
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'mohammadsab@minorks.com',
+                        pass: '9591788719'
+                    }
+                });
+                const mailOptions = {
+                    from: 'mohammadsab@minorks.com',
+                    to: useremial,
+                    subject: 'Travel Request Rejected',
+                    html: `
+                   
+                
+                    Dear ${emp_name},<br>
+                    <img src="http://www.minorks.com/images/logo_white.png" alt="Minorks Technology Logo" /><br><br>
+                    We regret to inform you that your recent travel request has been rejected by your Hr .<br>
+                    Reject Reson :${rejectReson} <br>
+                    Travel Request Details:<br>
+                    ----------------------------------------<br>
+                    Employee Name: ${emp_name} <br>
+                    Request ID: ${req_id}<br>
+                    Project ID: ${project_id}<br>
+                    From Location: ${req.body.tq.from_location}<br>
+                    To Location: ${req.body.tq.to_location}<br>
+                    Status: Rejected by Reporting Manager <br>
+                
+                    If you have any questions or need further assistance, please feel free to reach out to the HR department or your reporting manager.<br>
+                
+                    Best regards,<br>
+                    Minorks Technology (HR)
+                    `
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.error('Error sending email', error);
+                    } else {
+                        console.log('Email sent:', info.response);
+                    }
+
+
+                });
+                res.json({ notification: 'Travel Request is Rejected To ' + emp_name + 'Succesfully' })
+
+
+            })
+        }
+
+    }
+    if (user_type === 'L3' || user_type === 'F1') {
+        if (action == 'apr') {
+            pool.query('UPDATE travel_master_tbl_temp SET request_status = $4,appr_flg=$5,confrm_flg=$5 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3', [emp_name, project_id, req_id, updateStatus, appr_flg, confirm_flg], function (err, result) {
+                if (err) throw err;
+                if (user_type == 'F1') {
+                    pool.query('INSERT INTO Travel_master_tbl (select * from travel_master_where req_id=$2 and project_id=$1)', [project_id, req_id], function (err, result) {
+                        if (err) throw err;
+
+                    })
+                }
                 if (user_type === 'L3') {
                     res.json({ notification: 'Travel Request is approved To ' + emp_name })
-                } else {
+                }
+                else {
                     const transporter = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
@@ -660,8 +746,7 @@ function aproveRejTvlreq(req, res) {
                         subject: 'Travel Request Approved',
 
                         html: `
-                   
-                
+                       
                     Dear ${emp_name},<br>
                     <img src="http://www.minorks.com/images/logo_white.png" alt="Minorks Technology Logo" /><br><br>
                     We are delighted to inform you that your recent travel request has been approved by your ${aprover}.<br>
@@ -673,6 +758,8 @@ function aproveRejTvlreq(req, res) {
                     Project ID: ${project_id}
                     From Location: ${req.body.tq.from_location}
                     To Location: ${req.body.tq.to_location}
+                    PNR Number:${pnrnumber}
+                    Ticket Number:${ticketnumber}
                     Status: Rejected by Reporting Manager
                 
                     If you have any questions or need further assistance, please feel free to reach out to the HR department or your reporting manager.<br>
@@ -691,16 +778,17 @@ function aproveRejTvlreq(req, res) {
 
                     });
 
+
                     res.json({ notification: 'Travel Request is approved To ' + emp_name })
 
                 }
             })
         }
         else {
-            pool.query('UPDATE travel_master_tbl_temp SET request_status = $4 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3', [emp_name, project_id, req_id, updateStatus], function (err, result) {
+            pool.query('UPDATE travel_master_tbl_temp SET request_status = $4,reject_flg=$5 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3', [emp_name, project_id, req_id, updateStatus, 'Y'], function (err, result) {
                 if (err) throw err;
 
-
+                var rejectReson = req.body.rejectReson;
 
                 const transporter = nodemailer.createTransport({
                     service: 'gmail',
@@ -719,15 +807,15 @@ function aproveRejTvlreq(req, res) {
                     Dear ${emp_name},<br>
                     <img src="http://www.minorks.com/images/logo_white.png" alt="Minorks Technology Logo" /><br><br>
                     We regret to inform you that your recent travel request has been rejected by your ${aprover} .<br>
-                
-                    Travel Request Details:
-                    ----------------------------------------
-                    Employee Name: ${emp_name}
-                    Request ID: ${req_id}
-                    Project ID: ${project_id}
-                    From Location: ${req.body.tq.from_location}
-                    To Location: ${req.body.tq.to_location}
-                    Status: Rejected by Reporting Manager
+                    Reject Reson :${rejectReson} <br>
+                    Travel Request Details:<br>
+                    ----------------------------------------<br>
+                    Employee Name: ${emp_name} <br>
+                    Request ID: ${req_id}<br>
+                    Project ID: ${project_id}<br>
+                    From Location: ${req.body.tq.from_location}<br>
+                    To Location: ${req.body.tq.to_location}<br>
+                    Status: Rejected by Reporting Manager <br>
                 
                     If you have any questions or need further assistance, please feel free to reach out to the HR department or your reporting manager.<br>
                 
@@ -752,5 +840,36 @@ function aproveRejTvlreq(req, res) {
 
     }
 }
+
+
+///////////////////////////////////////////////////////////////// view travel Details from finance and admin  ///////////////////////////////////////////////////////
+router.get('/viewDetTvlApr', viewDetTvlApr);
+
+function viewDetTvlApr(req, res) {
+    console.log(req.query);
+    var user_id = req.query.user_id;
+    var user_type = req.query.user_type;
+    var emp_id = req.query.emp_id;
+    var req_id = req.query.req_id;
+    var emp_name = req.query.emp_name;
+    var project_id = req.query.project_id;
+    if (user_type === 'F1') {
+        pool.query('SELECT t.req_id, t.emp_id, t.req_id, t.emp_name AS emp_name, t.project_id,pnr_number,ticket_number,fair_ticket, TO_CHAR(from_date, \'YYYY-MM-DD\') as from_date, TO_CHAR(t.to_date, \'YYYY-MM-DD\') as to_date, t.from_location, t.to_location, e.emp_name AS managerName FROM travel_master_tbl_temp t JOIN emp_master_tbl e ON t.approver_id = e.emp_id and t.req_id=$1 and t.emp_name=$2 and t.project_id=$3 and t.request_status NOT IN($4,$5,$6)', [req_id, emp_name, project_id, 'RJM', 'RJF', 'CAN'], function (err, result) {
+            if (err) throw err;
+            res.json({ redirect: 'approvereq', viewDetTvlApr: result.rows[0] })
+        })
+    }
+    else {
+        pool.query('SELECT t.req_id, t.emp_id, t.req_id, t.emp_name AS emp_name, t.project_id, TO_CHAR(from_date, \'YYYY-MM-DD\') as from_date, TO_CHAR(t.to_date, \'YYYY-MM-DD\') as to_date, t.from_location, t.to_location, e.emp_name AS managerName FROM travel_master_tbl_temp t JOIN emp_master_tbl e ON t.approver_id = e.emp_id and t.req_id=$1 and t.emp_name=$2 and t.confrm_flg=$7 and t.project_id=$3 and t.request_status NOT IN($4,$5,$6)', [req_id, emp_name, project_id, 'RJM', 'RJF', 'CAN', 'N'], function (err, result) {
+            if (err) throw err;
+            res.json({ redirect: 'approvereq', viewDetTvlApr: result.rows[0] })
+        })
+    }
+
+
+}
+
+
+
 
 module.exports = router;
