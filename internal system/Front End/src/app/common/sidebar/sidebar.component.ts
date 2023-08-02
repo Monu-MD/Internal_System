@@ -78,7 +78,7 @@ export class SidebarComponent {
       this.router.navigate(['cmsuploadadmin'])
     }
     if (item == 'rmb') {
-      this.router.navigate(['initiaterem'])
+      this.router.navigate(['reimbusmentreqdetails'])
     }
     if (item == 'emp') {
       if (this.user_type=='A1') {
