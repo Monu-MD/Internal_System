@@ -1,4 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LoginServiceService } from 'src/app/services/login-service.service';
+import { ReimbursementserviceService } from 'src/app/services/reimbursementservice.service';
 
 @Component({
   selector: 'app-reimbusment-req-details',
@@ -7,4 +12,178 @@ import { Component } from '@angular/core';
 })
 export class ReimbusmentReqDetailsComponent {
 
+  
+
+
+ ReimbusmentId: any;
+ user_type: any;
+ user_id: any;
+ showRejectInput: any;
+ rejectionReason: any;
+ notification: any;
+ row: any;
+ rej: any;
+
+
+
+ constructor(private http: HttpClient, private router: Router, private reimbusmentservice: ReimbursementserviceService, private loginservice: LoginServiceService) {
+   const user = this.loginservice.getData();
+   this.user_type = user[2];
+   this.user_id = user[0];
+   const data = this.reimbusmentservice.getData()[1];
+   console.log(data, "data");
+
+ }
+
+ searchEmpolyeeDetailsForm = new FormGroup<any>({
+   ReimbusmentId: new FormControl(''),
+ })
+
+ onSubmit(item: any) {
+   console.log(this.searchEmpolyeeDetailsForm.get('ReimbusmentId'));
+
+   const Item = {
+     Item: item,
+     user_type: this.user_type
+   }
+   console.log(item.ReimbusmentId);
+   if (item != null) {
+     this.searchEmpDetails(Item)
+   }
+
+ }
+ searchEmpDetails(ReimbusmentId: any): void {
+
+   this.http.post('http://localhost:4000/reimbursement/reimburseUserDetails', ReimbusmentId).subscribe(
+     (response: any) => {
+
+       this.reimbusmentservice.setremuserdetails(response.reimbusrowData)
+       this.router.navigate(['/remuserdetails'])
+     },
+
+   );
+ }
+
+ get() {
+   return this.onSubmit
+ }
+
+
+
+
+ rowData: any[] = [];
+ dataLoaded: boolean = false;
+ data: any;
+
+ ngOnInit() {
+   this.fetchData();
+ }
+
+ fetchData() {
+   this.http.get('http://localhost:4000/reimbursement/reqdetails')
+     .subscribe(
+       (response: any) => {
+         console.log(response.data);
+
+         if (response.message == 'redirect to employee details view') {
+           this.rowData = response.data;
+           this.dataLoaded = true;
+
+         } else {
+           console.error('Invalid response data');
+         }
+
+         console.log(this.rowData);
+       },
+       (error: any) => {
+         console.error('Error:', error);
+       }
+     );
+ }
+
+
+
+ rejectReson: any
+ rjt: boolean = false;
+ count = 0;
+
+     
+
+
+
+ approveProfile(status: any, row: any) {
+   console.log("status", status, 'data', row);
+
+ 
+   if (status == 'rej') {
+     this.rjt = true
+     this.count++;
+     console.log(this.count);
+
+     if (this.count > 1) {
+       this.data = {
+         user_type: this.user_type,
+         user_id: this.user_id,
+         action: status,
+         row: row,
+         rejectReson: this.rejectReson
+       }
+     }
+
+   } else {
+     if (status = 'Approve') {
+
+       this.data = {
+         user_type: this.user_type,
+         user_id: this.user_id,
+         action: status,
+         row: row
+       }
+     }
+   }
+   this.costumerCreation(this.data)
+   console.log(this.data, "dataa");
+
+ }
+
+ costumerCreation(data: any) {
+   console.log(data);
+
+   this.http.post('http://localhost:4000/reimbursement/approvee', data).subscribe(
+     (response: any) => {
+       console.log(response.notification);
+
+       if (response.message == 'redirect to customerview') {
+         this.reimbusmentservice.setremuserdetails(response.customerViewData);
+         this.router.navigate(['/CustomerView'])
+       }
+       else if (response.message == 'redirect to Customercreation') {
+         alert(this.notification = response.notification);
+         this.router.navigate(['/Customercreation'])
+       }
+
+     },
+     (error: any) => {
+       console.error('API Error:', error);
+
+     }
+   );
+ }
+
+
+
+ openRejectInput() {
+
+   this.showRejectInput = true;
+   this.rejectionReason = '';
+
+ }
+
+
+ openDeleteInput() {
+
+ }
+ rejectProfile() {
+
+ }
 }

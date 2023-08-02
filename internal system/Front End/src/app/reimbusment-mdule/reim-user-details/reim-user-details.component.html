@@ -1,0 +1,24 @@
+<div>
+    <app-headder></app-headder>
+    <app-topbar></app-topbar>
+    <app-sidebar></app-sidebar>
+    <div class="professional-details">
+        <h2>Professional Details</h2>
+
+        <p>Reimbursement Id: {{remburse_id}}</p>
+        <p>Employee Id: {{empid}}</p>
+        <p>Employee Name: {{ empname }}</p>
+        <p>project Id: {{ project_id }}</p>
+        <p>Employee Access: {{ emp_access }}</p>
+        <p>Billing Date : {{ lodge_date }}</p>
+        <p>Amount Payable: {{ amt_payable }}</p>
+        <p>Reporting Manager: {{ reporting_mgr }}</p>
+        <p>Request status: {{ status }}</p>
+        <p>User Remarks: {{ user_remarks }}</p>
+
+        <button class="button" routerLink="/reimbusmentreqdetails">Back</button>
+    </div>
+
+
+    <app-footer></app-footer>
+</div>
