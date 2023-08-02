@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl,FormGroup,Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,19 +10,46 @@ import { Router } from '@angular/router';
 })
 export class ReportCompChooseComponent {
 
-  constructor(private router:Router){}
-  
+
+constructor(private http: HttpClient,private router : Router) { }
+
   employeeId:any;
   register=new FormGroup<any>({
-    employeeId: new FormControl('', [Validators.required])
+    emp_id: new FormControl('', [Validators.required]),
+    module:new FormControl('',[Validators.required])
 
   })
- login(item:any){
-    console.log(item);
   
+    postData(item: any) {
+      const postData = {
+        emp_id:item.emp_id,
+        module: item.module,   
+      };
+  
+     
+    this.http.post('http://localhost:4000/report/getReport', postData)
+    .subscribe(
+      (response: any) => {
+      
+        console.log('Data posted successfully:', response);
+  
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
   }
+  
 
-  get(){
-    return this.login
+  onSubmit(item:any){
+    console.log(item);
+    this.postData(item);
   }
+  
+
+   get() {
+     return this.onSubmit;
+   }
+
+
 }
