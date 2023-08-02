@@ -70,14 +70,32 @@
     <!-- reimbusment Module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'rmb'">
-            <ul>
-                <li><a href="" routerLink="/initiaterem">Initiate Reimbursement</a></li>
-                <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
-                <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
-            </ul>
+            <div [ngSwitch]="user_type">
+                <div *ngSwitchCase="'L3'">
+                    <ul>
+                        <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li>
+                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
+                        <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                    </ul>
+                </div>
+
+                <div class="top-content" *ngSwitchCase="'F1'">
+                    <ul>
+                        <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
+                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
+                        <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                    </ul>
+                </div>
+                <div class="top-content" *ngSwitchCase="'A1'">
+                    <ul>
+                        <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
+                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
+                        <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
-
     
     <!-- Employee module -->
     <nav class="menu">

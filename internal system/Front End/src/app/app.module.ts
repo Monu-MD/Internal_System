@@ -155,6 +155,7 @@ import { DocumentList2Component } from './document-list2/document-list2.componen
 import { RejDocComponent } from './cms-module/rej-doc/rej-doc.component';  
 
 import { FAQComponent } from './faq/faq.component';  
+import { ReimUserDetailsComponent } from './reimbusment-mdule/reim-user-details/reim-user-details.component';
 
 
 
@@ -191,6 +192,7 @@ import { FAQComponent } from './faq/faq.component';
     ViewAppraisalDataComponent,
     AprDoappraisalComponent,
     ReimbusmentReqDetailsComponent,
+    ReimUserDetailsComponent,
 
     EmpProfessionalDetailsComponent,
     

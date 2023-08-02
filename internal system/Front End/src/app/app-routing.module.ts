@@ -112,6 +112,7 @@ import { SearchEmpDocAppRejComponent } from './cms-module/search-emp-doc-app-rej
 import { DocumentsComponent } from './cms-module/documents/documents.component';
 import { RejDocComponent } from './cms-module/rej-doc/rej-doc.component';
 import { FAQComponent } from './faq/faq.component';
+import { ReimUserDetailsComponent } from './reimbusment-mdule/reim-user-details/reim-user-details.component';
 
 const routes: Routes = [
   { path: 'faq', component: FAQComponent },
@@ -140,6 +141,7 @@ const routes: Routes = [
   { path: 'initiaterem', component: InitiateRemComponent },
   { path: 'reimbusmentapprove', component: ReimburseApproveComponent },
   { path: "reimbusmentreqdetails", component: ReimbusmentReqDetailsComponent },
+  {path: "remuserdetails",component:ReimUserDetailsComponent},
 
   { path: 'ReportChooseComponent', component: ReportBulkChooseComponent },
   { path: 'Reportcompchoose', component: ReportCompChooseComponent },
