@@ -654,12 +654,13 @@ function aproveRejTvlreq(req, res) {
     /////////////////////////// if user is admin /////////////////
     if (user_type == 'A1') {
         if (action == 'apr') {
+            console.log("in user a1");
 
             var bookedticketfare = req.body.tq.bookedticketfare
             var pnrnumber = req.body.tq.pnrnumber
             var ticketnumber = req.body.tq.ticketnumber
 
-            pool.query('update travel_master_tbl_temp set confrm_flg=$1,pnr_number=$4,ticket_number=$5,fair_ticket=$6 where project_id=$2 and req_id=$3', ['Y', project_id, req_id, pnrnumber, ticketnumber, bookedticketfare], function (err, result) {
+            pool.query('update travel_master_tbl_temp set confrm_flg=$1,pnr_number=$3,ticket_number=$4,fair_ticket=$5 where  req_id=$2', ['Y', req_id, pnrnumber, ticketnumber, bookedticketfare], function (err, result) {
                 if (err) throw err;
                 res.json({ notification: "travel request is aproved" })
             })
@@ -721,18 +722,15 @@ function aproveRejTvlreq(req, res) {
     }
     if (user_type === 'L3' || user_type === 'F1') {
         if (action == 'apr') {
-            pool.query('UPDATE travel_master_tbl_temp SET request_status = $4,appr_flg=$5,confrm_flg=$5 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3', [emp_name, project_id, req_id, updateStatus, appr_flg, confirm_flg], function (err, result) {
+            console.log("check",updateStatus);
+
+            pool.query('UPDATE travel_master_tbl_temp SET request_status = $4, appr_flg = $5, confrm_flg = $6 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3 AND request_status = $7',[emp_name, project_id, req_id, updateStatus, appr_flg, confirm_flg, 'CPF'], function (err, result) {
                 if (err) throw err;
                 if (user_type == 'F1') {
-                    pool.query('INSERT INTO Travel_master_tbl (select * from travel_master_where req_id=$2 and project_id=$1)', [project_id, req_id], function (err, result) {
+                    pool.query('INSERT INTO Travel_master_tbl (SELECT * FROM travel_master_tbl WHERE req_id=$2 AND project_id=$1)', [project_id, req_id], function (err, result) {
                         if (err) throw err;
-
-                    })
-                }
-                if (user_type === 'L3') {
-                    res.json({ notification: 'Travel Request is approved To ' + emp_name })
-                }
-                else {
+                        // Your code for handling the query result goes here
+                    });
                     const transporter = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
@@ -778,7 +776,9 @@ function aproveRejTvlreq(req, res) {
 
                     });
 
+                    res.json({ notification: 'Travel Request is approved To ' + emp_name })
 
+                } else {
                     res.json({ notification: 'Travel Request is approved To ' + emp_name })
 
                 }
@@ -854,7 +854,7 @@ function viewDetTvlApr(req, res) {
     var emp_name = req.query.emp_name;
     var project_id = req.query.project_id;
     if (user_type === 'F1') {
-        pool.query('SELECT t.req_id, t.emp_id, t.req_id, t.emp_name AS emp_name, t.project_id,pnr_number,ticket_number,fair_ticket, TO_CHAR(from_date, \'YYYY-MM-DD\') as from_date, TO_CHAR(t.to_date, \'YYYY-MM-DD\') as to_date, t.from_location, t.to_location, e.emp_name AS managerName FROM travel_master_tbl_temp t JOIN emp_master_tbl e ON t.approver_id = e.emp_id and t.req_id=$1 and t.emp_name=$2 and t.project_id=$3 and t.request_status NOT IN($4,$5,$6)', [req_id, emp_name, project_id, 'RJM', 'RJF', 'CAN'], function (err, result) {
+        pool.query('SELECT t.req_id, t.emp_id, t.req_id, t.emp_name AS emp_name, t.project_id,pnr_number,t.ticket_number,t.fair_ticket, TO_CHAR(from_date, \'YYYY-MM-DD\') as from_date, TO_CHAR(t.to_date, \'YYYY-MM-DD\') as to_date, t.from_location, t.to_location, e.emp_name AS managerName FROM travel_master_tbl_temp t JOIN emp_master_tbl e ON t.approver_id = e.emp_id and t.req_id=$1 and t.emp_name=$2 and t.project_id=$3 and t.request_status NOT IN($4,$5,$6)', [req_id, emp_name, project_id, 'RJM', 'RJF', 'CAN'], function (err, result) {
             if (err) throw err;
             res.json({ redirect: 'approvereq', viewDetTvlApr: result.rows[0] })
         })
