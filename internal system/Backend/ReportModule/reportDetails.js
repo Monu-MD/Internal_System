@@ -93,20 +93,28 @@ router.post('/getReport', getReport);
 function getReport(req, res) {
     // var module = req.body.module;
     // var emp_id = req.body.emp_id;
+
     // var eid = req.user.rows['0'].user_id;
     // var ename = req.user.rows['0'].user_name;
 
+    //       var module = "1";
+    // var emp_id = "1257";
+    var eid = "1257";
+     var ename="KEERTHI B";
 
     var module = "1";
     var emp_id = "1257";
     var eid = "1257";
     var ename="KEERTHI B";
 
+    console.log("module",module);
+    console.log("eid",eid);
 
     console.log("module",module);
     console.log("emp_id",emp_id);
     console.log("eid",eid);
     console.log("ename",ename);
+
 
     pool.query("SELECT user_type from users where user_id = $1", [eid], function (err, result) {
         var emp_access = result.rows['0'].user_type;
@@ -115,6 +123,7 @@ function getReport(req, res) {
         // add this to display messages if report is not present
 
         if (module > "4") {  
+
             res.json('redirect to admin-dashboard');
         }
 

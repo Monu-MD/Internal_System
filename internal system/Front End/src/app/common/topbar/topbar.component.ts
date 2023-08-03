@@ -247,7 +247,7 @@ export class TopbarComponent {
     this.http.get('http://localhost:4000/travel/aproverTvlreq', { params })
       .subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
           this.trvelService.setTravelApprovalView(response.approvalReqView)
           this.router.navigate(['/viewtvl'])
         },

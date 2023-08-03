@@ -33,6 +33,7 @@ export class ReportCompChooseComponent {
         }
       );
   }
+  
 
   onSubmit(item: any) {
     console.log(item);
@@ -42,7 +43,15 @@ export class ReportCompChooseComponent {
       // Handle the form validation errors here
       console.log('Form is invalid. Please check the input values.');
     }
+
   }
+  
+
+   get() {
+     return this.onSubmit;
+   }
+
+
 }
 
 
