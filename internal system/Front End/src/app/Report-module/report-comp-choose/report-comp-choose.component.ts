@@ -54,15 +54,13 @@ export class ReportCompChooseComponent {
       );
   }
   
-  
   onSubmit(item: any) {
     console.log(item);
     if (this.compReport.valid) {
       this.postData(item);
     } else {
-      // Handle the form validation errors here
       console.log('Form is invalid. Please check the input values.');
     }
-  }
 
+  }
 }

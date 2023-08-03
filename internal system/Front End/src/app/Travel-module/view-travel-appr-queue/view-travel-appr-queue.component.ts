@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginServiceService } from 'src/app/services/login-service.service';
 import { TravelServiceService } from 'src/app/services/travel-service.service';
 
@@ -29,12 +30,13 @@ export class ViewTravelApprQueueComponent {
   constructor(
     private loginservice: LoginServiceService,
     private http: HttpClient,
-    private viewtvl: TravelServiceService,
+    private travelService: TravelServiceService,
+    private router:Router,
 
   ) {
     this.user_id = this.loginservice.getData()[0];
     this.user_type = this.loginservice.getData()[2]
-    this.viewtravel = this.viewtvl.getTrvelData()[2];
+    this.viewtravel = this.travelService.getTrvelData()[2];
   }
 
 
@@ -63,21 +65,76 @@ export class ViewTravelApprQueueComponent {
 
 
   }
-
+  data: any;
+  rejectReson: any
+  rjt: boolean = false;
+   count = 0;
   approveRejTravel(value: string, tq: any) {
     console.log(value, tq);
+    
 
-    const data = {
-      user_type: this.user_type,
-      user_id: this.user_id,
-      action: value,
-      tq: tq
+    if (value == 'rej') {
+      this.rjt = true
+      this.count++;
+      console.log(this.count);
+      
+      if (this.count > 1) {
+        this.data = {
+          user_type: this.user_type,
+          user_id: this.user_id,
+          action: value,
+          tq: tq,
+          rejectReson:this.rejectReson
+        }
+      }
+
+    } else {
+      if (value = 'apr') {
+
+        this.data = {
+          user_type: this.user_type,
+          user_id: this.user_id,
+          action: value,
+          tq: tq
+        }
+      }
+    }
+    console.log(this.data);
+    
+
+    if (this.data != undefined) {
+
+      this.http.post('http://localhost:4000/travel/aproveRejTvlreq', this.data).subscribe(
+        (response: any) => {
+          console.log('API Response:', response);
+          this.notification = response.notification
+
+        },
+        (error: any) => {
+          console.error('API Error:', error);
+          // Handle error cases and navigate accordingly
+          // this.router.navigate(['/error']);
+        }
+      );
     }
 
-    this.http.post('http://localhost:4000/travel/aproveRejTvlreq', data).subscribe(
+
+  }
+
+  //////////////////////// to fetch finacne aprove ///////////////////////
+
+  viewDetTvlApr(value:any) {
+    console.log(value);
+    let params = new HttpParams()
+      .set('user_id', this.user_id.toString()).
+      set('user_type',this.user_type.toString()).appendAll(value)
+
+    this.http.get('http://localhost:4000/travel/viewDetTvlApr', { params}).subscribe(
       (response: any) => {
         console.log('API Response:', response);
-        this.notification = response.notification
+      this.travelService.setviewDetTvlApr(response.viewDetTvlApr);
+      this.router.navigate([response.redirect])
+        
 
       },
       (error: any) => {
@@ -87,9 +144,6 @@ export class ViewTravelApprQueueComponent {
       }
     );
 
-  }
-  viewDetTvlApr(){
-    
   }
 
 }
