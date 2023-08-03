@@ -32,13 +32,11 @@ data:any;
       
     });
   }
-
-
-rowData:any[]=[];
   
 ngOnInit() {
   this.fetchData();
 }
+
 
 
 
