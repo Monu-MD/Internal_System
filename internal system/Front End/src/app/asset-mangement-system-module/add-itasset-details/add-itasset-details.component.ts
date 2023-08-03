@@ -69,6 +69,29 @@ export class AddITAssetDetailsComponent {
       );
   }
 
+  ngOnInit() {   
+
+    this.fetchData();
+    
+  }
+  
+  
+  
+  product:any;
+
+    fetchData() {
+      this.http.get('http://localhost:4000/assetDetails/cocd').subscribe(
+        (response: any) => {
+          console.log(response.data);
+          this.product=response.data.product;
+ 
+        },
+        (error: any) => {
+          console.error('Error:', error);
+        }
+      );
+    }
+
   onSubmit(item: any) {
     console.log(item);
     this.postData(item);

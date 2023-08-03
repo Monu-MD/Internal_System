@@ -26,7 +26,9 @@ leaveForm=new FormGroup<any>({
   })
 
   ngOnInit() {
+    
     this.fetchData();
+
   }
   
   
