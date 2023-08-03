@@ -2,105 +2,21 @@
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
 
-<div class="allighn">
-    <div class="container">
-
-        <h1 class="title">My Requestd</h1>
-
-        <div class="content">
-            <div></div>
-            <form [formGroup]="MyRequest" class="#" (ngSubmit)="My_Request(MyRequest.value)">
-                <div class="user-details">
-                    <div class="input-box">
-                        <label class="Details">Employee Id</label>
-                        <input type="text" placeholder="Employee Id" name="employeeId" formControlName="employeeId">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Employee Name</label>
-                        <input type="text" placeholder="Employee Name" name="employeeName"
-                            formControlName="employeeName">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Project Id</label>
-                        <input type="text" placeholder="Project Id" name="ProjectId" formControlName="ProjectId">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Reporting Manager</label>
-                        <input type="text" placeholder="Reporting Manager" name="reportingManager"
-                            formControlName="reportingManager">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Finanace Manager</label>
-                        <input type="text" placeholder="Finanace Manager" name="finanaceManager"
-                            formControlName="finanaceManager">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Advance Amount(inINR)</label>
-                        <input type="text" placeholder="Advance Amount" name="advanceAmount"
-                            formControlName="advanceAmount">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Claim Amount(inINR)</label>
-                        <input type="text" placeholder="Claim Amount" name="claimAmount" formControlName="claimAmount">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Settlement Amount</label>
-                        <input type="text" placeholder="Settlement Amount" name="settelmentAmount"
-                            formControlName="settelmentAmount">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Settlement Remarks</label>
-                        <input type="text" placeholder="Settlement Remarks" name="settelmentRemarks"
-                            formControlName="settelmentRemarks">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Remarks</label>
-                        <input type="text" placeholder="Remarks" name="remarks" formControlName="remarks">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Manager Remarks</label>
-                        <input type="text" placeholder="Manager Remarks" name="managerRemarks"
-                            formControlName="managerRemarks">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Finanace Manager Remarks</label>
-                        <input type="text" placeholder="Finanace Manager Remarks" name="finanaceManagerRemarks"
-                            formcontrolname="finanaceManagerRemarks">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Hr Remarks</label>
-                        <input type="text" placeholder="Hr Remarks" name="hrRemarks" formControlName="hrRemarks">
-                    </div>
-
-                </div> 
-                <div>
-                    <button class="button" type="file">Upload Supporting bills</button>
-                    
+<div class="container" class="container" >
+    <h1 class="title">Search Request Details</h1>
+    <div class="content">
+        <form [formGroup]="MyRequest" (ngSubmit)="onSubmit(MyRequest.value)">
+            <div class="user-details">
+                <div class="input-box">
+                    <label class="details">Reimbusment Id</label>
+                    <input type="text" placeholder="Reimbusment Id" name="ReimbusmentId" formControlName="ReimbusmentId" />
                 </div>
-                <div class="user-details">
-
-
-
-                    <div class="input-box">
-                        <label class="Details">Settlement Amount</label>
-                        <input type="text" placeholder="Settlement Amount" name="settelmentAmount1"
-                            formControlName="settelmentAmount1">
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Settlement Remarks</label>
-                        <input type="text" placeholder="Settlement Remarks" name="settelmentRemarks1"
-                            formControlName="settelmentRemarks1">
-                    </div>  
-                </div>
-                <div>
-                    <button class="button">pay</button>
-                    <button class="button">Approve</button>
-                    <button class="button">Reject</button>
-                    <button class="button">Confirm</button>
-                    <button class="button">CancelRequest</button>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div>
+                <button class="button">Search</button>
+                <button class="button" type="reset">Clear</button>
+            </div>
+        </form>
     </div>
 </div>
 <app-footer></app-footer>
