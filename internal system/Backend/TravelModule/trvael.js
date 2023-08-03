@@ -524,7 +524,6 @@ function travelReq(req, res) {
     }
     //////////////////////////////////////////////////////////////////// Modified Travel Request/////////////////////////////////////////////////////////////////////////////////
     if(test1=='Submit'){
-        console.log(req.body);
         var emp_id=req.body.item.emp_id;
         var req_id = req.body.item.req_id;
         var travelDate = req.body.item.travelDate;
@@ -533,12 +532,13 @@ function travelReq(req, res) {
         var pid = req.body.item.project_id;
         var travelDate = req.body.item.travelDate;
         var tenDate = req.body.item.tentativeReturnDate;
-        var fromLoc = req.body.item.fromLocation;
-        var toLoc = req.body.item.toLocation;
+        var fromLoc = req.body.item.from_location;
+        var toLoc = req.body.item.to_location;
         var rmks = req.body.item.remarks;
-        pool.query("Update travel_master_tbl set from_date=$1, to_date=$2, from_location=upper($3), to_location=upper($4) where req_id=$5", [travelDate, tenDate,  fromLoc, toLoc,  req_id], function (err, done) {
+        console.log(travelDate,tenDate,fromLoc,toLoc);
+        pool.query("Update travel_master_tbl_temp set from_date=$1, to_date=$2, from_location=upper($3), to_location=upper($4) where req_id=$5", [travelDate, tenDate,  fromLoc, toLoc,  req_id], function (err, done) {
             if(err) throw err;
-            pool.query("INSERT INTO travel_master_tbl_hist(select * from travel_master_tbl where req_id=$1)", [req_id], function (err, done) {
+            pool.query("INSERT INTO travel_master_tbl_hist(select * from travel_master_tbl_temp where req_id=$1)", [req_id], function (err, done) {
                 if (err) throw err ;
                 
                 pool.query('select emp_email from emp_master_tbl where emp_id=$1',[emp_id],function(err,result){
