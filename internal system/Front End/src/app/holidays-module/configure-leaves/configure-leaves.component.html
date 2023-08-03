@@ -12,10 +12,8 @@
           <label class="details">Leave Type</label>
           <select id="leave_type" class="form-control" formControlName="leave_type">
             <option value="">--Select--</option>
-            <option value="EL">Annual</option>
-            <option value="SL">Sick</option>
-            <option value="ML">Maternity</option>
-            <option value="RL">Restricted</option>
+            <option *ngFor="let data of leave_type" [value]="data.comm_code_id">{{
+            data.comm_code_desc }}</option>
           </select>
           <pre></pre>
         </div>
@@ -24,9 +22,8 @@
           <label for="configureYear" class="details">Configure for Year </label>
           <select id="year" class="form-control" formControlName="year">
             <option value="">--Select--</option>
-            <option value="2022">2022</option>
-            <option value="2023">2023</option>
-            <option value="2024">2024</option>
+            <option *ngFor="let data of year" [value]="data.comm_code_id">{{
+              data.comm_code_desc }}</option>
           </select>
         </div>
 
@@ -35,10 +32,10 @@
           <input type="number" id="allocated_leaves" class="form-control" formControlName="allocated_leaves">
         </div>
 
-          <div class="input-box">
-              <label for="description">Description</label>
-              <textarea id="description" class="form-control" formControlName="description"></textarea>
-          </div> 
+        <div class="input-box">
+          <label for="description">Description</label>
+          <textarea id="description" class="form-control" formControlName="description"></textarea>
+        </div>
 
         <div>
           <button class="button">Submit</button>
@@ -48,7 +45,7 @@
     </form>
     <br>
     <br>
-   
+
   </div>
 </div>
 <app-footer></app-footer>

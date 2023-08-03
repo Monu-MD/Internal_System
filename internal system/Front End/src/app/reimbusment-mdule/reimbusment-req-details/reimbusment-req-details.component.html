@@ -41,7 +41,7 @@
                                 <button type="button" class="btn btn-danger"
                                     (click)='viewdetails(row)'>view</button>
                                 <span style="margin: 0 10px;"></span>
-                            <!-- </div> -->
+                          
                             <td *ngIf="rjt==true"><input type="text" placeholder="Reject Reson"
                                     [(ngModel)]="rejectionReason">
                             </td>
@@ -50,9 +50,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-
-
+            </div> 
 
             <div *ngIf="!dataLoaded">
                 <p>Loading data...</p>

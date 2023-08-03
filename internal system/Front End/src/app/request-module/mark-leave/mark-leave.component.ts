@@ -29,6 +29,7 @@ export class MarkLeaveComponent {
 
   ngOnInit() {
     this.initializeForm();
+    this.fetchData();
   }
 
   initializeForm() {
@@ -79,5 +80,20 @@ export class MarkLeaveComponent {
           console.error('Error:', error);
         }
       );
+  }
+  leave_type:any;
+  fetchData() {
+    this.http.get('http://localhost:4000/holiday/cocd').subscribe(
+      (response: any) => {
+        console.log(response.data);
+        this.leave_type=response.data.leave_type;
+       
+  
+        
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
   }
 }

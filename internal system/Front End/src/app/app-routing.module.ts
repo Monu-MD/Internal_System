@@ -113,6 +113,7 @@ import { DocumentsComponent } from './cms-module/documents/documents.component';
 import { RejDocComponent } from './cms-module/rej-doc/rej-doc.component';
 import { FAQComponent } from './faq/faq.component';
 import { ReimUserDetailsComponent } from './reimbusment-mdule/reim-user-details/reim-user-details.component';
+import { ModifiedTrvelRequsetComponent } from './Travel-module/modified-trvel-requset/modified-trvel-requset.component';
 
 const routes: Routes = [
   { path: 'faq', component: FAQComponent },
@@ -192,6 +193,7 @@ const routes: Routes = [
   { path: 'travel', component: TravelComponent },
   { path: 'travelfaq', component: TravelFAQDetailsComponent },
   { path: 'viewtvl', component: ViewTravelApprQueueComponent },
+  {path:'modTvlReq',component:ModifiedTrvelRequsetComponent},
   //AppRenovated
   { path: 'appDataNot', component: AppraisalDataNotApprovedComponent },
   { path: 'cteApp', component: CreateAppDataComponent },

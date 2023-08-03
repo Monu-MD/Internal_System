@@ -54,11 +54,12 @@ function travelReq(req, res) {
     var test2 = req.body.test2;
     var test3 = req.body.test3;
     var test4 = req.body.test4;
-    var test5 = req.body.test5;
+    var test5 = req.body.test5;1
     var pnr_number = "";
     var ticket_number = "";
     var free_text_1 = "";
     var hr_remarks = "";
+    //////////////////////////////////////////////////////////////////// Intiate travel Request //////////////////////////////////////////////////////////////////////////////////////
     if (test == "Submit") {
         console.log("test::::", test);
         var tenDate = req.body.tenDate;
@@ -521,6 +522,73 @@ function travelReq(req, res) {
         });
 
     }
+    //////////////////////////////////////////////////////////////////// Modified Travel Request/////////////////////////////////////////////////////////////////////////////////
+    if(test1=='Submit'){
+        var emp_id=req.body.item.emp_id;
+        var req_id = req.body.item.req_id;
+        var travelDate = req.body.item.travelDate;
+        var now = new Date();
+        var lchgtime = now;
+        var pid = req.body.item.project_id;
+        var travelDate = req.body.item.travelDate;
+        var tenDate = req.body.item.tentativeReturnDate;
+        var fromLoc = req.body.item.from_location;
+        var toLoc = req.body.item.to_location;
+        var rmks = req.body.item.remarks;
+        console.log(travelDate,tenDate,fromLoc,toLoc);
+        pool.query("Update travel_master_tbl_temp set from_date=$1, to_date=$2, from_location=upper($3), to_location=upper($4) where req_id=$5", [travelDate, tenDate,  fromLoc, toLoc,  req_id], function (err, done) {
+            if(err) throw err;
+            pool.query("INSERT INTO travel_master_tbl_hist(select * from travel_master_tbl_temp where req_id=$1)", [req_id], function (err, done) {
+                if (err) throw err ;
+                
+                pool.query('select emp_email from emp_master_tbl where emp_id=$1',[emp_id],function(err,result){
+                    if(err) throw err;
+                  var emp_email=result.rows[0].emp_email;
+                    const transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: 'mohammadsab@minorks.com',
+                            pass: '9591788719'
+                        }
+                    });
+                    const mailOptions = {
+                        from: 'mohammadsab@minorks.com',
+                        to: emp_email,
+                        subject: 'Travel Request notification',
+                        text: `Dear Approver,
+    
+                        Travel Request ${req_id} has been modified successfully and is awaiting your approval.
+                        
+                        Details:
+                        Project ID: ${pid}
+                        Travel Dates: From ${fromLoc} to ${toLoc} on ${travelDate} to ${tenDate}.
+                        
+                        Please review the changes and take appropriate action.
+                        
+                        Thank you,
+                        Travel Request System
+                        `
+    
+                        // text: 'This is a test email sent from Node.js using Nodemailer.'
+                    };
+    
+    
+                    
+                    transporter.sendMail(mailOptions, function (error, info) {
+                        if (error) {
+                            console.error('Error sending email', error);
+                        } else {
+                            console.log('Email sent:', info.response);
+                        }
+    
+    
+                    });
+                    res.json({notification:"Travel Request has been modified successfully "})
+                })
+
+            })
+        })
+    }
 
 
 };
@@ -654,12 +722,13 @@ function aproveRejTvlreq(req, res) {
     /////////////////////////// if user is admin /////////////////
     if (user_type == 'A1') {
         if (action == 'apr') {
+            console.log("in user a1");
 
             var bookedticketfare = req.body.tq.bookedticketfare
             var pnrnumber = req.body.tq.pnrnumber
             var ticketnumber = req.body.tq.ticketnumber
 
-            pool.query('update travel_master_tbl_temp set confrm_flg=$1,pnr_number=$4,ticket_number=$5,fair_ticket=$6 where project_id=$2 and req_id=$3', ['Y', project_id, req_id, pnrnumber, ticketnumber, bookedticketfare], function (err, result) {
+            pool.query('update travel_master_tbl_temp set confrm_flg=$1,pnr_number=$3,ticket_number=$4,fair_ticket=$5 where  req_id=$2', ['Y', req_id, pnrnumber, ticketnumber, bookedticketfare], function (err, result) {
                 if (err) throw err;
                 res.json({ notification: "travel request is aproved" })
             })
@@ -721,18 +790,16 @@ function aproveRejTvlreq(req, res) {
     }
     if (user_type === 'L3' || user_type === 'F1') {
         if (action == 'apr') {
-            pool.query('UPDATE travel_master_tbl_temp SET request_status = $4,appr_flg=$5,confrm_flg=$5 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3', [emp_name, project_id, req_id, updateStatus, appr_flg, confirm_flg], function (err, result) {
+            console.log("check",updateStatus);
+
+            pool.query('UPDATE travel_master_tbl_temp SET request_status = $4, appr_flg = $5, confrm_flg = $6 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3 AND request_status = $7',[emp_name, project_id, req_id, updateStatus, appr_flg, confirm_flg, 'CPF'], function (err, result) {
                 if (err) throw err;
                 if (user_type == 'F1') {
-                    pool.query('INSERT INTO Travel_master_tbl (select * from travel_master_where req_id=$2 and project_id=$1)', [project_id, req_id], function (err, result) {
+                    pool.query('INSERT INTO Travel_master_tbl (SELECT * FROM travel_master_tbl_temp WHERE req_id=$2 AND project_id=$1)', [project_id, req_id], function (err, result) {
                         if (err) throw err;
-
-                    })
-                }
-                if (user_type === 'L3') {
-                    res.json({ notification: 'Travel Request is approved To ' + emp_name })
-                }
-                else {
+                        console.log("updated");
+                        // Your code for handling the query result goes here
+                    });
                     const transporter = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
@@ -778,7 +845,9 @@ function aproveRejTvlreq(req, res) {
 
                     });
 
+                    res.json({ notification: 'Travel Request is approved To ' + emp_name })
 
+                } else {
                     res.json({ notification: 'Travel Request is approved To ' + emp_name })
 
                 }
@@ -854,7 +923,7 @@ function viewDetTvlApr(req, res) {
     var emp_name = req.query.emp_name;
     var project_id = req.query.project_id;
     if (user_type === 'F1') {
-        pool.query('SELECT t.req_id, t.emp_id, t.req_id, t.emp_name AS emp_name, t.project_id,pnr_number,ticket_number,fair_ticket, TO_CHAR(from_date, \'YYYY-MM-DD\') as from_date, TO_CHAR(t.to_date, \'YYYY-MM-DD\') as to_date, t.from_location, t.to_location, e.emp_name AS managerName FROM travel_master_tbl_temp t JOIN emp_master_tbl e ON t.approver_id = e.emp_id and t.req_id=$1 and t.emp_name=$2 and t.project_id=$3 and t.request_status NOT IN($4,$5,$6)', [req_id, emp_name, project_id, 'RJM', 'RJF', 'CAN'], function (err, result) {
+        pool.query('SELECT t.req_id, t.emp_id, t.req_id, t.emp_name AS emp_name, t.project_id,pnr_number,t.ticket_number,t.fair_ticket, TO_CHAR(from_date, \'YYYY-MM-DD\') as from_date, TO_CHAR(t.to_date, \'YYYY-MM-DD\') as to_date, t.from_location, t.to_location, e.emp_name AS managerName FROM travel_master_tbl_temp t JOIN emp_master_tbl e ON t.approver_id = e.emp_id and t.req_id=$1 and t.emp_name=$2 and t.project_id=$3 and t.request_status NOT IN($4,$5,$6)', [req_id, emp_name, project_id, 'RJM', 'RJF', 'CAN'], function (err, result) {
             if (err) throw err;
             res.json({ redirect: 'approvereq', viewDetTvlApr: result.rows[0] })
         })
@@ -868,8 +937,38 @@ function viewDetTvlApr(req, res) {
 
 
 }
+////////////////////////////////////////////// TRAVEL INTIATE END ////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////// MODIFY TRAVEL REQ START //////////////////////////////////////////////////////////////////////
 
 
+////////////////////////////////////////////// Modify travel request start /////////////////////////////////////////////////////////////////
+
+router.get('/modifytravelDetailsQueue', modifytravelDetailsQueue);
+
+function modifytravelDetailsQueue(req, res) {
+    console.log(req.query);
+    var emp_id = req.query.user_id;
+    var emp_access = req.query.user_type;
 
 
+    if (emp_access == 'L1') {
+        pool.query("SELECT req_id,emp_id,emp_name,emp_access,approver_id,project_id,TO_CHAR(from_date, \'YYYY-MM-DD\') as from_date, TO_CHAR(to_date, \'YYYY-MM-DD\') as to_date, from_location, to_location ,remarks,request_status ,free_text_1,free_text_2,free_text_3 FROM travel_master_tbl_temp where emp_id=$1 and request_status in($2,$3)  order by req_id::integer desc", [emp_id, 'CPM', 'MOD'], function (err, pendingResult) {
+            if (err) {
+                console.error('Error with table query', err);
+            } else {
+                var pendingStatusData = pendingResult.rows;
+                console.log("row", pendingStatusData);
+                res.json({message:'travelModule/modifyTravelQueue', data:{
+                    pendingStatusData: pendingStatusData,
+                }});
+
+            }           
+        });
+    } else {
+        res.redirect('/admin-dashboard/adminDashboard/admindashboard');
+    }
+
+};
 module.exports = router;
