@@ -73,23 +73,21 @@
             <div [ngSwitch]="user_type">
                 <div *ngSwitchCase="'L3'">
                     <ul>
-                        <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li>
                         <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
-                        <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                        <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li>
+
                     </ul>
                 </div>
 
                 <div class="top-content" *ngSwitchCase="'F1'">
                     <ul>
                         <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
-                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
                         <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
                     </ul>
                 </div>
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
-                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
                         <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
                     </ul>
                 </div>

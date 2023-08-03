@@ -1,5 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import{FormGroup,ReactiveFormsModule,FormControl,FormControlDirective,Validators} from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, FormControl, FormControlDirective, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ReimbursementserviceService } from 'src/app/services/reimbursementservice.service';
 
 @Component({
   selector: 'app-reimburse-approve',
@@ -7,32 +10,49 @@ import{FormGroup,ReactiveFormsModule,FormControl,FormControlDirective,Validators
   styleUrls: ['./reimburse-approve.component.css']
 })
 export class ReimburseApproveComponent {
- 
-  MyRequest=new FormGroup<any>({
-    employeeId:new FormControl(''),
-    employeeName:new FormControl(''),
-    ProjectId:new FormControl(''),
-    reportingManager:new FormControl(''),
-    finanaceManager:new FormControl(''),
-    advanceAmount:new FormControl(''),
-    claimAmount:new FormControl(''),
-    settelmentAmount:new FormControl(''),
-    settelmentRemarks:new FormControl(''),
-    remarks:new FormControl(''),
-    managerRemarks:new FormControl(''),
-    finanaceManagerRemarks:new FormControl(''),
-    hrRemarks:new FormControl(''),
-    settelmentAmount1:new FormControl(''),
-    settelmentRemarks1:new FormControl(''),
 
 
 
 
-  })
-  My_Request(item:any){
-    console.log(item);
-    
+  constructor(private http:HttpClient,private reimbusmentservice:ReimbursementserviceService,private router:Router){
+
   }
 
 
+
+  MyRequest = new FormGroup<any>({
+    ReimbusmentId: new FormControl(''),
+
+  })
+  ReimbusmentId: any;
+  
+
+  onSubmit(value: any) {
+    console.log(value);
+
+    const Item = {
+      ReimbusmentId:value.ReimbusmentId
+      // user_type: this.user_type
+    }
+    console.log(Item);
+    if (Item != null) {
+      this.searchEmpDetails(Item)
+    }
+
+  }
+
+
+  searchEmpDetails(ReimbusmentId: any): void {
+    console.log("enter");
+
+
+    this.http.post('http://localhost:4000/reimbursement/reimburseUserDetails', ReimbusmentId).subscribe(
+      (response: any) => {
+
+        this.reimbusmentservice.setremuserdetails(response.reimbusrowData)
+        this.router.navigate(['/remuserdetails'])
+      },
+
+    );
+  }
 }
