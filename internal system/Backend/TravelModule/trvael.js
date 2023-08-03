@@ -54,11 +54,12 @@ function travelReq(req, res) {
     var test2 = req.body.test2;
     var test3 = req.body.test3;
     var test4 = req.body.test4;
-    var test5 = req.body.test5;
+    var test5 = req.body.test5;1
     var pnr_number = "";
     var ticket_number = "";
     var free_text_1 = "";
     var hr_remarks = "";
+    //////////////////////////////////////////////////////////////////// Intiate travel Request //////////////////////////////////////////////////////////////////////////////////////
     if (test == "Submit") {
         console.log("test::::", test);
         var tenDate = req.body.tenDate;
@@ -521,6 +522,73 @@ function travelReq(req, res) {
         });
 
     }
+    //////////////////////////////////////////////////////////////////// Modified Travel Request/////////////////////////////////////////////////////////////////////////////////
+    if(test1=='Submit'){
+        console.log(req.body);
+        var emp_id=req.body.item.emp_id;
+        var req_id = req.body.item.req_id;
+        var travelDate = req.body.item.travelDate;
+        var now = new Date();
+        var lchgtime = now;
+        var pid = req.body.item.project_id;
+        var travelDate = req.body.item.travelDate;
+        var tenDate = req.body.item.tentativeReturnDate;
+        var fromLoc = req.body.item.fromLocation;
+        var toLoc = req.body.item.toLocation;
+        var rmks = req.body.item.remarks;
+        pool.query("Update travel_master_tbl set from_date=$1, to_date=$2, from_location=upper($3), to_location=upper($4) where req_id=$5", [travelDate, tenDate,  fromLoc, toLoc,  req_id], function (err, done) {
+            if(err) throw err;
+            pool.query("INSERT INTO travel_master_tbl_hist(select * from travel_master_tbl where req_id=$1)", [req_id], function (err, done) {
+                if (err) throw err ;
+                
+                pool.query('select emp_email from emp_master_tbl where emp_id=$1',[emp_id],function(err,result){
+                    if(err) throw err;
+                  var emp_email=result.rows[0].emp_email;
+                    const transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: 'mohammadsab@minorks.com',
+                            pass: '9591788719'
+                        }
+                    });
+                    const mailOptions = {
+                        from: 'mohammadsab@minorks.com',
+                        to: emp_email,
+                        subject: 'Travel Request notification',
+                        text: `Dear Approver,
+    
+                        Travel Request ${req_id} has been modified successfully and is awaiting your approval.
+                        
+                        Details:
+                        Project ID: ${pid}
+                        Travel Dates: From ${fromLoc} to ${toLoc} on ${travelDate} to ${tenDate}.
+                        
+                        Please review the changes and take appropriate action.
+                        
+                        Thank you,
+                        Travel Request System
+                        `
+    
+                        // text: 'This is a test email sent from Node.js using Nodemailer.'
+                    };
+    
+    
+                    
+                    transporter.sendMail(mailOptions, function (error, info) {
+                        if (error) {
+                            console.error('Error sending email', error);
+                        } else {
+                            console.log('Email sent:', info.response);
+                        }
+    
+    
+                    });
+                    res.json({notification:"Travel Request has been modified successfully "})
+                })
+
+            })
+        })
+    }
 
 
 };
@@ -727,8 +795,9 @@ function aproveRejTvlreq(req, res) {
             pool.query('UPDATE travel_master_tbl_temp SET request_status = $4, appr_flg = $5, confrm_flg = $6 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3 AND request_status = $7',[emp_name, project_id, req_id, updateStatus, appr_flg, confirm_flg, 'CPF'], function (err, result) {
                 if (err) throw err;
                 if (user_type == 'F1') {
-                    pool.query('INSERT INTO Travel_master_tbl (SELECT * FROM travel_master_tbl WHERE req_id=$2 AND project_id=$1)', [project_id, req_id], function (err, result) {
+                    pool.query('INSERT INTO Travel_master_tbl (SELECT * FROM travel_master_tbl_temp WHERE req_id=$2 AND project_id=$1)', [project_id, req_id], function (err, result) {
                         if (err) throw err;
+                        console.log("updated");
                         // Your code for handling the query result goes here
                     });
                     const transporter = nodemailer.createTransport({
@@ -868,6 +937,38 @@ function viewDetTvlApr(req, res) {
 
 
 }
+////////////////////////////////////////////// TRAVEL INTIATE END ////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////// MODIFY TRAVEL REQ START //////////////////////////////////////////////////////////////////////
 
 
+////////////////////////////////////////////// Modify travel request start /////////////////////////////////////////////////////////////////
+
+router.get('/modifytravelDetailsQueue', modifytravelDetailsQueue);
+
+function modifytravelDetailsQueue(req, res) {
+    console.log(req.query);
+    var emp_id = req.query.user_id;
+    var emp_access = req.query.user_type;
+
+
+    if (emp_access == 'L1') {
+        pool.query("SELECT req_id,emp_id,emp_name,emp_access,approver_id,project_id,TO_CHAR(from_date, \'YYYY-MM-DD\') as from_date, TO_CHAR(to_date, \'YYYY-MM-DD\') as to_date, from_location, to_location ,remarks,request_status ,free_text_1,free_text_2,free_text_3 FROM travel_master_tbl_temp where emp_id=$1 and request_status in($2,$3)  order by req_id::integer desc", [emp_id, 'CPM', 'MOD'], function (err, pendingResult) {
+            if (err) {
+                console.error('Error with table query', err);
+            } else {
+                var pendingStatusData = pendingResult.rows;
+                console.log("row", pendingStatusData);
+                res.json({message:'travelModule/modifyTravelQueue', data:{
+                    pendingStatusData: pendingStatusData,
+                }});
+
+            }           
+        });
+    } else {
+        res.redirect('/admin-dashboard/adminDashboard/admindashboard');
+    }
+
+};
 module.exports = router;

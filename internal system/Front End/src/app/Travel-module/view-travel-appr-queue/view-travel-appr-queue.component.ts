@@ -19,6 +19,7 @@ export class ViewTravelApprQueueComponent {
   user_id: any;
   notification: any;
   user_type: any;
+  viewPage: any
   showNotification(notification: any) {
     this.notification = notification
 
@@ -31,7 +32,7 @@ export class ViewTravelApprQueueComponent {
     private loginservice: LoginServiceService,
     private http: HttpClient,
     private travelService: TravelServiceService,
-    private router:Router,
+    private router: Router,
 
   ) {
     this.user_id = this.loginservice.getData()[0];
@@ -68,23 +69,23 @@ export class ViewTravelApprQueueComponent {
   data: any;
   rejectReson: any
   rjt: boolean = false;
-   count = 0;
+  count = 0;
   approveRejTravel(value: string, tq: any) {
     console.log(value, tq);
-    
+
 
     if (value == 'rej') {
       this.rjt = true
       this.count++;
       console.log(this.count);
-      
+
       if (this.count > 1) {
         this.data = {
           user_type: this.user_type,
           user_id: this.user_id,
           action: value,
           tq: tq,
-          rejectReson:this.rejectReson
+          rejectReson: this.rejectReson
         }
       }
 
@@ -100,7 +101,7 @@ export class ViewTravelApprQueueComponent {
       }
     }
     console.log(this.data);
-    
+
 
     if (this.data != undefined) {
 
@@ -123,18 +124,18 @@ export class ViewTravelApprQueueComponent {
 
   //////////////////////// to fetch finacne aprove ///////////////////////
 
-  viewDetTvlApr(value:any) {
+  viewDetTvlApr(value: any) {
     console.log(value);
     let params = new HttpParams()
       .set('user_id', this.user_id.toString()).
-      set('user_type',this.user_type.toString()).appendAll(value)
+      set('user_type', this.user_type.toString()).appendAll(value)
 
-    this.http.get('http://localhost:4000/travel/viewDetTvlApr', { params}).subscribe(
+    this.http.get('http://localhost:4000/travel/viewDetTvlApr', { params }).subscribe(
       (response: any) => {
         console.log('API Response:', response);
-      this.travelService.setviewDetTvlApr(response.viewDetTvlApr);
-      this.router.navigate([response.redirect])
-        
+        this.travelService.setviewDetTvlApr(response.viewDetTvlApr);
+        this.router.navigate([response.redirect])
+
 
       },
       (error: any) => {
@@ -145,5 +146,8 @@ export class ViewTravelApprQueueComponent {
     );
 
   }
+
+ 
+  
 
 }
