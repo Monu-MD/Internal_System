@@ -2,7 +2,7 @@ console.log("Report module entered");
 var express = require('express');
 var pool = require('../Database/dbconfig');
 var router = express.Router();
-// var app = express();
+var app = express();
 var Promise = require('mpromise');
 // var User = require('../../models/user');
 // var ensureAuthenticated=require('../../routes/utils/utils');
@@ -91,19 +91,22 @@ router.get('/reportCompChoose', function (req, res) {
 
 router.post('/getReport', getReport);
 function getReport(req, res) {
-    var module = req.body.module;
-    var emp_id = req.body.emp_id;
+    // var module = req.body.module;
+    // var emp_id = req.body.emp_id;
     // var eid = req.user.rows['0'].user_id;
     // var ename = req.user.rows['0'].user_name;
 
-    //       var module = "1";
-    // var emp_id = "1257";
+
+    var module = "1";
+    var emp_id = "1257";
     var eid = "1257";
-     var ename="KEERTHI B";
+    var ename="KEERTHI B";
 
 
     console.log("module",module);
+    console.log("emp_id",emp_id);
     console.log("eid",eid);
+    console.log("ename",ename);
 
     pool.query("SELECT user_type from users where user_id = $1", [eid], function (err, result) {
         var emp_access = result.rows['0'].user_type;
@@ -111,9 +114,7 @@ function getReport(req, res) {
 
         // add this to display messages if report is not present
 
-        if (module > "4") {
-
-            req.send("Report Not Available")
+        if (module > "4") {  
             res.json('redirect to admin-dashboard');
         }
 
@@ -139,12 +140,13 @@ function getReport(req, res) {
         if (module == "2") {
             pool.query("SELECT * from emp_info_tbl where emp_id = $1  and entity_cre_flg='Y' and del_flg='N' order by emp_id asc", [emp_id], function (err, result) {
                 var emp_info_count = result.rowCount;
-
+                  console.log("count-->",emp_info_count);
                 if (emp_info_count == "0") {
 
                     res.json({
-                        message: "redirect to admin-dashboard",
-                        notification: "Employee Personal Details does not exist for Employee Id :" + emp_id + ".",
+                        notification: "Employee Personal Details does not exist for Employee Id",
+                        message: "redirect to admin-dashboard"
+                        
 
                     })
                     
@@ -157,15 +159,15 @@ function getReport(req, res) {
                         
                        console.log("Data",data);
 
-                        res.json({
-                            data: {
-                                eid: eid,
-                                ename: ename,
-                                emp_access: emp_access,
-                                data: data,
-                                data_count: data_count
-                            }
-                        });
+                       res.json({
+                        data: {
+                            eid: eid,
+                            ename: ename,
+                            emp_access: emp_access,
+                            data: data,
+                            data_count: data_count
+                        }
+                       });
                     });
                 }
             });
