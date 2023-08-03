@@ -11,10 +11,8 @@
                         <label class="details">Product</label>
                         <select name="product" formControlName="product">
                             <option>--Select Product--</option>
-                            <option>Laptop</option>
-                            <option>Desktop</option>
-                            <option>Server</option>
-                            <option>Others</option>
+                            <option *ngFor="let data of product" [value]="data.comm_code_desc">{{
+                                data.comm_code_desc }}</option>
                         </select>
                     </div>
 

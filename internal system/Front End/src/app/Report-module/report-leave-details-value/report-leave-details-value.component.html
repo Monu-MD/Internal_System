@@ -3,44 +3,44 @@
 <app-sidebar></app-sidebar>
 <div class="container">
     <h1 class="title">Download Bulk - Employee's Leave Details with Inputs</h1>
-    
+
     <div class="content">
         <form [formGroup]="register" class="#" (ngSubmit)="login(register.value)">
 
-<div class="user-details">
-            <div class="input-box">
-                <label class="details">Report Type</label>
-                <select name="ReportType" formControlName="ReportType">
-                    <option value=""></option>
-                    <option value="A+">Employee leave Data</option>
-                    <option value="A-">mployee Professional Details</option>
-                    <option value="B+">mployee Personal Details</option>
-                    <option value="B-">mployee Leave Balance</option>
-                    
-                </select>
-            </div>
-        
-        <div class="input-box">
-            <label class="details">Leave Type </label>
-            <select name="LeaveType " formControlName="LeaveType ">
-                <option value=""></option>
-                <option value="A+">Types of Leave</option>
-                <option value="A-">Casual leave </option>
-                <option value="B+">Sick leave</option>
-                <option value="B-">Abc leave</option>
-                
-            </select>
-        </div>
+            <div class="user-details">
+                <div class="input-box">
+                    <label class="details">Report Type</label>
+                    <select name="ReportType" formControlName="ReportType">
+                        <option value=""></option>
+                        <option value="A+">Employee leave Data</option>
+                        <option value="A-">mployee Professional Details</option>
+                        <option value="B+">mployee Personal Details</option>
+                        <option value="B-">mployee Leave Balance</option>
+
+                    </select>
+                </div>
+
+                <div class="input-box">
+                    <label class="details">Leave Type </label>
+                    <select name="LeaveType " formControlName="LeaveType ">
+                        <option value=""></option>
+                        <option value="A+">Types of Leave</option>
+                        <option value="A-">Casual leave </option>
+                        <option value="B+">Sick leave</option>
+                        <option value="B-">Abc leave</option>
+
+                    </select>
+                </div>
                 <div class="input-box">
                     <label for="dropdown2">From Date (YYYY-MM-DD) :</label>
                     <input type="date" name="fromDate" placeholder="">
                 </div>
-            
+
                 <div class="input-box">
-                    <label for="dropdown2">To Date (YYYY-MM-DD) :</label> 
+                    <label for="dropdown2">To Date (YYYY-MM-DD) :</label>
                     <input type="date" name="toDate" placeholder="">
                 </div>
-           </div>
+            </div>
 
             <div>
                 <button class="button">Back</button>

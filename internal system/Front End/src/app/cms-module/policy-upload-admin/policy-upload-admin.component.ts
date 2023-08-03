@@ -25,11 +25,11 @@ data:any;
 
    {
     this.uploadForm = this.formBuilder.group({
+
       policyTag: this.data?.policyTag || '',
       docName:new FormControl(' '),
-      uploadDoc:new FormControl(' '),
-      
-      
+      uploadDoc:new FormControl(' '), 
+
     });
   }
   
@@ -84,7 +84,9 @@ ngOnInit() {
       this.uploadForm.patchValue({
         uploadDoc: inputElement.files[0],
       });
+
       this.uploadForm.get('uploadDoc')?.updateValueAndValidity();
+      
     }
   }
 

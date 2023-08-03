@@ -56,12 +56,10 @@
     <!-- Report module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'rpt'">
-            <ul>
-
-                <li><a href="" routerLink="/reportdetails">report-details</a></li>
-                <li><a href="" routerLink="/reportcomleavebal">report-comp-leave-balance</a></li>
-                <li><a href="" routerLink="/reportleavedetails">report-leave-details-value</a></li>
-
+            <ul *ngIf="user_type=='A1'">
+                <li><a href="" routerLink="/reportdetails">Report Details</a></li>
+                <!-- <li><a href="" routerLink="/reportcomleavebal">report-comp-leave-balance</a></li> -->
+                <li><a href="" routerLink="/reportleavedetails">Leave Balance Report</a></li>
             </ul>
         </div>
     </nav>
@@ -149,7 +147,7 @@
                         <li><a href="" routerLink="/levSum">Leave Application FAQ's</a></li>
                     </ul>
                 </div>
-                <div *ngSwitchCase="'L1'">
+                <div *ngSwitchCase="'L3'">
                     <ul>
                         <li><a href="" routerLink="/approveLev">Approve Leave</a></li>
                         <li><a href="" routerLink="/applyLev">Apply Leave</a></li>
