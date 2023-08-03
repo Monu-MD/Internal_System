@@ -110,7 +110,6 @@ export class ReimbusmentReqDetailsComponent {
      
 
 
-
  approveProfile(status: any, row: any) {
    console.log("status", status, 'data', row);
 
