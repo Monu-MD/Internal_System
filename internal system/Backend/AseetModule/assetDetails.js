@@ -11,24 +11,20 @@ router.get('/removeAsset/:asset_id', removeAsset);
 ///////////////////////////////////COCD////////////////////////////////////////////
 
 router.get('/cocd', function (req, res) {
-
   pool.query("SELECT  COMM_CODE_ID,COMM_CODE_DESC FROM COMMON_CODE_TBL WHERE CODE_ID = 'IT'  ORDER BY COMM_CODE_ID ASC", function (err, result) {
       product = result.rows;
 
           res.json({
               data: {
                   product: product,
-                 
-
+      
               }
           });
-      });
+      });     
   }
-
   );
-
+  
 ////////////////////////////////////////////////add it asset/////////////////////////////
-
 
 
 function additasset(req, res) {
@@ -147,8 +143,6 @@ router.get('/assetViewDetails', function (req, res) {
       data: resultData
 
     });
-
-
   });
 });
 
@@ -173,13 +167,7 @@ router.get('/assetViewDetail', function (req, res) {
   });
 });
 
-
-
-
-
-
 /////////////////////////////////////////////////modify It Asset//////////////////////////////////////////////////////
-
 
 router.post('/assetmoddet', assetmoddet);
 function assetmoddet(req, res) {

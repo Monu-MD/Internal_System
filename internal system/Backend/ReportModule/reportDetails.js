@@ -97,6 +97,7 @@ function getReport(req, res) {
 
     var module = req.body.module;
     var emp_id = req.body.emp_id;
+    var year = "2020";
 
     console.log("module", module);
     console.log("emp_id", emp_id);
@@ -106,37 +107,28 @@ function getReport(req, res) {
         res.json('redirect to admin-dashboard');
     }
 
-    // module 2 refer as employee personal details in compact Type
+    // module 1 refer as employee personal details in compact Type
     if (module == "1") {
-        pool.query("SELECT * from emp_info_tbl where emp_id = $1  and entity_cre_flg='Y' and del_flg='N' order by emp_id asc", [emp_id], function (err, result) {
-            var rowdata = result.rowCount;
-            console.log("count-->", rowdata);
-            if (rowdata == "0") {
+        console.log("if entered");
+        pool.query("select emp_id,emp_name,gender,to_char(dob,'dd/mm/yyyy') as dob1,blood_group,shirt_size,father_name,mother_name,martial_status,spouse_name,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,phone1,phone2,emergency_num,emergency_con_person,pan_number,aadhaar_num,passport_num,license_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code from emp_info_tbl where emp_id = $1 and entity_cre_flg='Y' and del_flg='N'", [emp_id], function (err, result) {
+            var rowdata = result.rows;
+            var rowdata_count = result.rowCount;
 
-                res.json({
-                    notification: "Employee Personal Details does not exist for Employee Id",
-                    message: "redirect to admin-dashboard"
+            console.log("Data-->", rowdata);
+            // res.json({
+            //     data: rowdata // Assuming 'rowdata' contains the required employee professional details
+            //   });
+            const xlsData = XLSX.utils.json_to_sheet(rowdata);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, xlsData, 'EmployeePersonalDetails');
+            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
+            // Convert the ArrayBuffer to a Buffer or a Uint8Array
+            const buffer = Buffer.from(excelBuffer);
 
-                })
+            // Send the Buffer or Uint8Array as the response
+            res.end(buffer);
 
-            }
-            else {
-
-                pool.query("select emp_id,emp_name,gender,to_char(dob,'dd/mm/yyyy') as dob1,blood_group,shirt_size,father_name,mother_name,martial_status,spouse_name,comm_addr1,state,city,pincode,comm_addr2,state1,city1,pincode1,phone1,phone2,emergency_num,emergency_con_person,pan_number,aadhaar_num,passport_num,license_num,uan_num,name_in_bank,bank_name,branch_name,account_num,ifsc_code from emp_info_tbl where emp_id = $1 and entity_cre_flg='Y' and del_flg='N'", [emp_id], function (err, result) {
-                    var rowdata = result.rows;
-                    var rowdata_count = result.rowCount;
-
-                    console.log("Data-->", rowdata);
-
-                    res.json({
-                        data: {
-                            rowdata: rowdata,
-                            rowdata_count: rowdata_count
-                        }
-                    });
-                });
-            }
         });
     }
 
@@ -155,10 +147,10 @@ function getReport(req, res) {
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, xlsData, 'EmployeeProfessionalDetails');
             const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-        
+
             // Convert the ArrayBuffer to a Buffer or a Uint8Array
             const buffer = Buffer.from(excelBuffer);
-        
+
             // Send the Buffer or Uint8Array as the response
             res.end(buffer);
 
@@ -167,105 +159,99 @@ function getReport(req, res) {
 
     // module 3 refer as empolyee Leave data in compact Type
     if (module == "3") {
+        console.log("if entered");
+        pool.query("select l.leave_type,l.emp_id,e.emp_name,reason,to_char(l.from_date,'dd/mm/yyyy') as fromdate,to_char(l.to_date,'dd/mm/yyyy') as todate,l.approver_id,f.emp_name as approver_name from leaves l,emp_master_tbl e,emp_master_tbl f where l.emp_id = $1 and e.emp_id = l.emp_id and f.emp_id = l.approver_id and l.del_flg='N' and l.app_flg ='Y' and l.rej_flg='N' and l.year=$2 order by l.leave_type asc", [emp_id, year], function (err, result) {
+            var rowdata = result.rows;
+            var rowdata_count = result.rowCount;
 
-        var current_date = new Date();
-        var year = current_date.getFullYear();
+            console.log("Data-->", rowdata);
 
-        pool.query("SELECT * from leaves where emp_id = $1 and del_flg='N' and app_flg='N' and rej_flg='N' and year =$2", [emp_id, year], function (err, result) {
-            var emp_leaves_count = result.rowCount;
+            const xlsData = XLSX.utils.json_to_sheet(rowdata);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, xlsData, 'EmpolyeeLeaveData');
+            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
-            if (emp_leaves_count == "0") {
+            // Convert the ArrayBuffer to a Buffer or a Uint8Array
+            const buffer = Buffer.from(excelBuffer);
 
-                res.json({
-                    message: "redirect to admin-dashboard",
-                    notification: "Leave data is not available Employee Id :" + emp_id + " for the Year :" + year + ".",
+            // Send the Buffer or Uint8Array as the response
+            res.end(buffer);
 
-                })
-            }
-            else {
-
-                pool.query("select l.leave_type,l.emp_id,e.emp_name,reason,to_char(l.from_date,'dd/mm/yyyy') as fromdate,to_char(l.to_date,'dd/mm/yyyy') as todate,l.approver_id,f.emp_name as approver_name from leaves l,emp_master_tbl e,emp_master_tbl f where l.emp_id = $1 and e.emp_id = l.emp_id and f.emp_id = l.approver_id and l.del_flg='N' and l.app_flg ='Y' and l.rej_flg='N' and l.year=$2 order by l.leave_type asc", [emp_id, year], function (err, result) {
-                    var data = result.rows;
-                    var data_count = result.rowCount;
-
-                    res.json({
-                        data: {
-                            eid: eid,
-                            ename: ename,
-                            emp_access: emp_access,
-                            data: data,
-                            data_count: data_count
-                        }
-                    });
-                });
-            }
         });
     }
-    // module 4 refer as employee Leave Balance in compact Type
+
+
+    // pool.query("select l.leave_type,l.emp_id,e.emp_name,to_number(l.credited_leaves,'9999') + to_number(l.carry_forwarded,'9999') - to_number(l.availed_leaves,'9999')as total,quaterly_leave from leave_master l , emp_master_tbl e where l.leave_type!='' and l.del_flg='N' and l.emp_id = $1 and e.emp_id = l.emp_id and l.year=$2 order by l.emp_id asc", [emp_id, year], function (err, result) {
+
+    // module 4 refer as empolyee Leave data in compact Type
     if (module == "4") {
-        var current_date = new Date();
-        var year = current_date.getFullYear();
+        console.log("if entered");
 
-        pool.query("SELECT * from leave_master where emp_id = $1 and del_flg='N' and year =$2", [emp_id, year], function (err, result) {
-            var emp_info_count = result.rowCount;
+         pool.query("SELECT l.leave_type, l.emp_id, e.emp_name, (l.credited_leaves::numeric + l.carry_forwarded::numeric - l.availed_leaves::numeric) AS total, quaterly_leave FROM leave_master l, emp_master_tbl e WHERE l.leave_type != '' AND l.del_flg = 'N' AND l.emp_id = $1 AND e.emp_id = l.emp_id AND l.year = $2 ORDER BY l.emp_id ASC", [emp_id, year], function (err, result) {
+    // pool.query("select l.leave_type,l.emp_id,e.emp_name,to_number(l.credited_leaves,'9999') + to_number(l.carry_forwarded,'9999') - to_number(l.availed_leaves,'9999')as total,quaterly_leave from leave_master l , emp_master_tbl e where l.leave_type!='' and l.del_flg='N' and l.emp_id = $1 and e.emp_id = l.emp_id and l.year=$2 order by l.emp_id asc", [emp_id, year], function (err, result) {
 
-            if (emp_info_count == "0") {
-
-
-                res.json({
-                    message: "redirect to admin-dashboard",
-                    notification: "Leave Balance data is not available Employee Id :" + emp_id + " for the Year :" + year + ".",
-
-                })
-
+        if (err) {
+                console.error("Error executing the query:", err);
+                return res.status(500).json({ error: "An error occurred while fetching data." });
             }
-            else {
 
-                pool.query("select l.leave_type,l.emp_id,e.emp_name,to_number(l.credited_leaves,'9999') + to_number(l.carry_forwarded,'9999') - to_number(l.availed_leaves,'9999')as total,quaterly_leave from leave_master l , emp_master_tbl e where l.leave_type!='' and l.del_flg='N' and l.emp_id = $1 and e.emp_id = l.emp_id and l.year=$2 order by l.emp_id asc", [emp_id, year], function (err, result) {
-                    var data = result.rows;
-                    var data_count = result.rowCount;
-
-                    res.render({
-                        data: {
-                            eid: eid,
-                            ename: ename,
-                            emp_access: emp_access,
-                            data: data,
-                            data_count: data_count
-                        }
-                    });
-                });
+            if (!result || !result.rows) {
+                console.error("No data or invalid result format received.");
+                return res.status(404).json({ error: "No data found." });
             }
+
+            var rowdata = result.rows;
+            var rowdata_count = result.rowCount;
+
+            console.log("Data-->", rowdata);
+
+            const xlsData = XLSX.utils.json_to_sheet(rowdata);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, xlsData, 'EmpolyeeLeaveData');
+            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+            // Convert the ArrayBuffer to a Buffer or a Uint8Array
+            const buffer = Buffer.from(excelBuffer);
+
+            // Send the Buffer or Uint8Array as the response
+            res.end(buffer);
         });
     }
+
+    // if (module == "4") {
+    //     console.log("if entered");
+    
+    //     pool.query("SELECT l.leave_type, l.emp_id, e.emp_name, (l.credited_leaves::numeric + l.carry_forwarded::numeric - l.availed_leaves::numeric) AS total, quaterly_leave FROM leave_master l, emp_master_tbl e WHERE l.leave_type != '' AND l.del_flg = 'N' AND l.emp_id = $1 AND e.emp_id = l.emp_id AND l.year = $2 ORDER BY l.emp_id ASC", [emp_id, year], function(err, result) {
+    //         if (err) {
+    //             console.error("Error executing the query:", err);
+    //             return res.status(500).json({ error: "An error occurred while fetching data." });
+    //         }
+    
+    //         if (!result || !result.rows) {
+    //             console.error("No data or invalid result format received.");
+    //             return res.status(404).json({ error: "No data found." });
+    //         }
+    
+    //         var rowdata = result.rows;
+    //         var rowdata_count = result.rowCount;
+    
+    //         console.log("Data-->", rowdata);
+    
+    //         const xlsData = XLSX.utils.json_to_sheet(rowdata);
+    //         const workbook = XLSX.utils.book_new();
+    //         XLSX.utils.book_append_sheet(workbook, xlsData, 'EmpolyeeLeaveData');
+    //         const excelBuffer = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
+    
+    //         // Convert the ArrayBuffer to a Buffer or a Uint8Array
+    //         const buffer = Buffer.from(excelBuffer);
+    
+    //         // Send the Buffer or Uint8Array as the response
+    //         res.end(buffer);
+    //     });
+    // }
+    
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ------------------------------>>>      Jadhav    <<<----------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;
