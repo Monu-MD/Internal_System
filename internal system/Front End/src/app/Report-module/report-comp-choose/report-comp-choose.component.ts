@@ -58,9 +58,9 @@ export class ReportCompChooseComponent {
     console.log(item);
     if (this.compReport.valid) {
       this.postData(item);
-    } else {
+    } 
+    else {
       console.log('Form is invalid. Please check the input values.');
     }
-
   }
 }
