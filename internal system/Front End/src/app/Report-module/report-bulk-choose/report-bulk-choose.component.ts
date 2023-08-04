@@ -30,6 +30,7 @@ export class ReportBulkChooseComponent {
 
   rejectedAppraisel(item:any){
     console.log(item);
-    
   }
+
+  
 }
