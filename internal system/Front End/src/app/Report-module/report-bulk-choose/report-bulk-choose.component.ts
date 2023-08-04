@@ -1,5 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+// import { FormControl, FormGroup } from '@angular/forms';
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'app-report-bulk-choose',
@@ -8,29 +10,29 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ReportBulkChooseComponent {
 
-  rejected_Appraisel=new FormGroup<any>({
-    abilityRemarks:new FormControl(''),
-    attendanceRemarks:new FormControl(''),
-    leadershipAbilityRemarks:new FormControl(''),
-    deadlinesRemarks:new FormControl(''),
-    technicalSkillRemarks:new FormControl(''),
-    qualityOfWorkRemarks:new FormControl(''),
-    teamWorkAbilityRemarks:new FormControl(''),
-    employeeComments:new FormControl(''),
-    futureGoals:new FormControl(''),
-    abilityRating:new FormControl(''),
-    attendanceRating:new FormControl(' '),
-    leadershipAbilityRating:new FormControl(' '),
-    deadlinesRating:new FormControl(' '),
-    technicalSkillRating:new FormControl(''),
-    qualityOfWorkRating:new FormControl(''),
-    teamWorkAbilityRating:new FormControl(''),
+  constructor(private http: HttpClient) {}
 
-  })
+  ngOnInit() {}
 
-  rejectedAppraisel(item:any){
-    console.log(item);
+  downloadReport(array: number) {  
+    const url = 'http://localhost:4000/report/displayReport'; 
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = { button: array };
+
+    this.http.post(url, body, { headers, responseType: 'blob' }).subscribe(
+      (response: Blob) => {
+        const fileName = 'report.xlsx'; 
+        this.saveFile(response, fileName);
+      },
+      (error) => {
+        console.error('Error downloading report', error);
+      }
+    );
   }
 
+  private saveFile(blobContent: Blob, fileName: string) {
+    const blob = new Blob([blobContent], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    fileSaver.saveAs(blob, fileName);
+  }
   
 }
