@@ -103,6 +103,70 @@ export class ReimbusmentReqDetailsComponent {
   rjt: boolean = false;
   count = 0;
 
+
+
+
+  approveProfile(status: any, row: any) {
+    console.log("status", status, 'data', row);
+
+
+    if (status == 'rej') {
+      this.rjt = true
+      this.count++;
+      console.log(this.count);
+
+      if (this.count > 1) {
+        this.data = {
+          user_type: this.user_type,
+          user_id: this.user_id,
+          action: status,
+          row: row,
+          rejectReson: this.rejectReson
+        }
+      }
+
+    } else {
+      if (status = 'Approve') {
+
+        this.data = {
+          user_type: this.user_type,
+          user_id: this.user_id,
+          action: status,
+          row: row
+        }
+      }
+    }
+    this.costumerCreation(this.data)
+    console.log(this.data, "dataa");
+
+  }
+
+  costumerCreation(data: any) {
+    console.log(data);
+
+    this.http.post('http://localhost:4000/reimbursement/approvee', data).subscribe(
+      (response: any) => {
+        console.log(response.notification);
+
+        if (response.message == 'redirect to customerview') {
+          this.reimbusmentservice.setremuserdetails(response.customerViewData);
+          this.router.navigate(['/CustomerView'])
+        }
+        else if (response.message == 'redirect to Customercreation') {
+          alert(this.notification = response.notification);
+          this.router.navigate(['/Customercreation'])
+        }
+
+      },
+      (error: any) => {
+        console.error('API Error:', error);
+
+      }
+    );
+  }
+
+
+
   openRejectInput() {
 
     this.showRejectInput = true;

@@ -65,17 +65,17 @@
                     <div class="input-box">
                         <label class="Details">Booked Ticket Fare </label>
                         <input type="text" placeholder=" " name="bookedticketfare"
-                            formControlName="bookedticketfare" />
+                            formControlName="bookedticketfare" [ngModel]="viewDetTvlApr.fair_ticket" />
                     </div>
 
 
                     <div class="input-box">
                         <label class="Details">PNR Number </label>
-                        <input type="text" placeholder=" " name="pnrnumber" formControlName="pnrnumber" />
+                        <input type="text" placeholder=" " name="pnrnumber" formControlName="pnrnumber" [ngModel]="viewDetTvlApr.pnr_number" />
                     </div>
                     <div class="input-box">
                         <label class="Details">Ticket Number</label>
-                        <input type="text" placeholder=" " name="ticketnumber" formControlName="ticketnumber" />
+                        <input type="text" placeholder=" " name="ticketnumber" formControlName="ticketnumber"[ngModel]="viewDetTvlApr.ticket_number" />
                     </div>
 
                     

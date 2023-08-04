@@ -41,10 +41,8 @@
                     <label for="leaveType" class="details">Leave Type </label>
                     <select id="leaveType" class="form-control" formControlName="leaveType">
                         <option value="">--Select--</option>
-                        <option value="EL">Annual</option>
-                        <option value="SL">Sick</option>
-                        <option value="ML">Maternity</option>
-                        <option value="RL">Restricted</option>
+                        <option *ngFor="let data of leave_type" [value]="data.comm_code_id">{{
+                            data.comm_code_desc }}</option>
                     </select>
                     <pre></pre>
 

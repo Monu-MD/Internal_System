@@ -8,11 +8,16 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ConfigureLeavesComponent {
 
+
+  leave_type: any;
+data:any;
+year:any;
+
   constructor(private http: HttpClient,
     ) { }
  
 leaveForm=new FormGroup<any>({
-  
+
     leave_type: new FormControl('', [Validators.required]),
     allocated_leaves: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
@@ -20,6 +25,29 @@ leaveForm=new FormGroup<any>({
 
   })
 
+  ngOnInit() {
+    
+    this.fetchData();
+
+  }
+  
+  
+  
+  
+    fetchData() {
+      this.http.get('http://localhost:4000/holiday/cocd').subscribe(
+        (response: any) => {
+          console.log(response.data);
+          this.leave_type=response.data.leave_type;
+          this.year=response.data.year;
+    
+          
+        },
+        (error: any) => {
+          console.error('Error:', error);
+        }
+      );
+    }
 
   postData(item: any) {
     const postData = {

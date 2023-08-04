@@ -156,6 +156,7 @@ import { RejDocComponent } from './cms-module/rej-doc/rej-doc.component';
 
 import { FAQComponent } from './faq/faq.component';  
 import { ReimUserDetailsComponent } from './reimbusment-mdule/reim-user-details/reim-user-details.component';
+import { ModifiedTrvelRequsetComponent } from './Travel-module/modified-trvel-requset/modified-trvel-requset.component';
 
 
 
@@ -311,6 +312,7 @@ import { ReimUserDetailsComponent } from './reimbusment-mdule/reim-user-details/
       DocumentList2Component,
       RejDocComponent,
       FAQComponent,
+      ModifiedTrvelRequsetComponent,
 
  
 

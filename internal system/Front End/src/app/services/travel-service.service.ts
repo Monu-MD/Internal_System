@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 export class TravelServiceService {
   pidRptName: any;
   notification: any;
+ 
 
   constructor(private http: HttpClient, private rouetr: Router) { }
   ///////////////////////// most commonly used api's //////////////////////////////////
@@ -48,6 +49,7 @@ export class TravelServiceService {
       }
     );
   }
+
 
 
   travelApprovalView: any;

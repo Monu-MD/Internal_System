@@ -21,6 +21,7 @@
                 <table>
                     <thead>
                         <tr>
+
                             <th>Serial No</th>
                             <th>Asset Id</th>
                             <th>Product</th>
@@ -29,6 +30,7 @@
                             <th>Availabilty</th>
                             <th>Description</th>
                             <th>Action</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -39,7 +41,6 @@
                             <td>{{ row.make}}</td>
                             <td>{{ row.model }}</td>
                             <!-- <td>{{ row.app_flg }}</td> -->
-
                             <td [ngSwitch]="row.app_flg">
                                 <span *ngSwitchCase="'Y'">Available</span>
                                 <span *ngSwitchCase="'N'">Not Available</span>

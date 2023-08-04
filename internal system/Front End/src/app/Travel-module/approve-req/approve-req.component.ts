@@ -29,6 +29,15 @@ export class ApproveReqComponent {
     console.log(this.viewDetTvlApr, typeof (this.viewDetTvlApr));
 
   }
+
+
+  showNotification(notification: any) {
+    this.notification = notification
+
+    setTimeout(() => {
+      this.notification = undefined;
+    }, 2000);
+  }
   approvereq = new FormGroup<any>({
     Requestid: new FormControl(''),
     Employeeid: new FormControl(''),
@@ -49,7 +58,7 @@ export class ApproveReqComponent {
   })
 
   approve(item: any) {
-    console.log(item);
+    console.log(item, "....................................");
 
   }
 
@@ -60,6 +69,14 @@ export class ApproveReqComponent {
 
   approveRejTravel(value: string, viewDetTvlApr: any) {
     console.log(value, viewDetTvlApr);
+    if (viewDetTvlApr.pnrnumber == undefined) {
+      viewDetTvlApr.pnrnumber = this.approvereq.get('pnrnumber')?.value
+      viewDetTvlApr.bookedticketfare = this.approvereq.get('bookedticketfare')?.value
+      viewDetTvlApr.ticketnumber = this.approvereq.get('ticketnumber')?.value
+
+    }
+
+
 
 
     if (value == 'rej') {

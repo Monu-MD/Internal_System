@@ -2,7 +2,7 @@
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
 
-<div class="container" class="tablecontainer" class="viewData">
+<div class="container" class="tablecontainer" class="viewData" >
 
     <div class="table-content">
         <h3 class="title">View Travel Approval Queue</h3>
@@ -12,11 +12,8 @@
         </div>
         <div *ngIf="user_type=='L1'">
 
-            <label>Filter :</label>
-            <input type="text" class="serchdata"> <br><br>
+            
             <label style="height: 50px;">Request Status :</label>
-
-
             <form [formGroup]="filterForm" (ngSubmit)="Filter(filterForm.value)">
                 <select name="paymentType" formControlName="requeststatus" placeholder="select">
                     <option value="All">All</option>
@@ -45,10 +42,6 @@
                     <th>STATUS</th>
                     <th *ngIf="user_type!='L1'">Action</th>
                     <th *ngIf="rjt==true">Reject Reson</th>
-
-
-
-
                 </tr>
             </thead>
             <br>
