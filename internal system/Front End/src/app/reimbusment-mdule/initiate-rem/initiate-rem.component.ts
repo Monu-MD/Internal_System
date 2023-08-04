@@ -78,7 +78,7 @@ export class InitiateRemComponent {
         },
         error => {
           console.error(error);
-          alert('enter valid details ');
+          // alert('enter valid details ');
         }
       );
   }

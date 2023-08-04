@@ -27,6 +27,7 @@ export class ApplyLeaveComponent implements OnInit{
 
   ngOnInit() {
     this.initializeForm();
+    this.fetchData();
   }
 
   initializeForm() {
@@ -62,6 +63,22 @@ export class ApplyLeaveComponent implements OnInit{
     return this.submit
   }
 
+
+  leave_type:any;
+  fetchData() {
+    this.http.get('http://localhost:4000/holiday/cocd').subscribe(
+      (response: any) => {
+        console.log(response.data);
+        this.leave_type=response.data.leave_type;
+       
+  
+        
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
+  }
 
   postData(data: any) {
     // post Data api 

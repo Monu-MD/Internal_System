@@ -16,7 +16,23 @@
         <p>Request status: {{ status }}</p>
         <p>User Remarks: {{ user_remarks }}</p>
 
-        <button class="button" routerLink="/reimbusmentreqdetails">Back</button>
+        <div>
+            <button type="button" class="btn btn-success" *ngIf="user_type=='F1'||user_type==='A1'"
+                (click)="approveclaim('apr')">Approve</button>
+            <span style="margin: 0 10px;"></span>
+            <button type="button" class="btn btn-danger" *ngIf="user_type=='F1'||user_type==='A1'"
+                (click)="approveclaim('rej')">Reject</button>
+            <span style="margin: 0 10px;"></span>
+
+            <button type="button" class="btn btn-primary" routerLink="/reimbusmentreqdetails"  *ngIf="user_type=='F1'||user_type==='A1'">Back</button>
+            <button type="button" class="btn btn-primary" routerLink="/reimbusmentapprove" *ngIf="user_type=='L3'">Back</button>
+
+
+        </div>
+        <div class="input-box" *ngIf="rjt==true">
+            <label class="Details">Reject Reson</label>
+            <input type="text" *ngIf="rjt==true" placeholder="Reject Reson" [(ngModel)]="rejectReson">
+        </div>
     </div>
 
 

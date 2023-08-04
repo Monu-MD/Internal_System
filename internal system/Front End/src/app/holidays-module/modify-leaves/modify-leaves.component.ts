@@ -9,7 +9,9 @@ import { HttpClient } from '@angular/common/http';
 export class ModifyLeavesComponent {
 
   constructor(private http: HttpClient) { }
-
+  leave_type: any;
+data:any;
+year:any;
   modifyLeaveForm=new FormGroup<any>({
 
       leave_type: new FormControl('', [Validators.required]),
@@ -19,6 +21,24 @@ export class ModifyLeavesComponent {
       year: new FormControl('', [Validators.required])
   
     })
+
+    ngOnInit() {
+      this.fetchData();
+    }
+    fetchData() {
+      this.http.get('http://localhost:4000/holiday/cocd').subscribe(
+        (response: any) => {
+          console.log(response.data);
+          this.leave_type=response.data.leave_type;
+          this.year=response.data.year;
+    
+          
+        },
+        (error: any) => {
+          console.error('Error:', error);
+        }
+      );
+    }
 
      // Modify Data api 
   updateData(modifyDetails: any) {

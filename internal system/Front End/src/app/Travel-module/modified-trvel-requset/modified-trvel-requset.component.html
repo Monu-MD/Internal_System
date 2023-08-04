@@ -1,0 +1,98 @@
+<app-headder></app-headder>
+<app-topbar></app-topbar>
+<app-sidebar></app-sidebar>
+<div style="margin-top: 122px;
+margin-left: 112px;
+width: 80%;
+padding: 10px;">
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">REQ ID</th>
+                <th scope="col">PROJECT ID</th>
+                <th scope="col">EMPLOYEE</th>
+                <th scope="col">FROM</th>
+                <th scope="col">TO</th>
+                <th scope="col">STATUS</th>
+                <th scope="col">ACTION</th>
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr  *ngFor="let tq of ModTravelData">
+                <td>{{ tq.req_id }}</td>
+                <td>{{ tq.project_id }}</td>
+                <td>{{ tq.emp_name }}</td>
+                <td>{{ tq.from_location }}</td>
+                <td>{{ tq.to_location }}</td>
+                <td>{{ tq.status ||tq.request_status }}</td>
+                <td> <button type="button" class="btn btn-success" (click)="openModDet(tq.req_id)"><i class="fas fa-edit"></i></button></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<div class="align" *ngIf="OpenModificationHtml==true">
+    <div class="container" style="margin-top: 24px;max-width: 813px;">
+        <div class="alert" *ngIf="notification!=undefined">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{notification}}
+        </div>
+        <h1 class="title">Initiate Travel Request Flight</h1>
+        <div class="content">
+            <form [formGroup]="ModTravelDet" (ngSubmit)="travelModDet(ModTravelDet.value)">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="Details">Project Id</label>
+                        <input type="text" formControlName="project_id" [(ngModel)]="ModifyData.project_id" readonly="true" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Req Id</label>
+                        <input type="text" formControlName="req_id" [(ngModel)]="ModifyData.req_id" readonly="true"  />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Employee ID</label>
+                        <input type="text" formControlName="emp_id" [(ngModel)]="ModifyData.emp_id" readonly="true"/>
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">Employee Name</label>
+                        <input type="text" formControlName="emp_name" [(ngModel)]="ModifyData.emp_name" readonly="true" />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">From</label>
+                        <input type="text" formControlName="from_location" [(ngModel)]="ModifyData.from_location"  />
+                    </div>
+                    <div class="input-box">
+                        <label class="Details">To Location</label>
+                        <input type="text" formControlName="to_location" [(ngModel)]="ModifyData.to_location" />
+                    </div>
+                   
+                    <div class="input-box">
+                        <label class="Details">Travel Date</label>
+                        <input type="date" formControlName="travelDate" [(ngModel)]="ModifyData.from_date"  />
+                    </div>
+
+                    <div class="input-box">
+                        <label class="Details">Tentative Return Date</label>
+                        <input type="date" formControlName="tentativeReturnDate" [(ngModel)]="ModifyData.to_date"  />
+                    </div>
+                    
+                    
+                </div>
+                <div>
+                    <button class="button" type="reset">Clear</button>
+                    <button class="button" type="submit">Modify</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

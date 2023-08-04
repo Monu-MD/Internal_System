@@ -79,7 +79,7 @@ export class TopbarComponent {
           this.data = "brd"
         }
         // Travel
-        if (this.currentRoute == "/travel" || this.currentRoute == "/approvereq" || this.currentRoute == "/canceltvldet" || this.currentRoute == "/canceltvlque" || this.currentRoute == "/travelfaq" || this.currentRoute == "/viewtvl") {
+        if (this.currentRoute == "/travel" ||this.currentRoute == '/modTvlReq'|| this.currentRoute == "/approvereq" || this.currentRoute == "/canceltvldet" || this.currentRoute == "/canceltvlque" || this.currentRoute == "/travelfaq" || this.currentRoute == "/viewtvl") {
           this.data = "tvl"
         }
         // app renovated 
@@ -271,6 +271,23 @@ export class TopbarComponent {
         error => {
           console.error(error);
           alert('Error');
+        }
+      );
+  }
+
+  modifyTravelReqView(){
+    const params = new HttpParams().set('user_id', this.user_id.toString()).set('user_type', this.user_type.toString());
+  
+    this.http.get('http://localhost:4000/travel/modifytravelDetailsQueue', { params })
+      .subscribe(
+        (response: any) => {
+         
+          this.trvelService.setTravelApprovalView(response.data.pendingStatusData)
+          this.router.navigate(['/modTvlReq'])
+        },
+        error => {
+          console.error(error);
+          alert('Error ');
         }
       );
   }

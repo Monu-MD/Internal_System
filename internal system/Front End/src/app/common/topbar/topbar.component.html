@@ -56,12 +56,10 @@
     <!-- Report module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'rpt'">
-            <ul>
-
-                <li><a href="" routerLink="/reportdetails">report-details</a></li>
-                <li><a href="" routerLink="/reportcomleavebal">report-comp-leave-balance</a></li>
-                <li><a href="" routerLink="/reportleavedetails">report-leave-details-value</a></li>
-
+            <ul *ngIf="user_type=='A1'">
+                <li><a href="" routerLink="/reportdetails">Report Details</a></li>
+                <!-- <li><a href="" routerLink="/reportcomleavebal">report-comp-leave-balance</a></li> -->
+                <li><a href="" routerLink="/reportleavedetails">Leave Balance Report</a></li>
             </ul>
         </div>
     </nav>
@@ -73,23 +71,21 @@
             <div [ngSwitch]="user_type">
                 <div *ngSwitchCase="'L3'">
                     <ul>
-                        <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li>
                         <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
-                        <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                        <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li>
+
                     </ul>
                 </div>
 
                 <div class="top-content" *ngSwitchCase="'F1'">
                     <ul>
                         <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
-                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
                         <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
                     </ul>
                 </div>
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
-                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
                         <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
                     </ul>
                 </div>
@@ -149,7 +145,7 @@
                         <li><a href="" routerLink="/levSum">Leave Application FAQ's</a></li>
                     </ul>
                 </div>
-                <div *ngSwitchCase="'L1'">
+                <div *ngSwitchCase="'L3'">
                     <ul>
                         <li><a href="" routerLink="/approveLev">Approve Leave</a></li>
                         <li><a href="" routerLink="/applyLev">Apply Leave</a></li>
@@ -406,7 +402,7 @@
                 <!-- Links for user_type 'L1' and 'L3' -->
                 <ng-container *ngIf="user_type === 'L1' || user_type === 'L3'||user_type === 'F1'">
                   <li><a href="" routerLink="/travel">Initiate Travel</a></li>
-                  <li><a href="" routerLink="/">Modify Travel Request</a></li>
+                  <li><a (click)="modifyTravelReqView()">Modify Travel Request</a></li>
                   <li><a href="" routerLink="/">Cancel Travel</a></li>
                   <li><a href="" routerLink="/viewtvl">View Travel</a></li>
                 </ng-container>

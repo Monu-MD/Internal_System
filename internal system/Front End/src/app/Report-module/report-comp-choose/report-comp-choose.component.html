@@ -5,7 +5,7 @@
     <h1 class="title">Compact Report Download</h1>
 
     <div class="content">
-        <form [formGroup]="register" (ngSubmit)="onSubmit(register.value)">
+        <form [formGroup]="compReport" (ngSubmit)="onSubmit(compReport.value)">
             <div class="user-details">
                 <div class="input-box">
                     <label class="details">Report Type</label>
@@ -21,7 +21,7 @@
             <div class="user-details">
                 <div class="input-box">
                     <label class="details">Employee Id </label>
-                    <input type="text" name="emp_id" placeholder="emp_id">
+                    <input type="text" name="emp_id" formControlName="emp_id" placeholder="emp_id" >
                 </div>
             </div>
 
@@ -30,7 +30,7 @@
                 <button class="button">Pick Report</button>
                 <button class="button" type="reset">Clear</button>
             </div>
-        </form>
+        </form> 
     </div>
 </div>
 

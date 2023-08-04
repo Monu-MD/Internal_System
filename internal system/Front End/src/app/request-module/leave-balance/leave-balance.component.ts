@@ -35,6 +35,7 @@ export class LeaveBalanceComponent {
         this.fetchData(this.user_id, selectedLeaveType);
       }
     });
+    this.fetchDataCocd();
   }
 
   fetchData(user_id: any, selectedLeaveType: string): void {
@@ -57,6 +58,22 @@ export class LeaveBalanceComponent {
           console.error('Error:', error);
         }
       );
+  }
+
+  leave_type:any;
+  fetchDataCocd() {
+    this.http.get('http://localhost:4000/holiday/cocd').subscribe(
+      (response: any) => {
+        console.log(response.data);
+        this.leave_type=response.data.leave_type;
+       
+  
+        
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
   updateFormFields(): void {
