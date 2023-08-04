@@ -49,7 +49,6 @@ router.get('/cocd', function (req, res) {
                 data: {
                     leave_type: leave_type,
                     year: year,
-
                 }
             });
         });
