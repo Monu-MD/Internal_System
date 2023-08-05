@@ -30,6 +30,10 @@ export class ReimbursementserviceService {
   setreqdata(value:any){
     this.reqdata=value;
   }
+  FAQ:any
+  setFaq(value:any){
+  this.FAQ=value
+  }
 
 
 
@@ -38,6 +42,7 @@ export class ReimbursementserviceService {
       this.fetchaddRemDeAlldetails,
       this.reimbusrowData,
       this.reqdata,
+      this.FAQ,
     ];
   }
 }

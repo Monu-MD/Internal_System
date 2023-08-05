@@ -61,11 +61,17 @@ export class TravelServiceService {
   setviewDetTvlApr(value:any){
     this.viewDetTvlApr=value;
   }
+
+  FAQ:any
+  setFaq(value:any){
+  this.FAQ=value
+  }
   getTrvelData() {
     return [this.pidRptName,
     this.notification,
     this.travelApprovalView,
     this.viewDetTvlApr,
+    this.FAQ
 
     ]
   }

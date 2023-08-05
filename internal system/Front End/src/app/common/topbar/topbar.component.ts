@@ -49,7 +49,7 @@ export class TopbarComponent {
         this.currentRoute = (<NavigationEnd>event).url;
         console.log("this url is", this.currentRoute);
         //rimbusrsment
-        if (this.currentRoute == "/initiaterem" || this.currentRoute == "/reimbusmentapprove" || this.currentRoute == "/reimbusmentreqdetails") {
+        if (this.currentRoute == "/initiaterem" || this.currentRoute == "/faq" || this.currentRoute == "/reimbusmentapprove" || this.currentRoute == "/reimbusmentreqdetails") {
           this.data = "rmb"
         }
         //emplloyee
@@ -223,6 +223,8 @@ export class TopbarComponent {
 
   faq(value: any) {
     this.prjectservice.setFaq(value);
+    this.reimbusmentservice.setFaq(value);
+    this.trvelService.setFaq(value);
     this.router.navigate(['/faq'])
   }
 

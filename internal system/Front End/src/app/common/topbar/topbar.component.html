@@ -44,7 +44,7 @@
                 <li><a (click)="fetchaddPjtDeAlldetails()">Proj Dealloc</a></li>
                 <li><a (click)="fetchaddPjtAlldetails()">Project Allocation</a></li>
                 <li><a (click)="fetchaddProjectdetails()">Add Project Detial</a></li>
-                <li><a  (click)="fetchaddProjectDoc()">Add Project Docment</a></li>
+                <li><a (click)="fetchaddProjectDoc()">Add Project Docment</a></li>
                 <li><a (click)="faq('prjectFAQ')"> Project FAQ's</a></li>
 
                 <!-- routerLink="/ProjectDetial" -->
@@ -70,8 +70,10 @@
             <div [ngSwitch]="user_type">
                 <div *ngSwitchCase="'L3'">
                     <ul>
-                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
+                        <li><a href="" routerLink="/reimbusmentapprove">View Details</a></li>
                         <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li>
+                        <li><a (click)="faq('ReimbursementRAQ')">Reimbursement FAQ's</a></li>
+
 
                     </ul>
                 </div>
@@ -80,18 +82,22 @@
                     <ul>
                         <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
                         <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                        <li><a (click)="faq('ReimbursementRAQ')"> Reimbursement FAQ's</a></li>
+
                     </ul>
                 </div>
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
                         <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                        <li><a (click)="faq('ReimbursementRAQ')"> Reimbursement FAQ's</a></li>
+
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-    
+
     <!-- Employee module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'emp'">
@@ -172,7 +178,7 @@
                         <li><a href="" routerLink="/rejView">View Rejected Docs</a></li>
                     </ul>
                 </div>
-              <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L3'">
                     <ul>
                         <li><a href="" routerLink="/cmsUpload">Upload Documents</a></li>
                         <li><a href="" routerLink="/viewDocs">View Documents</a></li>
@@ -199,7 +205,7 @@
                         <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
                     </ul>
                 </div>
-              <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L3'">
                     <ul>
                         <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
                     </ul>
@@ -222,7 +228,7 @@
                         <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
                     </ul>
                 </div>
-              <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L3'">
                     <ul>
                         <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
                     </ul>
@@ -396,8 +402,8 @@
         <div class="top-content" *ngSwitchCase="'tvl'">
             <ul>
                 <!-- Always displayed links -->
-                <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
-              
+                <li><a (click)="faq('TravelFaq')">Travel FAQ</a></li>
+
                 <!-- Links for user_type 'L1' and 'L3' -->
                 <ng-container *ngIf="user_type === 'L1' || user_type === 'L3'||user_type === 'F1'">
                   <li><a href="" routerLink="/travel">Initiate Travel</a></li>
@@ -405,26 +411,26 @@
                   <li><a href="" routerLink="/">Cancel Travel</a></li>
                   <li><a href="" routerLink="/viewtvl">View Travel</a></li>
                 </ng-container>
-              
+
                 <!-- Links for user_type 'L3' -->
-                <ng-container *ngIf="user_type === 'L3'|| user_type ==='F1'" >
-                  <li><a   (click)="aproverTvlreq()">View Approve Request</a></li>
+                <ng-container *ngIf="user_type === 'L3'|| user_type ==='F1'">
+                    <li><a (click)="aproverTvlreq()">View Approve Request</a></li>
                 </ng-container>
-              
+
                 <!-- Links for user_type 'A1' (All links will be displayed) -->
                 <ng-container *ngIf="user_type === 'A1'">
-                  <li><a href="" routerLink="/apprejected">App Rejected Req</a></li>
-                  <li><a  (click)="aproverTvlreq()">View Approve Request</a></li>
-                  <li><a href="" routerLink="/canceltvldet">Cancel Travel Details</a></li>
-                  <li><a href="" routerLink="/canceltvlque">Cancel Travel Queue</a></li>
-                  <li><a href="" routerLink="/travel">Initiate Travel</a></li>
-                  <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
-                  <li><a href="" >View Travel</a></li>
-                  <li><a href="" routerLink="/">Modify Travel Request</a></li>
-                  <li><a href="" routerLink="/">Cancel Travel</a></li>
+                    <li><a href="" routerLink="/apprejected">App Rejected Req</a></li>
+                    <li><a (click)="aproverTvlreq()">View Approve Request</a></li>
+                    <li><a href="" routerLink="/canceltvldet">Cancel Travel Details</a></li>
+                    <li><a href="" routerLink="/canceltvlque">Cancel Travel Queue</a></li>
+                    <li><a href="" routerLink="/travel">Initiate Travel</a></li>
+                    <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
+                    <li><a href="">View Travel</a></li>
+                    <li><a href="" routerLink="/">Modify Travel Request</a></li>
+                    <li><a href="" routerLink="/">Cancel Travel</a></li>
                 </ng-container>
-              </ul>
-              
+            </ul>
+
         </div>
     </nav>
 

@@ -37,7 +37,6 @@ export class ReimbusmentReqDetailsComponent {
 
   }
   viewdetails(value: any) {
-    //  console.log(this.searchEmpolyeeDetailsForm.get('ReimbusmentId'));
     console.log(value, value.remb_id);
 
     const Item = {
@@ -50,11 +49,8 @@ export class ReimbusmentReqDetailsComponent {
     }
 
   }
-
-
   searchEmpDetails(ReimbusmentId: any): void {
     console.log("enter");
-
 
     this.http.post('http://localhost:4000/reimbursement/reimburseUserDetails', ReimbusmentId).subscribe(
       (response: any) => {
@@ -69,10 +65,6 @@ export class ReimbusmentReqDetailsComponent {
   get() {
     return this.viewdetails
   }
-
-
-
-
   rowData: any[] = [];
   dataLoaded: boolean = false;
   data: any;
@@ -106,8 +98,6 @@ export class ReimbusmentReqDetailsComponent {
         }
       );
   }
-
-
 
   rejectReson: any
   rjt: boolean = false;
