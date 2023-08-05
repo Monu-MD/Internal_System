@@ -8,14 +8,37 @@ import{AssetServiceService} from 'src/app/services/asset-service.service'
   styleUrls: ['./modify-it-allocation-details.component.css']
 })
 export class ModifyItAllocationDetailsComponent {
-  
-  constructor(private http: HttpClient, private assetServiceService:AssetServiceService
-    ) { }
+
+  assetData: any;
+  asset_id:any
+  emp_id:any
+  emp_name:any
+  allocdate:any
+  rdate:any
+
+ 
+  constructor(private http: HttpClient,private service : AssetServiceService ) {
+   
+
+    var asset = this.service.getRowData();
+
+    console.log(asset+" Asset detail from getData");
+    
+    this.asset_id=asset[0].asset_id;
+    this.emp_id=asset[0].emp_id;
+    this.emp_name=asset[0].emp_name;
+    this.allocdate=asset[0].allocdate;
+    this.rdate=asset[0].rdate;
+
+   
+
+   }
+
     filteredData: any[] = [];
    
 
     ngOnInit() {
-      this.filteredData = this.assetServiceService.getData();
+      this.filteredData = this.service.getData();
       console.log('Filtered Data----->:', this.filteredData);
     }
   modifyItAssetAllocationForm=new FormGroup<any>({

@@ -8,26 +8,26 @@
             <div class="user-details">
                 <div class="input-box">
                     <label class="details">Asset ID</label>
-                    <input type="text" name="asset_nid" formControlName="asset_nid" placeholder="Asset ID">
+                    <input type="text" name="asset_nid" formControlName="asset_nid" [ngModel]="asset_id" placeholder="Asset ID">
                 </div>
             </div>
 
             <div class="user-details">
                 <div class="input-box">
                     <label class="details">Particulars</label>
-                    <input type="text" name="particulr" formControlName="particulr" placeholder="Particulars">
+                    <input type="text" name="particulr" formControlName="particulr" [ngModel]="particulr" placeholder="Particulars">
                 </div>
             </div>
             <div class="user-details">
                 <div class="input-box">
                     <label class="details">Quantity in No.s</label>
-                    <input type="text" name="quant" formControlName="quant" placeholder="Quantity">
+                    <input type="text" name="quant" formControlName="quant" [ngModel]="quant" placeholder="Quantity">
                 </div>
             </div>
             <div class="user-details">
                 <div class="input-box">
                     <label class="details">Remarks</label>
-                    <input type="text" name="rmks" formControlName="rmks" placeholder="Remarks">
+                    <input type="text" name="rmks" formControlName="rmks" [ngModel]="rmks" placeholder="Remarks">
                 </div>
             </div>
             <div class="button-group">

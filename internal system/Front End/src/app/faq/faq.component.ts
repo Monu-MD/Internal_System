@@ -10,10 +10,12 @@ import { TravelServiceService } from '../services/travel-service.service';
 })
 export class FAQComponent {
 faq: any;
+
 constructor(private prjectservice: ProjectserviceService,private reimbursementservice:ReimbursementserviceService,private travelservice:TravelServiceService){
 this.faq=this.prjectservice.getData()[4];
 this.faq=this.reimbursementservice.getData()[3];
 this.faq=this.travelservice.getTrvelData()[4];
+
 }
 
 

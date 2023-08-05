@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { LoginServiceService } from 'src/app/services/login-service.service';
 import { Route, Router } from '@angular/router';
+import { AssetServiceService } from 'src/app/services/asset-service.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { Route, Router } from '@angular/router';
 
 export class ViewNonItAssetDetailComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient ,private service:AssetServiceService,private router:Router) { }
 
   assetData:any;
   viewNonItAssetForm: any;
@@ -92,6 +93,10 @@ filterData(assetId: string) {
 
   modifyNonItAssset(value:any){
 
+    console.log(value,"value");
+    this.service.setRowData(value); 
+     this.router.navigate(['/ModifyNonItAssetDetails'])
+      console.log("-----------------")
   }
 
   goToFirstPage() {
