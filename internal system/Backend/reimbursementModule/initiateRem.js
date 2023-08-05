@@ -721,12 +721,6 @@ function reimburseUserDetails(req, res) {
 
 }
 
-
-
-
-
-
-
 router.get('/reqdetails', reqdetails);
 
 function reqdetails(req, res) {

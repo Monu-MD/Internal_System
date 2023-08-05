@@ -9,7 +9,7 @@
         <div class="table-content">
             <div class="contentleft">
                 <h1 class="titleViewPage">Reimbursement Request Details</h1>
-                <label class="contentleft">Search:</label>
+                <label class="contentleft"class="input-box">Search:</label>
                 <input type="text" placeholder="Reimbursement Id" name="ReimbusmentId" formControlName="ReimbusmentId">
             </div>
 
@@ -34,10 +34,7 @@
                             <td>{{ row.amt_payable }}</td>
                             <td>{{ row.status }}</td>
 
-                            <!-- <div style="width: 100%;">
-                                <button type="button" class="btn btn-success"
-                                    (click)="approveProfile('apr', row)">Approve</button>
-                                <span style="margin: 0 10px;"></span> -->
+                            
                                 <button type="button" class="btn btn-danger"
                                     (click)='viewdetails(row)'>view</button>
                                 <span style="margin: 0 10px;"></span>
