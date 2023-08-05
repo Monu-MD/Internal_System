@@ -902,13 +902,14 @@ function approve(req, res) {
                                 '</tr>' +
 
                                 '<tr style="border: 10px solid black;"> ' +
-                                '<th style="border: 10px solid black;">Documents submission Date </td> ' +
-                                '<th style="border: 10px solid black;">' + document_date + '</td> ' +
+                                '<th style="border: 10px solid black;">employee_name</td> ' +
+                                '<th style="border: 10px solid black;">' + employee_name + '</td> ' +
                                 '</tr>' +
                                 '</table> ' +
                                 '<br><br>' +
-                                'Kindly submit your documents on or before submission date <br><br>' +
-                                'URL: http://amber.nurture.co.in <br><br><br>' +
+                                '<br></br>'+
+                                // 'Kindly submit your documents on or before submission date <br><br>' +
+                                // 'URL: http://amber.nurture.co.in <br><br><br>' +
                                 '- Regards,<br><br>Amber</h3>'
                         };
 
