@@ -90,6 +90,10 @@ filterData(assetId: string) {
     } 
   }
 
+  modifyNonItAssset(value:any){
+
+  }
+
   goToFirstPage() {
     if(this.currentPage = 1){
       this.updatePageData();

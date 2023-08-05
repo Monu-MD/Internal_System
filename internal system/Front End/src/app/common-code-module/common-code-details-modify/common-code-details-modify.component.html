@@ -9,19 +9,19 @@
             <div class="user-details">
             <div class="input-box">
                 <label class="details">Code Id</label>
-                <input type="text" name="code_id" formControlName="code_id">
+                <input type="text" name="code_id" [ngModel]="code_id" formControlName="code_id">
             </div>
         </div>
         <div class="user-details">
             <div class="input-box">
                 <label class="details">Common Code Id</label>
-                <input type="text" name="comm_code_id" formControlName="comm_code_id">
+                <input type="text" name="comm_code_id" [ngModel]="comm_code_id" formControlName="comm_code_id">
             </div>
         </div>
         <div class="user-details">
             <div class="input-box">
                 <label for="description">Common Code Description</label>
-                <textarea id="comm_code_desc" class="form-control" formControlName="comm_code_desc"></textarea>
+                <textarea id="comm_code_desc" class="form-control" [ngModel]="comm_code_desc"  formControlName="comm_code_desc"></textarea>
             </div>
           </div>
 

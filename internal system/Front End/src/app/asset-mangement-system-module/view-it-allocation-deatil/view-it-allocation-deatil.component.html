@@ -27,7 +27,8 @@
                             <th>Allocated Date</th>
                             <th>Return Date</th>
                             <th>Status</th>
-                            <th>Action</th>  
+                            <th>Modify</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <thead *ngSwitchCase="'L1'">
@@ -38,7 +39,6 @@
                             <th>Allocated Date</th>
                             <th>Return Date</th>
                             <th>Status</th>
-                         
                         </tr>
                     </thead>
 
@@ -50,14 +50,10 @@
                             <td>{{ row.allocdate}}</td>
                             <td>{{ row.rdate}}</td>
                             <td>{{row.status}}</td>
-                            <div [ngSwitch]="user_type">
-                                <div *ngSwitchCase="'A1'">
-                                    <td><button class="button" class="listbutton" (click)="deleteAsset(row)">Delete</button></td>
-                                </div>
-                                <div *ngSwitchCase="'L1'">
-                                    <!-- <td><button class="button" class="listbutton" (click)="deleteAsset(row)">Delete</button></td> -->
-                                </div>
-                            </div>
+                            <td><button class="button" *ngSwitchCase="'A1'" class="listbutton"
+                                    (click)="modifyAlloc(row)">Modify</button></td>
+                            <td><button class="button" *ngSwitchCase="'A1'" class="listbutton"
+                                    (click)="deleteAsset(row)">Delete</button></td>
                     </tbody>
                 </table>
             </div>

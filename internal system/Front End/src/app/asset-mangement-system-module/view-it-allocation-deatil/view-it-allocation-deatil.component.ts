@@ -100,6 +100,11 @@ export class ViewItAllocationDeatilComponent {
     } 
   }
 
+
+  modifyAlloc(value:any){
+
+  }
+
   goToFirstPage() {
     if(this.currentPage = 1){
       this.updatePageData();

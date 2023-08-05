@@ -1,17 +1,35 @@
 import { Component } from '@angular/core';
 import { FormControl, FormControlDirective, FormGroup, Validators,FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { HolidayServicesService } from 'src/app/services/holiday-services.service';
 @Component({
   selector: 'app-modify-leaves',
   templateUrl: './modify-leaves.component.html',
   styleUrls: ['./modify-leaves.component.css']
 })
 export class ModifyLeavesComponent {
-
-  constructor(private http: HttpClient) { }
   leave_type: any;
-data:any;
-year:any;
+  data:any;
+  year:any;
+  leave_id: any;
+  allocated_leaves: any;
+  carry_fwd: any;
+  rowData: any;
+
+  constructor(private http: HttpClient , private service:HolidayServicesService) { 
+ 
+
+var holiday = this.service.getRowData();
+console.log("get data -->",holiday);
+this.rowData=holiday[0],
+this.leave_type=holiday[0].leave_type;
+this.year=holiday[0].year;
+this.leave_id=holiday[0].leave_id;
+this.allocated_leaves=holiday[0].allocated_leaves;
+this.carry_fwd=holiday[0].carry_fwd;
+
+
+  }
   modifyLeaveForm=new FormGroup<any>({
 
       leave_type: new FormControl('', [Validators.required]),
@@ -64,4 +82,16 @@ year:any;
  get() {
    return this.onSubmit;
  }
+
+
+
+
+
+
+  
+
+ 
+
+
+
 }

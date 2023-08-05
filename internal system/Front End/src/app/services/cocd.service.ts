@@ -8,6 +8,17 @@ import { Router } from '@angular/router';
 })
 export class CocdService {
 
+
+  rowData: any;
+
+  setRowData(value: any) {
+    this.rowData = value;
+  }
+
+  getRowData() {
+    return [this.rowData]
+  }
+
   constructor(private http: HttpClient,
     private router: Router) { }
 
@@ -69,28 +80,7 @@ export class CocdService {
   // Get Data api 
 
   dataLoaded: boolean = false;
-  rowData: any[] = [];
 
-  // fetchData() {  
-  //   this.http.get('http://localhost:4000/cocd')
-  //     .subscribe(
-  //       (response: any) => {
-  //         if (response && response.data && response.data.rows) {
-  //           this.rowData = response.data.rows;
-  //           // this.filteredData = this.rowData;
-  //           this.dataLoaded = true;
-  //           // this.updatePageData();
-              
-            
-  //         } else {
-  //           console.error('Invalid response data');
-  //         }
-  //       },
-  //       (error: any) => {
-  //         console.error('Error:', error);
-  //       }
-  //     );
-  // }
 
   sendAns(){
      return this.rowData;

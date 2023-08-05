@@ -29,6 +29,7 @@
                             <th>Model</th>
                             <th>Availabilty</th>
                             <th>Description</th>
+                            <th>Modify</th>
                             <th>Action</th>
                             
                         </tr>
@@ -45,10 +46,11 @@
                                 <span *ngSwitchCase="'Y'">Available</span>
                                 <span *ngSwitchCase="'N'">Not Available</span>
                             </td>
-
                             <!-- <button class="listbutton"  (click)="filter()">Know More</button> -->
                             <td><a style="color:rgb(90 78 245 / 91%);; text-decoration: underline;cursor: pointer;"
                                     (click)="filter(row)">Know More</a></td>
+
+                            <td><button class="button" class="listbutton" (click)="modifyItAssset(row)" >Modify</button></td>
                             <td ><button class="button" class="listbutton" (click)="deleteAsset(row)">Delete</button>
                             </td>
                     </tbody>
