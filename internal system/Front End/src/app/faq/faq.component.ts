@@ -9,6 +9,8 @@ import { ProjectserviceService } from '../services/projectservice.service';
 export class FAQComponent {
 faq: any;
 constructor(private prjectservice: ProjectserviceService){
+  
 this.faq=this.prjectservice.getData()[4];
+
 }
 }

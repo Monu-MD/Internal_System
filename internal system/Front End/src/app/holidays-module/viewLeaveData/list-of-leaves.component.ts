@@ -98,7 +98,7 @@ deleteHoliday(row: any) {
 
     console.log(value,"value");
     this.service.setRowData(value); 
-     this.router.navigate(['/modifyLeave'])
+     this.router.navigate(['/modifyLeave']);
       console.log("-----------------")
 
     
