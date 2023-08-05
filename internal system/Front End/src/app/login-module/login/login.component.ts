@@ -54,6 +54,7 @@ export class LoginComponent {
           this.service.setData(response.userData)
           this.service.setAdminDashBoard(response.Data)
           this.service.cocd=response.cocd;
+          this.service.setEmpData();
           this.router.navigate(['/admindashboard'])
 
         }

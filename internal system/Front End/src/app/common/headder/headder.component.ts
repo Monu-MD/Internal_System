@@ -16,9 +16,16 @@ export class HeadderComponent {
   user_id: any;
   constructor(private service: LoginServiceService, private http: HttpClient, private router: Router) {
     const data = this.service.getData()
-    this.username = data[1];
-    this.user_id = data[0];
-    console.log(this.user_id);
+
+    const localData = this.service.loadData();
+    console.log("Refershing data : "+localData);
+    const myData = JSON.parse(localData);
+    console.log("MY Data: "+myData);
+    
+    this.username =myData.ename;
+    this.user_id = myData.eid;
+    console.log(myData.eid, myData.ename);
+
 
   }
 

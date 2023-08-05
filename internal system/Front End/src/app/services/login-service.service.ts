@@ -13,20 +13,20 @@ export class LoginServiceService {
   data: any;
   phtotUrl: any;
   notification: any;
-  asset:any;
+  asset: any;
   emp_data: any;
   leave_master: any;
   project_data: any;
   adminDashboard: any;
   approvalData: any[] = [];
   viewAproval: any;
-  cocd:any[]=[]
+  cocd: any[] = []
 
 
   setViewAproval(value: any) {
     this.viewAproval = value;
     console.log(this.viewAproval);
-    
+
   }
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -34,12 +34,24 @@ export class LoginServiceService {
 
 
   setData(value: any): void {
- 
-    
     this.ename = value.user_name;
     this.eid = value.user_id;
     this.emp_access = value.user_type
     this.project_data = value.projectId
+  }
+
+  setEmpData() {
+    let data = {
+      eid: this.eid,
+      ename: this.ename,
+      emp_access: this.emp_access
+    }
+    localStorage.setItem('EmpData', JSON.stringify(data));
+  }
+
+  loadData(){
+     let data :any =  localStorage.getItem('EmpData');
+     return data;
   }
 
   setEmp_master_Tbl(value: any) {
@@ -53,8 +65,8 @@ export class LoginServiceService {
     this.notification = notification
   }
 
-  setAsset(value:any){
-    this.asset=value;
+  setAsset(value: any) {
+    this.asset = value;
   }
 
   setLeaveMaster(leave_master: any) {
