@@ -22,7 +22,7 @@ export class InitiateRemComponent {
   emp_name: any;
   pid: any[] = [];
   Manager_id: any;
-  item: any = {}; // Initialize the item property with an empty object
+  item: any = {}; 
 
   constructor(private http: HttpClient, loginservice: LoginServiceService, private reimbusmentservice: ReimbursementserviceService) {
     const data = this.reimbusmentservice.getData()[0];
@@ -31,7 +31,7 @@ export class InitiateRemComponent {
     this.emp_id = data.emp_id;
     this.defProjectId = data.defProjectId;
     // this.Manager_name = data.Manager_name;
-    this.Manager_id = data.Manager_id;
+    this.Manager_id = data.Manager_id;  
     this.financemgrname = data.financemgrname;
 
 
