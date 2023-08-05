@@ -24,6 +24,7 @@
                         <th>comm_code_id</th>
                         <th>comm_code_desc</th>
                         <th>del_flg</th>
+                        <th>Modify</th>
                         <!-- Add more table headers for additional properties -->
                     </tr>
                 </thead>
@@ -33,6 +34,7 @@
                         <td>{{ row.comm_code_id }}</td>
                         <td>{{ row.comm_code_desc }}</td>
                         <td>{{ row.del_flg }}</td>
+                        <td><button class="button" class="listbutton" (click)="modifycocd(row)" >Modify</button></td>
                         <!-- Add more table cells for additional properties -->
                     </tr>
                 </tbody>

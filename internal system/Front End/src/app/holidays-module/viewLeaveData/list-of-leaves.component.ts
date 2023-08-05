@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HolidayServicesService } from 'src/app/services/holiday-services.service';
 
 @Component({
   selector: 'app-list-of-leaves',
@@ -9,7 +11,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ListOfLeavesComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient , private router:Router ,private service:HolidayServicesService) { }
 
   viewLeaveForm:any;
   rowData: any[] = [];
@@ -89,6 +91,18 @@ deleteHoliday(row: any) {
             }  
   );
  
+  }
+
+  modifyHoliday(value:any){
+
+
+    console.log(value,"value");
+    this.service.setRowData(value); 
+     this.router.navigate(['/modifyLeave'])
+      console.log("-----------------")
+
+    
+    
   }
 
   onSubmit(item:any){

@@ -147,14 +147,15 @@ function getReport(req, res) {
 
 
     // pool.query("select l.leave_type,l.emp_id,e.emp_name,to_number(l.credited_leaves,'9999') + to_number(l.carry_forwarded,'9999') - to_number(l.availed_leaves,'9999')as total,quaterly_leave from leave_master l , emp_master_tbl e where l.leave_type!='' and l.del_flg='N' and l.emp_id = $1 and e.emp_id = l.emp_id and l.year=$2 order by l.emp_id asc", [emp_id, year], function (err, result) {
-
+        const emp_id_str = emp_id.toString();
     // module 4 refer as empolyee Leave data in compact Type
     if (module == "4") {
         console.log("if entered");
 
-         pool.query("SELECT l.leave_type, l.emp_id, e.emp_name, (l.credited_leaves::numeric + l.carry_forwarded::numeric - l.availed_leaves::numeric) AS total, quaterly_leave FROM leave_master l, emp_master_tbl e WHERE l.leave_type != '' AND l.del_flg = 'N' AND l.emp_id = $1 AND e.emp_id = l.emp_id AND l.year = $2 ORDER BY l.emp_id ASC", [emp_id, year], function (err, result) {
+        //  pool.query("SELECT l.leave_type, l.emp_id, e.emp_name, (l.credited_leaves::numeric + l.carry_forwarded::numeric - l.availed_leaves::numeric) AS total, quaterly_leave FROM leave_master l, emp_master_tbl e WHERE l.leave_type != '' AND l.del_flg = 'N' AND l.emp_id = $1 AND e.emp_id = l.emp_id AND l.year = $2 ORDER BY l.emp_id ASC", [emp_id, year], function (err, result) {
     // pool.query("select l.leave_type,l.emp_id,e.emp_name,to_number(l.credited_leaves,'9999') + to_number(l.carry_forwarded,'9999') - to_number(l.availed_leaves,'9999')as total,quaterly_leave from leave_master l , emp_master_tbl e where l.leave_type!='' and l.del_flg='N' and l.emp_id = $1 and e.emp_id = l.emp_id and l.year=$2 order by l.emp_id asc", [emp_id, year], function (err, result) {
-
+        pool.query("select l.leave_type,l.emp_id,e.emp_name,to_number(l.credited_leaves,'9999') + to_number(l.carry_forwarded,'9999') - to_number(l.availed_leaves,'9999')as total,l.quaterly_leave from leave_master l , emp_master_tbl e where l.leave_type='EL' and l.del_flg='N' and e.emp_id = l.emp_id and l.year = $1 order by l.emp_id", [year], function (err, result) {
+           
         if (err) {
                 console.error("Error executing the query:", err);
                 return res.status(500).json({ error: "An error occurred while fetching data." });

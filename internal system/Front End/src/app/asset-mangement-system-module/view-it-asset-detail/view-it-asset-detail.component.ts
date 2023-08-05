@@ -111,6 +111,11 @@ filter(value: any) {
     } 
   }
 
+  modifyItAssset(value:any){
+
+    
+  }
+
   goToFirstPage() {
     if(this.currentPage = 1){
       this.updatePageData();
