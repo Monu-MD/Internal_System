@@ -517,6 +517,9 @@
     </div>
     <app-footer></app-footer>
 </div>
+
+
+
 <!-- ////////////////////////////////////Travel FAQ's/////////////////////////////////////////////// -->
 
 <div *ngIf="faq=='TravelFaq'">
@@ -664,6 +667,306 @@
 </div>
 
 
+<!-- /////////////////////////////////////////////////////Cocd FAQ///////////////////////////////////////////////////////////// -->
+
+<div *ngIf="faq=='CocdFAQ'">
+    <app-headder></app-headder>
+    <app-topbar></app-topbar>
+    <app-sidebar></app-sidebar>
+    <div class="allighn">
+
+        <div class="container1">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne"
+                            style="position: revert;">
+                            Q1. How can I add a new code in common code module?
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">New code can be added to common code module by visiting the add code
+                            section in common code module.
+
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////// -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo"
+                            style="position: revert;">
+                            Q2. What is the difference between Copy Code and Modify Code ?
+
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                        data-bs-parent="#accordionFlushExample" style="position: revert;">
+                        <div class="accordion-body"> In copy code user can copy only the code id whereas in modify code
+                            only common code description can be modified.
+
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////// -->
 
 
-<!-- <app-footer></app-footer> -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseThree" aria-expanded="false"
+                            aria-controls="flush-collapseThree" style="position: revert;">
+                            Q3. Does deleting a common code affects the system ?
+
+                        </button>
+                    </h2>
+                    <div id="flush-collapseThree" class="accordion-collapse collapse" style="position: revert;"
+                        aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body"> Code created or the existing code will have dependency in the
+                            system which may be used across the system ,
+                            deleting the code from common code module will affect the system.
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////// -->
+
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+
+</div>
+
+<!-- /////////////////////////////////////////////////////Asset FAQ///////////////////////////////////////////////////////////// -->
+
+<div *ngIf="faq=='ItAssetFAQ'">
+    <app-headder></app-headder>
+    <app-topbar></app-topbar>
+    <app-sidebar></app-sidebar>
+    <div class="allighn">
+
+        <div class="container1">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne"
+                            style="position: revert;">
+                            Q1. IT Assets Management
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            The details of IT assets are captured using this form.
+                            The Asset ID is created which is used in allocation of systems to employees.
+
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////// -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo"
+                            style="position: revert;">
+                            Q2. Asset Allocation
+
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                        data-bs-parent="#accordionFlushExample" style="position: revert;">
+                        <div class="accordion-body">
+                            Used for allocating systems to employess with filling relavant details in the screen.
+
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////// -->
+
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseThree" aria-expanded="false"
+                            aria-controls="flush-collapseThree" style="position: revert;">
+                            Q3. Non-IT Asset Management
+
+                        </button>
+                    </h2>
+                    <div id="flush-collapseThree" class="accordion-collapse collapse" style="position: revert;"
+                        aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            The details of Non-IT assets are captured using this form.
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////// -->
+
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+
+</div>
+
+<!-- /////////////////////////////////////////////////////CMS FAQ///////////////////////////////////////////////////////////// -->
+
+<div *ngIf="faq=='CmsFAQ'">
+    <app-headder></app-headder>
+    <app-topbar></app-topbar>
+    <app-sidebar></app-sidebar>
+    <div class="allighn">
+
+
+        <div class="container1">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne"
+                            style="position: revert;">
+                            Q1. What is the importance of E-Docket?
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            Online archive of all the verified document like Government documents, 
+                            Educational documents, Medical documents etc.,
+
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////// -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo"
+                            style="position: revert;">
+                            Q2. Do i need to verify my documents before upload ? How?
+
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                        data-bs-parent="#accordionFlushExample" style="position: revert;">
+                        <div class="accordion-body">
+                            Yes.Copy of the documents would be signed & stamped by Usha,
+                            after verifying the same against your original.
+                           This signed and stamped copy needs to be uploaded into System.
+
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////// -->
+
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseThree" aria-expanded="false"
+                            aria-controls="flush-collapseThree" style="position: revert;">
+                            Q3. What if documents uploaded are wrong?
+
+                        </button>
+                    </h2>
+                    <div id="flush-collapseThree" class="accordion-collapse collapse" style="position: revert;"
+                        aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            Documents will be uploaded into the E-Docket only once verified by Usha-Head HR.
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////// -->
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseFour" aria-expanded="false"
+                            aria-controls="flush-collapseFour" style="position: revert;">
+                            Q4. Limitations for upload documents?
+
+                        </button>
+                    </h2>
+                    <div id="flush-collapseFour" class="accordion-collapse collapse" style="position: revert;"
+                        aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            I. Only attested docs to be uploaded.
+                            II. Photo size ranges between 20kb and 50kb.
+                            II. Photo format should be jpg or jpeg.
+                            III. Other documents(Excluding photo) size should be less than 1MB.
+                            IV. Other documents(Excluding photo and Resume) format should be pdf.
+                            V. Resume document format should be doc or docx.
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////// -->
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseFive" aria-expanded="false"
+                            aria-controls="flush-collapseFive" style="position: revert;">
+                          Q5. The repercussions of not uploading documents?
+                        </button>
+                    </h2>
+                    <div id="flush-collapseFive" class="accordion-collapse collapse" style="position: revert;"
+                        aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            I. The login would be deactivated within a month (jan 30th 2018).
+                            II. You will have to contact Usha for new login credentials.
+                            III. There will be a direct impact on project allocation , appraisal and leave management etc.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ////////////////////////////// -->
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingSix">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix"
+                            style="position: revert;">
+                            Q6. Mandatory documents to be uploaded?
+
+                        </button>
+                    </h2>
+                    <div id="flush-collapseSix" class="accordion-collapse collapse" style="position: revert;"
+                        aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            Government Documents:
+                            I. Pan card
+                            II. Aadhar card
+                            Educational Documents:
+                            I. SSLC
+                            II. Pre University
+                            III. Degree                            
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////// -->
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingEight">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseEight" aria-expanded="false"
+                            aria-controls="flush-collapseEight" style="position: revert;">
+                            Q8. Incase of updatation/reissue of documents how can i update the same on the system?
+
+                        </button>
+                    </h2>
+                    <div id="flush-collapseEight" class="accordion-collapse collapse" style="position: revert;"
+                        aria-labelledby="flush-headingEight" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            Please follow the same process of getting the copy verified against original.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</div>

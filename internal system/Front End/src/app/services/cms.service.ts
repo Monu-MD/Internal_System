@@ -16,4 +16,14 @@ export class CmsService {
   getCMSempID(){
     return this.employeeId;
   }
+  FAQ:any
+  setFaq(value:any){
+  this.FAQ=value
+  }
+
+  getData() {
+    return [
+      this.FAQ,
+    ];
+  }
 }

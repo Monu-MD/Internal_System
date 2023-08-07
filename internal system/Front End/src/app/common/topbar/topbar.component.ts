@@ -1,6 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, Event } from '@angular/router';
+import { AssetServiceService } from 'src/app/services/asset-service.service';
+import { CmsService } from 'src/app/services/cms.service';
+import { CocdService } from 'src/app/services/cocd.service';
 import { LoginServiceService } from 'src/app/services/login-service.service';
 import { NavserviceService } from 'src/app/services/navservice.service';
 import { ProjectserviceService } from 'src/app/services/projectservice.service';
@@ -25,7 +28,9 @@ export class TopbarComponent {
   constructor(private service: NavserviceService, private http: HttpClient,
     private router: Router, private loginService: LoginServiceService,
     private prjectservice: ProjectserviceService,
-    private trvelService: TravelServiceService,private reimbusmentservice:ReimbursementserviceService) {
+    private trvelService: TravelServiceService,private reimbusmentservice:ReimbursementserviceService,
+    private cocdService:CocdService,private assetService:AssetServiceService,
+    private cmsService:CmsService) {
 
     /// redirect data or id ///
     this.data = this.service.returrnAns;
@@ -59,7 +64,7 @@ export class TopbarComponent {
           this.data = "apr"
         }
         //common code
-        if (this.currentRoute == "/cocd" || this.currentRoute == "/modifycocd" || this.currentRoute == "/viewcocd" || this.currentRoute == "/deletecocd") {
+        if (this.currentRoute == "/cocd" || this.currentRoute == "/modifycocd" || this.currentRoute == "/viewcocd" || this.currentRoute == "/deletecocd" || this.currentRoute == "/faq") {
           this.data = "cocd"
         }
         // mark
@@ -103,27 +108,27 @@ export class TopbarComponent {
 
         //cms
 
-        if (this.currentRoute == "/cmsUpload" || this.currentRoute=="/viewDocs"|| this.currentRoute=="/searchEmp"||this.currentRoute=="/searchEmpAppRej"||this.currentRoute=="/docAppRej" || this.currentRoute == "/viewPen" || this.currentRoute == "/rejView"){
+        if (this.currentRoute == "/cmsUpload" || this.currentRoute=="/viewDocs"|| this.currentRoute=="/searchEmp"||this.currentRoute=="/searchEmpAppRej"||this.currentRoute=="/docAppRej" || this.currentRoute == "/viewPen" || this.currentRoute == "/rejView" || this.currentRoute == "/faq"){
           this.data = "upld"
         }
-        if (this.currentRoute == "/magzineUpld" || this.currentRoute == "/viewMagz") {
+        if (this.currentRoute == "/magzineUpld" || this.currentRoute == "/viewMagz" || this.currentRoute == "/faq") {
           this.data = "Magz"
         }
-        if (this.currentRoute == "/policyupld" || this.currentRoute == "/viewPolcy") {
+        if (this.currentRoute == "/policyupld" || this.currentRoute == "/viewPolcy" || this.currentRoute == "/faq") {
           this.data = "Polcy"
         }
 
 
         // /Asset
-        if (this.currentRoute == "/ItAssetDetails" || this.currentRoute == "/ModifyItAssetDetails" || this.currentRoute == "/ViewItAssetDetails" || this.currentRoute == "/ViewItAssetDetail") {
+        if (this.currentRoute == "/ItAssetDetails" || this.currentRoute == "/ModifyItAssetDetails" || this.currentRoute == "/ViewItAssetDetails" || this.currentRoute == "/ViewItAssetDetail" || this.currentRoute == "/faq") {
           this.data = "ast"
         }
 
-        if (this.currentRoute == "/ITAssetAllocation" || this.currentRoute == "/ModifyItAllocationDetails" || this.currentRoute == "/ViewItAllocationDetails" || this.currentRoute == "/ViewItAllocationDetail") {
+        if (this.currentRoute == "/ITAssetAllocation" || this.currentRoute == "/ModifyItAllocationDetails" || this.currentRoute == "/ViewItAllocationDetails" || this.currentRoute == "/ViewItAllocationDetail" || this.currentRoute == "/faq") {
           this.data = "allast"
         }
 
-        if (this.currentRoute == "/AddNonItAssetDetails" || this.currentRoute == "/ModifyNonItAssetDetails" || this.currentRoute == "/ViewNonItAssetDetails" || this.currentRoute == "/ViewNonItAssetDetail") {
+        if (this.currentRoute == "/AddNonItAssetDetails" || this.currentRoute == "/ModifyNonItAssetDetails" || this.currentRoute == "/ViewNonItAssetDetails" || this.currentRoute == "/ViewNonItAssetDetail" || this.currentRoute == "/faq") {
           this.data = "nonast"
         }
       }
@@ -223,7 +228,10 @@ export class TopbarComponent {
     this.prjectservice.setFaq(value);
     this.reimbusmentservice.setFaq(value);
     this.trvelService.setFaq(value);
-    this.router.navigate(['/faq'])
+    this.cocdService.setFaq(value);
+    this.assetService.setFaq(value);
+    this.cmsService.setFaq(value);
+    this.router.navigate(['/faq']);
   }
 
   fetchaddProjectDoc() {

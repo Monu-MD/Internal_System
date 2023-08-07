@@ -81,7 +81,17 @@ export class CocdService {
 
   dataLoaded: boolean = false;
 
+  FAQ:any
+  setFaq(value:any){
+  this.FAQ=value
+  }
 
+  getData() {
+    return [
+      this.FAQ,
+    ];
+  }
+  
   sendAns(){
      return this.rowData;
   }
