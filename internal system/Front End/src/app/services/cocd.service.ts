@@ -35,11 +35,13 @@ export class CocdService {
     this.http.post('http://localhost:4000/cocd', postData)
       .subscribe(
         (response: any) => {
-
-
           console.log('Data posted successfully:', response);
-
-
+          if (response.message == "Data Saved successfully") {
+            console.log("Goooooooooooooooooooo");
+            
+            this.router.navigateByUrl("/viewcocd");
+          }
+          //  this.router.navigateByUrl('/cocd');
         },
         (error: any) => {
           console.error('Error:', error);

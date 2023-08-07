@@ -28,8 +28,9 @@ router.post("/", (req, res) => {
         res.send(message);
       }
 });
-
 });
+
+
 
 //get data from database
 router.get("/", (req, res) => {

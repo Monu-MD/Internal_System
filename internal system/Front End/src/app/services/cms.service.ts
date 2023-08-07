@@ -23,7 +23,7 @@ export class CmsService {
 
   getData() {
     return [
-      this.FAQ,
+      this.FAQ
     ];
   }
 }
