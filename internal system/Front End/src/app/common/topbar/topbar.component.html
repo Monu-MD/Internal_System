@@ -404,29 +404,26 @@
                 <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
               
                 <!-- Links for user_type 'L1' and 'L3' -->
-                <ng-container *ngIf="user_type === 'L1' || user_type === 'L3'||user_type === 'F1'">
+                <ng-container *ngIf="user_type === 'L1' ">
                   <li><a href="" routerLink="/travel">Initiate Travel</a></li>
                   <li><a (click)="modifyTravelReqView()">Modify Travel Request</a></li>
-                  <li><a href="" routerLink="/">Cancel Travel</a></li>
+                  <li><a (click)="cancelTravelReqView()">Cancel Travel</a></li>
                   <li><a href="" routerLink="/viewtvl">View Travel</a></li>
                 </ng-container>
               
                 <!-- Links for user_type 'L3' -->
                 <ng-container *ngIf="user_type === 'L3'|| user_type ==='F1'" >
                   <li><a   (click)="aproverTvlreq()">View Approve Request</a></li>
+                  <li><a (click)="cancelTravelReqView()">Cancel Travel</a></li>
+
                 </ng-container>
               
                 <!-- Links for user_type 'A1' (All links will be displayed) -->
                 <ng-container *ngIf="user_type === 'A1'">
-                  <li><a href="" routerLink="/apprejected">App Rejected Req</a></li>
+                
                   <li><a  (click)="aproverTvlreq()">View Approve Request</a></li>
-                  <li><a href="" routerLink="/canceltvldet">Cancel Travel Details</a></li>
-                  <li><a href="" routerLink="/canceltvlque">Cancel Travel Queue</a></li>
                   <li><a href="" routerLink="/travel">Initiate Travel</a></li>
                   <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
-                  <li><a href="" >View Travel</a></li>
-                  <li><a href="" routerLink="/">Modify Travel Request</a></li>
-                  <li><a href="" routerLink="/">Cancel Travel</a></li>
                 </ng-container>
               </ul>
               

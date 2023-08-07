@@ -291,5 +291,20 @@ export class TopbarComponent {
         }
       );
   }
-
+  cancelTravelReqView(){
+    const params = new HttpParams().set('user_id', this.user_id.toString()).set('user_type', this.user_type.toString());
+  
+    this.http.get('http://localhost:4000/travel/cancelTravelReqView', { params })
+      .subscribe(
+        (response: any) => {
+         
+          this.trvelService.setcancelTravelReqView(response.cancelTravelReqView)
+          this.router.navigate(['/canceltvldet'])
+        },
+        error => {
+          console.error(error);
+          alert('Error ');
+        }
+      );
+  }
 }

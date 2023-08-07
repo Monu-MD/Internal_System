@@ -61,7 +61,7 @@
 
                     <button type="button" class="btn btn-danger" *ngIf="user_type=='F1'||user_type=='A1'"
                         (click)='viewDetTvlApr(tq)'>View</button>
-                    <td *ngIf="rjt==true"><input type="text" placeholder="Reject Reson" [(ngModel)]="rejectReson"></td>
+                    <td *ngIf="rjt==true && specifc_req_id==tq.req_id "><input type="text" placeholder="Reject Reson" [(ngModel)]="rejectReson"></td>
                 </tr>
             </tbody>
 

@@ -61,11 +61,18 @@ export class TravelServiceService {
   setviewDetTvlApr(value:any){
     this.viewDetTvlApr=value;
   }
+
+  cancelTravelReqView:any;
+  setcancelTravelReqView(value:any){
+    this.cancelTravelReqView=value;
+  }
+
   getTrvelData() {
     return [this.pidRptName,
     this.notification,
     this.travelApprovalView,
     this.viewDetTvlApr,
+    this.cancelTravelReqView
 
     ]
   }

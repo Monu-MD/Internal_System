@@ -52,9 +52,7 @@ function travelReq(req, res) {
     var test = req.body.test;
     var test1 = req.body.test1;
     var test2 = req.body.test2;
-    var test3 = req.body.test3;
-    var test4 = req.body.test4;
-    var test5 = req.body.test5;1
+
     var pnr_number = "";
     var ticket_number = "";
     var free_text_1 = "";
@@ -523,8 +521,8 @@ function travelReq(req, res) {
 
     }
     //////////////////////////////////////////////////////////////////// Modified Travel Request/////////////////////////////////////////////////////////////////////////////////
-    if(test1=='Submit'){
-        var emp_id=req.body.item.emp_id;
+    if (test1 == 'Submit') {
+        var emp_id = req.body.item.emp_id;
         var req_id = req.body.item.req_id;
         var travelDate = req.body.item.travelDate;
         var now = new Date();
@@ -535,15 +533,15 @@ function travelReq(req, res) {
         var fromLoc = req.body.item.from_location;
         var toLoc = req.body.item.to_location;
         var rmks = req.body.item.remarks;
-        console.log(travelDate,tenDate,fromLoc,toLoc);
-        pool.query("Update travel_master_tbl_temp set from_date=$1, to_date=$2, from_location=upper($3), to_location=upper($4) where req_id=$5", [travelDate, tenDate,  fromLoc, toLoc,  req_id], function (err, done) {
-            if(err) throw err;
+        console.log(travelDate, tenDate, fromLoc, toLoc);
+        pool.query("Update travel_master_tbl_temp set from_date=$1, to_date=$2, from_location=upper($3), to_location=upper($4) where req_id=$5", [travelDate, tenDate, fromLoc, toLoc, req_id], function (err, done) {
+            if (err) throw err;
             pool.query("INSERT INTO travel_master_tbl_hist(select * from travel_master_tbl_temp where req_id=$1)", [req_id], function (err, done) {
-                if (err) throw err ;
-                
-                pool.query('select emp_email from emp_master_tbl where emp_id=$1',[emp_id],function(err,result){
-                    if(err) throw err;
-                  var emp_email=result.rows[0].emp_email;
+                if (err) throw err;
+
+                pool.query('select emp_email from emp_master_tbl where emp_id=$1', [emp_id], function (err, result) {
+                    if (err) throw err;
+                    var emp_email = result.rows[0].emp_email;
                     const transporter = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
@@ -568,31 +566,289 @@ function travelReq(req, res) {
                         Thank you,
                         Travel Request System
                         `
-    
+
                         // text: 'This is a test email sent from Node.js using Nodemailer.'
                     };
-    
-    
-                    
+
+
+
                     transporter.sendMail(mailOptions, function (error, info) {
                         if (error) {
                             console.error('Error sending email', error);
                         } else {
                             console.log('Email sent:', info.response);
                         }
-    
-    
+
+
                     });
-                    res.json({notification:"Travel Request has been modified successfully "})
+                    res.json({ notification: "Travel Request has been modified successfully " })
                 })
 
             })
         })
     }
+    /////////////////////////////////////////////////////////////////// Cancel Travel Request ///////////////////////////////////////////////////////////////////////////////////////
+    if (test2 == "Submit for Cancellation") {
+        console.log("Inside test2::::test2", test2);
+        console.log(req.body);
+        var emp_id = req.body.user_id;
+        var emp_name = req.body.user_name;
+        var empaccess = req.body.user_type;
+        var pid = req.body.item.project_id;
+        var now = new Date();
+        var rcreuserid = emp_id;
+        var rcretime = now;
+        var lchguserid = emp_id;
+        var lchgtime = now;
+        var req_id = req.body.item.req_id;
+
+        var pid = req.body.item.project_id;
+        var travelDate = req.body.item.travelDate;
+        var tenDate = req.body.item.tentativeReturnDate;
+        var fromLoc = req.body.item.fromLocation;
+        var toLoc = req.body.item.toLocation;
+        var rmks = req.body.item.remarks;
+        var emp_access = empaccess;
+        var emp_email = '';
+        var status = req.body.item.request_status;
+        var rejectReson = req.body.rejectReson;
+
+        if (emp_access == 'L1') {
+            if (status == 'CPM') {
+                pool.query('update travel_master_tbl_temp set request_status= $1 where req_id=$2', ['CAN', req_id], function (err, result) {
+                    if (err) throw err;
+                    pool.query("INSERT INTO travel_master_tbl_hist(select * from travel_master_tbl_temp where req_id=$1)", [req_id], function (err, done) {
+                        if (err) throw err;
+                        pool.query('select emp_email from emp_master_tbl where emp_id=$1', [emp_id], function (err, result) {
+                            if (err) throw err;
+                            emp_email = result.rows[0].emp_email;
+                            console.log(emp_Name, req_id, pid, fromLoc, toLoc);
+                            const transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                auth: {
+                                    user: 'mohammadsab@minorks.com',
+                                    pass: '9591788719'
+                                }
+                            });
+                            const mailOptions = {
+                                from: 'mohammadsab@minorks.com',
+                                to: emp_email,
+                                subject: 'Travel Request cacncled',
+                                html: `
+                           
+                        
+                            Dear ${emp_name},<br>
+                            <img src="http://www.minorks.com/images/logo_white.png" alt="Minorks Technology Logo" /><br><br>
+                            We  inform you that your recent travel request has been Canceld by you .<br>
+                           
+                            Travel Request Details:<br>
+                            ----------------------------------------<br>
+                            Employee Name: ${emp_name} <br>
+                            Request ID: ${req_id}<br>
+                            Project ID: ${pid}<br>
+                            From Location: ${fromLoc}<br>
+                            To Location: ${toLoc}<br>
+                          
+                            If you have any questions or need further assistance, please feel free to reach out to the HR department or your reporting manager.<br>
+                        
+                            Best regards,<br>
+                            Minorks Technology (HR)
+                            `
+                            };
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                if (error) {
+                                    console.error('Error sending email', error);
+                                } else {
+                                    console.log('Email sent:', info.response);
+                                }
 
 
-};
+                            });
+                            pool.query("select req_id,project_id,emp_id,emp_name,from_location,to_location,request_status,comm_code_desc as status from common_code_tbl JOIN travel_master_tbl_temp ON travel_master_tbl_temp.request_status=common_code_tbl.comm_code_id and travel_master_tbl_temp.reject_flg ='N' and  travel_master_tbl_temp.emp_id=$1 and travel_master_tbl_temp.request_status NOT IN ('RJM','RJF','CAN')  ORDER BY req_id ASC", [emp_id], function (err, result) {
+                                if (err) throw err;
+                                console.log(result.rows);
 
+                                res.json({ notification: 'Travel Request is Cancel To ' + req_id + ' Succesfully', cancelTravelReqView: result.rows })
+                            })
+
+
+
+                        })
+                    })
+
+                })
+
+
+
+
+            }
+            if (status == 'CPF') {
+                var cancel_reson = req.body.rejectReson;
+                console.log(cancel_reson);
+                pool.query('update travel_master_tbl_temp set request_status= $1 ,cancel_reson=$3 where req_id=$2', ['CBM', req_id, cancel_reson], function (err, result) {
+                    if (err) throw err;
+                    pool.query("select req_id,project_id,emp_id,emp_name,from_location,to_location,request_status,comm_code_desc as status from common_code_tbl JOIN travel_master_tbl_temp ON travel_master_tbl_temp.request_status=common_code_tbl.comm_code_id and travel_master_tbl_temp.reject_flg ='N' and  travel_master_tbl_temp.emp_id=$1 and travel_master_tbl_temp.request_status NOT IN ('RJM','RJF','CAN','CBM')  ORDER BY req_id ASC", [emp_id], function (err, result) {
+                        if (err) throw err;
+                        console.log(result.rows);
+
+                        res.json({ notification: '`Travel Request is Cancelled To ${req_id} Successfully. Approve Pending With Manager.', cancelTravelReqView: result.rows })
+                    })
+
+                })
+
+            }
+           
+        }
+        if (emp_access == 'L3' || emp_access == 'F1') {
+            console.log('inside the L3 and f1');
+            console.log(req.body);
+            var user_id = req.body.user_id
+            var req_id = req.body.item.req_id;
+            var emp_id = req.body.item.emp_id;
+            var emp_name = req.body.item.emp_name;
+            var cancel_reson = req.body.item.cancel_reson;
+            var status = req.body.item.req_id;
+            var rejectReson = req.body.rejectReson;
+            var action = req.body.action;
+            var project_id = req.body.item.project_id;
+            var from_location = req.body.item.from_location;
+            var to_location = req.body.item.to_location;
+            
+
+            if (emp_access == 'L3') {
+                if (action == 'apr') {
+                    pool.query('update travel_master_tbl_temp set request_status=$1 where req_id=$2', ['CAM', req_id], function (err, result) {
+                        if (err) throw err;
+
+                        pool.query('INSERT INTO travel_master_tbl_hist (SELECT * FROM travel_master_tbl_temp WHERE req_id = $1)',[req_id],function(err,result){
+                            if(err) throw err;
+                            
+                            pool.query('select emp_email from emp_master_tbl where emp_id IN ($1,$2)', [emp_id, user_id], function (err, results) {
+                                if (err) throw err;
+                                var result = results.rows;
+                                console.log(emp_Name);
+                                console.log(result);
+                                var approver_email = result[0].emp_email; // Assign the first email to approver_email
+                                var manager_email = result[1].emp_email;
+                                const transporter = nodemailer.createTransport({
+                                    service: 'gmail',
+                                    auth: {
+                                        user: 'mohammadsab@minorks.com',
+                                        pass: '9591788719'
+                                    }
+                                });
+    
+                                const mailOptions = {
+                                    from: 'mohammadsab@minorks.com',
+                                    to: approver_email,
+                                    cc: manager_email,
+                                    subject: 'Travel Request Approval Notification',
+                                    html: `<p>Dear Approver,</p>
+                                    <p>Travel Request ${req_id} has been raised for your approval.</p>
+                                    <p><strong>Details:</strong></p>
+                                    <p><strong>Project ID:</strong> ${project_id}</p>
+                                    <p><strong>Employee Name:</strong> ${emp_name} (${emp_id})</p>
+                                    <p><strong>Travel Dates:</strong> From ${from_location} to ${to_location} .</p>
+                                    <p>The Cancel request has been approved.</p>
+                                    <p>Please review and take appropriate action.</p>
+                                    <p>Thank you,</p>
+                                    <p>Travel Request System</p>`
+                                };
+    
+                                console.log('mailOptions', mailOptions);
+    
+                                transporter.sendMail(mailOptions, function (error, info) {
+                                    if (error) {
+                                        console.error('Error sending email', error);
+                                    } else {
+                                        console.log('Email sent:', info.response);
+                                    }
+                                });
+    
+                            })
+                            pool.query("select req_id,project_id,emp_id,emp_name,from_location,cancel_reson,to_location,request_status,comm_code_desc as status from common_code_tbl JOIN travel_master_tbl_temp ON travel_master_tbl_temp.request_status=common_code_tbl.comm_code_id and travel_master_tbl_temp.reject_flg ='N' and travel_master_tbl_temp.request_status IN ($1)  ORDER BY req_id ASC", ['CBM'], function (err, result) {
+                                if (err) throw err;
+                                console.log(result.rows);
+    
+                                res.json({notification:' Cancel Request Approved Successfully', cancelTravelReqView: result.rows })
+    
+                            })
+                        } )
+                        
+                    })
+                }
+                else if (action =='rjt') {
+                    pool.query('update travel_master_tbl_temp set request_status=$1 where req_id=$2', ['CPF', req_id], function (err, result) {
+                        if (err) throw err;
+
+                        pool.query('select emp_email from emp_master_tbl where emp_id IN ($1,$2)', [emp_id, user_id], function (err, results) {
+                            if (err) throw err;
+                            var result = results.rows;
+                            console.log(result);
+                            var approver_email = result[0].emp_email; // Assign the first email to approver_email
+                            var manager_email = result[1].emp_email;
+
+                            const transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                auth: {
+                                    user: 'mohammadsab@minorks.com',
+                                    pass: '9591788719'
+                                }
+                            });
+                            
+                            const mailOptions = {
+                                from: 'mohammadsab@minorks.com',
+                                to: approver_email,
+                                cc: manager_email, // CC the manager's email
+                                subject: 'Travel Request Reject Notification',
+                                text: `Dear Approver,
+                            
+                            Travel Request ${req_id} has been raised for your approval.
+                            
+                            Details:
+                            Project ID: ${project_id}
+                            Employee Name: ${emp_name}  (${emp_id})
+                            Travel Dates: From ${fromLoc} to ${toLoc} .
+                            Reject Reson: ${rejectReson}.
+                            
+                            The request has been Rejected and Proceeded further. 
+                            
+                            Please review and take appropriate action.
+                            
+                            Thank you,
+                            Travel Request System`
+                            };
+                            
+                            console.log('mailOptions', mailOptions);
+                            
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                if (error) {
+                                    console.error('Error sending email', error);
+                                } else {
+                                    console.log('Email sent:', info.response);
+                                }
+                            });
+                            pool.query("select req_id,project_id,emp_id,emp_name,from_location,cancel_reson,to_location,request_status,comm_code_desc as status from common_code_tbl JOIN travel_master_tbl_temp ON travel_master_tbl_temp.request_status=common_code_tbl.comm_code_id and travel_master_tbl_temp.reject_flg ='N' and travel_master_tbl_temp.request_status IN ($1)  ORDER BY req_id ASC", ['CBM'], function (err, result) {
+                                if (err) throw err;
+                                console.log(result.rows);
+    
+                                res.json({notification:' Cancel Request Rejected Successfully', cancelTravelReqView: result.rows })
+    
+                            })
+                        })
+                        
+                    })
+                }
+            }
+            else if (emp_access == 'F1') {
+            }
+        }
+
+
+
+
+    };
+}
 
 ////////////////////////////////////////////////////// View Travel Reques///////////////////////////////////////////////////////////
 router.get('/viewTravelReq', viewTravelReq);
@@ -646,14 +902,18 @@ function aproverTvlreq(req, res) {
 
     } else {
         var confrm_flg = ''
+        var request_status = ''
         if (emp_access == 'A1') {
             confrm_flg = 'N'
+            request_status = 'CPM'
         }
         else {
             confrm_flg = 'Y'
+            request_status = 'CPF'
+
         }
         console.log("else enterd");
-        pool.query("select req_id,project_id,emp_name,from_location,to_location,request_status from travel_master_tbl_temp where confrm_flg=$1 and  request_status='CPF'", [confrm_flg], function (err, result) {
+        pool.query("select req_id,project_id,emp_name,from_location,to_location,request_status from travel_master_tbl_temp where confrm_flg=$1 and  request_status=$2", [confrm_flg, request_status], function (err, result) {
             if (err) throw err;
             console.log(result.rows);
             if (result.rowCount > 0) {
@@ -790,9 +1050,9 @@ function aproveRejTvlreq(req, res) {
     }
     if (user_type === 'L3' || user_type === 'F1') {
         if (action == 'apr') {
-            console.log("check",updateStatus);
+            console.log("check", updateStatus);
 
-            pool.query('UPDATE travel_master_tbl_temp SET request_status = $4, appr_flg = $5, confrm_flg = $6 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3 AND request_status = $7',[emp_name, project_id, req_id, updateStatus, appr_flg, confirm_flg, 'CPF'], function (err, result) {
+            pool.query('UPDATE travel_master_tbl_temp SET request_status = $4, appr_flg = $5, confrm_flg = $6 WHERE emp_name = $1 AND project_id = $2 AND req_id = $3 ', [emp_name, project_id, req_id, updateStatus, appr_flg, confirm_flg], function (err, result) {
                 if (err) throw err;
                 if (user_type == 'F1') {
                     pool.query('INSERT INTO Travel_master_tbl (SELECT * FROM travel_master_tbl_temp WHERE req_id=$2 AND project_id=$1)', [project_id, req_id], function (err, result) {
@@ -960,15 +1220,52 @@ function modifytravelDetailsQueue(req, res) {
             } else {
                 var pendingStatusData = pendingResult.rows;
                 console.log("row", pendingStatusData);
-                res.json({message:'travelModule/modifyTravelQueue', data:{
-                    pendingStatusData: pendingStatusData,
-                }});
+                res.json({
+                    message: 'travelModule/modifyTravelQueue', data: {
+                        pendingStatusData: pendingStatusData,
+                    }
+                });
 
-            }           
+            }
         });
     } else {
         res.redirect('/admin-dashboard/adminDashboard/admindashboard');
     }
 
 };
+
+/////////////////////////////////////////////////////// Cancel Travel Request View //////////////////////////////////////////////////////////////////
+router.get('/cancelTravelReqView', cancelTravelReqView);
+function cancelTravelReqView(req, res) {
+    console.log(req.query);
+    var emp_id = req.query.user_id;
+    var user_type = req.query.user_type;
+    if (user_type == 'L1') {
+
+        pool.query("select req_id,project_id,emp_id,emp_name,from_location,to_location,request_status,comm_code_desc as status from common_code_tbl JOIN travel_master_tbl_temp ON travel_master_tbl_temp.request_status=common_code_tbl.comm_code_id and travel_master_tbl_temp.reject_flg ='N' and  travel_master_tbl_temp.emp_id=$1 and travel_master_tbl_temp.request_status NOT IN ('RJM','RJF','CAN','CAF')  ORDER BY req_id ASC", [emp_id], function (err, result) {
+            if (err) throw err;
+            console.log(result.rows);
+
+
+            res.json({ cancelTravelReqView: result.rows })
+
+        })
+    }
+    if (user_type == 'L3' || user_type == 'F1') {
+        var request_status = ''
+        if (user_type == 'L3') {
+            request_status = 'CBM';
+        }
+        else {
+            request_status = 'CBF';
+        }
+        console.log(request_status);
+        pool.query("select req_id,project_id,emp_id,emp_name,from_location,cancel_reson,to_location,request_status,comm_code_desc as status from common_code_tbl JOIN travel_master_tbl_temp ON travel_master_tbl_temp.request_status=common_code_tbl.comm_code_id and travel_master_tbl_temp.reject_flg ='N' and travel_master_tbl_temp.request_status IN ($1)  ORDER BY req_id ASC", [request_status], function (err, result) {
+            if (err) throw err;
+            console.log(result.rows);
+            res.json({ cancelTravelReqView: result.rows })
+
+        })
+    }
+}
 module.exports = router;
