@@ -5,7 +5,7 @@
     <div class=" table-container">
         <h1 class="tittle"> Bulk Download</h1>
        
-        <form class="#" [formGroup]="rejected_Appraisel" (ngSubmit)="rejectedAppraisel(rejected_Appraisel.value)">
+        <!-- <form class="#" [formGroup]="rejected_Appraisel" (ngSubmit)="rejectedAppraisel(rejected_Appraisel.value)"> -->
             <table class="table">
                 <thead>
                     <tr>
@@ -17,65 +17,65 @@
                 </thead>
               
                 <tbody>
-                    <tr> 
+                    <tr>
                         <td>Employee Module</td>
                         <td>Employee Professional Details</td>
                         <td>Bulk Download</td>
-                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
-                    </tr>
+                        <td><button class="pick-button" (click)="downloadReport(1)">Pick Report</button></td>
+                      </tr>
                     <tr> 
                         <td>Employee Module</td>
                         <td>Employee Personal Details</td>
                         <td>Bulk Download</td>
-                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                        <td><button class="pick-button" (click)="downloadReport(2)">Pick Report</button></td>
                     </tr>
                     <tr> 
                         <td>Project Module</td>
                         <td>Project Allocation History</td>
                         <td>Bulk Download</td>
-                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                        <td><button class="pick-button" (click)="downloadReport(3)">Pick Report</button></td>
                     </tr>
                     <tr> 
                         <td>Leave Module</td>
                         <td>Employee's Availed Earned Leave Details</td>
                         <td>Bulk Download</td>
-                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                        <td><button class="pick-button" (click)="downloadReport(4)">Pick Report</button></td>
                     </tr>
                     <tr> 
                         <td>Leave Module</td>
                         <td>Employee's Availed Sick Leave Details</td>
                         <td>Bulk Download</td>
-                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                        <td><button class="pick-button" (click)="downloadReport(5)">Pick Report</button></td>
                     </tr>
                     <tr> 
                         <td>Leave Module</td>
                         <td>Employee's Availed L.O.P Leave Details</td>
                         <td>Bulk Download</td>
-                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                        <td><button class="pick-button" (click)="downloadReport(6)">Pick Report</button></td>
                     </tr>
                     <tr> 
                         <td>Leave Module</td>
                         <td>Employee's Earned Leave Balance</td>
                         <td>Bulk Download</td>
-                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                        <td><button class="pick-button" (click)="downloadReport(7)">Pick Report</button></td>
                     </tr>
                     <tr> 
                         <td>Leave Module</td>
                         <td>Employee's Sick Leave Balance</td>
                         <td>Bulk Download</td>
-                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                        <td><button class="pick-button" (click)="downloadReport(8)">Pick Report</button></td>
                     </tr>
                     <tr> 
                         <td>Employee Module</td>
                         <td>Reporting Manager List</td>
                         <td>Bulk Download</td>
-                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                        <td><button class="pick-button" (click)="downloadReport(9)">Pick Report</button></td>
                     </tr>
                     <tr> 
                         <td>Leave Module</td>
                         <td>All leave Types with From Date and To Date Condition</td>
                         <td>Bulk Download</td>
-                        <button class="pick-button" onclick="downloadFile()"><a href="path/to/file.pdf" download="filename.pdf">Pick Report</a></button>
+                        <td><button class="pick-button" (click)="downloadReport(10)">Pick Report</button></td>
                     </tr>
                 </tbody>
 
@@ -83,7 +83,7 @@
             <div>
                 <button class="listbutton" routerLink="/reportdetails">Back</button>
             </div>
-        </form>
+        <!-- </form> -->
     </div>
 </div> 
 

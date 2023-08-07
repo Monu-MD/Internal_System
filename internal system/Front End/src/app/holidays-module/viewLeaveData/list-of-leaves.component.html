@@ -32,7 +32,8 @@
                             <td>{{ row.allocated_leaves}}</td>
                             <td>{{ row.description}}</td>
                             <td><button class="button" class="listbutton" (click)="deleteHoliday(row)" >Delete</button></td>
-                            <td><button class="button" class="listbutton" routerLink="/modifyLeave">Modify</button></td>
+                            <td><button class="button" class="listbutton" (click)="modifyHoliday(row)" >Modify</button></td>
+                            
                         </tr>
                     </tbody>
                 </table>

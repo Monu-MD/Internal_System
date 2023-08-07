@@ -14,12 +14,11 @@
                     <!-- [ngModel]="user_id" -->
                     <div class="input-box">
                         <label class="details">Employee ID</label>
-                        <input type="text" name="emp_id"  [ngModel]="emp_id" required formControlName="emp_id">
+                        <input type="text" name="emp_id" [ngModel]="emp_id" required formControlName="emp_id">
                     </div>
                     <div class="input-box">
                         <label class="Details">Employee Name</label>
-                        <input type="text" name="emp_name"  [ngModel]="emp_name" required formControlName="emp_name"
-                            >
+                        <input type="text" name="emp_name" [ngModel]="emp_name" required formControlName="emp_name">
                     </div>
                     <div class="input-box">
                         <label class="Details">Project Id</label>
@@ -28,38 +27,40 @@
                             <option *ngFor="let project of pid">{{project.project_id}}</option>
                         </select>
                     </div>
-                    
+
                     <div class="input-box">
                         <label class="Details">To Be Approved by</label>
-                        <input type="text"  name="Manager_id"  [ngModel]="Manager_id" formControlName="Manager_id">
+                        <input type="text" name="Manager_id" [ngModel]="Manager_id" formControlName="Manager_id">
                     </div>
 
                     <div class="input-box">
                         <label class="Details">Finanace Manager</label>
-                        <input type="text" name="Manager_name"  [ngModel]="financemgrname" formControlName="Manager_name">
-                        
+                        <input type="text" name="Manager_name" [ngModel]="financemgrname"
+                            formControlName="Manager_name">
+
                     </div>
 
                     <div>
                         <h1 class="tittle"> Reimbursement Details</h1>
                     </div>
-                         <div class="input-box">
+                    <div class="input-box">
                         <label class="Details">Bill Date</label>
                         <input type="date" placeholder="Bill Date" name="BillDate" formControlName="BillDate">
                     </div>
-                         <div class="input-box">
+                    <div class="input-box">
                         <label class="Details">Bill Id</label>
                         <input type="text" placeholder="Bill Id" name="BillId" formControlName="BillId">
                     </div>
-                         <div class="input-box">
+                    <div class="input-box">
                         <label class="Details">Nature of Expenses</label>
-                        <input type="text" placeholder="Nature of Expenses" name="NatureofExpenses" formControlName="NatureofExpenses">
+                        <input type="text" placeholder="Nature of Expenses" name="NatureofExpenses"
+                            formControlName="NatureofExpenses">
                     </div>
-                         <div class="input-box">
+                    <div class="input-box">
                         <label class="Details">Description</label>
                         <input type="text" placeholder="Description" name="Description" formControlName="Description">
                     </div>
-                         <div class="input-box">
+                    <div class="input-box">
                         <label class="Details">Bill Amount (in INR) </label>
                         <input type="text" placeholder="Bill Amount" name="BillAmount" formControlName="BillAmount">
                     </div>
@@ -72,6 +73,16 @@
                         <input type="text" placeholder="Remarks" name="remarks" formControlName="remarks">
                     </div><br>
                     <br>
+
+                    <div class="fileUpload">
+                        <div class="details">
+                            <label class="details">Upload Document </label>
+                        </div>
+                        <input type="file" name="uploadDoc" >
+                    </div>
+
+                    <!-- (change)="onFileChange($event)" -->
+
 
                     <div><br>
                         <button class="button" (click)="Submit()">Submit</button>

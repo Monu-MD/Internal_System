@@ -111,6 +111,15 @@ filter(value: any) {
     } 
   }
 
+  modifyItAssset(value:any){
+
+    console.log(value,"value");
+    this.service.setRowData(value); 
+     this.router.navigate(['/ModifyItAssetDetails'])
+      console.log("-----------------")
+
+  }
+
   goToFirstPage() {
     if(this.currentPage = 1){
       this.updatePageData();

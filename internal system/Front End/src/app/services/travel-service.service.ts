@@ -67,12 +67,17 @@ export class TravelServiceService {
     this.cancelTravelReqView=value;
   }
 
+  FAQ:any
+  setFaq(value:any){
+  this.FAQ=value
+  }
   getTrvelData() {
     return [this.pidRptName,
     this.notification,
     this.travelApprovalView,
     this.viewDetTvlApr,
-    this.cancelTravelReqView
+    this.cancelTravelReqView,
+    this.FAQ
 
     ]
   }

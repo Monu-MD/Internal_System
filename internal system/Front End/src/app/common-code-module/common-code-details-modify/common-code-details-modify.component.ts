@@ -8,8 +8,19 @@ import { CocdService } from 'src/app/services/cocd.service';
   styleUrls: ['./common-code-details-modify.component.css']
 })
 export class CommonCodeDetailsModifyComponent {
+  code_id: any;
+  comm_code_id: any;
+  comm_code_desc:any;
 
-  constructor(private serive: CocdService) { }
+  constructor(private service: CocdService) {
+
+    var cocd = this.service.getRowData();
+console.log("get data -->",cocd);
+
+this.code_id=cocd[0].code_id;
+this.comm_code_id=cocd[0].comm_code_id;
+this.comm_code_desc=cocd[0].comm_code_desc;
+   }
 
   modifyCommonCodeDetailsForm = new FormGroup<any>({
     code_id: new FormControl('', [Validators.required]),
@@ -18,7 +29,7 @@ export class CommonCodeDetailsModifyComponent {
   });
 
   onSubmit(item: any) {
-    this.serive.updateData(item);
+    this.service.updateData(item);
     console.log(item);
   }
 

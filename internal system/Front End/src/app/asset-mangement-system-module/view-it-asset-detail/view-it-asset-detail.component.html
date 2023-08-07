@@ -21,6 +21,7 @@
                 <table>
                     <thead>
                         <tr>
+
                             <th>Serial No</th>
                             <th>Asset Id</th>
                             <th>Product</th>
@@ -28,7 +29,9 @@
                             <th>Model</th>
                             <th>Availabilty</th>
                             <th>Description</th>
+                            <th>Modify</th>
                             <th>Action</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -39,15 +42,15 @@
                             <td>{{ row.make}}</td>
                             <td>{{ row.model }}</td>
                             <!-- <td>{{ row.app_flg }}</td> -->
-
                             <td [ngSwitch]="row.app_flg">
                                 <span *ngSwitchCase="'Y'">Available</span>
                                 <span *ngSwitchCase="'N'">Not Available</span>
                             </td>
-
                             <!-- <button class="listbutton"  (click)="filter()">Know More</button> -->
                             <td><a style="color:rgb(90 78 245 / 91%);; text-decoration: underline;cursor: pointer;"
                                     (click)="filter(row)">Know More</a></td>
+
+                            <td><button class="button" class="listbutton" (click)="modifyItAssset(row)" >Modify</button></td>
                             <td ><button class="button" class="listbutton" (click)="deleteAsset(row)">Delete</button>
                             </td>
                     </tbody>

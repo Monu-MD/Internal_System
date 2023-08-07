@@ -78,7 +78,12 @@ export class SidebarComponent {
       this.router.navigate(['cmsuploadadmin'])
     }
     if (item == 'rmb') {
-      this.router.navigate(['reimbusmentreqdetails'])
+      if(this.user_type=='A1'||this.user_type=='F1') {
+        this.router.navigate(['reimbusmentreqdetails'])
+      } else {
+        this.router.navigate(['reimbusmentapprove'])
+      }
+      
     }
     if (item == 'emp') {
       if (this.user_type=='A1') {
@@ -107,7 +112,12 @@ export class SidebarComponent {
     }
 
     if (item == 'rpt') {
-      this.router.navigate(['ReportChooseComponent'])
+      if (this.user_type=='A1'||this.user_type=='F1') {
+        this.router.navigate(['reportdetails'])
+      } else {
+        // this.router.navigate(['travel'])
+        
+      }
     }
     if (item == 'res') {
       this.router.navigate(['changePassword'])

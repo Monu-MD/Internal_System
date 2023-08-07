@@ -44,7 +44,7 @@
                 <li><a (click)="fetchaddPjtDeAlldetails()">Proj Dealloc</a></li>
                 <li><a (click)="fetchaddPjtAlldetails()">Project Allocation</a></li>
                 <li><a (click)="fetchaddProjectdetails()">Add Project Detial</a></li>
-                <li><a  (click)="fetchaddProjectDoc()">Add Project Docment</a></li>
+                <li><a (click)="fetchaddProjectDoc()">Add Project Docment</a></li>
                 <li><a (click)="faq('prjectFAQ')"> Project FAQ's</a></li>
 
                 <!-- routerLink="/ProjectDetial" -->
@@ -52,20 +52,15 @@
         </div>
     </nav>
 
-
     <!-- Report module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'rpt'">
-            <ul>
-
-                <li><a href="" routerLink="/reportdetails">report-details</a></li>
-                <li><a href="" routerLink="/reportcomleavebal">report-comp-leave-balance</a></li>
-                <li><a href="" routerLink="/reportleavedetails">report-leave-details-value</a></li>
-
+            <ul *ngIf="user_type=='A1'">
+                <li><a href="" routerLink="/reportdetails">Report Details</a></li>
+                <li><a href="" routerLink="/reportleavedetails">Leave Balance Report</a></li>
             </ul>
         </div>
     </nav>
-
 
     <!-- reimbusment Module -->
     <nav class="menu">
@@ -73,30 +68,34 @@
             <div [ngSwitch]="user_type">
                 <div *ngSwitchCase="'L3'">
                     <ul>
+                        <li><a href="" routerLink="/reimbusmentapprove">View Details</a></li>
                         <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li>
-                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
-                        <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                        <li><a (click)="faq('ReimbursementRAQ')">Reimbursement FAQ's</a></li>
+
+
                     </ul>
                 </div>
 
                 <div class="top-content" *ngSwitchCase="'F1'">
                     <ul>
                         <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
-                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
                         <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                        <li><a (click)="faq('ReimbursementRAQ')"> Reimbursement FAQ's</a></li>
+
                     </ul>
                 </div>
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <!-- <li><a (click)="fetchaddRemDeAlldetails()">Initiate Reimbursement</a></li> -->
-                        <li><a href="" routerLink="/reimbusmentapprove">Reimbusment Approve</a></li>
                         <li><a href="" routerLink="/reimbusmentreqdetails">Reimbusment Request Details</a></li>
+                        <li><a (click)="faq('ReimbursementRAQ')"> Reimbursement FAQ's</a></li>
+
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-    
+
     <!-- Employee module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'emp'">
@@ -117,9 +116,6 @@
             </div>
         </div>
     </nav>
-
-
-
 
     <!-- Jadhav -->
 
@@ -149,7 +145,7 @@
                         <li><a href="" routerLink="/levSum">Leave Application FAQ's</a></li>
                     </ul>
                 </div>
-                <div *ngSwitchCase="'L1'">
+                <div *ngSwitchCase="'L3'">
                     <ul>
                         <li><a href="" routerLink="/approveLev">Approve Leave</a></li>
                         <li><a href="" routerLink="/applyLev">Apply Leave</a></li>
@@ -164,7 +160,6 @@
         </div>
     </nav>
 
-
     <!-- cms Module  -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'upld'">
@@ -175,14 +170,16 @@
                         <li><a href="" routerLink="/viewDocs">View Documents</a></li>
                         <li><a href="" routerLink="/viewPen">View Pending Docs</a></li>
                         <li><a href="" routerLink="/rejView">View Rejected Docs</a></li>
+                        <li><a (click)="faq('CmsFAQ')">CMS FAQ</a></li>
                     </ul>
                 </div>
-              <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L3'">
                     <ul>
                         <li><a href="" routerLink="/cmsUpload">Upload Documents</a></li>
                         <li><a href="" routerLink="/viewDocs">View Documents</a></li>
                         <li><a href="" routerLink="/viewPen">View Pending Docs</a></li>
                         <li><a href="" routerLink="/rejView">View Rejected Docs</a></li>
+                        <li><a (click)="faq('CmsFAQ')">CMS FAQ</a></li>
                     </ul>
                 </div>
                 <div class="top-content" *ngSwitchCase="'A1'">
@@ -190,6 +187,7 @@
                         <li><a href="" routerLink="/cmsUpload">Upload Documents</a></li>
                         <li><a href="" routerLink="/searchEmp">View Employee Documents</a></li>
                         <li><a href="" routerLink="/searchEmpAppRej">App/Rej Documents</a></li>
+                        <li><a (click)="faq('CmsFAQ')">CMS FAQ</a></li>
                     </ul>
                 </div>
             </div>
@@ -202,17 +200,20 @@
                 <div *ngSwitchCase="'L1'">
                     <ul>
                         <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
+                        <li><a (click)="faq('CmsFAQ')">CMS FAQ</a></li>
                     </ul>
                 </div>
-              <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L3'">
                     <ul>
                         <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
+                        <li><a (click)="faq('CmsFAQ')">CMS FAQ</a></li>
                     </ul>
                 </div>
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <li><a href="" routerLink="/magzineUpld">Upload Magzine</a></li>
                         <li><a href="" routerLink="/viewMagz">View Magzine</a></li>
+                        <li><a (click)="faq('CmsFAQ')">CMS FAQ</a></li>
                     </ul>
                 </div>
             </div>
@@ -225,17 +226,20 @@
                 <div *ngSwitchCase="'L1'">
                     <ul>
                         <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
+                        <li><a (click)="faq('CmsFAQ')">CMS FAQ</a></li>
                     </ul>
                 </div>
-              <div *ngSwitchCase="'L3'">
+                <div *ngSwitchCase="'L3'">
                     <ul>
                         <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
+                        <li><a (click)="faq('CmsFAQ')">CMS FAQ</a></li>
                     </ul>
                 </div>
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <li><a href="" routerLink="/policyupld">Upload Policy Docs</a></li>
                         <li><a href="" routerLink="/viewPolcy">View Policy Docs</a></li>
+                        <li><a (click)="faq('CmsFAQ')">CMS FAQ</a></li>
                     </ul>
                 </div>
             </div>
@@ -255,16 +259,15 @@
         </div>
     </nav>
 
-
-
     <!-- commonCode Module -->
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'cocd'">
             <ul>
                 <li><a href="" routerLink="/cocd">Add CommonCode Details</a></li>
-                <li><a href="" routerLink="/modifycocd">Modify CommonCode Details</a></li>
+                <!-- <li><a href="" routerLink="/modifycocd">Modify CommonCode Details</a></li> -->
                 <li><a href="" routerLink="/viewcocd">View CommonCode Details</a></li>
                 <li><a href="" routerLink="/deletecocd">Delete CommonCode Details</a></li>
+                <li><a (click)="faq('CocdFAQ')">Cocd FAQ</a></li>
 
             </ul>
         </div>
@@ -294,7 +297,7 @@
                         <li><a routerLink="/addHolidays">Add Holidays Details</a></li>
                         <li><a routerLink="/viewHolidays">List Of Holidays</a></li>
                         <li><a routerLink="/configLeave">Configure Details</a></li>
-                        <li><a routerLink="/modifyLeave">Modify Leaves Details</a></li>
+                        <!-- <li><a routerLink="/modifyLeave">Modify Leaves Details</a></li> -->
                         <!-- <li><a routerLink="/removeLeave">Remove Leaves Details</a></li> -->
                         <li><a routerLink="/ListLeave">View Leaves Details</a></li>
                     </ul>
@@ -316,17 +319,15 @@
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <li><a href="" routerLink="/ItAssetDetails">Add IT Details</a></li>
-                        <li><a href="" routerLink="/ModifyItAssetDetails">Modify IT Details</a></li>
+                        <!-- <li><a href="" routerLink="/ModifyItAssetDetails">Modify IT Details</a></li> -->
                         <!-- <li><a href="" routerLink="/ViewItAssetDetails">View IT Details</a></li> -->
                         <li><a href="" routerLink="/ViewItAssetDetail">View IT Detail</a></li>
-                        <li><a href="" routerLink="/">FAQ</a></li>
+                        <li><a (click)="faq('ItAssetFAQ')">IT FAQ</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-
-
 
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'allast'">
@@ -339,17 +340,15 @@
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <li><a href="" routerLink="/ITAssetAllocation">Add Allocation Details</a></li>
-                        <li><a href="" routerLink="/ModifyItAllocationDetails">Modify Allocation Details</a></li>
+                        <!-- <li><a href="" routerLink="/ModifyItAllocationDetails">Modify Allocation Details</a></li> -->
                         <li><a href="" routerLink="/ViewItAllocationDetails">View Allocation History</a></li>
                         <li><a href="" routerLink="/ViewItAllocationDetail">View Allocation Details</a></li>
-                        <li><a href="" routerLink="/">FAQ</a></li>
+                        <li><a (click)="faq('ItAssetFAQ')">IT Allocation FAQ</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-
-
 
     <nav class="menu">
         <div class="top-content" *ngSwitchCase="'nonast'">
@@ -362,16 +361,15 @@
                 <div class="top-content" *ngSwitchCase="'A1'">
                     <ul>
                         <li><a href="" routerLink="/AddNonItAssetDetails">Add NON IT Details</a></li>
-                        <li><a href="" routerLink="/ModifyNonItAssetDetails">Modify NON IT Details</a></li>
+                        <!-- <li><a href="" routerLink="/ModifyNonItAssetDetails">Modify NON IT Details</a></li> -->
                         <li><a href="" routerLink="/ViewNonItAssetDetail">View NON IT Details</a></li>
                         <!-- <li><a href="" routerLink="/ViewNonItAssetDetails">View NON IT Details</a></li> -->
-                        <li><a href="" routerLink="/">FAQ</a></li>
+                        <li><a (click)="faq('ItAssetFAQ')">Non IT FAQ</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-
 
     <!-- Reset Module  -->
     <nav class="menu">
@@ -394,42 +392,43 @@
         </div>
     </nav>
 
-
     <!-- Travel Module  -->
     <nav class="menu">
         <!-- Appraisal Module -->
         <div class="top-content" *ngSwitchCase="'tvl'">
             <ul>
                 <!-- Always displayed links -->
-                <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
-              
+                <li><a (click)="faq('TravelFaq')">Travel FAQ</a></li>
+
                 <!-- Links for user_type 'L1' and 'L3' -->
                 <ng-container *ngIf="user_type === 'L1' ">
-                  <li><a href="" routerLink="/travel">Initiate Travel</a></li>
-                  <li><a (click)="modifyTravelReqView()">Modify Travel Request</a></li>
-                  <li><a (click)="cancelTravelReqView()">Cancel Travel</a></li>
-                  <li><a href="" routerLink="/viewtvl">View Travel</a></li>
+                    <li><a href="" routerLink="/travel">Initiate Travel</a></li>
+                    <li><a (click)="modifyTravelReqView()">Modify Travel Request</a></li>
+                    <li><a (click)="cancelTravelReqView()">Cancel Travel</a></li>
+                    <li><a href="" routerLink="/viewtvl">View Travel</a></li>
                 </ng-container>
-              
-                <!-- Links for user_type 'L3' -->
-                <ng-container *ngIf="user_type === 'L3'|| user_type ==='F1'" >
-                  <li><a   (click)="aproverTvlreq()">View Approve Request</a></li>
-                  <li><a (click)="cancelTravelReqView()">Cancel Travel</a></li>
 
-                </ng-container>
-              
-                <!-- Links for user_type 'A1' (All links will be displayed) -->
-                <ng-container *ngIf="user_type === 'A1'">
-                
-                  <li><a  (click)="aproverTvlreq()">View Approve Request</a></li>
-                  <li><a href="" routerLink="/travel">Initiate Travel</a></li>
-                  <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
-                </ng-container>
-              </ul>
-              
+                <!-- Links for user_type 'L3' -->
+
+                <ng-container *ngIf="user_type === 'L3'|| user_type ==='F1'">
+                    <li><a (click)="aproverTvlreq()">View Approve Request</a></li>
+                    <li><a (click)="cancelTravelReqView()">Cancel Travel</a></li>
+
+
+
+                    <!-- Links for user_type 'A1' (All links will be displayed) -->
+                    <ng-container *ngIf="user_type === 'A1'">
+
+
+                        <li><a (click)="aproverTvlreq()">View Approve Request</a></li>
+                        <li><a href="" routerLink="/travel">Initiate Travel</a></li>
+                        <li><a href="" routerLink="/travelfaq">Travel FAQ</a></li>
+
+                    </ng-container>
+            </ul>
+
         </div>
     </nav>
-
 
     <!-- AppRenovated Module  -->
     <nav class="menu">
@@ -442,8 +441,5 @@
             </ul>
         </div>
     </nav>
-
-
-
 
 </div>
