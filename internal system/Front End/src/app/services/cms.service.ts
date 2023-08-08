@@ -21,7 +21,7 @@ export class CmsService {
   this.FAQ=value
   }
 
-  getData() {
+  cmsGetData() {
     return [
       this.FAQ
     ];
