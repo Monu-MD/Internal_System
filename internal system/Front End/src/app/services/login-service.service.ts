@@ -7,39 +7,40 @@ import { Router } from '@angular/router';
 })
 
 export class LoginServiceService {
-  ename: any;
   eid: any;
+  ename: any;
   emp_access: any;
+
   data: any;
   phtotUrl: any;
   notification: any;
-  asset:any;
+  asset: any;
   emp_data: any;
   leave_master: any;
   project_data: any;
   adminDashboard: any;
   approvalData: any[] = [];
   viewAproval: any;
-  cocd:any[]=[]
+  cocd: any[] = []
 
+  leid: any;
+  lename: any;
+  lemp_access: any;
+
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+
+  setData(value: any): void {
+    this.eid = value.user_id;
+    this.ename = value.user_name;
+    this.emp_access = value.user_type
+    this.project_data = value.projectId
+  }
 
   setViewAproval(value: any) {
     this.viewAproval = value;
     console.log(this.viewAproval);
-    
-  }
-  constructor(private http: HttpClient, private router: Router) { }
-
-
-
-
-  setData(value: any): void {
- 
-    
-    this.ename = value.user_name;
-    this.eid = value.user_id;
-    this.emp_access = value.user_type
-    this.project_data = value.projectId
   }
 
   setEmp_master_Tbl(value: any) {
@@ -53,8 +54,8 @@ export class LoginServiceService {
     this.notification = notification
   }
 
-  setAsset(value:any){
-    this.asset=value;
+  setAsset(value: any) {
+    this.asset = value;
   }
 
   setLeaveMaster(leave_master: any) {
@@ -65,11 +66,11 @@ export class LoginServiceService {
   }
 
   getData(): any {
-
     return [
       this.eid,
       this.ename,
       this.emp_access,
+
       this.notification,
       this.emp_data,
       this.leave_master,
@@ -80,9 +81,48 @@ export class LoginServiceService {
       this.cocd,
       this.asset
     ]
-
-
   }
+
+
+    ///////////////////// Setting and getting to Local storage  //////////////////////////
+    setEmpData() {
+      let data = {
+        eid: this.eid,
+        ename: this.ename,
+        emp_access: this.emp_access
+      }
+  
+      console.log("Setting sessionstorage: " + data);
+      const myData = JSON.parse(JSON.stringify(data))
+      console.log(myData);
+  
+      sessionStorage.setItem('EmpData', JSON.stringify(data));
+    }
+  
+    loadData() {
+      let data: any = sessionStorage.getItem('EmpData');
+      return data;
+    }
+    //////////////////////////////////////////////////////////////////
+
+  getData1(): any {
+    console.log("calling session get Method.....");
+    this.sesionStorage();
+    return [
+      this.leid,
+      this.lename,
+      this.lemp_access,
+    ]
+  }
+
+  sesionStorage() {    
+    const localData = this.loadData();
+    const myData1 = JSON.parse(localData);
+    this.leid = myData1.eid;
+    this.lename = myData1.ename;
+    this.lemp_access = myData1.emp_access;
+  }
+
   forget(data: any): void {
     this.http.post('http://localhost:4000/forgotpwd', data).subscribe(
       (response: any) => {

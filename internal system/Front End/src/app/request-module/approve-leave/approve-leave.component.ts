@@ -24,7 +24,7 @@ export class ApproveLeaveComponent {
   })
 
   constructor(private http: HttpClient, private loginservice: LoginServiceService) {
-    const user = this.loginservice.getData();
+    const user = this.loginservice.getData1();    
     this.user_id = user[0];
   }
 
@@ -42,7 +42,6 @@ export class ApproveLeaveComponent {
   }
 
   submit(item: any) {
-    
   }
 
   

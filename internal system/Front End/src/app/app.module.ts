@@ -118,10 +118,8 @@ import { InboxMessageComponent } from './BirthdayMessage-module/inbox-message/in
 
 import { ForgotpasswordComponent } from './Reset-module/ForgotPassword/forgotpassword/forgotpassword.component';
 import { ChangePasswordComponent } from './Reset-module/change-password/change-password.component';
-import { AppRejectedReqComponent } from './Travel-module/app-rejected-req/app-rejected-req.component';
 import { ApproveReqComponent } from './Travel-module/approve-req/approve-req.component';
 import { CancelTravelDetailsComponent } from './Travel-module/cancel-travel-details/cancel-travel-details.component';
-import { CancelTravelQueueComponent } from './Travel-module/cancel-travel-queue/cancel-travel-queue.component';
 import { TravelComponent } from './Travel-module/travel/travel.component';
 import { TravelFAQDetailsComponent } from './Travel-module/travel-faqdetails/travel-faqdetails.component';
 import { ViewTravelApprQueueComponent } from './Travel-module/view-travel-appr-queue/view-travel-appr-queue.component';
@@ -282,10 +280,8 @@ import { ModifiedTrvelRequsetComponent } from './Travel-module/modified-trvel-re
     ForgotpasswordComponent,
     ChangePasswordComponent,
 
-    AppRejectedReqComponent,
     ApproveReqComponent,
     CancelTravelDetailsComponent,
-    CancelTravelQueueComponent,
     TravelComponent,
     TravelFAQDetailsComponent,
     ViewTravelApprQueueComponent,
