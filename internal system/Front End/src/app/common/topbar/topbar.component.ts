@@ -28,6 +28,7 @@ export class TopbarComponent {
   constructor(private service: NavserviceService, private http: HttpClient,
     private router: Router, private loginService: LoginServiceService,
     private prjectservice: ProjectserviceService,
+
     private trvelService: TravelServiceService,private reimbusmentservice:ReimbursementserviceService,
     private cocdService:CocdService,private assetService:AssetServiceService,
     private cmsService:CmsService) {
@@ -46,6 +47,22 @@ export class TopbarComponent {
 
     //// to enable and disable //
 
+    this.data = this.service.returrnAns();
+    console.log("Topbar Enterd with:- "+ this.data);
+
+    // console.log("Topbar Enterd with 2:- "+this.service.returrnAns());
+    // const user = this.loginService.getData();
+    // this.user_type = user[2];
+    // this.user_id = user[0];
+    // console.log(this.user_type);
+
+    /////////////////  Getting Local Storage Emp Data//////////////////
+    const localData = this.loginService.loadData();
+    console.log("Top Bar LocalStorage : "+localData);
+    const myData = JSON.parse(localData);
+    this.user_id = myData.eid;
+    this.user_type = myData.emp_access;
+    console.log(this.user_type+" Inside TopBar");
 
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
@@ -84,7 +101,7 @@ export class TopbarComponent {
           this.data = "brd"
         }
         // Travel
-        if (this.currentRoute == "/travel" ||this.currentRoute == '/modTvlReq'|| this.currentRoute == "/approvereq" || this.currentRoute == "/canceltvldet" || this.currentRoute == "/canceltvlque" || this.currentRoute == "/travelfaq" || this.currentRoute == "/viewtvl") {
+        if (this.currentRoute == "/travel" || this.currentRoute == '/modTvlReq' || this.currentRoute == "/approvereq" || this.currentRoute == "/canceltvldet" || this.currentRoute == "/canceltvlque" || this.currentRoute == "/travelfaq" || this.currentRoute == "/viewtvl") {
           this.data = "tvl"
         }
         // app renovated 
@@ -107,6 +124,7 @@ export class TopbarComponent {
         }
 
         //cms
+
 
         if (this.currentRoute == "/cmsUpload" || this.currentRoute=="/viewDocs"|| this.currentRoute=="/searchEmp"||this.currentRoute=="/searchEmpAppRej"||this.currentRoute=="/docAppRej" || this.currentRoute == "/viewPen" || this.currentRoute == "/rejView" || this.currentRoute == "/faq"){
           this.data = "upld"
@@ -270,7 +288,7 @@ export class TopbarComponent {
 
   fetchaddRemDeAlldetails() {
     const params = new HttpParams().set('user_id', this.user_id.toString()).set('user_type', this.user_type.toString());
-  
+
     this.http.get('http://localhost:4000/reimbursement/initiateRem', { params })
       .subscribe(
         (response: any) => {
@@ -285,13 +303,13 @@ export class TopbarComponent {
       );
   }
 
-  modifyTravelReqView(){
+  modifyTravelReqView() {
     const params = new HttpParams().set('user_id', this.user_id.toString()).set('user_type', this.user_type.toString());
-  
+
     this.http.get('http://localhost:4000/travel/modifytravelDetailsQueue', { params })
       .subscribe(
         (response: any) => {
-         
+
           this.trvelService.setTravelApprovalView(response.data.pendingStatusData)
           this.router.navigate(['/modTvlReq'])
         },
@@ -301,6 +319,7 @@ export class TopbarComponent {
         }
       );
   }
+
   cancelTravelReqView(){
     const params = new HttpParams().set('user_id', this.user_id.toString()).set('user_type', this.user_type.toString());
   

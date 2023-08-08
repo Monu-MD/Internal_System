@@ -9,7 +9,7 @@ export class NavserviceService {
   res: any;
 
   get(Item: string) {
-    console.log("service enterd");
+    console.log("Top Bar Service enterd");
     if (Item == "apr") {
       this.res = "apr";
     }

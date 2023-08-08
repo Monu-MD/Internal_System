@@ -23,19 +23,17 @@ export class LoginComponent {
 
 
   employeeId: any;
-  Login = new FormGroup<any>({
+    Login = new FormGroup<any>({
     userid: new FormControl(''),
     password: new FormControl('')
-
   })
+
+
   login(item: any) {
-
-
     console.log(item);
     console.log(typeof(item.userid));
     
     if (item.userid != "" || item.password != "") {
-
       this.loginData(item)
     } else {
       this.notification = "Enter login id or password"
@@ -44,41 +42,34 @@ export class LoginComponent {
   }
 
   ///// login api///////////
-  loginData(data: any): void {
+  loginData(data: any): void {    
     this.http.post('http://localhost:4000/login', data).subscribe(
       (response: any) => {
-        console.log(response);
+        console.log("Login Response---->>"+response);
 
         this.notification = response.notification;
         if (response.message == 'redirect to admin dashboard') {
           this.service.setData(response.userData)
+          this.service.setEmpData();
           this.service.setAdminDashBoard(response.Data)
           this.service.cocd=response.cocd;
           this.router.navigate(['/admindashboard'])
-
         }
         if (response.message == 'redirect to dashboard') {
-          this.service.setData(response.Data.user_details)
-         
-
+          this.service.setData(response.Data.user_details);
+          this.service.setEmpData();
           this.service.setEmp_master_Tbl(response.Data.emp_details)
           this.service.setLeaveMaster(response.Data.leave_master)
           this.service.cocd=response.cocd;
-
-
-          this.notification = response.notification
+          this.notification = response.notification;
           this.router.navigate(['/dashboard'])
-
         }
         else if (response.message == 'redirect to login') {
-
           this.router.navigate(['/'])
-
         }
         else if (response.message == 'redirect to reset') {
           this.service.setData(response.data)
           this.router.navigate(['/changePassword'])
-
         }
       },
       (error: any) => {

@@ -15,24 +15,31 @@ export class HeadderComponent {
 
   user_id: any;
   constructor(private service: LoginServiceService, private http: HttpClient, private router: Router) {
-    const data = this.service.getData()
-    this.username = data[1];
-    this.user_id = data[0];
-    console.log(this.user_id);
+    // const data = this.service.getData()
+
+    const localData = this.service.loadData();
+    console.log("NavBar LocalStorage : "+localData);
+    const myData = JSON.parse(localData);
+    // console.log("MY Data: "+myData);
+    
+    this.user_id = myData.eid;
+    this.username = myData.ename;
+    console.log(myData.eid, myData.ename);
+
 
   }
 
   /////////////////////////////////  To Change the profile Pic////////////////////////////////////////
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    const userId = this.user_id; // Assuming this.user_id contains the user_id value
-    this.uploadFile(file, userId);
+    const userId = this.user_id; 
+    this.uploadFile(file, userId);    
   }
 
   uploadFile(file: File, userId: string) {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('user_id', userId); // Append the user_id to the FormData
+    formData.append('user_id', userId);
     this.profilePhoto(formData);
   }
 
@@ -44,7 +51,6 @@ export class HeadderComponent {
         (response: any) => {
           console.log(response);
           // Update the photoUrl with the newly uploaded photo URL
-
           // this.photoUrl = response.photoUrl;
           this.getProfilePhoto(this.user_id);
           alert('Profile picture uploaded successfully!');
@@ -93,9 +99,9 @@ export class HeadderComponent {
     this.http.get('http://localhost:4000/logout', { params }).subscribe(
       (response: any) => {
         this.service.setData(response)
-
         if (response.message == 'redirect to login') {
-          this.router.navigate(['/'])
+          this.router.navigate(['/']);
+          sessionStorage.clear();
         }
       },
       (error: any) => {
