@@ -44,7 +44,6 @@ router.get('/reportDetails', function (req, res) {
 });
 
 
-
 router.post('/getReport', getReport);
 function getReport(req, res) {
 
@@ -141,7 +140,6 @@ function getReport(req, res) {
 };
 
 // ------------------------------>>>      Jadhav    <<<----------------------------------------------------
-
 
 router.post('/displayReport', displayReport);
 function displayReport(req, res) {

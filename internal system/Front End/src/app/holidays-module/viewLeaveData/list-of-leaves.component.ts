@@ -13,7 +13,11 @@ export class ListOfLeavesComponent {
 
   constructor(private http: HttpClient , private router:Router ,private service:HolidayServicesService) { }
 
-  viewLeaveForm:any;
+  viewLeaveForm=new FormGroup<any>({
+    viewLeaveForm: new FormControl(''),
+  })
+ 
+
   rowData: any[] = [];
   dataLoaded: boolean = false;
   itemsPerPage: number = 10;
@@ -58,16 +62,8 @@ fetchData() {
                 this.rowData.push({ type: 'SL', value: item.value });
               }
             }
-          }
-          
-          else {
-            console.error('Invalid response data format');
-          }
-      
+          }    
       }
-        else {
-          console.error('Invalid response data');
-        }
 
         // console.log(this.rowData);
       },
@@ -95,14 +91,11 @@ deleteHoliday(row: any) {
 
   modifyHoliday(value:any){
 
-
     console.log(value,"value");
     this.service.setRowData(value); 
      this.router.navigate(['/modifyLeave']);
       console.log("-----------------")
 
-    
-    
   }
 
   onSubmit(item:any){

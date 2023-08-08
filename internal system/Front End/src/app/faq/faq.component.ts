@@ -23,7 +23,7 @@ this.faq=this.reimbursementservice.getData()[3];
 this.faq=this.travelservice.getTrvelData()[4];
 this.faq=this.cocdService.getData()[0];
 this.faq=this.AssetService.gettData()[0];
-this.faq=this.CmsService.getData()[0];
+this.faq=this.CmsService.cmsGetData()[0];
 
 }
 

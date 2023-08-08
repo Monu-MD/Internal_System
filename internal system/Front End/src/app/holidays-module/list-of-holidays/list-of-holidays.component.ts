@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoginServiceService } from 'src/app/services/login-service.service';
+import { FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-list-of-holidays',
   templateUrl: './list-of-holidays.component.html',
   styleUrls: ['./list-of-holidays.component.css']
 })
 export class ListOfHolidaysComponent {
-user_type:any;
+
+  user_type:any;
   data: any;
   
   constructor(private http: HttpClient,private loginservice:LoginServiceService) { 
@@ -15,10 +17,14 @@ user_type:any;
     const user=this.loginservice.getData();
     this.user_type=user[2];
     console.log(this.user_type);
-    
+     
   }
 
-  viewHolidaysForm:any;
+  viewHolidaysForm=new FormGroup<any>({
+    viewHolidaysForm: new FormControl(''),
+  })
+
+
   rowData: any[] = [];
   dataLoaded: boolean = false;
   itemsPerPage: number = 10;
@@ -32,21 +38,18 @@ onItemsPerPageChange(event: any) {
   const value = event.target.value;
   this.itemsPerPage = value;
   this.fetchData();
-
 }
 
 
 ngOnInit() {
-
   this.fetchData();
-
 }
+
 
 fetchData() {  
   this.http.get('http://localhost:4000/holiday/viewHolidays')
     .subscribe(
       (response: any) => {
-        console.log(response.data);
         
         if (response.message=='redirect to viewHolidays') {
           this.rowData = response.data;
@@ -62,8 +65,8 @@ fetchData() {
         console.error('Error:', error);
       }
     );
+  }
 
-    }
 
 deleteHoliday(row: any) {
   this.http.get(`http://localhost:4000/holiday/removeHolidays/${row.hol_id}`).subscribe(
@@ -76,7 +79,6 @@ deleteHoliday(row: any) {
               console.error('Error:', error);
             }  
   );
- 
   }
 
 

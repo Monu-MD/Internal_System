@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormControlDirective, FormGroup, Validators,FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Route, Router } from '@angular/router';
 @Component({
   selector: 'app-holidays',
   templateUrl: './holidays.component.html',
@@ -8,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HolidaysComponent {
 
-  constructor(private http: HttpClient,
+  constructor(private http: HttpClient,private router:Router
     ) { }
 
   addForm=new FormGroup<any>({
@@ -29,10 +30,11 @@ export class HolidaysComponent {
   this.http.post('http://localhost:4000/holiday/addHolidays', postData)
   .subscribe(
     (response: any) => {
-
       console.log('Data posted successfully:', response);
-
-    },
+      this.router.navigateByUrl('/addHolidays', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/addHolidays']);
+    }
+      )},
     (error: any) => {
       console.error('Error:', error);
     }
