@@ -12,60 +12,62 @@ import { TravelServiceService } from 'src/app/services/travel-service.service';
 export class SidebarComponent {
   condition: boolean = true; // Initial value
   user_id: any;
- 
+  user_type: any;
+  userEnable = false;
+  
   // Method to enable or disable based on a specific condition
   toggleEnableDisable() {
-    this.condition = !this.condition; // Toggles the value of condition
+    this.condition = !this.condition;
   }
-
-  user_type: any;
-
-  userEnable = false;
 
   constructor(private router: Router,
     private service: NavserviceService,
     private loginservice: LoginServiceService,
-    private travleservice :TravelServiceService
+    private travleservice: TravelServiceService
 
   ) {
-    console.log("top enterd");
 
-    const user = this.loginservice.getData()
-    this.user_id=user[0];
-    this.user_type = user[2];
-    console.log(this.user_type,"innsidebar");
+    // const user = this.loginservice.getData()
+    // this.user_id = user[0];
+    // this.user_type = user[2];
+    // console.log(this.user_type, "Insidebar");
+
+    ////////////////////////////////////
+    const localData = this.loginservice.loadData();
+    const myData = JSON.parse(localData);
+    console.log("Side Bar LocalStorage: " + localData);
+    this.user_id = myData.eid;
+    this.user_type = myData.emp_access;
+    console.log(this.user_type, "Inside side bar");
+
+
+
 
     if (this.user_type == 'A1') {
-      console.log("ifEnterd");
-
+      console.log("Adm Enterd");
       this.userEnable = true;
     } else {
-      console.log("else enterd", this.userEnable);
-
+      console.log("user enterd", this.userEnable);
       this.userEnable = false;
 
     }
   }
 
-  getEnable(){
+  getEnable() {
     console.log(this.userEnable);
-    
     return this.userEnable
   }
 
   getID(item: string) {
-    console.log(item);
+    console.log("Side Bar got: " + item);
     this.service.get(item)
 
-    if (item == 'dsh' ) {
-      if (this.user_type=='A1') {
+    if (item == 'dsh') {
+      if (this.user_type == 'A1') {
         this.router.navigate(['admindashboard'])
-        
       } else {
-        
         this.router.navigate(['dashboard'])
       }
-
     }
 
     if (item == 'apr') {
@@ -78,15 +80,15 @@ export class SidebarComponent {
       this.router.navigate(['cmsuploadadmin'])
     }
     if (item == 'rmb') {
-      if(this.user_type=='A1'||this.user_type=='F1') {
+      if (this.user_type == 'A1' || this.user_type == 'F1') {
         this.router.navigate(['reimbusmentreqdetails'])
       } else {
         this.router.navigate(['reimbusmentapprove'])
       }
-      
+
     }
     if (item == 'emp') {
-      if (this.user_type=='A1') {
+      if (this.user_type == 'A1') {
         this.router.navigate(['searchmodify'])
       } else {
         this.loginservice.setViewAproval('viewData')
@@ -112,11 +114,10 @@ export class SidebarComponent {
     }
 
     if (item == 'rpt') {
-      if (this.user_type=='A1'||this.user_type=='F1') {
+      if (this.user_type == 'A1' || this.user_type == 'F1') {
         this.router.navigate(['reportdetails'])
       } else {
-        // this.router.navigate(['travel'])
-        
+        this.router.navigate(['dashboard'])
       }
     }
     if (item == 'res') {
@@ -126,11 +127,11 @@ export class SidebarComponent {
       this.router.navigate(['message'])
     }
     if (item == 'tvl') {
-      if (this.user_type=='A1'||this.user_type=='L3'|| this.user_type=='L1'||this.user_type=='F1') {
+      if (this.user_type == 'A1' || this.user_type == 'L3' || this.user_type == 'L1' || this.user_type == 'F1') {
         this.travleservice.fetchProjectId(this.user_id)
       } else {
         this.router.navigate(['travel'])
-        
+
       }
     }
     if (item == 'arn') {

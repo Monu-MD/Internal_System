@@ -24,9 +24,11 @@ export class LeaveBalanceComponent {
   });
 
   constructor(private http: HttpClient, private loginservice: LoginServiceService) {
-    const user = this.loginservice.getData();
+    const user = this.loginservice.getData();    
     this.user_id = user[0];
     this.user_access = user[2];
+    console.log("lev bal emp access: "+this.user_access);
+    
   }
 
   ngOnInit(): void {

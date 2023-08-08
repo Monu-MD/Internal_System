@@ -27,22 +27,22 @@ export class TopbarComponent {
     private prjectservice: ProjectserviceService,
     private trvelService: TravelServiceService, private reimbusmentservice: ReimbursementserviceService) {
 
-    /// redirect data or id ///
-    this.data = this.service.returrnAns;
-    console.log("Topbar Enterd");
+    this.data = this.service.returrnAns();
+    console.log("Topbar Enterd with:- "+ this.data);
 
-    console.log(this.service.returrnAns());
-    const user = this.loginService.getData();
-    this.user_type = user[2];
-    this.user_id = user[0];
-    console.log(this.user_type);
+    // console.log("Topbar Enterd with 2:- "+this.service.returrnAns());
+    // const user = this.loginService.getData();
+    // this.user_type = user[2];
+    // this.user_id = user[0];
+    // console.log(this.user_type);
 
-    /////////////////////////////////////
-
+    /////////////////  Getting Local Storage Emp Data//////////////////
     const localData = this.loginService.loadData();
-    console.log("Refershing data : "+localData);
-    //// to enable and disable //
-
+    console.log("Top Bar LocalStorage : "+localData);
+    const myData = JSON.parse(localData);
+    this.user_id = myData.eid;
+    this.user_type = myData.emp_access;
+    console.log(this.user_type+" Inside TopBar");
 
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
