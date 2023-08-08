@@ -70,12 +70,14 @@ export class ViewTravelApprQueueComponent {
   rejectReson: any
   rjt: boolean = false;
   count = 0;
+  specifc_req_id:any;
   approveRejTravel(value: string, tq: any) {
     console.log(value, tq);
 
 
     if (value == 'rej') {
       this.rjt = true
+      this.specifc_req_id=tq.req_id;
       this.count++;
       console.log(this.count);
 

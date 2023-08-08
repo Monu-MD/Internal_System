@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CocdService } from 'src/app/services/cocd.service';
 
 
@@ -11,7 +12,7 @@ import { CocdService } from 'src/app/services/cocd.service';
 })
 
 export class ViewCommonCodeComponent implements OnInit {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient ,private service:CocdService,private  router:Router) { }
 
   viewCommonCodeDetailsForm:any;
   rowData: any[] = [];
@@ -85,6 +86,21 @@ filterData(codeId: string) {
 }
 
 
+
+
+
+modifycocd(value:any){
+
+
+  console.log(value,"value");
+  this.service.setRowData(value); 
+   this.router.navigate(['/modifycocd'])
+    console.log("-----------------")
+
+  
+  
+}
+
 goToFirstPage() {
   this.currentPage = 1;
    this.updatePageData();
@@ -115,6 +131,9 @@ updatePageData() {
   this.filteredData = this.rowData.slice(startIndex, endIndex);
 
 }
+
+
+
 
 }
 

@@ -24,5 +24,17 @@ export class AssetServiceService {
   getData() {
     return [this.filteredData]
   }
+  
+  FAQ:any
+  setFaq(value:any){
+  this.FAQ=value
+  }
+
+  gettData() {
+    return [
+      this.FAQ,
+    ];
+  }
+  
   constructor() { }
 }

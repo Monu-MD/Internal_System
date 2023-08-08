@@ -24,6 +24,7 @@
                             <th>Quantity</th>
                             <th>Remarks</th> 
                             <th>Description</th>
+                            <th>Modify</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -37,6 +38,7 @@
                                 <span *ngSwitchCase="'Y'">Available</span>
                                 <span *ngSwitchCase="'N'">Not Available</span>
                             </td> 
+                            <td><button class="button" class="listbutton" (click)="modifyNonItAssset(row)" >Modify</button></td>
                             <td><button class="button" class="listbutton" (click)="deleteAsset(row)">Delete</button>
                             </td> 
                     </tbody>

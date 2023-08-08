@@ -12,10 +12,8 @@ import { ComposeMessageComponent } from './BirthdayMessage-module/compose-messag
 import { InboxMessageComponent } from './BirthdayMessage-module/inbox-message/inbox-message.component';
 import { SentMessageComponent } from './BirthdayMessage-module/sent-message/sent-message.component';
 
-import { AppRejectedReqComponent } from './Travel-module/app-rejected-req/app-rejected-req.component';
 import { ApproveReqComponent } from './Travel-module/approve-req/approve-req.component';
 import { CancelTravelDetailsComponent } from './Travel-module/cancel-travel-details/cancel-travel-details.component';
-import { CancelTravelQueueComponent } from './Travel-module/cancel-travel-queue/cancel-travel-queue.component';
 import { TravelComponent } from './Travel-module/travel/travel.component';
 import { TravelFAQDetailsComponent } from './Travel-module/travel-faqdetails/travel-faqdetails.component';
 import { ViewTravelApprQueueComponent } from './Travel-module/view-travel-appr-queue/view-travel-appr-queue.component';
@@ -186,10 +184,8 @@ const routes: Routes = [
   { path: 'inbox', component: InboxMessageComponent },
   { path: 'sent', component: SentMessageComponent },
   //Travel
-  { path: 'apprejected', component: AppRejectedReqComponent },
   { path: 'approvereq', component: ApproveReqComponent },
   { path: 'canceltvldet', component: CancelTravelDetailsComponent },
-  { path: 'canceltvlque', component: CancelTravelQueueComponent },
   { path: 'travel', component: TravelComponent },
   { path: 'travelfaq', component: TravelFAQDetailsComponent },
   { path: 'viewtvl', component: ViewTravelApprQueueComponent },

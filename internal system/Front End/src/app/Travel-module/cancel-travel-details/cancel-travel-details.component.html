@@ -1,84 +1,53 @@
 <app-headder></app-headder>
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
-<div class="allighn">
-    <div class="container">
-
-        <h1 class="title">My Request</h1>
-        <div class="content">
-            <form class="#" [formGroup]="appRejectedreq" (ngSubmit)="appreject(appRejectedreq.value)">
-                <div class="user-details">
-                    <div class="input-box">
-                        <label class="Details">Project Id </label>
-                        <input type="text" name="projectId"
-                            formControlName="projectId" />
-                    </div>
-
-                    <div class="input-box">
-                        <label class="Details"> Employee Name </label>
-                        <input type="text"  name="employeeName"
-                            formControlName="employeename" />
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Travel Date</label>
-                        <input type="text" name="travelDate" formControlName="travelDate" />
-                    </div>
-
-                    <div class="input-box">
-                        <label class="Details">Tentative Return Date</label>
-                        <input type="text" name="tentativeReturnDate" formControlName="tentativeReturnDate" />
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">From Location</label>
-                        <input type="text"  name="fromLocation" formControlName="fromLocation" />
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">To Location </label>
-                        <input type="text" name="toLocation" formControlName="toLocation" />
-                    </div>
-
-                    <div class="input-box">
-                        <label class="Details">PNR Number</label>
-                        <input type="number" name="pnrNumber" formControlName="pnrNumber" />
-                    </div>
-
-                    <div class="input-box">
-                        <label class="Details">Ticket Number</label>
-                        <input type="number" name="ticketNumber" formControlName="ticketNumber" />
-                    </div>
-                   
-                    <div class="input-box">
-                        <label class="Details">Approver Remarks </label>
-                        <input type="text"  name="approverRemarks" formControlName="approverRemarks" />
-                    </div>
-
-                    <div class="input-box">
-                        <label class="Details">Approver </label>
-                        <input type="text"  name="Approvername" formControlName="Approvername" />
-                    </div>
-                    <div class="input-box">
-                        <label class="Details">Booked Ticket Fare </label>
-                        <input type="text"  name="bookedTicketFare" formControlName="bookedTicketFare" />
-                    </div>
-
-                    
-                    <div class="input-box">
-                        <label class="Details">Remarks </label>
-                        <input type="text"  name="remarks" formControlName="remarks" />
-                    </div>
-                    
-                    <div class="input-box">
-                        <label class="Details"> Finance Remarks </label>
-                        <input type="text"  name="financeRemarks"
-                            formControlName="financeRemarks" />
-                    </div>
-                  </div>
-                <div>
-                    <button class="button">Submit For Cancellation</button>
-                    
-                </div>
-            </form>
-        </div>
+<div style="margin-top: 122px; margin-left: 112px; width: 80%; padding: 10px;">
+    <div class="alert" *ngIf="notification !== undefined">
+        <span class="closebtn" >&times;</span>
+        {{ notification }}
     </div>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr class="head">
+                <th scope="col">REQ ID</th>
+                <th scope="col">PROJECT ID</th>
+                <th scope="col">EMPLOYEE</th>
+                <th scope="col">FROM</th>
+                <th scope="col">TO</th>
+                <th scope="col">STATUS</th>
+                <th scope="col" *ngIf="user_type === 'L1'">Cancel Request</th>
+                <th *ngIf="rjt === true">Enter Cancel Reason</th>
+                <th scope="col" *ngIf="user_type === 'L3' || user_type === 'F1'">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tq of cancelTravelReqView">
+                <td>{{ tq.req_id }}</td>
+                <td>{{ tq.project_id }}</td>
+                <td>{{ tq.emp_name }}</td>
+                <td>{{ tq.from_location }}</td>
+                <td>{{ tq.to_location }}</td>
+                <td>{{ tq.status || tq.request_status }}</td>
+                <td *ngIf="user_type === 'L1'">
+                    <button type="button" class="btn btn-danger" *ngIf="user_type === 'L1'"
+                            (click)="canReq(tq)">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                </td>
+                <td *ngIf="rjt === true && specifc_req_id === tq.req_id">
+                    <input type="text" placeholder="Enter Cancel Reason" [(ngModel)]="rejectReson">
+                </td>
+                <td *ngIf="user_type === 'L3' || user_type === 'F1'">
+                    <button type="button" class="btn btn-success" *ngIf="user_type === 'L3' || user_type === 'F1'"
+                            (click)="AprRej(tq,'apr')">Approve</button>
+                    <span style="margin: 0 10px;" *ngIf="user_type === 'L3' || user_type === 'A1'"></span>
+                    <button type="button" class="btn btn-danger" *ngIf="user_type === 'L3' || user_type === 'F1'"
+                            (click)="AprRej(tq,'rej')">Reject</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
+
 <app-footer></app-footer>

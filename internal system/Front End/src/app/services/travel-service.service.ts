@@ -62,6 +62,11 @@ export class TravelServiceService {
     this.viewDetTvlApr=value;
   }
 
+  cancelTravelReqView:any;
+  setcancelTravelReqView(value:any){
+    this.cancelTravelReqView=value;
+  }
+
   FAQ:any
   setFaq(value:any){
   this.FAQ=value
@@ -71,6 +76,7 @@ export class TravelServiceService {
     this.notification,
     this.travelApprovalView,
     this.viewDetTvlApr,
+    this.cancelTravelReqView,
     this.FAQ
 
     ]

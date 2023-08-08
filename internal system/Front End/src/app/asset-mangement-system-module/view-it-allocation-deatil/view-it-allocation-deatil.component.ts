@@ -12,7 +12,7 @@ import{AssetServiceService} from 'src/app/services/asset-service.service'
 })
 export class ViewItAllocationDeatilComponent {
  
-  constructor(private http: HttpClient, private assetServiceService:AssetServiceService,private loginService:LoginServiceService) {
+  constructor(private http: HttpClient, private assetServiceService:AssetServiceService,private loginService:LoginServiceService,private router:Router) {
     const user=this.loginService.getData();
     this.user_type=user[2];
     console.log(this.user_type);
@@ -98,6 +98,15 @@ export class ViewItAllocationDeatilComponent {
       this.filterData(assetId);
       
     } 
+  }
+
+
+  modifyAlloc(value:any){
+
+    console.log(value,"value");
+    this.assetServiceService.setRowData(value); 
+     this.router.navigate(['/ModifyItAllocationDetails'])
+      console.log("-----------------")
   }
 
   goToFirstPage() {
